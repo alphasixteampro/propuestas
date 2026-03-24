@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  sixteam-proposals:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sixteam-proposals:latest
+    container_name: sixteam-proposals
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    labels:
+      # EasyPanel / Traefik labels
+      - "traefik.enable=true"
+      - "traefik.http.routers.proposals.rule=Host(`propuestas.sixteam.pro`)"
+      - "traefik.http.routers.proposals.entrypoints=websecure"
+      - "traefik.http.routers.proposals.tls=true"
+      - "traefik.http.routers.proposals.tls.certresolver=letsencrypt"
+      - "traefik.http.services.proposals.loadbalancer.server.port=3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
