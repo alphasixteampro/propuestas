@@ -22,7 +22,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
-  objetivo: 'Optimizar la captación, atención y conversión de leads de estudiantes interesados en estudiar en el exterior, priorizando pauta digital, respuesta inmediata y automatización comercial.',
+  objetivo: 'Plan de acción para optimizar actividades comerciales',
 };
 
 const STUNET_RED   = '#dd3333';
@@ -30,10 +30,10 @@ const STUNET_BLUE  = '#0170B9';
 const STUNET_GOLD  = '#ffe628';
 
 const HALLAZGOS = [
-  { titulo: 'Mercado México con fricción de contacto', desc: 'Leads mexicanos rechazan llamadas desde números colombianos — se requiere estrategia de contacto local o WhatsApp-first.', icon: AlertCircle, tint: 'amber' },
+  { titulo: 'Baja adopción del CRM', desc: 'Se detectó que el equipo tiene poca adopción de la herramienta CRM, limitando la trazabilidad de los leads y la optimización de la operativa comercial. Mejorar su uso es clave para escalar con control.', icon: BarChart3, tint: 'amber' },
   { titulo: 'Pauta activa sin conversión optimizada', desc: '~COP 800.000/semana en Meta Ads · 14–15 leads/día · pero la tasa de cierre a matrícula es baja y sin trazabilidad clara.', icon: TrendingUp, tint: 'teal' },
-  { titulo: 'Respuesta inicial lenta al prospecto', desc: 'El flujo post-lead no está automatizado: el primer contacto depende del disponibilidad manual del asesor, generando pérdida de interés.', icon: Zap, tint: 'blue' },
-  { titulo: 'Stack tecnológico sin integrar', desc: 'Meta Ads, WhatsApp, CRM y herramientas de IA operan en silos — no hay trazabilidad del lead desde pauta hasta matrícula.', icon: BarChart3, tint: 'teal' },
+  { titulo: 'Respuesta inicial lenta al prospecto', desc: 'El flujo post-lead no está automatizado: el primer contacto depende de la disponibilidad manual del asesor, generando pérdida de interés.', icon: Zap, tint: 'blue' },
+  { titulo: 'Stack tecnológico sin integrar', desc: 'Meta Ads, WhatsApp, CRM y herramientas de IA operan en silos — no hay trazabilidad del lead desde pauta hasta matrícula.', icon: AlertCircle, tint: 'red' },
 ];
 
 const TINT: Record<string, { text: string; bg: string; border: string }> = {
@@ -46,46 +46,37 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 const FASES = [
   {
     num: 'Fase 1', nombre: 'Diagnóstico y optimización inicial de pauta',
-    duracion: '2 semanas', valor: 'COP 1.800.000', pago: '50% inicio · 50% entrega',
+    duracion: '2 semanas', valor: 'COP 1.200.000', pago: 'Pago único por consultoría',
     recomendada: true, icon: FileText,
     entregables: ['Auditoría de Meta Ads y creativos', 'Revisión de formularios y segmentación', 'Criterios de calificación de leads', 'Propuesta de ajustes y quick wins', 'Ruta de captura y seguimiento'],
     detalle: ['Auditoría de campañas, formularios, segmentación y creativos actuales.', 'Revisión del recorrido del lead desde Meta hasta el punto de contacto.', 'Definición de variables mínimas de calificación y propuesta de mejora.', 'Documento de hallazgos, quick wins y roadmap inmediato.'],
   },
   {
-    num: 'Fase 2', nombre: 'Arquitectura de atención inicial de leads',
-    duracion: '2 semanas', valor: 'COP 2.400.000', pago: '50% inicio · 50% entrega',
+    num: 'Fase 2', nombre: 'Sixteam Inbox +IA: para atención inicial de leads',
+    duracion: '2 semanas', valor: 'COP 1.500.000', pago: 'Pago único por consultoría e implementación',
     recomendada: false, icon: MessageSquare,
-    entregables: ['Flujo post-lead hasta asesor', 'Canales prioritarios de contacto', 'Estrategia anti-rechazo por origen', 'Guiones y reglas de asignación', 'Blueprint de automatización'],
-    detalle: ['Diseño del flujo ideal desde que entra el lead hasta que pasa al asesor.', 'Canal prioritario: WhatsApp, llamada, agente o combinación.', 'Propuesta para minimizar rechazo por origen del contacto.', 'Estructura de mensajes, guiones y reglas de asignación.'],
+    entregables: ['Módulo de Chatcenter / Conversaciones con Canales prioritarios de Contacto', 'Flujo de atención inicial de leads', 'Reglas de asignación para asesores', 'IA conversacional integrada a la gestión inicial de Leads', 'Seguimiento conversacional automatizado con IA', 'Integración formularios de Meta + CRM + WhatsApp', 'Hasta 2 Formularios (para landing page, página web, otros usos)'],
+    detalle: ['Diseño del flujo desde que entra el lead hasta que pasa al asesor.', 'Implementación de Chatcenter para centralización de Canales prioritarios de Contacto: WhatsApp, llamada, SMS, Facebook, Instagram, TikTok, agente IA o combinación.', 'Implementación de Reglas de asignación para asesores.', 'Configuración y entrenamiento de Bot de IA conversacional para atención inicial de leads basado en la atención humana.', 'Integraciones entre formularios, CRM, WhatsApp y herramientas auxiliares.'],
   },
   {
-    num: 'Fase 3', nombre: 'Automatizaciones comerciales prioritarias',
-    duracion: '2–3 semanas', valor: 'COP 3.800.000', pago: '50% inicio · 50% entrega',
-    recomendada: false, icon: Zap,
-    entregables: ['Automatizaciones críticas implementadas', 'Integración formularios + CRM + WhatsApp', 'Pruebas de atención automatizada', 'Agente de voz/WhatsApp IA (según viabilidad)', 'Capacitación operativa'],
-    detalle: ['Implementación técnica de las automatizaciones de mayor impacto.', 'Integraciones entre formularios, CRM, WhatsApp y herramientas auxiliares.', 'Pruebas controladas de atención automatizada inicial.', 'Capacitación breve al equipo para uso operativo del flujo.'],
-  },
-  {
-    num: 'Fase 4', nombre: 'Estructura CRM, reporting y escalamiento',
-    duracion: '2–3 semanas', valor: 'COP 3.200.000', pago: '50% inicio · 50% entrega',
+    num: 'Fase 3', nombre: 'CRM Sixteam.pro Core: Implementación Base',
+    duracion: '2–3 semanas', valor: 'COP 1.750.000', pago: 'Pago único por consultoría e implementación',
     recomendada: false, icon: BarChart3,
-    entregables: ['Embudo comercial diseñado/depurado', 'Propiedades, estados y trazabilidad', 'Paneles e indicadores configurados', 'Acompañamiento de estabilización', 'Base para expansión futura'],
-    detalle: ['Diseño o depuración de embudo comercial.', 'Propiedades, estados, tareas y trazabilidad mínima obligatoria.', 'Configuración de paneles e indicadores operativos.', 'Acompañamiento inicial de estabilización y mejoras.'],
+    entregables: ['Módulos de Oportunidades, Contactos y Estructura de CRM', 'Embudo (pipeline) comercial con etapas', 'Propiedades (campos personalizados) para recopilación y trazabilidad de registros', 'Automatizaciones críticas y Base para expansión futura', 'Acompañamiento en la adopción'],
+    detalle: ['Reuniones de contexto, validaciones y entrega, con entendimiento de procesos y acompañamiento consultivo (hasta 3 horas).', 'Creación del modelo de datos para registros: con campos personalizados (hasta 15) y tarjetas para recolección de información comercial y de contacto (hasta 2).', 'Configuración del flujo de proceso de ventas mediante embudo con etapas, responsables y pasos definidos.', 'Creación de vistas, listas, filtros y estructura operativa para el equipo.', 'Construcción de hasta 5 automatizaciones críticas, tales como recordatorios, tareas y cambios automáticos de etapa.', 'Ajuste de usuarios y roles, pruebas de calidad y capacitación funcional de hasta 3 horas e inclusión de guías de uso.'],
+  },
+  {
+    num: 'Fase 4', nombre: 'CRM Sixteam.pro Core: configuraciones avanzadas, automatizaciones y reportería',
+    duracion: '2–3 semanas', valor: 'COP 1.500.000', pago: 'Pago único por consultoría e implementación',
+    recomendada: false, icon: Zap,
+    entregables: ['Automatizaciones avanzadas (hasta 3 procesos)', 'Integración de Calendarios (Google Calendar y demás)', 'Reportería con Informes de Rendimiento', 'Acompañamiento en la adopción', 'Oportunidades de Mejora Futuras', 'Agente de voz con IA para atención de llamadas'],
+    detalle: ['Implementación técnica de automatizaciones avanzadas de mayor impacto.', 'Configuración de Agente de Voz potenciado con Inteligencia Artificial para atención de llamadas.', 'Levantamiento de Métricas Clave (KPIs) para hasta 8 Informes de Rendimiento y Panel de Reportes.', 'Pruebas de calidad y capacitación al equipo.', 'Levantamiento de Oportunidades de Mejora para escalamiento y sostenibilidad en el largo plazo.'],
   },
 ];
 
-const KPIS = [
-  { indicador: 'Tiempo de primer contacto al lead', uso: 'Minutos desde que llega el formulario de Meta hasta el primer mensaje de un asesor Stunet.', meta: '< 5 min' },
-  { indicador: '% leads contactados < 5 min', uso: 'Indicador clave de respuesta: cuántos prospectos reciben atención antes de perder interés.', meta: '> 80%' },
-  { indicador: '% leads calificados (perfil viaje)', uso: 'Del total de leads, cuántos cumplen perfil real de candidato a estudiar en el exterior.', meta: 'Tendencia ↑' },
-  { indicador: 'Tasa de agendamiento a asesoría', uso: 'De los leads contactados, cuántos avanzan a una sesión de orientación con asesor.', meta: 'Tendencia ↑' },
-  { indicador: 'Tasa de asistencia a la asesoría', uso: 'Calidad del agendamiento: confirmaciones automáticas vía WhatsApp reducen no-shows.', meta: '> 70%' },
-  { indicador: 'Costo por estudiante matriculado', uso: 'Métrica final de ROI: inversión total en pauta ÷ matrículas efectivas generadas.', meta: 'Reducción ↓' },
-];
 
 const EXCLUSIONES = [
   'Inversión publicitaria en Meta, Google u otros canales.',
-  'Licencias de CRM, GoHighLevel, Brevo, herramientas de IA, WhatsApp API o plataformas de terceros.',
   'Rediseño completo de página web ni producción audiovisual profesional.',
   'Tiempos condicionados al acceso oportuno a cuentas, activos y responsables internos.',
   'Resultados comerciales dependientes de la capacidad del equipo para atender y cerrar.',
@@ -97,8 +88,8 @@ const SECCIONES = [
   { id: 'plan', label: 'Plan de trabajo' },
   { id: 'cotizacion', label: 'Cotización' },
   { id: 'alcance', label: 'Alcance' },
-  { id: 'kpis', label: 'KPIs' },
   { id: 'recomendacion', label: 'Recomendación' },
+  { id: 'vigencia', label: 'Vigencia' },
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -184,8 +175,13 @@ const StunetProposal = () => {
         {/* Top bar */}
         <div className="relative z-10 flex items-center justify-between px-6 py-6 md:px-12 border-b" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#1d70a2,#00bfa5)' }}>
-              <span className="font-poppins font-black text-white text-xs">S</span>
+            <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-white">
+              <img
+                src="/sixteam-logo.png"
+                alt="Sixteam.pro"
+                className="w-full h-full object-contain"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
             </div>
             <div>
               <span className="font-poppins font-black text-white text-base tracking-tight">Sixteam<span className="text-[#00bfa5]">.</span>pro</span>
@@ -227,16 +223,27 @@ const StunetProposal = () => {
                 {META.tagline}
               </span>
             </div>
-            <h1 className="font-poppins font-black text-white leading-[1.0] mb-6"
+            <h1 className="font-poppins font-black text-white leading-[1.0] mb-4"
               style={{ fontSize: 'clamp(2.4rem, 6vw, 5.2rem)' }}>
               Propuesta<br />
               <span style={{ background: 'linear-gradient(90deg,#1d70a2,#00bfa5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Comercial
               </span>
             </h1>
-            <p className="font-lato text-white/55 text-base leading-relaxed mb-8 max-w-md">
+            <p className="font-lato text-white/55 text-base leading-relaxed mb-5 max-w-md">
               {META.objetivo}
             </p>
+            {/* Eslogan Sixteam */}
+            <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl mb-8"
+              style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.09)' }}>
+              <span className="font-poppins font-bold text-white/80 text-xs sm:text-sm">Process</span>
+              <span className="font-poppins font-bold text-[#1d70a2] text-xs sm:text-sm">+</span>
+              <span className="font-poppins font-bold text-[#1d70a2] text-xs sm:text-sm">Technology</span>
+              <span className="font-poppins font-bold text-[#00bfa5] text-xs sm:text-sm">+</span>
+              <span className="font-poppins font-bold text-[#00bfa5] text-xs sm:text-sm">People</span>
+              <span className="font-poppins font-bold text-white/50 text-xs sm:text-sm">=</span>
+              <span className="font-poppins font-black text-[#00bfa5] text-xs sm:text-sm">Growth</span>
+            </div>
 
             {/* Chips info */}
             <div className="flex flex-wrap gap-2 mb-10">
@@ -260,7 +267,7 @@ const StunetProposal = () => {
             <div className="border-t pt-6" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
               <p className="font-lato text-white/25 text-[10px] uppercase tracking-widest mb-3">Contenido</p>
               <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                {['1. Resumen ejecutivo', '2. Objetivo general', '3. Plan de trabajo', '4. Cotización', '5. Alcance y exclusiones', '6. KPIs', '7. Recomendación final'].map((item, i) => (
+                {['1. Resumen ejecutivo', '2. Objetivo general', '3. Plan de trabajo', '4. Cotización', '5. Alcance y exclusiones', '6. Recomendación final', '7. Vigencia y términos'].map((item, i) => (
                   <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                     className="font-lato text-white/45 text-xs hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                     <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -271,28 +278,32 @@ const StunetProposal = () => {
             </div>
           </div>
 
-          {/* — Derecha: visual — */}
+          {/* — Derecha: Sixteam × Stunet — */}
           <div className="hidden lg:flex items-center justify-center relative pl-10">
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
               <div className="w-80 h-80 rounded-full"
-                style={{ background: 'radial-gradient(circle, rgba(0,191,165,.12) 0%, transparent 70%)' }} />
+                style={{ background: 'radial-gradient(circle, rgba(0,191,165,.10) 0%, transparent 70%)' }} />
             </div>
-            <div className="relative z-10 w-full max-w-sm">
+            <div className="relative z-10 flex flex-col items-center gap-8">
+              {/* Sixteam logo */}
               <img
-                src="/proposal-visual.png"
-                alt="Dashboard CRM visual"
-                className="w-full object-contain drop-shadow-2xl"
-                style={{ filter: 'drop-shadow(0 0 40px rgba(0,191,165,.2))' }}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                src="/sixteam-logo.png"
+                alt="Sixteam.pro"
+                className="h-16 object-contain"
+                style={{ filter: 'drop-shadow(0 4px 20px rgba(0,191,165,.3))' }}
               />
-              <div className="absolute -bottom-4 -left-4 px-3 py-2 rounded-xl text-xs font-poppins font-bold text-white"
-                style={{ background: 'rgba(13,45,79,.95)', border: '1px solid rgba(0,191,165,.3)', backdropFilter: 'blur(12px)' }}>
-                <span className="text-[#00bfa5]">14–15</span> leads/día
+              {/* × */}
+              <div className="flex items-center justify-center w-10 h-10 rounded-full"
+                style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.12)' }}>
+                <span className="font-poppins font-black text-white/50 text-xl leading-none">×</span>
               </div>
-              <div className="absolute top-4 -right-4 px-3 py-2 rounded-xl text-xs font-poppins font-bold text-white"
-                style={{ background: 'rgba(13,45,79,.95)', border: '1px solid rgba(0,191,165,.3)', backdropFilter: 'blur(12px)' }}>
-                Fase 1 en <span className="text-[#00bfa5]">2 sem.</span>
-              </div>
+              {/* Stunet logo */}
+              <img
+                src="/stunet-logo.png"
+                alt="StuneT Education Agency"
+                className="h-16 object-contain"
+                style={{ filter: 'drop-shadow(0 4px 20px rgba(221,51,51,.3))' }}
+              />
             </div>
           </div>
         </div>
@@ -392,22 +403,13 @@ const StunetProposal = () => {
               Diseñar e implementar una ruta de optimización comercial y digital para Stunet que mejore la calidad de los leads de estudiantes interesados en estudiar en el exterior, reduzca el tiempo de respuesta al prospecto, aumente la tasa de conversión a matrícula efectiva y siente las bases para una operación escalable en pauta digital, automatización y CRM — alineada con la visión <em className="not-italic" style={{ color: STUNET_GOLD }}>"Growing Together"</em> de la marca.
             </p>
           </div>
-          <div className="mt-4 rounded-xl p-4 flex flex-wrap gap-3 items-center"
-            style={{ background: 'rgba(1,112,185,.06)', border: '1px solid rgba(1,112,185,.15)' }}>
-            <Globe className="w-4 h-4 flex-shrink-0" style={{ color: STUNET_BLUE }} />
-            <span className="font-lato text-white/40 text-xs">Destinos activos:</span>
-            {META.destinos.map(d => (
-              <span key={d} className="font-poppins font-semibold text-xs text-white/70">{d}</span>
-            ))}
-            <span className="font-lato text-white/25 text-xs ml-auto hidden sm:block">Mercado principal: Colombia → exterior</span>
-          </div>
         </section>
 
         {/* ─ 03 PLAN DE TRABAJO ─ */}
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>4 fases · ~9 semanas</SectionTitle>
+          <SectionTitle>4 fases · ~8–10 semanas</SectionTitle>
           <Rule />
 
           <div className="hidden sm:flex items-center mb-8 relative">
@@ -503,7 +505,8 @@ const StunetProposal = () => {
             Valores en <strong className="text-white/75">pesos colombianos (COP)</strong>. No incluyen pauta, licencias de terceros, WhatsApp API ni herramientas de IA.
           </p>
 
-          <div className="space-y-2 mb-5">
+          {/* Fases */}
+          <div className="space-y-2 mb-8">
             {FASES.map((f, i) => {
               const Icon = f.icon;
               return (
@@ -535,30 +538,59 @@ const StunetProposal = () => {
             })}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-            <div className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-              <p className="font-lato text-white/35 text-xs uppercase tracking-wider mb-1">Inversión total</p>
-              <p className="font-poppins font-black text-white text-2xl sm:text-3xl">COP 11.200.000</p>
-              <p className="font-lato text-white/30 text-xs mt-1">Proyecto completo · 4 fases</p>
+          {/* Licencias mensuales */}
+          <div className="mb-3">
+            <TagLabel>Inversión mensual por licenciamiento CRM Sixteam.pro</TagLabel>
+            <Rule />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="rounded-xl p-5" style={{ background: 'rgba(29,112,162,.07)', border: '1px solid rgba(29,112,162,.25)' }}>
+                <p className="font-poppins font-bold text-[#1d70a2] text-xs uppercase tracking-wider mb-2">Sixteam Inbox +IA</p>
+                <p className="font-poppins font-black text-white text-2xl mb-1">COP 590.000<span className="text-sm font-lato font-normal text-white/40">/mes</span></p>
+                <ul className="space-y-1 mt-3">
+                  {['Hasta 2 usuarios operativos', '1 número conectado', 'Créditos mensuales por consumo de IA'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0" />
+                      <span className="font-lato text-white/55 text-xs">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-xl p-5" style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
+                <p className="font-poppins font-bold text-[#00bfa5] text-xs uppercase tracking-wider mb-2">CRM Sixteam.pro Core</p>
+                <p className="font-poppins font-black text-white text-2xl mb-1">COP 890.000<span className="text-sm font-lato font-normal text-white/40">/mes</span></p>
+                <ul className="space-y-1 mt-3">
+                  {['Hasta 3 usuarios operativos', '1 número conectado', 'Créditos mensuales por consumo de IA'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0" />
+                      <span className="font-lato text-white/55 text-xs">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div className="rounded-xl p-5 relative overflow-hidden" style={{ background: 'rgba(0,191,165,.07)', border: '1px solid rgba(0,191,165,.25)' }}>
-              <div className="absolute top-0 right-0 w-20 h-20 pointer-events-none" style={{ background: 'radial-gradient(circle,rgba(0,191,165,.15),transparent)', transform: 'translate(20%,-20%)' }} />
-              <p className="font-lato text-[#00bfa5] text-xs uppercase tracking-wider mb-1">★ Opción de arranque recomendada</p>
-              <p className="font-poppins font-black text-white text-2xl sm:text-3xl">COP 1.800.000</p>
-              <p className="font-lato text-white/40 text-xs mt-1">Solo Fase 1 · 2 semanas</p>
+            <div className="mt-3 rounded-xl p-4 flex flex-wrap gap-4"
+              style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
+              <p className="font-lato text-white/40 text-xs">
+                <span className="text-white/60 font-semibold">Usuarios adicionales:</span> 25 USD c/u
+              </p>
+              <p className="font-lato text-white/40 text-xs">
+                <span className="text-white/60 font-semibold">Números adicionales:</span> 15 USD c/u
+              </p>
             </div>
           </div>
 
-          <div className="rounded-xl p-4 sm:p-5 flex gap-3"
+          {/* Acompañamiento */}
+          <div className="rounded-xl p-4 sm:p-5 flex gap-3 mb-3"
             style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
             <Info className="w-4 h-4 text-white/30 flex-shrink-0 mt-0.5" />
             <div>
               <p className="font-poppins font-semibold text-white/70 text-sm mb-1">Acompañamiento mensual posterior (opcional)</p>
               <p className="font-lato text-white/45 text-sm leading-relaxed">
-                Bolsa mensual de soporte, ajustes e implementación continua por <strong className="text-white/75">COP 2.400.000/mes</strong>, incluyendo seguimiento operativo y evolución de automatizaciones. Ajustable según carga real acordada.
+                Desde <strong className="text-white/75">COP 600.000 al mes</strong> o por consumo de 5 horas de soporte y operaciones.
               </p>
             </div>
           </div>
+
         </section>
 
         {/* ─ 05 ALCANCE ─ */}
@@ -599,58 +631,10 @@ const StunetProposal = () => {
           </div>
         </section>
 
-        {/* ─ 06 KPIs ─ */}
-        <section id="kpis" ref={s6.ref as React.RefObject<HTMLElement>}
+        {/* ─ 06 RECOMENDACIÓN ─ */}
+        <section id="recomendacion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Indicadores de avance</TagLabel>
-          <SectionTitle>¿Cómo medimos el éxito?</SectionTitle>
-          <Rule />
-
-          <div className="hidden sm:block rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,.07)' }}>
-            <div className="grid grid-cols-5 gap-4 px-5 py-3 text-[10px] uppercase tracking-widest font-poppins font-bold text-white/25"
-              style={{ background: 'rgba(255,255,255,.04)' }}>
-              <div className="col-span-2">Indicador</div>
-              <div className="col-span-2">Uso principal</div>
-              <div>Meta</div>
-            </div>
-            {KPIS.map((k, i) => (
-              <div key={i} className="grid grid-cols-5 gap-4 px-5 py-4 items-start border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                <div className="col-span-2">
-                  <p className="font-poppins font-semibold text-white/80 text-sm">{k.indicador}</p>
-                </div>
-                <div className="col-span-2">
-                  <p className="font-lato text-white/45 text-sm leading-relaxed">{k.uso}</p>
-                </div>
-                <div>
-                  <span className="inline-block px-2.5 py-1 rounded-full font-poppins font-bold text-xs text-[#00bfa5]"
-                    style={{ background: 'rgba(0,191,165,.1)', border: '1px solid rgba(0,191,165,.2)' }}>
-                    {k.meta}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="sm:hidden space-y-3">
-            {KPIS.map((k, i) => (
-              <div key={i} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <p className="font-poppins font-semibold text-white/85 text-sm">{k.indicador}</p>
-                  <span className="inline-block px-2 py-1 rounded-full font-poppins font-bold text-[10px] text-[#00bfa5] flex-shrink-0"
-                    style={{ background: 'rgba(0,191,165,.1)', border: '1px solid rgba(0,191,165,.2)' }}>
-                    {k.meta}
-                  </span>
-                </div>
-                <p className="font-lato text-white/45 text-xs leading-relaxed">{k.uso}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─ 07 RECOMENDACIÓN ─ */}
-        <section id="recomendacion" ref={s7.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Recomendación final</TagLabel>
+          <TagLabel>06 — Recomendación final</TagLabel>
           <SectionTitle>Nuestra postura estratégica</SectionTitle>
           <Rule />
 
@@ -659,21 +643,66 @@ const StunetProposal = () => {
             <div className="absolute top-0 right-0 w-40 h-40 pointer-events-none"
               style={{ background: 'radial-gradient(circle,rgba(0,191,165,.06),transparent)', transform: 'translate(20%,-20%)' }} />
             <div className="space-y-4 font-lato text-white/60 text-[15px] leading-relaxed">
-              <p>Recomendamos iniciar con una <strong className="text-white/90 font-semibold">Fase 1 corta y ejecutiva</strong>, enfocada en auditar la pauta actual de Meta Ads, los formularios de captura y el recorrido del lead desde el clic hasta el asesor. Esta etapa permite detectar en dónde se pierden los 14–15 leads diarios antes de comprometer inversión en automatización.</p>
-              <p>Una vez identificados los cuellos de botella, la Fase 2 debe concentrarse en el <strong className="text-white/90 font-semibold">flujo de atención inicial y la automatización del primer contacto vía WhatsApp</strong> — especialmente para el mercado México, donde el rechazo a números colombianos impone una solución técnica específica.</p>
-              <p>Este orden <strong className="text-white/90 font-semibold">protege la caja de Stunet</strong>, genera aprendizajes accionables desde la Fase 1, y reduce el riesgo de implementar tecnología costosa sin haber corregido primero el origen de la fuga comercial. La meta es que cada peso invertido en pauta se traduzca en más estudiantes que llegan a Australia, Canadá o el Reino Unido.</p>
+              <p>Comenzaremos con la <strong className="text-white/90 font-semibold">Fase 1</strong>, ya que nos permite atacar el cuello de botella más significativo: entender con claridad qué está pasando con la pauta, los leads y el recorrido comercial actual. Es la base que soporta todas las decisiones siguientes.</p>
+              <p>Inmediatamente al finalizar la Fase 1, abordaremos la <strong className="text-white/90 font-semibold">Fase 2 (Sixteam Inbox +IA)</strong>, que ataca el siguiente cuello de botella crítico: la velocidad y calidad de la atención inicial al lead. Centralizar los canales de contacto e integrar IA conversacional garantiza que ningún prospecto quede sin respuesta.</p>
+              <p>La <strong className="text-white/90 font-semibold">Fase 3 (CRM Core: Implementación Base)</strong> permitirá garantizar y cuidar la escalabilidad de lo construido en las fases anteriores, dando estructura, trazabilidad y control operativo a todo el proceso comercial. Finalmente, la <strong className="text-white/90 font-semibold">Fase 4</strong> cumplirá el rol de afianzamiento y mejora continua, con automatizaciones avanzadas, integraciones y reportería que consolidan el crecimiento sostenible.</p>
+              <p>En cada fase se velará por una <strong className="text-white/90 font-semibold">adecuada adopción de la herramienta</strong> por parte del equipo de StuneT, para cuidar la inversión realizada y asegurar que las soluciones implementadas se usen y aprovechen al máximo.</p>
             </div>
           </div>
+        </section>
 
-          <div className="rounded-xl p-4 sm:p-5 flex gap-3"
-            style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
-            <TrendingUp className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-poppins font-semibold text-white/70 text-sm mb-1">Modalidad alternativa de entrada</p>
-              <p className="font-lato text-white/45 text-sm leading-relaxed">
-                Si Stunet desea reducir presión de caja, recomendamos contratar primero la Fase 1 como diagnóstico accionable. Con base en ese entregable, se puede aprobar la Fase 2 y 3 en una segunda decisión, validando dirección estratégica antes de comprometer el proyecto completo.
-              </p>
-            </div>
+        {/* ─ 07 VIGENCIA Y TÉRMINOS ─ */}
+        <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>07 — Vigencia y términos</TagLabel>
+          <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
+          <Rule />
+
+          <div className="space-y-3">
+            {[
+              {
+                titulo: 'Aprobación',
+                desc: 'Para aceptar esta propuesta y dar inicio al proyecto, se requiere una confirmación vía WhatsApp, Correo o Verbal para habilitar un enlace de HubSpot con el contrato a firmar y proceder.',
+                icon: CheckCircle,
+              },
+              {
+                titulo: 'Términos de Pago (Implementación)',
+                desc: 'Se sugiere un esquema de pago del 50% del valor total de la implementación seleccionada para dar inicio al proyecto y el 50% restante al finalizar la fase de "Puesta en marcha y capacitaciones".',
+                icon: FileText,
+              },
+              {
+                titulo: 'Términos de Pago (Licencias y Soporte)',
+                desc: 'Los pagos por licencias y el servicio de soporte opcional se facturarán de manera anticipada mensualmente el primer día hábil de cada mes (o según pactado con el cliente).',
+                icon: Calendar,
+              },
+              {
+                titulo: 'Ajustes de Precios de Licencias',
+                desc: 'Los costos de las licencias de CRM Sixteam.pro son estimados según valor de Dólar estadounidense (USD) y están sujetos a cambios según la fluctuación del dólar frente al peso colombiano (COP). Cualquier variación será notificada al cliente mediante la factura emitida.',
+                icon: Info,
+              },
+              {
+                titulo: 'Modificaciones al Alcance',
+                desc: 'Cualquier solicitud de servicio, integración o funcionalidad no estipulada explícitamente en el alcance de la opción seleccionada requerirá una nueva cotización y podría afectar los tiempos de entrega.',
+                icon: AlertCircle,
+              },
+              {
+                titulo: 'Inicio del Proyecto',
+                desc: 'El cronograma de implementación (estimado en semanas) comenzará a contar a partir de la recepción del pago inicial.',
+                icon: Zap,
+              },
+            ].map((item, i) => {
+              const Icon = item.icon;
+              return (
+                <div key={i} className="rounded-xl p-4 sm:p-5 flex gap-4"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <Icon className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-poppins font-semibold text-white/80 text-sm mb-1">{item.titulo}</p>
+                    <p className="font-lato text-white/50 text-sm leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>
@@ -694,16 +723,13 @@ const StunetProposal = () => {
             <p className="font-lato text-white/50 max-w-md mx-auto mb-8 text-sm sm:text-base leading-relaxed">
               Podemos arrancar la Fase 1 esta semana. Escríbenos para confirmar alcance, accesos y fechas de inicio.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a href="mailto:alpha@sixteam.pro"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-poppins font-bold text-sm text-[#030d1a] transition-all duration-300 hover:scale-105"
-                style={{ background: 'linear-gradient(90deg,#00bfa5,#00d4b8)', boxShadow: '0 4px 20px rgba(0,191,165,.3)' }}>
-                Confirmar por email
+            <div className="flex justify-center">
+              <a href="https://wa.me/573004188522" target="_blank" rel="noopener noreferrer"
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl font-poppins font-bold text-sm text-[#030d1a] transition-all duration-300 hover:scale-105"
+                style={{ background: 'linear-gradient(90deg,#00bfa5,#00d4b8)', boxShadow: '0 4px 28px rgba(0,191,165,.4)' }}>
+                <MessageSquare className="w-4 h-4" />
+                Confirmar por WhatsApp
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="https://wa.me/573001234567" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-poppins font-semibold text-sm text-white/80 border border-white/15 hover:bg-white/05 transition-all duration-300">
-                <MessageSquare className="w-4 h-4" /> WhatsApp
               </a>
             </div>
           </div>
