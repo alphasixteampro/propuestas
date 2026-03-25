@@ -23,8 +23,6 @@ const META = {
   objetivo: 'Plan de acción para optimizar actividades comerciales',
 };
 
-const STUNET_RED = '#dd3333';
-const STUNET_BLUE = '#0170B9';
 const STUNET_GOLD = '#ffe628';
 
 const HALLAZGOS = [
@@ -581,9 +579,17 @@ const StunetProposal = () => {
                   <p className="font-poppins font-black text-white text-3xl">COP 590.000<span className="text-[18px] font-lato font-normal text-white/40">/mes</span></p>
                 </div>
                 <ul className="space-y-1">
-                  {['Hasta 2 usuarios operativos', '1 número conectado', 'Créditos mensuales por consumo de IA'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0" />
+                  {[
+                    'Hasta 2 usuarios operativos',
+                    '1 número de WhatsApp conectado',
+                    'Bandeja omnicanal (WhatsApp, Instagram, Facebook, SMS)',
+                    'Bot de IA conversacional con entrenamiento personalizado',
+                    'Transferencia automática bot → asesor (handoff)',
+                    'Seguimiento y reactivación de conversaciones con IA',
+                    'Créditos mensuales por consumo de IA',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0 mt-[3px]" />
                       <span className="font-lato text-white/55 text-[15px]">{item}</span>
                     </li>
                   ))}
@@ -600,17 +606,29 @@ const StunetProposal = () => {
                   <p className="font-poppins font-black text-white text-3xl">COP 890.000<span className="text-[18px] font-lato font-normal text-white/40">/mes</span></p>
                 </div>
                 <ul className="space-y-1">
-                  {['Hasta 3 usuarios operativos', '1 número conectado', 'Créditos mensuales por consumo de IA'].map((item, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0" />
+                  {[
+                    'Hasta 3 usuarios operativos',
+                    '1 número de WhatsApp conectado',
+                    'CRM de contactos con campos personalizados y deduplicación',
+                    'Pipelines y oportunidades con etapas, owner y trazabilidad',
+                    'Smart Lists: segmentación dinámica de contactos',
+                    'Workflows y automatizaciones base (seguimiento, asignaciones, avisos)',
+                    'IA conversacional integrada al CRM',
+                    'Créditos mensuales por consumo de IA',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0 mt-[3px]" />
                       <span className="font-lato text-white/55 text-[15px]">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="mt-3 rounded-xl p-4"
+            <div className="mt-3 rounded-xl p-4 flex flex-wrap gap-4"
               style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
+              <p className="font-lato text-white/40 text-[15px]">
+                <span className="text-white/60 font-semibold">Usuarios operativos adicionales:</span> 25 USD c/u
+              </p>
               <p className="font-lato text-white/40 text-[15px]">
                 <span className="text-white/60 font-semibold">Usuarios administrativos adicionales:</span> 12.5 USD c/u
               </p>
@@ -710,7 +728,7 @@ const StunetProposal = () => {
         {/* ─ 06 RECOMENDACIÓN ─ */}
         <section id="recomendacion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Recomendación final</TagLabel>
+          <TagLabel>05 — Recomendación final</TagLabel>
           <SectionTitle>Nuestra postura estratégica</SectionTitle>
           <Rule />
 
@@ -730,7 +748,7 @@ const StunetProposal = () => {
         {/* ─ 07 VIGENCIA Y TÉRMINOS ─ */}
         <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Vigencia y términos</TagLabel>
+          <TagLabel>06 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
