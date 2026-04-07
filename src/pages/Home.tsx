@@ -21,6 +21,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/stunet',
   },
+  {
+    slug: 'conecty',
+    cliente: 'Conecty',
+    sector: 'Telecomunicaciones · SIM & eSIM para viajeros',
+    fecha: 'Abril 2026',
+    monto: 'COP 17.988.000',
+    estado: 'borrador',
+    path: '/conecty',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -126,11 +135,18 @@ export default function Home() {
                 }}
               >
                 <div style={{
-                  width: 44, height: 44, borderRadius: 10,
-                  background: 'rgba(29,112,162,.2)',
+                  width: 64, height: 64, borderRadius: 12,
+                  background: p.slug === 'conecty' ? 'transparent' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  overflow: 'hidden'
                 }}>
-                  <Building2 size={20} color="#1d70a2" />
+                  {p.slug === 'conecty' ? (
+                    <img src="/conecty-logo.png" alt="Conecty" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  ) : p.slug === 'stunet' ? (
+                    <img src="/stunet-logo.png" alt="Stunet" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  ) : (
+                    <Building2 size={20} color="#1d70a2" />
+                  )}
                 </div>
 
                 <div style={{ flex: 1, minWidth: 0 }}>
