@@ -21,7 +21,7 @@ const META = {
   fecha: 'Abril 2026',
   lugar: 'Colombia',
   herramienta: 'HubSpot CRM',
-  usuarios: 11,
+  usuarios: 10,
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -50,7 +50,7 @@ const HALLAZGOS = [
   },
   {
     titulo: 'Ecosistema tecnológico fragmentado',
-    desc: 'ERP, SIIGO y SU operan en silos. Órdenes, cartera y comunicaciones requieren procesos manuales y generan pérdida de trazabilidad comercial.',
+    desc: 'Panel (ERP propio) y SIIGO operan en silos. Órdenes, cartera y comunicaciones requieren procesos manuales y generan pérdida de trazabilidad comercial.',
     icon: BarChart3, tint: 'teal',
   },
 ];
@@ -70,7 +70,7 @@ const ETAPAS = [
   {
     num: '01',
     nombre: 'Contexto y Planificación',
-    duracion: '2 a 4 semanas',
+    duracion: '2–4 semanas · hasta semana 4',
     icon: FileText,
     color: CONECTY_BLUE,
     colorAlpha: 'rgba(14,165,233,.12)',
@@ -88,14 +88,14 @@ const ETAPAS = [
   {
     num: '02',
     nombre: 'Implementación HubSpot',
-    duracion: '6 semanas',
+    duracion: '4 semanas · hasta semana 8',
     icon: Settings,
     color: '#00bfa5',
     colorAlpha: 'rgba(0,191,165,.10)',
     colorBorder: 'rgba(0,191,165,.3)',
     descripcion: 'Con el diseño funcional aprobado, se ejecuta la implementación completa de HubSpot: desde la arquitectura de usuarios hasta los dashboards gerenciales, pasando por pipelines, automatizaciones y fidelización.',
     actividades: [
-      { text: 'Configuración de cuenta, 11 usuarios, 3 equipos y permisos diferenciados por rol' },
+      { text: 'Configuración de cuenta, 10 usuarios, 4 equipos (Desarrollo, Sostenimiento, Operación, Masters) y permisos diferenciados por rol' },
       { text: 'Creación de 1 pipeline de ventas: Adquisición (Desarrollo + Operación)' },
       { text: 'Configuración de hasta 15 propiedades personalizadas por objeto (contactos, empresas, negocios, órdenes)' },
       { text: 'Vistas de índice y de registro personalizadas por objeto y por equipo' },
@@ -109,14 +109,14 @@ const ETAPAS = [
   {
     num: '03',
     nombre: 'Integraciones',
-    duracion: '2 semanas',
+    duracion: '2 semanas · hasta semana 10',
     icon: Link2,
     color: '#a78bfa',
     colorAlpha: 'rgba(167,139,250,.10)',
     colorBorder: 'rgba(167,139,250,.3)',
-    descripcion: 'Se ejecutan las integraciones técnicas clave del ecosistema de Conecty con HubSpot: ERP, SIIGO y la app customizada SU. Sixteam orienta y configura las automatizaciones en HubSpot; el desarrollo lo ejecutan los equipos internos de Conecty.',
+    descripcion: 'Se ejecutan las integraciones técnicas clave del ecosistema de Conecty con HubSpot: Panel (ERP propio) y SIIGO. Sixteam orienta y configura las automatizaciones en HubSpot; el desarrollo lo ejecutan los equipos internos de Conecty.',
     actividades: [
-      { text: 'Acompañamiento estratégico integración SU (app customizada de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo' },
+      { text: 'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo' },
       { text: 'Acompañamiento al equipo de ERP para la integración ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por cotización registrada)' },
       { text: 'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora' },
       { text: 'Entrega de documentación técnica de integraciones' },
@@ -125,7 +125,7 @@ const ETAPAS = [
   {
     num: '04',
     nombre: 'Capacitaciones',
-    duracion: '2 semanas',
+    duracion: '2 semanas · hasta semana 10',
     icon: GraduationCap,
     color: '#34d399',
     colorAlpha: 'rgba(52,211,153,.10)',
@@ -143,7 +143,7 @@ const ETAPAS = [
   {
     num: '05',
     nombre: 'Salida a Producción',
-    duracion: '2 semanas',
+    duracion: '2 semanas · hasta semana 12',
     icon: Rocket,
     color: '#f59e0b',
     colorAlpha: 'rgba(245,158,11,.10)',
@@ -169,12 +169,10 @@ const DESGLOSE_HS = [
     icon: Users,
     color: CONECTY_BLUE,
     items: [
-      '11 usuarios configurados con roles y accesos diferenciados',
-      '3 equipos definidos: Desarrollo · Sostenimiento · Operación',
+      '10 usuarios configurados con roles y accesos diferenciados',
+      '4 equipos definidos: Desarrollo · Sostenimiento · Operación · Masters (líderes de equipo)',
       'Reglas de visibilidad y permisos por equipo (qué ve y qué puede hacer cada rol)',
-      '1 usuario principal/máster para gestión gerencial',
-      '8–9 asientos Sales Hub para equipo comercial de campo',
-      '2 asientos operativos para back office',
+      'Equipo Masters: líderes de cada frente con acceso gerencial y visibilidad transversal',
     ],
   },
   {
@@ -241,7 +239,7 @@ const DESGLOSE_HS = [
     items: [
       'ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por orden registrada) y acompaña al equipo de ERP para que puedan realizar la integración ERP → HubSpot',
       'SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático en HubSpot. Cada mañana n8n consulta SIIGO, calcula saldos vencidos por cliente y los escribe en HubSpot — con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora',
-      'SU (app customizada Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty para conectar SU con HubSpot — Sixteam no ejecuta el desarrollo',
+      'Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty para conectar Panel con HubSpot — Sixteam no ejecuta el desarrollo',
     ],
   },
   {
@@ -538,7 +536,7 @@ const ConnectyProposal = () => {
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Usuarios</p>
-                <p className="font-lato text-white/60 text-[18px]">{META.usuarios} usuarios · 3 equipos</p>
+                <p className="font-lato text-white/60 text-[18px]">{META.usuarios} usuarios · 4 equipos</p>
               </div>
             </div>
           </div>
@@ -549,7 +547,7 @@ const ConnectyProposal = () => {
               <strong className="text-white/90 font-semibold">1.172 distribuidores B2B</strong> activos en agencias de viaje, casas de cambio y rentadoras de autos, el canal B2B es la columna vertebral del crecimiento de la compañía — pero hoy opera en Excel, Google Forms y WhatsApp, sin trazabilidad ni visibilidad gerencial.
             </p>
             <p>
-              El equipo de <strong className="text-white/90 font-semibold">11 personas</strong> trabaja bajo tres frentes: Desarrollo (apertura de nuevos distribuidores), Sostenimiento (visitas y seguimiento de activos) y Operación (back office, cotizaciones y pedidos). El reto no es de talento ni de mercado — es de <strong className="text-white/90 font-semibold">infraestructura comercial</strong>: centralizar, ordenar y medir el verdadero indicador del modelo, que no es la primera venta, sino las <strong className="text-white/90 font-semibold">ventas acumuladas y el ciclo de vida del distribuidor</strong>.
+              El equipo de <strong className="text-white/90 font-semibold">10 personas</strong> trabaja bajo cuatro frentes: Desarrollo (apertura de nuevos distribuidores), Sostenimiento (visitas y seguimiento de activos), Operación (back office, cotizaciones y pedidos) y Masters (líderes de equipo con visión transversal). El reto no es de talento ni de mercado — es de <strong className="text-white/90 font-semibold">infraestructura comercial</strong>: centralizar, ordenar y medir el verdadero indicador del modelo, que no es la primera venta, sino las <strong className="text-white/90 font-semibold">ventas acumuladas y el ciclo de vida del distribuidor</strong>.
             </p>
           </div>
 
@@ -586,16 +584,16 @@ const ConnectyProposal = () => {
               style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Diseñar e implementar <strong className="text-white font-black">HubSpot CRM</strong> como la plataforma central del canal B2B de Conecty: ordenar los procesos comerciales de Desarrollo, Sostenimiento y Operación; integrar el ecosistema existente (ERP, SIIGO, SU); automatizar el seguimiento y la fidelización de distribuidores; y dar visibilidad gerencial total sobre el ciclo de vida del distribuidor — desde la prospección hasta la{' '}
+              Diseñar e implementar <strong className="text-white font-black">HubSpot CRM</strong> como la plataforma central del canal B2B de Conecty: ordenar los procesos comerciales de Desarrollo, Sostenimiento y Operación; integrar el ecosistema existente (Panel, SIIGO); automatizar el seguimiento y la fidelización de distribuidores; y dar visibilidad gerencial total sobre el ciclo de vida del distribuidor — desde la prospección hasta la{' '}
               <em className="not-italic" style={{ color: CONECTY_BLUE }}>recompra acumulada</em>.
             </p>
           </div>
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: 'Distribuidores B2B', value: '1.172', sub: 'base activa' },
-              { label: 'Usuarios HubSpot',   value: '11',    sub: '3 equipos · 3 roles' },
+              { label: 'Usuarios HubSpot',   value: '10',    sub: '4 equipos · Masters, Desarrollo, Sostenimiento, Operación' },
               { label: 'Pipeline',            value: '1',     sub: 'Adquisición' },
-              { label: 'Integraciones',      value: '3',     sub: 'ERP · SIIGO · SU' },
+              { label: 'Integraciones',      value: '2',     sub: 'Panel · SIIGO' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
                 style={{ background: 'rgba(29,112,162,.07)', border: '1px solid rgba(29,112,162,.2)' }}>
@@ -825,14 +823,14 @@ const ConnectyProposal = () => {
             </div>
             <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
               {[
-                ['Usuarios configurados',          '11 usuarios · 3 equipos · reglas de permisos'],
+                ['Usuarios configurados',          '10 usuarios · 4 equipos (Desarrollo, Sostenimiento, Operación, Masters) · reglas de permisos'],
                 ['Pipeline de ventas',              '1 pipeline (Adquisición) con etapas, criterios y propietarios'],
                 ['Propiedades personalizadas',      'Hasta 15 por objeto × 4 objetos (contactos, empresas, negocios, órdenes) = hasta 60 propiedades'],
                 ['Vistas personalizadas',           '1 índice + 1 registro × 4 objetos = hasta 8 vistas'],
                 ['Automatizaciones',                'Hasta 20 (5 ventas + 5 operación + 5 sostenimiento + 5 fidelización)'],
                 ['Dashboards',                      '3 dashboards predeterminados'],
                 ['Informes personalizados',         'Hasta 10 informes personalizados'],
-                ['Integraciones',                   'ERP · SIIGO · SU (acompañamiento)'],
+                ['Integraciones',                   'Panel · SIIGO'],
                 ['Sesiones de capacitación',        '12 sesiones (5 comercial · 5 operación · 2 gerencial)'],
                 ['Documentación entregada',         'Guías por rol + grabaciones de sesiones'],
               ].map(([label, value], i) => (
@@ -866,7 +864,7 @@ const ConnectyProposal = () => {
               <p className="font-poppins font-black text-white leading-none mb-3" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}>
                 {TOTAL}
               </p>
-              <p className="font-lato text-white/40 text-[15px] mb-6">+ IVA · Sin licencias HubSpot · Pago en dos tractos</p>
+              <p className="font-lato text-white/40 text-[15px] mb-6">+ IVA · Sin licencias HubSpot · Pago en tres tractos</p>
               <div className="flex flex-wrap gap-2">
                 {[
                   '✓ Contexto y planificación',
@@ -874,7 +872,7 @@ const ConnectyProposal = () => {
                   '✓ Automatizaciones y fidelización',
                   '✓ Integración ERP',
                   '✓ Integración SIIGO',
-                  '✓ Acompañamiento integración SU',
+                  '✓ Integración ERP Panel',
                   '✓ Estrategia email marketing',
                   '✓ Capacitaciones al equipo',
                   '✓ Documentación y guías de uso',
@@ -898,10 +896,10 @@ const ConnectyProposal = () => {
             <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
               <div className="flex flex-col sm:flex-row sm:items-center px-5 py-4 gap-1 sm:gap-0">
                 <div className="sm:w-3/5">
-                  <span className="font-poppins font-semibold text-white/85 text-[16px]">Integraciones — Sigo + SU</span>
+                  <span className="font-poppins font-semibold text-white/85 text-[16px]">Integraciones — SIIGO + Panel</span>
                   <p className="font-lato text-white/35 text-[13px] mt-0.5 leading-snug">
-                    Integración SIIGO (dashboard cartera) + acompañamiento estratégico integración SU.<br />
-                    <em>Nota: la integración con SU no es ejecutada por Sixteam — se trata de asesoría y apoyo estratégico al equipo de desarrollo de Conecty, dado que SU es una aplicación customizada de su propiedad.</em>
+                    Integración SIIGO (dashboard cartera) + acompañamiento estratégico integración Panel (ERP propio de Conecty).<br />
+                    <em>Nota: la integración con Panel no es ejecutada por Sixteam — se trata de asesoría y apoyo estratégico al equipo de desarrollo de Conecty, dado que Panel es el ERP propio de su propiedad.</em>
                   </p>
                 </div>
                 <span className="font-poppins font-black text-white sm:ml-auto text-[18px]">COP 2.500.000</span>
@@ -924,10 +922,11 @@ const ConnectyProposal = () => {
           </div>
 
           {/* Esquema de pago */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
             {[
-              { tracto: '1er tracto', momento: 'Al inicio del proyecto', porcentaje: '50%', monto: 'COP 8.994.000', desc: 'Se paga al firmar el contrato y dar inicio a la Etapa 1.' },
-              { tracto: '2do tracto', momento: 'Al iniciar Salida a Producción', porcentaje: '50%', monto: 'COP 8.994.000', desc: 'Se paga al completar la Etapa 3 e iniciar la Etapa 4 (acompañamiento en producción).' },
+              { tracto: '1er tracto', momento: 'Antes del kick off', porcentaje: '40%', monto: 'COP 7.195.200', desc: 'Se paga al firmar el contrato, antes de iniciar la Etapa 1. Habilita el inicio del proyecto.' },
+              { tracto: '2do tracto', momento: 'Semana 6 — mes y medio', porcentaje: '30%', monto: 'COP 5.396.400', desc: 'Se paga en la semana 6, a mitad del proceso de implementación total.' },
+              { tracto: '3er tracto', momento: 'Semana 12 — mes 3', porcentaje: '30%', monto: 'COP 5.396.400', desc: 'Se paga en la semana 12, al finalizar la implementación durante la Salida a Producción.' },
             ].map((t, i) => (
               <div key={i} className="rounded-xl p-5"
                 style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
@@ -1000,7 +999,7 @@ const ConnectyProposal = () => {
           <div className="space-y-3">
             {[
               { titulo: 'Aprobación', desc: 'Para aceptar esta propuesta y dar inicio al proyecto, se requiere confirmación vía WhatsApp, Correo o Verbal para habilitar el contrato a firmar y proceder con el inicio del trabajo.', icon: CheckCircle },
-              { titulo: 'Términos de Pago', desc: '50% al inicio del proyecto (firma de contrato) y 50% al finalizar la Etapa 2 (puesta en marcha y capacitaciones). Los pagos se realizan mediante transferencia bancaria o plataforma acordada.', icon: FileText },
+              { titulo: 'Términos de Pago', desc: '40% antes del kick off (firma de contrato) · 30% en la semana 6 (mes y medio, mitad del proceso) · 30% en la semana 12 (mes 3, al finalizar la implementación y durante la Salida a Producción). Los pagos se realizan mediante transferencia bancaria o plataforma acordada.', icon: FileText },
               { titulo: 'Horas adicionales — Integración ERP', desc: 'La integración del ERP "Panel" incluye hasta 5 horas de acompañamiento técnico. Si el alcance técnico supera este tope, las horas adicionales se facturan a un precio fijo por hora acordado previamente con el cliente.', icon: Database },
               { titulo: 'Licencias de HubSpot', desc: 'Los costos de licenciamiento de HubSpot (Sales Hub, licencias operativas) no están incluidos en esta propuesta y se cotizarán en un documento separado. Sixteam.pro puede acompañar la gestión del contrato directamente con HubSpot.', icon: Info },
               { titulo: 'Modificaciones al Alcance', desc: 'Cualquier solicitud de servicio, integración o funcionalidad no estipulada explícitamente requerirá una nueva cotización y podrá afectar los tiempos de entrega.', icon: AlertCircle },
