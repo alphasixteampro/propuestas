@@ -4,6 +4,7 @@ import {
   MessageSquare, AlertCircle, TrendingUp, Mail, ArrowRight, Building2,
   Calendar, Hash, User, Info, Globe, GraduationCap, MapPin,
 } from 'lucide-react';
+import LogoCarousel from '../components/LogoCarousel';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
 
@@ -339,6 +340,11 @@ const StunetProposal = () => {
           <div className="w-px h-10 bg-gradient-to-b from-white/60 to-transparent" />
         </div>
       </header>
+
+      {/* ══════════════════════════════════════ SOCIAL PROOF */}
+      <div className="w-full relative z-20 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+        <LogoCarousel />
+      </div>
 
       {/* ══════════════════════════════════════ CONTENIDO PRINCIPAL */}
       <main className="max-w-4xl mx-auto px-5 sm:px-8 md:px-10 py-20 space-y-24">

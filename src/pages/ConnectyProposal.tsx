@@ -3,7 +3,7 @@ import LogoCarousel from '../components/LogoCarousel';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap, BarChart3,
   AlertCircle, TrendingUp, ArrowRight,
-  Calendar, Hash, Info, Globe, MapPin,
+  Calendar, Info, MapPin,
   Wifi, Link2, Settings, Users, Database, BellRing, LayoutDashboard,
   GitBranch, SlidersHorizontal, GraduationCap, Layers, Rocket,
 } from 'lucide-react';
@@ -50,7 +50,7 @@ const HALLAZGOS = [
   },
   {
     titulo: 'Ecosistema tecnológico fragmentado',
-    desc: 'ERP "Panel", SIIGO, Omnisend y Kivi operan en silos. Cotizaciones, cartera y comunicaciones requieren procesos manuales y generan pérdida de trazabilidad comercial.',
+    desc: 'ERP, SIIGO y SU operan en silos. Órdenes, cartera y comunicaciones requieren procesos manuales y generan pérdida de trazabilidad comercial.',
     icon: BarChart3, tint: 'teal',
   },
 ];
@@ -64,24 +64,26 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 
 // ─── ETAPAS ──────────────────────────────────────────────────────────────────
 
+type Actividad = { text: string; tag?: string };
+
 const ETAPAS = [
   {
     num: '01',
     nombre: 'Contexto y Planificación',
-    duracion: '2 semanas',
+    duracion: '2 a 4 semanas',
     icon: FileText,
     color: CONECTY_BLUE,
     colorAlpha: 'rgba(14,165,233,.12)',
     colorBorder: 'rgba(14,165,233,.3)',
     descripcion: 'Antes de tocar una sola configuración, nos sentamos con el equipo de Conecty a entender el proceso real. Esta etapa produce el diseño funcional que guiará toda la implementación.',
     actividades: [
-      'Sesiones de levantamiento con los tres frentes: Desarrollo, Sostenimiento y Operación',
-      'Mapeo y documentación de los flujos comerciales B2B (actual vs. futuro en HubSpot)',
-      'Definición del modelo de datos: objetos, propiedades y relaciones entre registros',
-      'Diseño de los dos pipelines y sus etapas con criterios de avance',
-      'Diseño de automatizaciones, fidelización y reglas de equipos',
-      'Entrega de documento de diseño funcional validado por Conecty antes de iniciar la implementación',
-    ],
+      { text: '6 Sesiones de levantamiento y trabajo con los tres frentes: Desarrollo, Sostenimiento y Operación', tag: 'Trabajo en conjunto' },
+      { text: 'Mapeo y documentación de los flujos comerciales B2B (actual vs. futuro en HubSpot)', tag: 'Trabajo en conjunto' },
+      { text: 'Definición del modelo de datos: objetos, propiedades y relaciones entre registros' },
+      { text: 'Diseño de los 3 flujos de procesos, sus accionables, KPIS y automatizaciones' },
+      { text: 'Diseño de automatizaciones generales, fidelización y reglas de equipos' },
+      { text: 'Entrega de documento de diseño funcional validado por Conecty antes de iniciar la implementación' },
+    ] as Actividad[],
   },
   {
     num: '02',
@@ -93,38 +95,53 @@ const ETAPAS = [
     colorBorder: 'rgba(0,191,165,.3)',
     descripcion: 'Con el diseño funcional aprobado, se ejecuta la implementación completa de HubSpot: desde la arquitectura de usuarios hasta los dashboards gerenciales, pasando por pipelines, automatizaciones y fidelización.',
     actividades: [
-      'Configuración de cuenta, 11 usuarios, 3 equipos y permisos diferenciados por rol',
-      'Creación de los dos pipelines: Adquisición (Desarrollo + Operación) y Crecimiento (Sostenimiento)',
-      'Configuración de hasta 15 propiedades personalizadas por objeto (contactos, empresas, negocios, cotizaciones)',
-      'Vistas de índice y de registro personalizadas por objeto y por equipo',
-      'Automatizaciones de ventas: hasta 5 seguimientos en pipeline Adquisición',
-      'Flujo de fidelización: hasta 5 notificaciones automáticas (cumpleaños, primera compra, última compra, fechas clave)',
-      'Dashboards y hasta 10 informes personalizados (productividad, embudo, presupuesto mensual)',
-      'Validaciones y ajustes semanales con el equipo de Conecty durante toda la etapa',
-    ],
+      { text: 'Configuración de cuenta, 11 usuarios, 3 equipos y permisos diferenciados por rol' },
+      { text: 'Creación de 1 pipeline de ventas: Adquisición (Desarrollo + Operación)' },
+      { text: 'Configuración de hasta 15 propiedades personalizadas por objeto (contactos, empresas, negocios, órdenes)' },
+      { text: 'Vistas de índice y de registro personalizadas por objeto y por equipo' },
+      { text: 'Automatizaciones de ventas: hasta 5 seguimientos en pipeline Adquisición' },
+      { text: '5 automatizaciones por flujos de operación y de sostenimiento' },
+      { text: 'Flujo de fidelización: hasta 5 notificaciones automáticas (cumpleaños, primera compra, última compra, fechas clave)' },
+      { text: 'Dashboards y hasta 10 informes personalizados (productividad, embudo, presupuesto mensual)' },
+      { text: 'Validaciones semanales con el equipo de Conecty durante toda la etapa' },
+    ] as Actividad[],
   },
   {
     num: '03',
-    nombre: 'Integraciones y Capacitaciones',
+    nombre: 'Integraciones',
     duracion: '2 semanas',
     icon: Link2,
     color: '#a78bfa',
     colorAlpha: 'rgba(167,139,250,.10)',
     colorBorder: 'rgba(167,139,250,.3)',
-    descripcion: 'En paralelo con el cierre y ajuste fino de la implementación, se ejecutan las integraciones técnicas y se capacita al equipo para garantizar la adopción desde el día uno.',
+    descripcion: 'Se ejecutan las integraciones técnicas clave del ecosistema de Conecty con HubSpot: ERP, SIIGO y la app customizada SU. Sixteam orienta y configura las automatizaciones en HubSpot; el desarrollo lo ejecutan los equipos internos de Conecty.',
     actividades: [
-      'Integración ERP "Panel" → HubSpot vía API: cotizaciones viajan al CRM y generan hasta 3 tareas automáticas de seguimiento (hasta 5h de acompañamiento técnico incluidas)',
-      'Dashboard de cartera en HubSpot: integración de visualización con SIIGO vía API (quién debe, cuánto)',
-      'Acompañamiento estratégico a la integración con SU (app customizada de Conecty): asesoría técnica al equipo de desarrollo de Conecty para conectar SU con HubSpot — Sixteam no ejecuta el desarrollo, lo acompaña y orienta',
-      'Email marketing: integración Omnisend ↔ HubSpot o configuración de Marketing Hub según decisión del equipo',
-      'Capacitación equipo comercial de campo (Desarrollo + Sostenimiento): uso de pipelines, registro de visitas, tareas y seguimiento',
-      'Capacitación equipo de operación y back office: cotizaciones, gestión de contactos, dashboards',
-      'Capacitación gerencial: lectura de dashboards, informes de productividad y embudo comercial',
-      'Entrega de documentación completa, guías de uso por rol y grabaciones de sesiones',
-    ],
+      { text: 'Acompañamiento estratégico integración SU (app customizada de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo' },
+      { text: 'Acompañamiento al equipo de ERP para la integración ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por cotización registrada)' },
+      { text: 'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora' },
+      { text: 'Entrega de documentación técnica de integraciones' },
+    ] as Actividad[],
   },
   {
     num: '04',
+    nombre: 'Capacitaciones',
+    duracion: '2 semanas',
+    icon: GraduationCap,
+    color: '#34d399',
+    colorAlpha: 'rgba(52,211,153,.10)',
+    colorBorder: 'rgba(52,211,153,.3)',
+    descripcion: 'En paralelo con las integraciones, se capacita a cada equipo en el uso de HubSpot según su rol. Las sesiones se realizan a medida que los módulos quedan listos, garantizando adopción progresiva desde el día uno.',
+    paralelo: true,
+    actividades: [
+      { text: '5 sesiones de capacitación equipo comercial de campo (Desarrollo + Sostenimiento): uso de pipelines, registro de visitas, tareas y seguimiento' },
+      { text: '5 sesiones de capacitación equipo de operación: gestión de órdenes, contactos, empresas y bandeja de seguimiento' },
+      { text: '2 sesiones de capacitación gerencial: lectura de dashboards, informes de productividad y exportación de reportes' },
+      { text: 'Documentación completa del modelo implementado (guías de uso por rol, flujos configurados, glosario del CRM)' },
+      { text: 'Entrega de grabaciones de sesiones' },
+    ] as Actividad[],
+  },
+  {
+    num: '05',
     nombre: 'Salida a Producción',
     duracion: '2 semanas',
     icon: Rocket,
@@ -133,14 +150,14 @@ const ETAPAS = [
     colorBorder: 'rgba(245,158,11,.3)',
     descripcion: 'Acompañamos a Conecty en el primer ciclo real de operación sobre HubSpot. Esta etapa no es una entrega más — es el puente entre la implementación y la adopción real y sostenida del equipo en el día a día.',
     actividades: [
-      'Monitoreo activo del sistema en producción durante las primeras dos semanas de uso real con el equipo',
-      'Identificación y corrección ágil de errores funcionales o de configuración que emerjan en la operación real',
-      'Atención y priorización de oportunidades de mejora detectadas por el equipo durante el uso diario',
-      'Sesiones de refuerzo y capacitación adicional según las necesidades reales identificadas en campo',
-      'Acompañamiento al equipo en el registro de los primeros negocios, contactos y actividades en HubSpot',
-      'Resolución de dudas en tiempo real vía canal dedicado durante toda la etapa',
-      'Entrega final con validación del modelo implementado, resumen de ajustes y recomendaciones para la siguiente fase de crecimiento del CRM',
-    ],
+      { text: 'Monitoreo activo del sistema en producción durante las primeras dos semanas de uso real con el equipo' },
+      { text: 'Identificación y corrección ágil de errores funcionales o de configuración que emerjan en la operación real' },
+      { text: 'Atención y priorización de oportunidades de mejora detectadas por el equipo durante el uso diario' },
+      { text: 'Sesiones de refuerzo y capacitación adicional según las necesidades reales identificadas en campo' },
+      { text: 'Acompañamiento al equipo en el registro de los primeros negocios, contactos y actividades en HubSpot' },
+      { text: 'Resolución de dudas en tiempo real vía canal dedicado durante toda la etapa' },
+      { text: 'Entrega final con validación del modelo implementado, resumen de ajustes y recomendaciones para la siguiente etapa de crecimiento del CRM' },
+    ] as Actividad[],
   },
 ];
 
@@ -161,15 +178,14 @@ const DESGLOSE_HS = [
     ],
   },
   {
-    categoria: 'Pipelines y Etapas',
+    categoria: 'Pipeline de Ventas',
     icon: GitBranch,
     color: '#00bfa5',
     items: [
       'Pipeline Adquisición (Desarrollo + Operación): Prospección → Contacto inicial → Propuesta comercial → Cierre / Firma de contrato',
-      'Pipeline Crecimiento (Sostenimiento): Seguimiento activo → Capacitación equipo distribuidor → Crecimiento de ventas',
       'Criterios de avance y requisitos por etapa configurados',
       'Asignación automática de propietario por equipo y etapa',
-      'Indicadores de conversión por etapa en ambos pipelines',
+      'Indicadores de conversión por etapa',
     ],
   },
   {
@@ -180,7 +196,7 @@ const DESGLOSE_HS = [
       'Hasta 15 propiedades personalizadas en objeto Contactos (ej. cargo en agencia, canal preferido, fecha cumpleaños, frecuencia de compra)',
       'Hasta 15 propiedades personalizadas en objeto Empresas/Distribuidores (ej. tipo de distribuidor, zona/ciudad, potencial de ventas, estado del contrato)',
       'Hasta 15 propiedades personalizadas en objeto Negocios (ej. tipo de cierre, valor acumulado, canal de origen)',
-      'Hasta 15 propiedades personalizadas en objeto Cotizaciones (ej. ERP ID, estado de cotización, productos cotizados)',
+      'Hasta 15 propiedades personalizadas en objeto Órdenes (ej. ERP ID, estado de orden, productos ordenados)',
     ],
   },
   {
@@ -188,7 +204,7 @@ const DESGLOSE_HS = [
     icon: Layers,
     color: '#a78bfa',
     items: [
-      '1 vista de índice + 1 vista de registro por objeto: Contactos, Empresas, Negocios y Cotizaciones',
+      '1 vista de índice + 1 vista de registro por objeto: Contactos, Empresas, Negocios y Órdenes',
       'Total: hasta 8 vistas configuradas y adaptadas al flujo de cada equipo',
       'Filtros y columnas predeterminadas según el rol (asesor de campo, operación, gerencia)',
     ],
@@ -199,8 +215,9 @@ const DESGLOSE_HS = [
     color: '#00bfa5',
     items: [
       'Hasta 5 automatizaciones de seguimiento en pipeline Adquisición (tareas automáticas, recordatorios, cambios de etapa)',
+      'Hasta 5 automatizaciones para flujos de operación y sostenimiento',
       'Hasta 5 notificaciones de fidelización: cumpleaños de asesores del distribuidor, fecha de primera compra, última compra realizada, fechas clave de proceso de venta',
-      'Hasta 3 tareas automáticas de seguimiento generadas por cada cotización que llega desde ERP "Panel"',
+      'Hasta 3 tareas automáticas de seguimiento generadas por cada orden que llega desde ERP',
       'Reglas de asignación automática de negocios y contactos a equipos y asesores',
     ],
   },
@@ -222,12 +239,9 @@ const DESGLOSE_HS = [
     icon: Link2,
     color: '#f87171',
     items: [
-      'ERP "Panel" → HubSpot (vía API/Webhooks): cotizaciones generadas en Panel viajan al CRM y quedan asociadas a empresa, contacto y negocio correspondiente',
-      'Generación automática de hasta 3 tareas de seguimiento por cotización registrada',
-      'Hasta 5 horas de acompañamiento técnico incluidas en la integración ERP (horas adicionales a precio fijo acordado)',
-      'SIIGO → HubSpot: dashboard de visualización de cartera vía API (estado de cuenta, deudas por cliente)',
-      'SU (app customizada Conecty) ↔ HubSpot: acompañamiento estratégico al equipo de desarrollo de Conecty — Sixteam orienta y asesora la conexión, dado que SU es una aplicación propia de Conecty y el desarrollo lo ejecuta su equipo interno',
-      'Email marketing: integración Omnisend ↔ HubSpot (sincronización de contactos y automatizaciones cruzadas) o configuración de Marketing Hub HubSpot para base de 800–1.200 distribuidores',
+      'ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por orden registrada) y acompaña al equipo de ERP para que puedan realizar la integración ERP → HubSpot',
+      'SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático en HubSpot. Cada mañana n8n consulta SIIGO, calcula saldos vencidos por cliente y los escribe en HubSpot — con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora',
+      'SU (app customizada Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty para conectar SU con HubSpot — Sixteam no ejecuta el desarrollo',
     ],
   },
   {
@@ -235,10 +249,11 @@ const DESGLOSE_HS = [
     icon: GraduationCap,
     color: '#34d399',
     items: [
-      'Sesión de capacitación equipo comercial de campo (Desarrollo + Sostenimiento): uso de pipelines, registro de visitas, check-in/out de visitas en HubSpot, tareas y seguimiento',
-      'Sesión de capacitación equipo operación y back office: gestión de cotizaciones, contactos y empresas, bandeja de seguimiento',
-      'Sesión de capacitación gerencial: lectura de dashboards, informes de productividad, exportación de reportes',
+      '5 sesiones de capacitación equipo comercial de campo (Desarrollo + Sostenimiento): uso de pipelines, registro de visitas, tareas y seguimiento',
+      '5 sesiones de capacitación equipo de operación: gestión de órdenes, contactos y empresas, bandeja de seguimiento',
+      '2 sesiones de capacitación gerencial: lectura de dashboards, informes de productividad y exportación de reportes',
       'Documentación completa del modelo implementado (guías de uso por rol, flujos configurados, glosario del CRM)',
+      'Entrega de grabaciones de sesiones',
     ],
   },
 ];
@@ -346,7 +361,7 @@ const ConnectyProposal = () => {
             <div className="w-px h-8 bg-white/10 hidden sm:block" />
             <div className="flex items-center gap-3">
                <div className="w-auto h-12 flex items-center justify-center">
-                <img src="/conecty-logo.png" alt="Conecty" className="h-full w-auto object-contain"
+                <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" className="h-full w-auto object-contain"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               </div>
             </div>
@@ -404,8 +419,6 @@ const ConnectyProposal = () => {
                 {[
                   { icon: Calendar, text: META.fecha },
                   { icon: MapPin,   text: META.lugar },
-                  { icon: Globe,    text: META.sector },
-                  { icon: Hash,     text: `NIT ${META.nit}` },
                 ].map((chip, i) => {
                   const Icon = chip.icon;
                   return (
@@ -460,7 +473,7 @@ const ConnectyProposal = () => {
                 </div>
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-64 h-32 flex items-center justify-center p-3">
-                    <img src="/conecty-logo.png" alt="Conecty" className="w-full h-full object-contain"
+                    <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" className="w-full h-full object-contain"
                       style={{ filter: `drop-shadow(0 2px 20px rgba(14,165,233,.4))` }} />
                   </div>
                   <div className="text-center">
@@ -494,7 +507,7 @@ const ConnectyProposal = () => {
             style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.07)' }}>
             <div className="flex-shrink-0 flex flex-col items-center gap-2">
               <div className="w-24 h-24 flex items-center justify-center p-2.5">
-                <img src="/conecty-logo.png" alt="Conecty" className="w-full h-full object-contain" />
+                <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" className="w-full h-full object-contain" />
               </div>
               <span className="font-poppins font-black text-white text-[15px] tracking-tight">Conecty</span>
               <span className="font-lato text-[11px] uppercase tracking-[0.2em]" style={{ color: CONECTY_BLUE }}>{META.tagline}</span>
@@ -573,7 +586,7 @@ const ConnectyProposal = () => {
               style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Diseñar e implementar <strong className="text-white font-black">HubSpot CRM</strong> como la plataforma central del canal B2B de Conecty: ordenar los procesos comerciales de Desarrollo, Sostenimiento y Operación; integrar el ecosistema existente (ERP Panel, SIIGO, Omnisend); automatizar el seguimiento y la fidelización de distribuidores; y dar visibilidad gerencial total sobre el ciclo de vida del distribuidor — desde la prospección hasta la{' '}
+              Diseñar e implementar <strong className="text-white font-black">HubSpot CRM</strong> como la plataforma central del canal B2B de Conecty: ordenar los procesos comerciales de Desarrollo, Sostenimiento y Operación; integrar el ecosistema existente (ERP, SIIGO, SU); automatizar el seguimiento y la fidelización de distribuidores; y dar visibilidad gerencial total sobre el ciclo de vida del distribuidor — desde la prospección hasta la{' '}
               <em className="not-italic" style={{ color: CONECTY_BLUE }}>recompra acumulada</em>.
             </p>
           </div>
@@ -581,8 +594,8 @@ const ConnectyProposal = () => {
             {[
               { label: 'Distribuidores B2B', value: '1.172', sub: 'base activa' },
               { label: 'Usuarios HubSpot',   value: '11',    sub: '3 equipos · 3 roles' },
-              { label: 'Pipelines',          value: '2',     sub: 'Adquisición + Crecimiento' },
-              { label: 'Integraciones',      value: '2+',    sub: 'ERP Panel · SIIGO' },
+              { label: 'Pipeline',            value: '1',     sub: 'Adquisición' },
+              { label: 'Integraciones',      value: '3',     sub: 'ERP · SIIGO · SU' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
                 style={{ background: 'rgba(29,112,162,.07)', border: '1px solid rgba(29,112,162,.2)' }}>
@@ -598,7 +611,7 @@ const ConnectyProposal = () => {
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>4 etapas · ~12 semanas</SectionTitle>
+          <SectionTitle>5 etapas · ~12 semanas</SectionTitle>
           <Rule />
 
           {/* Timeline visual */}
@@ -630,6 +643,12 @@ const ConnectyProposal = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/70'}`}>{et.nombre}</span>
+                          {'paralelo' in et && et.paralelo && (
+                            <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wide"
+                              style={{ background: 'rgba(52,211,153,.10)', border: '1px solid rgba(52,211,153,.25)', color: '#34d399' }}>
+                              En paralelo con Etapa 3
+                            </span>
+                          )}
                         </div>
                         <p className="font-lato text-white/40 text-[15px] mt-0.5">{et.descripcion.slice(0, 80)}…</p>
                       </div>
@@ -651,12 +670,22 @@ const ConnectyProposal = () => {
                           <p className="font-lato text-white/60 text-[17px] leading-relaxed mb-4">{et.descripcion}</p>
                           <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Actividades</p>
                           <ul className="space-y-2">
-                            {et.actividades.map((a, j) => (
+                            {et.actividades.map((a, j) => {
+                              const act = typeof a === 'string' ? { text: a } : a;
+                              return (
                               <li key={j} className="flex items-start gap-2">
                                 <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: et.color }} />
-                                <span className="font-lato text-white/65 text-[18px]">{a}</span>
+                                <span className="font-lato text-white/65 text-[18px] flex-1">{act.text}
+                                  {act.tag && (
+                                    <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-[11px] font-medium uppercase tracking-wide align-middle"
+                                      style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.3)', color: '#00bfa5' }}>
+                                      {act.tag}
+                                    </span>
+                                  )}
+                                </span>
                               </li>
-                            ))}
+                              );
+                            })}
                           </ul>
                         </div>
                       </div>
@@ -673,14 +702,70 @@ const ConnectyProposal = () => {
               style={{ background: 'rgba(167,139,250,.06)', border: '1px solid rgba(167,139,250,.2)' }}>
               <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#a78bfa]" />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                La <strong className="text-white/80">Etapa 3</strong> (Integraciones y Capacitaciones) se ejecuta en paralelo con el cierre de la Etapa 2, optimizando los tiempos totales del proyecto. Las capacitaciones se realizan a medida que los módulos quedan listos, garantizando la adopción progresiva del equipo.
+                Las <strong className="text-white/80">Etapas 3</strong> (Integraciones) y <strong className="text-white/80">4</strong> (Capacitaciones) se ejecutan en paralelo durante 2 semanas. Las capacitaciones se realizan a medida que los módulos quedan listos, garantizando la adopción progresiva del equipo.
               </p>
             </div>
             <div className="rounded-xl p-4 flex gap-3"
               style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
               <Rocket className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                La <strong className="text-white/80">Etapa 4</strong> (Salida a Producción) inicia inmediatamente al finalizar la implementación y las capacitaciones. Es la etapa de acompañamiento real: el equipo ya usa el sistema y Sixteam está presente para corregir, ajustar y asegurar que el modelo funcione en la operación del día a día.
+                La <strong className="text-white/80">Etapa 5</strong> (Salida a Producción) inicia inmediatamente al finalizar las integraciones y las capacitaciones. Es la etapa de acompañamiento real: el equipo ya usa el sistema y Sixteam está presente para corregir y asegurar que el modelo funcione en la operación del día a día.
+              </p>
+            </div>
+          </div>
+
+          {/* Card Fase 2 Futura — Geolocalización */}
+          <div className="mt-6 rounded-2xl overflow-hidden"
+            style={{ background: 'rgba(245,158,11,.04)', border: '1px solid rgba(245,158,11,.22)' }}>
+            <div className="px-5 py-3 flex items-center justify-between"
+              style={{ background: 'rgba(245,158,11,.07)', borderBottom: '1px solid rgba(245,158,11,.15)' }}>
+              <div className="flex items-center gap-2.5">
+                <MapPin className="w-4 h-4 text-[#f59e0b]" />
+                <span className="font-poppins font-bold text-white/80 text-[15px]">Fase 2 — Geolocalización y Rutas de Campo</span>
+              </div>
+              <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
+                style={{ background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)', color: '#f59e0b' }}>
+                Próxima fase
+              </span>
+            </div>
+            <div className="p-5 space-y-4">
+              <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                Conecty actualmente lleva el control de visitas en Excel y usa Google Forms para check-in/out. Buscan asignar rutas desde el CRM. <strong className="text-white/70">HubSpot no tiene geolocalización avanzada de forma nativa</strong>, por lo que se evaluarán las siguientes opciones:
+              </p>
+              <div className="space-y-2.5">
+                {[
+                  {
+                    num: '1',
+                    titulo: 'Gestión de ruteos en HubSpot',
+                    desc: 'Check-in y check-out mediante registros de reuniones en HubSpot, asociados a empresas y negocios — igual al flujo actual en Forms, pero centralizado en el CRM. Sin geolocalización.',
+                  },
+                  {
+                    num: '2',
+                    titulo: 'Desarrollo interno de geolocalización',
+                    desc: 'Geolocalización vía link personalizado, sin visualización de rutas en mapa ni seguimiento en tiempo real.',
+                  },
+                  {
+                    num: '3',
+                    titulo: 'App del Marketplace de HubSpot',
+                    desc: 'Solución de terceros disponible en el marketplace de HubSpot para cubrir la necesidad completa según los requerimientos definitivos del equipo.',
+                  },
+                ].map((op) => (
+                  <div key={op.num} className="flex gap-3 rounded-xl p-3"
+                    style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                      style={{ background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)' }}>
+                      <span className="font-poppins font-black text-[12px] text-[#f59e0b]">{op.num}</span>
+                    </div>
+                    <div>
+                      <p className="font-poppins font-semibold text-white/80 text-[14px] mb-0.5">{op.titulo}</p>
+                      <p className="font-lato text-white/45 text-[13px] leading-relaxed">{op.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1"
+                style={{ borderTop: '1px solid rgba(255,255,255,.06)', paddingTop: '12px' }}>
+                Esta fase fue omitida de la propuesta inicial para no encarecer ni retrasar el proyecto. Se definirá el alcance en reunión posterior, considerando la posible integración con la herramienta corporativa de Tigo para rastreo en tiempo real.
               </p>
             </div>
           </div>
@@ -741,14 +826,14 @@ const ConnectyProposal = () => {
             <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
               {[
                 ['Usuarios configurados',          '11 usuarios · 3 equipos · reglas de permisos'],
-                ['Pipelines',                       '2 pipelines con etapas, criterios y propietarios'],
-                ['Propiedades personalizadas',      'Hasta 15 por objeto × 4 objetos = hasta 60 propiedades'],
+                ['Pipeline de ventas',              '1 pipeline (Adquisición) con etapas, criterios y propietarios'],
+                ['Propiedades personalizadas',      'Hasta 15 por objeto × 4 objetos (contactos, empresas, negocios, órdenes) = hasta 60 propiedades'],
                 ['Vistas personalizadas',           '1 índice + 1 registro × 4 objetos = hasta 8 vistas'],
-                ['Automatizaciones',                'Hasta 13 (5 ventas + 5 fidelización + 3 post-cotización)'],
+                ['Automatizaciones',                'Hasta 20 (5 ventas + 5 operación + 5 sostenimiento + 5 fidelización)'],
                 ['Dashboards',                      '3 dashboards predeterminados'],
-                ['Informes personalizados',         'Hasta 10 (5 por pipeline)'],
-                ['Integraciones',                   'ERP Panel + SIIGO + Omnisend/Marketing Hub'],
-                ['Sesiones de capacitación',        '3 sesiones (campo · operación · gerencial)'],
+                ['Informes personalizados',         'Hasta 10 informes personalizados'],
+                ['Integraciones',                   'ERP · SIIGO · SU (acompañamiento)'],
+                ['Sesiones de capacitación',        '12 sesiones (5 comercial · 5 operación · 2 gerencial)'],
                 ['Documentación entregada',         'Guías por rol + grabaciones de sesiones'],
               ].map(([label, value], i) => (
                 <div key={i} className="flex flex-col sm:flex-row sm:items-center px-5 py-3 gap-1 sm:gap-0">
@@ -787,7 +872,7 @@ const ConnectyProposal = () => {
                   '✓ Contexto y planificación',
                   '✓ Implementación completa HubSpot',
                   '✓ Automatizaciones y fidelización',
-                  '✓ Integración ERP Panel',
+                  '✓ Integración ERP',
                   '✓ Integración SIIGO',
                   '✓ Acompañamiento integración SU',
                   '✓ Estrategia email marketing',
@@ -919,7 +1004,7 @@ const ConnectyProposal = () => {
               { titulo: 'Horas adicionales — Integración ERP', desc: 'La integración del ERP "Panel" incluye hasta 5 horas de acompañamiento técnico. Si el alcance técnico supera este tope, las horas adicionales se facturan a un precio fijo por hora acordado previamente con el cliente.', icon: Database },
               { titulo: 'Licencias de HubSpot', desc: 'Los costos de licenciamiento de HubSpot (Sales Hub, licencias operativas) no están incluidos en esta propuesta y se cotizarán en un documento separado. Sixteam.pro puede acompañar la gestión del contrato directamente con HubSpot.', icon: Info },
               { titulo: 'Modificaciones al Alcance', desc: 'Cualquier solicitud de servicio, integración o funcionalidad no estipulada explícitamente requerirá una nueva cotización y podrá afectar los tiempos de entrega.', icon: AlertCircle },
-              { titulo: 'Inicio del Proyecto', desc: 'El cronograma comienza desde la recepción del primer pago y la entrega de accesos e información necesaria (HubSpot, ERP Panel, SIIGO según la etapa).', icon: Zap },
+              { titulo: 'Inicio del Proyecto', desc: 'El cronograma comienza desde la recepción del primer pago y la entrega de accesos e información necesaria (HubSpot, ERP, SIIGO según la etapa).', icon: Zap },
               { titulo: 'Vigencia de la Propuesta', desc: 'Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión. Pasado este plazo, los valores podrán ser revisados según condiciones del mercado.', icon: Clock },
             ].map((item, i) => {
               const Icon = item.icon;

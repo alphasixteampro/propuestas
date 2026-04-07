@@ -141,7 +141,7 @@ export default function Home() {
                   overflow: 'hidden'
                 }}>
                   {p.slug === 'conecty' ? (
-                    <img src="/conecty-logo.png" alt="Conecty" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                    <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   ) : p.slug === 'stunet' ? (
                     <img src="/stunet-logo.png" alt="Stunet" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   ) : (
