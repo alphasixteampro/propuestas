@@ -44,7 +44,7 @@ body {
   display: flex;
   gap: 3rem;
   align-items: center;
-  animation: scroll-logos 30s linear infinite;
+  animation: scroll-logos 40s linear infinite;
   width: max-content;
 }
 

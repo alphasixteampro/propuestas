@@ -31,11 +31,11 @@ const defaultLogos = [
 const sliderLogos = [...defaultLogos, ...defaultLogos];
 
 const LogoCarousel: React.FC<LogoSliderProps> = ({ 
-  title = "Agencias y marcas que confían en nosotros", 
+  title = "Marcas que confían y han confiado en nuestro equipo",
   logos = sliderLogos 
 }) => {
   return (
-    <section className="py-14 bg-[#081c36] border-y border-[#1d70a2]/15">
+    <section className="py-14 bg-transparent border-y border-[#1d70a2]/15">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {title && (
           <p className="text-center text-[#e0e0e0]/40 text-xs uppercase tracking-widest font-medium mb-8">

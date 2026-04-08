@@ -5,7 +5,7 @@ import {
   AlertCircle, TrendingUp, ArrowRight,
   Calendar, Info, MapPin,
   Wifi, Link2, Settings, Users, Database, BellRing, LayoutDashboard,
-  GitBranch, SlidersHorizontal, GraduationCap, Layers, Rocket,
+  GitBranch, SlidersHorizontal, GraduationCap, Layers, Rocket, Mail,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -117,7 +117,7 @@ const ETAPAS = [
     descripcion: 'Se ejecutan las integraciones técnicas clave del ecosistema de Conecty con HubSpot: Panel (ERP propio) y SIIGO. Sixteam orienta y configura las automatizaciones en HubSpot; el desarrollo lo ejecutan los equipos internos de Conecty.',
     actividades: [
       { text: 'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo' },
-      { text: 'Acompañamiento al equipo de ERP para la integración ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por cotización registrada)' },
+      { text: 'Configuraciones de HubSpot necesarias para recibir la data del ERP: propiedades personalizadas, pipelines y 3 automatizaciones de tareas sobre las cotizaciones registradas' },
       { text: 'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora' },
       { text: 'Entrega de documentación técnica de integraciones' },
     ] as Actividad[],
@@ -227,9 +227,8 @@ const DESGLOSE_HS = [
       'Dashboard B2B principal: embudo comercial, visitas realizadas, tareas pendientes, negocios abiertos',
       'Dashboard de presupuesto y ventas: meta mensual vs. ventas acumuladas por asesor y equipo',
       'Dashboard de productividad del asesor: visitas, conversión por etapa, oportunidades abiertas',
-      'Hasta 5 informes personalizados en pipeline Adquisición',
-      'Hasta 5 informes personalizados en pipeline Crecimiento',
-      'Total: hasta 10 informes personalizados + 3 dashboards predeterminados',
+      'Hasta 10 informes personalizados sobre el pipeline Adquisición (productividad, embudo, presupuesto mensual, conversión por etapa)',
+      'Total: hasta 10 informes personalizados + 3 dashboards a la medida',
     ],
   },
   {
@@ -237,9 +236,10 @@ const DESGLOSE_HS = [
     icon: Link2,
     color: '#f87171',
     items: [
-      'ERP → HubSpot: Sixteam configura las automatizaciones de seguimiento en HubSpot (hasta 3 tareas automáticas por orden registrada) y acompaña al equipo de ERP para que puedan realizar la integración ERP → HubSpot',
-      'SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático en HubSpot. Cada mañana n8n consulta SIIGO, calcula saldos vencidos por cliente y los escribe en HubSpot — con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora',
-      'Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty para conectar Panel con HubSpot — Sixteam no ejecuta el desarrollo',
+      'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo',
+      'Configuraciones de HubSpot necesarias para recibir la data del ERP: propiedades personalizadas, pipelines y 3 automatizaciones de tareas sobre las cotizaciones registradas',
+      'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora',
+      'Entrega de documentación técnica de integraciones',
     ],
   },
   {
@@ -334,7 +334,7 @@ const ConnectyProposal = () => {
 
       {/* ══════════ PORTADA */}
       <header className="relative min-h-screen flex flex-col overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #04111f 0%, #071826 55%, #091f34 100%)' }}>
+        style={{ background: 'linear-gradient(135deg, #010408 0%, #020810 55%, #030d1a 100%)' }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full"
             style={{ background: 'radial-gradient(circle, rgba(14,165,233,.06) 0%, transparent 65%)' }} />
@@ -446,7 +446,7 @@ const ConnectyProposal = () => {
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="cover-glow absolute w-80 h-80 rounded-full"
                   style={{ background: 'radial-gradient(circle, rgba(14,165,233,.10) 0%, rgba(29,112,162,.05) 50%, transparent 70%)' }} />
-                <div className="cover-ring-1 absolute w-96 h-96 rounded-full" style={{ border: ' 1px solid rgba(14,165,233,.12)' }} />
+                <div className="cover-ring-1 absolute w-96 h-96 rounded-full" style={{ border: '1px solid rgba(14,165,233,.12)' }} />
                 <div className="cover-ring-2 absolute w-64 h-64 rounded-full" style={{ border: '1px dashed rgba(29,112,162,.15)' }} />
                 <div className="cover-ring-1 absolute w-96 h-96 rounded-full flex items-start justify-center">
                   <div className="w-2 h-2 rounded-full -mt-1" style={{ background: '#00bfa5', boxShadow: '0 0 8px rgba(0,191,165,.8)' }} />
@@ -472,7 +472,7 @@ const ConnectyProposal = () => {
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-64 h-32 flex items-center justify-center p-3">
                     <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" className="w-full h-full object-contain"
-                      style={{ filter: `drop-shadow(0 2px 20px rgba(14,165,233,.4))` }} />
+                      style={{ filter: `drop-shadow(0 2px 20px rgba(14,165,233,.5))` }} />
                   </div>
                   <div className="text-center">
                     <span className="font-poppins font-black text-white text-[28px] tracking-tight">Conecty</span>
@@ -502,7 +502,7 @@ const ConnectyProposal = () => {
           <Rule />
 
           <div className="rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row gap-5 sm:gap-8 items-start sm:items-center"
-            style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.07)' }}>
+            style={{ background: 'rgba(2,8,20,.85)', border: '1px solid rgba(14,165,233,.18)' }}>
             <div className="flex-shrink-0 flex flex-col items-center gap-2">
               <div className="w-24 h-24 flex items-center justify-center p-2.5">
                 <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" className="w-full h-full object-contain" />
@@ -648,7 +648,7 @@ const ConnectyProposal = () => {
                             </span>
                           )}
                         </div>
-                        <p className="font-lato text-white/40 text-[15px] mt-0.5">{et.descripcion.slice(0, 80)}…</p>
+                        <p className="font-lato text-white/40 text-[15px] mt-0.5 line-clamp-1">{et.descripcion}</p>
                       </div>
                       <div className="flex items-center gap-3 flex-shrink-0 ml-2">
                         <div className="text-right hidden sm:block">
@@ -712,58 +712,104 @@ const ConnectyProposal = () => {
             </div>
           </div>
 
-          {/* Card Fase 2 Futura — Geolocalización */}
+          {/* Card Fase 2 Futura — Geolocalización + Marketing Hub */}
           <div className="mt-6 rounded-2xl overflow-hidden"
             style={{ background: 'rgba(245,158,11,.04)', border: '1px solid rgba(245,158,11,.22)' }}>
             <div className="px-5 py-3 flex items-center justify-between"
               style={{ background: 'rgba(245,158,11,.07)', borderBottom: '1px solid rgba(245,158,11,.15)' }}>
               <div className="flex items-center gap-2.5">
-                <MapPin className="w-4 h-4 text-[#f59e0b]" />
-                <span className="font-poppins font-bold text-white/80 text-[15px]">Fase 2 — Geolocalización y Rutas de Campo</span>
+                <Rocket className="w-4 h-4 text-[#f59e0b]" />
+                <span className="font-poppins font-bold text-white/80 text-[15px]">Fase 2 — Geolocalización + Marketing Hub</span>
               </div>
               <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
                 style={{ background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)', color: '#f59e0b' }}>
                 Próxima fase
               </span>
             </div>
-            <div className="p-5 space-y-4">
-              <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                Conecty actualmente lleva el control de visitas en Excel y usa Google Forms para check-in/out. Buscan asignar rutas desde el CRM. <strong className="text-white/70">HubSpot no tiene geolocalización avanzada de forma nativa</strong>, por lo que se evaluarán las siguientes opciones:
-              </p>
-              <div className="space-y-2.5">
-                {[
-                  {
-                    num: '1',
-                    titulo: 'Gestión de ruteos en HubSpot',
-                    desc: 'Check-in y check-out mediante registros de reuniones en HubSpot, asociados a empresas y negocios — igual al flujo actual en Forms, pero centralizado en el CRM. Sin geolocalización.',
-                  },
-                  {
-                    num: '2',
-                    titulo: 'Desarrollo interno de geolocalización',
-                    desc: 'Geolocalización vía link personalizado, sin visualización de rutas en mapa ni seguimiento en tiempo real.',
-                  },
-                  {
-                    num: '3',
-                    titulo: 'App del Marketplace de HubSpot',
-                    desc: 'Solución de terceros disponible en el marketplace de HubSpot para cubrir la necesidad completa según los requerimientos definitivos del equipo.',
-                  },
-                ].map((op) => (
-                  <div key={op.num} className="flex gap-3 rounded-xl p-3"
-                    style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                      style={{ background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)' }}>
-                      <span className="font-poppins font-black text-[12px] text-[#f59e0b]">{op.num}</span>
+            <div className="p-5 space-y-6">
+
+              {/* ── Bloque A — Geolocalización ── */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#f59e0b]" />
+                  <span className="font-poppins font-bold text-white/75 text-[14px] uppercase tracking-wider">A · Geolocalización y Rutas de Campo</span>
+                </div>
+                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                  Conecty actualmente lleva el control de visitas en Excel y usa Google Forms para check-in/out. Buscan asignar rutas desde el CRM. <strong className="text-white/70">HubSpot no tiene geolocalización avanzada de forma nativa</strong>, por lo que se evaluarán las siguientes opciones:
+                </p>
+                <div className="space-y-2.5">
+                  {[
+                    {
+                      num: '1',
+                      titulo: 'Gestión de ruteos en HubSpot',
+                      desc: 'Check-in y check-out mediante registros de reuniones en HubSpot, asociados a empresas y negocios — igual al flujo actual en Forms, pero centralizado en el CRM. Sin geolocalización.',
+                    },
+                    {
+                      num: '2',
+                      titulo: 'Desarrollo interno de geolocalización',
+                      desc: 'Geolocalización vía link personalizado, sin visualización de rutas en mapa ni seguimiento en tiempo real.',
+                    },
+                    {
+                      num: '3',
+                      titulo: 'App del Marketplace de HubSpot',
+                      desc: 'Solución de terceros disponible en el marketplace de HubSpot para cubrir la necesidad completa según los requerimientos definitivos del equipo.',
+                    },
+                  ].map((op) => (
+                    <div key={op.num} className="flex gap-3 rounded-xl p-3"
+                      style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                        style={{ background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)' }}>
+                        <span className="font-poppins font-black text-[12px] text-[#f59e0b]">{op.num}</span>
+                      </div>
+                      <div>
+                        <p className="font-poppins font-semibold text-white/80 text-[14px] mb-0.5">{op.titulo}</p>
+                        <p className="font-lato text-white/45 text-[13px] leading-relaxed">{op.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-poppins font-semibold text-white/80 text-[14px] mb-0.5">{op.titulo}</p>
-                      <p className="font-lato text-white/45 text-[13px] leading-relaxed">{op.desc}</p>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
+
+              {/* ── Bloque B — Marketing Hub / Herramienta de Marketing ── */}
+              <div className="space-y-4 pt-5" style={{ borderTop: '1px solid rgba(245,158,11,.15)' }}>
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#f472b6]" />
+                  <span className="font-poppins font-bold text-white/75 text-[14px] uppercase tracking-wider">B · Marketing Hub o Herramienta de Marketing</span>
+                </div>
+                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                  Una vez estabilizada la operación comercial sobre HubSpot, el siguiente salto es activar el <strong className="text-white/70">canal de marketing</strong> para nutrir distribuidores, reactivar cartera dormida y generar demanda B2B de forma automatizada. Se evaluarán las siguientes opciones:
+                </p>
+                <div className="space-y-2.5">
+                  {[
+                    {
+                      num: '1',
+                      titulo: 'HubSpot Marketing Hub',
+                      desc: 'Activación del módulo nativo de HubSpot: email marketing, listas inteligentes, landing pages, formularios avanzados, workflows de nurturing y lead scoring — todo dentro del mismo CRM sin integraciones externas. Costo aproximado: COP 2.600.000 / mes para 2.000 contactos.',
+                    },
+                    {
+                      num: '2',
+                      titulo: 'Integración con herramienta externa',
+                      desc: 'Conexión de una herramienta de marketing alternativa (Mailchimp, ActiveCampaign, Brevo u otra) con HubSpot vía integración nativa o n8n. Útil si Conecty ya tiene licencias activas o prefiere una solución más económica. Costo aproximado: desde COP 200.000 / mes para 2.000 contactos.',
+                    },
+                  ].map((op) => (
+                    <div key={op.num} className="flex gap-3 rounded-xl p-3"
+                      style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.06)' }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                        style={{ background: 'rgba(244,114,182,.15)', border: '1px solid rgba(244,114,182,.35)' }}>
+                        <span className="font-poppins font-black text-[12px] text-[#f472b6]">{op.num}</span>
+                      </div>
+                      <div>
+                        <p className="font-poppins font-semibold text-white/80 text-[14px] mb-0.5">{op.titulo}</p>
+                        <p className="font-lato text-white/45 text-[13px] leading-relaxed">{op.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1"
                 style={{ borderTop: '1px solid rgba(255,255,255,.06)', paddingTop: '12px' }}>
-                Esta fase fue omitida de la propuesta inicial para no encarecer ni retrasar el proyecto. Se definirá el alcance en reunión posterior, considerando la posible integración con la herramienta corporativa de Tigo para rastreo en tiempo real.
+                Esta fase fue omitida de la propuesta inicial para no encarecer ni retrasar el proyecto. Se definirá el alcance en reunión posterior, considerando la posible integración con la herramienta corporativa de Tigo para rastreo en tiempo real y el stack de marketing preferido por Conecty.
               </p>
             </div>
           </div>
@@ -816,37 +862,12 @@ const ConnectyProposal = () => {
             })}
           </div>
 
-          {/* Tabla resumen compacta */}
-          <div className="mt-8 rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,.08)' }}>
-            <div className="px-5 py-3" style={{ background: 'rgba(255,255,255,.04)' }}>
-              <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Resumen de entregables HubSpot</p>
-            </div>
-            <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-              {[
-                ['Usuarios configurados',          '10 usuarios · 4 equipos (Desarrollo, Sostenimiento, Operación, Masters) · reglas de permisos'],
-                ['Pipeline de ventas',              '1 pipeline (Adquisición) con etapas, criterios y propietarios'],
-                ['Propiedades personalizadas',      'Hasta 15 por objeto × 4 objetos (contactos, empresas, negocios, órdenes) = hasta 60 propiedades'],
-                ['Vistas personalizadas',           '1 índice + 1 registro × 4 objetos = hasta 8 vistas'],
-                ['Automatizaciones',                'Hasta 20 (5 ventas + 5 operación + 5 sostenimiento + 5 fidelización)'],
-                ['Dashboards',                      '3 dashboards predeterminados'],
-                ['Informes personalizados',         'Hasta 10 informes personalizados'],
-                ['Integraciones',                   'Panel · SIIGO'],
-                ['Sesiones de capacitación',        '12 sesiones (5 comercial · 5 operación · 2 gerencial)'],
-                ['Documentación entregada',         'Guías por rol + grabaciones de sesiones'],
-              ].map(([label, value], i) => (
-                <div key={i} className="flex flex-col sm:flex-row sm:items-center px-5 py-3 gap-1 sm:gap-0">
-                  <span className="font-poppins font-semibold text-white/70 text-[15px] sm:w-2/5">{label}</span>
-                  <span className="font-lato text-white/45 text-[15px]">{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* ─ 05 COTIZACIÓN ─ */}
         <section id="cotizacion" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Inversión</TagLabel>
+          <TagLabel>05 — Propuesta de Inversión</TagLabel>
           <SectionTitle>Un solo paquete. Un solo precio.</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
@@ -872,8 +893,6 @@ const ConnectyProposal = () => {
                   '✓ Automatizaciones y fidelización',
                   '✓ Integración ERP',
                   '✓ Integración SIIGO',
-                  '✓ Integración ERP Panel',
-                  '✓ Estrategia email marketing',
                   '✓ Capacitaciones al equipo',
                   '✓ Documentación y guías de uso',
                   '✓ Salida a producción acompañada',
@@ -893,7 +912,7 @@ const ConnectyProposal = () => {
               <BarChart3 className="w-4 h-4 text-[#00bfa5]" />
               <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Desglose de la inversión</p>
             </div>
-            <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+            <div className="divide-y divide-white/5">
               <div className="flex flex-col sm:flex-row sm:items-center px-5 py-4 gap-1 sm:gap-0">
                 <div className="sm:w-3/5">
                   <span className="font-poppins font-semibold text-white/85 text-[16px]">Integraciones — SIIGO + Panel</span>
@@ -943,12 +962,220 @@ const ConnectyProposal = () => {
 
           {/* Nota licencias */}
           <div className="rounded-xl p-4 sm:p-5 mb-8 flex gap-3"
-            style={{ background: 'rgba(14,165,233,.05)', border: 'rgba(14,165,233,.2) 1px solid' }}>
+            style={{ background: 'rgba(14,165,233,.05)', border: '1px solid rgba(14,165,233,.2)' }}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: CONECTY_BLUE }} />
             <div>
               <p className="font-poppins font-semibold text-white/80 text-[18px] mb-1">Sobre las licencias de HubSpot</p>
               <p className="font-lato text-white/50 text-[16px] leading-relaxed">
-                Las licencias de HubSpot Sales Hub (asesores comerciales) y las licencias operativas se cotizarán en un documento separado una vez se defina el plan exacto. Sixteam.pro es partner implementador de HubSpot y puede acompañar la gestión del contrato para Colombia.
+                Las licencias de HubSpot <strong className="text-white/70">no están incluidas</strong> en el valor de implementación de Sixteam.pro — se contratan directamente con HubSpot. A continuación encontrarás un estimado de la inversión en licenciamiento para el equipo de Conecty. Sixteam.pro es partner implementador y puede gestionar el contrato para Colombia.
+              </p>
+            </div>
+          </div>
+
+          {/* ── INVERSIÓN LICENCIAS HUBSPOT ── */}
+          <div className="mb-8">
+
+            {/* Header banner combinado */}
+            <div className="rounded-2xl p-5 sm:p-6 mb-6 relative overflow-hidden"
+              style={{ background: 'linear-gradient(135deg, rgba(255,122,89,.07) 0%, rgba(3,13,26,.95) 55%, rgba(0,191,165,.04) 100%)', border: '1px solid rgba(255,122,89,.22)' }}>
+              <div className="absolute -top-12 -left-12 w-48 h-48 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(255,122,89,.10) 0%, transparent 70%)' }} />
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full pointer-events-none"
+                style={{ background: 'radial-gradient(circle, rgba(0,191,165,.06) 0%, transparent 70%)' }} />
+
+              <div className="relative z-10 flex flex-wrap items-center gap-3 mb-4">
+                {/* Badge HubSpot */}
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                  style={{ background: 'rgba(255,122,89,.13)', border: '1px solid rgba(255,122,89,.32)' }}>
+                  <div className="w-4 h-4 rounded-full flex-shrink-0" style={{ background: '#FF7A59' }} />
+                  <span className="font-poppins font-black text-[14px]" style={{ color: '#FF7A59' }}>HubSpot</span>
+                  <span className="font-lato text-white/50 text-[13px]">Sales Hub Pro</span>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 text-white/20 flex-shrink-0" />
+                {/* Badge Sixteam partner */}
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+                  style={{ background: 'rgba(0,191,165,.08)', border: '1px solid rgba(0,191,165,.25)' }}>
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#00bfa5', boxShadow: '0 0 5px rgba(0,191,165,.6)' }} />
+                  <span className="font-lato text-[#00bfa5] text-[13px] font-medium">Sixteam.pro · Partner Implementador</span>
+                </div>
+              </div>
+
+              <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+                <p className="font-lato text-white/45 text-[15px] leading-relaxed max-w-lg">
+                  Costos de licenciamiento en <strong className="text-white/65">pesos colombianos (COP)</strong> con facturación anual. Los impuestos no están incluidos. Sixteam.pro gestiona el contrato directamente con HubSpot para Colombia.
+                </p>
+                <span className="font-lato text-white/20 text-[12px] uppercase tracking-widest flex-shrink-0">Cotización · Abril 2026</span>
+              </div>
+            </div>
+
+            {/* Tabla cuotas recurrentes */}
+            <div className="rounded-xl overflow-hidden mb-4" style={{ border: '1px solid rgba(255,122,89,.18)' }}>
+              {/* Header tabla */}
+              <div className="px-5 py-3 flex items-center justify-between"
+                style={{ background: 'linear-gradient(90deg, rgba(255,122,89,.10) 0%, rgba(255,255,255,.03) 100%)', borderBottom: '1px solid rgba(255,122,89,.12)' }}>
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4" style={{ color: '#FF7A59' }} />
+                  <p className="font-poppins font-semibold text-white/65 text-[13px] uppercase tracking-wider">Cuotas recurrentes</p>
+                </div>
+                <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
+                  style={{ background: 'rgba(255,122,89,.12)', border: '1px solid rgba(255,122,89,.28)', color: '#FF7A59' }}>
+                  Facturación anual
+                </span>
+              </div>
+
+              {/* Encabezado columnas */}
+              <div className="hidden sm:grid px-5 py-2 font-lato text-white/20 text-[11px] uppercase tracking-wider"
+                style={{ gridTemplateColumns: '2.5fr 0.7fr 1.3fr 1.5fr', background: 'rgba(255,255,255,.015)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+                <span>Tipo de licencia</span>
+                <span className="text-center">Usuarios</span>
+                <span className="text-center">COP / usuario / mes</span>
+                <span className="text-right">Total / mes</span>
+              </div>
+
+              <div className="divide-y divide-white/5">
+                {/* Fila 1 — Sales Hub Pro */}
+                <div className="px-5 py-4">
+                  <div className="sm:hidden">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-poppins font-semibold text-white/85 text-[15px]">Sales Hub Pro</p>
+                        <p className="font-lato text-white/35 text-[13px] mt-0.5">6 licencias · Desarrollo, Sostenimiento</p>
+                      </div>
+                      <span className="font-lato text-[11px] px-2 py-0.5 rounded-full flex-shrink-0"
+                        style={{ background: 'rgba(255,122,89,.12)', border: '1px solid rgba(255,122,89,.28)', color: '#FF7A59' }}>-10%</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-3">
+                      <span className="font-lato text-white/25 text-[13px] line-through">COP 1.800.000</span>
+                      <span className="font-poppins font-black text-white text-[18px]">COP 1.620.000</span>
+                    </div>
+                  </div>
+                  <div className="hidden sm:grid items-center gap-0"
+                    style={{ gridTemplateColumns: '2.5fr 0.7fr 1.3fr 1.5fr' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #FF7A59, rgba(255,122,89,.2))' }} />
+                      <div>
+                        <p className="font-poppins font-semibold text-white/85 text-[15px]">Sales Hub Pro</p>
+                        <p className="font-lato text-white/35 text-[13px] mt-0.5">Desarrollo · Sostenimiento</p>
+                      </div>
+                    </div>
+                    <p className="font-poppins font-black text-white/60 text-[22px] text-center">6</p>
+                    <div className="text-center">
+                      <span className="font-lato text-white/20 text-[12px] line-through block">COP 300.000</span>
+                      <span className="font-poppins font-semibold text-[15px]" style={{ color: '#FF7A59' }}>COP 270.000</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-lato text-white/20 text-[12px] line-through block">COP 1.800.000</span>
+                      <span className="font-poppins font-black text-white text-[17px]">COP 1.620.000</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Fila 2 — Licencias Principales */}
+                <div className="px-5 py-4">
+                  <div className="sm:hidden">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-poppins font-semibold text-white/85 text-[15px]">Licencias Principales</p>
+                        <p className="font-lato text-white/35 text-[13px] mt-0.5">4 licencias · Masters · Operación</p>
+                      </div>
+                      <span className="font-lato text-[11px] px-2 py-0.5 rounded-full flex-shrink-0"
+                        style={{ background: 'rgba(255,122,89,.12)', border: '1px solid rgba(255,122,89,.28)', color: '#FF7A59' }}>-10%</span>
+                    </div>
+                    <div className="flex items-center justify-between mt-3">
+                      <span className="font-lato text-white/25 text-[13px] line-through">COP 600.000</span>
+                      <span className="font-poppins font-black text-white text-[18px]">COP 540.000</span>
+                    </div>
+                  </div>
+                  <div className="hidden sm:grid items-center gap-0"
+                    style={{ gridTemplateColumns: '2.5fr 0.7fr 1.3fr 1.5fr' }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #FF7A59, rgba(255,122,89,.2))' }} />
+                      <div>
+                        <p className="font-poppins font-semibold text-white/85 text-[15px]">Licencias Principales</p>
+                        <p className="font-lato text-white/35 text-[13px] mt-0.5">Masters · Operación</p>
+                      </div>
+                    </div>
+                    <p className="font-poppins font-black text-white/60 text-[22px] text-center">4</p>
+                    <div className="text-center">
+                      <span className="font-lato text-white/20 text-[12px] line-through block">COP 150.000</span>
+                      <span className="font-poppins font-semibold text-[15px]" style={{ color: '#FF7A59' }}>COP 135.000</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-lato text-white/20 text-[12px] line-through block">COP 600.000</span>
+                      <span className="font-poppins font-black text-white text-[17px]">COP 540.000</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Total mensual */}
+                <div className="flex flex-wrap items-center justify-between gap-2 px-5 py-3.5"
+                  style={{ background: 'linear-gradient(90deg, rgba(255,122,89,.09) 0%, rgba(255,255,255,.02) 100%)', borderTop: '1px solid rgba(255,122,89,.18)' }}>
+                  <div className="flex items-center gap-2">
+                    <span className="font-poppins font-bold text-[13px] uppercase tracking-wider" style={{ color: '#FF7A59' }}>Total mensual</span>
+                    <span className="font-lato text-white/25 text-[12px]">· 10 usuarios · plan anual</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="font-lato text-white/20 text-[13px] line-through">COP 2.400.000</span>
+                    <span className="font-poppins font-black text-[19px]" style={{ color: '#FF7A59' }}>COP 2.160.000 / mes</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Cuota única incorporación */}
+            <div className="rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-5 py-4 mb-5"
+              style={{ background: 'rgba(255,122,89,.05)', border: '1px solid rgba(255,122,89,.18)' }}>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(255,122,89,.15)', border: '1px solid rgba(255,122,89,.3)' }}>
+                  <Zap className="w-4 h-4" style={{ color: '#FF7A59' }} />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-0.5">
+                    <p className="font-poppins font-semibold text-white/85 text-[15px]">Incorporación de Sales Hub Pro</p>
+                    <span className="font-lato font-semibold text-[11px] px-2 py-0.5 rounded-full"
+                      style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>
+                      ✓ Se anula — Sixteam la implementa
+                    </span>
+                  </div>
+                  <p className="font-lato text-white/35 text-[13px]">Cuota única obligatoria · Se paga una sola vez al contratar</p>
+                </div>
+              </div>
+              <span className="font-poppins font-black text-white/25 text-[20px] sm:ml-4 flex-shrink-0 line-through">COP 4.500.000</span>
+            </div>
+
+            {/* Cards resumen */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+              <div className="rounded-xl p-5 relative overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, rgba(255,122,89,.10) 0%, rgba(3,13,26,.8) 100%)', border: '1px solid rgba(255,122,89,.28)' }}>
+                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full pointer-events-none"
+                  style={{ background: 'radial-gradient(circle, rgba(255,122,89,.12), transparent 70%)' }} />
+                <p className="font-lato text-white/35 text-[12px] uppercase tracking-wider mb-2">Mensual · plan anual</p>
+                <p className="font-poppins font-black text-[22px] leading-tight" style={{ color: '#FF7A59' }}>COP 2.160.000</p>
+                <p className="font-lato text-white/35 text-[13px] mt-1.5">COP 25.920.000 / año</p>
+              </div>
+              <div className="rounded-xl p-5 relative overflow-hidden"
+                style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
+                <p className="font-lato text-white/35 text-[12px] uppercase tracking-wider mb-2">Precio inicial aproximado</p>
+                <p className="font-poppins font-black text-[22px] leading-tight text-white">COP 30.420.000</p>
+                <p className="font-lato text-white/35 text-[13px] mt-1.5">Anual + incorporación única</p>
+              </div>
+              <div className="rounded-xl p-5 relative overflow-hidden"
+                style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.06) 0%, rgba(3,13,26,.8) 100%)', border: '1px solid rgba(0,191,165,.22)' }}>
+                <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full pointer-events-none"
+                  style={{ background: 'radial-gradient(circle, rgba(0,191,165,.08), transparent 70%)' }} />
+                <p className="font-lato text-white/35 text-[12px] uppercase tracking-wider mb-2">Ahorro vs. mensual</p>
+                <p className="font-poppins font-black text-[22px] leading-tight" style={{ color: '#00bfa5' }}>COP 2.880.000</p>
+                <p className="font-lato text-white/35 text-[13px] mt-1.5">Al contratar plan anual</p>
+              </div>
+            </div>
+
+            {/* Nota disclaimer */}
+            <div className="rounded-xl p-4 flex gap-3"
+              style={{ background: 'rgba(255,122,89,.04)', border: '1px solid rgba(255,122,89,.15)' }}>
+              <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#FF7A59' }} />
+              <p className="font-lato text-white/45 text-[15px] leading-relaxed">
+                Valores según cotización HubSpot a abril 2026. Los impuestos aplicables no están incluidos y las tarifas están sujetas a cambios. <strong className="text-white/65">Sixteam.pro gestiona el contrato directamente con HubSpot para Colombia.</strong>
               </p>
             </div>
           </div>
@@ -989,6 +1216,11 @@ const ConnectyProposal = () => {
           </div>
         </section>
 
+        {/* ── LOGOS DE CLIENTES ── */}
+        <div className="mt-16">
+          <LogoCarousel />
+        </div>
+
         {/* ─ 06 VIGENCIA ─ */}
         <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -1018,11 +1250,6 @@ const ConnectyProposal = () => {
                 </div>
               );
             })}
-          </div>
-
-          {/* ── LOGOS DE CLIENTES ── */}
-          <div className="mt-16">
-            <LogoCarousel />
           </div>
 
           {/* Footer */}
