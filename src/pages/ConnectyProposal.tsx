@@ -116,7 +116,7 @@ const ETAPAS = [
     colorBorder: 'rgba(167,139,250,.3)',
     descripcion: 'Se ejecutan las integraciones técnicas clave del ecosistema de Conecty con HubSpot: Panel (ERP propio) y SIIGO. Sixteam orienta y configura las automatizaciones en HubSpot; el desarrollo lo ejecutan los equipos internos de Conecty.',
     actividades: [
-      { text: 'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo' },
+      { text: 'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo (5 horas de acompañamiento)' },
       { text: 'Configuraciones de HubSpot necesarias para recibir la data del ERP: propiedades personalizadas, pipelines y 3 automatizaciones de tareas sobre las cotizaciones registradas' },
       { text: 'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora' },
       { text: 'Entrega de documentación técnica de integraciones' },
@@ -236,7 +236,7 @@ const DESGLOSE_HS = [
     icon: Link2,
     color: '#f87171',
     items: [
-      'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo',
+      'Acompañamiento estratégico integración Panel (ERP propio de Conecty) ↔ HubSpot: Sixteam orienta y asesora al equipo de desarrollo de Conecty — Sixteam no ejecuta el desarrollo (5 horas de acompañamiento)',
       'Configuraciones de HubSpot necesarias para recibir la data del ERP: propiedades personalizadas, pipelines y 3 automatizaciones de tareas sobre las cotizaciones registradas',
       'Integración SIIGO → HubSpot vía n8n: Conecty reemplaza su Excel de cartera por un informe automático dentro de HubSpot. Cada mañana n8n consulta SIIGO, calcula los saldos vencidos por cliente y los escribe en HubSpot — sin intervención humana, con alertas automáticas a gerencia cuando un cliente supera los 91 días de mora',
       'Entrega de documentación técnica de integraciones',
