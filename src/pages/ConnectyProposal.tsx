@@ -789,7 +789,7 @@ const ConnectyProposal = () => {
                     {
                       num: '2',
                       titulo: 'Integración con herramienta externa',
-                      desc: 'Conexión de una herramienta de marketing alternativa (Mailchimp, ActiveCampaign, Brevo u otra) con HubSpot vía integración nativa o n8n. Útil si Conecty ya tiene licencias activas o prefiere una solución más económica. Costo aproximado: desde COP 200.000 / mes para 2.000 contactos.',
+                      desc: 'Conexión de una herramienta de marketing alternativa (Mailchimp, ActiveCampaign, Brevo u otra) con HubSpot vía integración nativa o n8n. Útil si Conecty ya tiene licencias activas o prefiere una solución más económica. Costo aproximado: desde COP 200.000 / mes para 2.000 contactos. ⚠ Si se desea automatización de emails, se deberá incurrir en un costo adicional de implementación de la integración con HubSpot — estimado en COP 500.000.',
                     },
                   ].map((op) => (
                     <div key={op.num} className="flex gap-3 rounded-xl p-3"
