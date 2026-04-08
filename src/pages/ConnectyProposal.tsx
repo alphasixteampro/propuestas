@@ -868,7 +868,7 @@ const ConnectyProposal = () => {
         <section id="cotizacion" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>05 — Propuesta de Inversión</TagLabel>
-          <SectionTitle>Un solo paquete. Un solo precio.</SectionTitle>
+          <SectionTitle>Propuesta de inversión para el crecimiento.</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
             El proyecto se cotiza como un conjunto integral. Valores en{' '}
