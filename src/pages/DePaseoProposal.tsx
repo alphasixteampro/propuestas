@@ -749,7 +749,25 @@ const DePaseoProposal = () => {
                 <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)' }}>
                   {PRECIO_IMPLEMENTACION}
                 </p>
-                <p className="font-lato text-white/35 text-[14px] mb-4">Pago único · Al inicio del proyecto</p>
+                <p className="font-lato text-white/35 text-[14px] mb-3">Pago único · Al inicio del proyecto</p>
+                {/* Nota modelo de pago */}
+                <div className="rounded-lg px-3 py-2.5 mb-3 flex gap-2 items-start"
+                  style={{ background: 'rgba(16,185,129,.07)', border: '1px solid rgba(16,185,129,.2)' }}>
+                  <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: PASEO_GREEN }} />
+                  <div>
+                    <p className="font-poppins font-semibold text-white/75 text-[13px] mb-1.5">Modelo de pago sugerido</p>
+                    <div className="flex flex-col gap-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-poppins font-black text-[14px] leading-none" style={{ color: PASEO_GREEN }}>50%</span>
+                        <span className="font-lato text-white/50 text-[12px]">al firmar e iniciar el proyecto</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-poppins font-black text-[14px] leading-none" style={{ color: PASEO_GREEN }}>50%</span>
+                        <span className="font-lato text-white/50 text-[12px]">al finalizar · durante la última semana de Salida a Producción</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <ul className="space-y-1.5">
                   {[
                     'Diseño funcional del agente IA',
