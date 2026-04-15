@@ -255,6 +255,7 @@ const DePaseoProposal = () => {
   const [desgloseActivo, setDesgloseActivo] = useState<number | null>(null);
   const [msgPerConv, setMsgPerConv] = useState(6);
   const [leadsPerMonth, setLeadsPerMonth] = useState(600);
+  const [showMetaTable, setShowMetaTable] = useState(false);
 
   const iaUSD = +(IA_USD_POR_MSG * msgPerConv * leadsPerMonth).toFixed(2);
   const iaCOP = Math.round(iaUSD * TRM_NUM);
@@ -825,12 +826,108 @@ const DePaseoProposal = () => {
               <p className="font-poppins font-semibold text-white/80 text-[17px]">Costos variables adicionales</p>
             </div>
             <div className="space-y-3">
+              {/* Mensajes plantilla Meta — bloque expandible */}
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                  <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> ~COP 100–200 por mensaje de seguimiento enviado fuera de la ventana de servicio. Este costo lo cobra Meta directamente y aplica solo a los seguimientos proactivos.{' '}
-                  <span className="font-lato text-[13px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
-                </p>
+                <div className="flex-1">
+                  <p className="font-lato text-white/55 text-[15px] leading-relaxed mb-2">
+                    <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> cada mensaje enviado fuera de la ventana de servicio de 24 h tiene un costo directo de Meta — <strong className="text-white/75">no es un cobro de Sixteam.pro</strong>. La tarifa varía según el país del número destinatario y el tipo de plantilla (Marketing o Utility).{' '}
+                    <span className="font-lato text-[13px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
+                  </p>
+
+                  {/* Highlight Colombia */}
+                  <div className="flex flex-wrap gap-3 mb-3">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                      style={{ background: 'rgba(16,185,129,.08)', border: '1px solid rgba(16,185,129,.2)' }}>
+                      <span className="font-poppins font-semibold text-white/80 text-[13px]">🇨🇴 Colombia</span>
+                      <span className="font-lato text-white/45 text-[12px]">Marketing</span>
+                      <span className="font-poppins font-bold text-[13px]" style={{ color: PASEO_GREEN }}>USD 0.0131</span>
+                      <span className="font-lato text-white/30 text-[11px]">|</span>
+                      <span className="font-lato text-white/45 text-[12px]">Utility</span>
+                      <span className="font-poppins font-bold text-[13px]" style={{ color: PASEO_GREEN }}>USD 0.0008</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                      style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
+                      <span className="font-lato text-white/40 text-[12px]">Service (atención)</span>
+                      <span className="font-poppins font-bold text-[#00bfa5] text-[13px]">FREE</span>
+                    </div>
+                  </div>
+
+                  {/* Botón expandir tabla */}
+                  <button onClick={() => setShowMetaTable(v => !v)}
+                    className="flex items-center gap-1.5 mb-2 transition-colors duration-200"
+                    style={{ color: showMetaTable ? '#f59e0b' : 'rgba(255,255,255,.3)' }}
+                    onMouseEnter={e => (e.currentTarget.style.color = '#f59e0b')}
+                    onMouseLeave={e => (e.currentTarget.style.color = showMetaTable ? '#f59e0b' : 'rgba(255,255,255,.3)')}>
+                    <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${showMetaTable ? 'rotate-90' : ''}`} />
+                    <span className="font-lato text-[13px]">{showMetaTable ? 'Ocultar' : 'Ver'} tarifas por país — fuente Meta</span>
+                  </button>
+
+                  {showMetaTable && (
+                    <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(245,158,11,.2)' }}>
+                      {/* Header tabla */}
+                      <div className="grid grid-cols-4 px-3 py-2 text-[11px] font-poppins font-semibold uppercase tracking-wider text-white/30"
+                        style={{ background: 'rgba(245,158,11,.06)', borderBottom: '1px solid rgba(245,158,11,.15)' }}>
+                        <span>País / Mercado</span>
+                        <span className="text-right">Marketing (USD)</span>
+                        <span className="text-right">Utility (USD)</span>
+                        <span className="text-right">Service</span>
+                      </div>
+                      {/* Filas */}
+                      <div className="divide-y max-h-72 overflow-y-auto" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
+                        {[
+                          ['🇦🇷 Argentina',                    '0.0649','0.0273'],
+                          ['🇧🇷 Brazil',                       '0.0656','0.0071'],
+                          ['🇨🇱 Chile',                        '0.0933','0.0210'],
+                          ['🇨🇴 Colombia',                     '0.0131','0.0008'],
+                          ['🇪🇬 Egypt',                        '0.0676','0.0038'],
+                          ['🇫🇷 France',                       '0.0902','0.0315'],
+                          ['🇩🇪 Germany',                      '0.1433','0.0578'],
+                          ['🇮🇳 India',                        '0.0124','0.0015'],
+                          ['🇮🇩 Indonesia',                    '0.0432','0.0263'],
+                          ['🇮🇱 Israel',                       '0.0371','0.0056'],
+                          ['🇮🇹 Italy',                        '0.0726','0.0315'],
+                          ['🇲🇾 Malaysia',                     '0.0903','0.0147'],
+                          ['🇲🇽 Mexico',                       '0.0320','0.0089'],
+                          ['🇳🇱 Netherlands',                  '0.1677','0.0525'],
+                          ['🇳🇬 Nigeria',                      '0.0542','0.0070'],
+                          ['🇵🇰 Pakistan',                     '0.0497','0.0057'],
+                          ['🇵🇪 Peru',                         '0.0738','0.0210'],
+                          ['🇷🇺 Russia',                       '0.0842','0.0420'],
+                          ['🇸🇦 Saudi Arabia',                 '0.0478','0.0112'],
+                          ['🇿🇦 South Africa',                 '0.0398','0.0080'],
+                          ['🇪🇸 Spain',                        '0.0646','0.0210'],
+                          ['🇹🇷 Turkey',                       '0.0114','0.0056'],
+                          ['🇦🇪 United Arab Emirates',         '0.0524','0.0165'],
+                          ['🇬🇧 United Kingdom',               '0.0555','0.0231'],
+                          ['🌎 North America',                  '0.0263','0.0036'],
+                          ['🌍 Rest of Africa',                 '0.0236','0.0042'],
+                          ['🌏 Rest of Asia Pacific',           '0.0769','0.0119'],
+                          ['🌍 Rest of C. & E. Europe',         '0.0903','0.0223'],
+                          ['🌎 Rest of Latin America',          '0.0777','0.0119'],
+                          ['🌍 Rest of Middle East',            '0.0358','0.0096'],
+                          ['🌍 Rest of Western Europe',         '0.0622','0.0180'],
+                          ['🌐 Other',                          '0.0634','0.0081'],
+                        ].map(([market, marketing, utility], i) => (
+                          <div key={i}
+                            className="grid grid-cols-4 px-3 py-2 items-center"
+                            style={{ background: market.includes('Colombia') ? 'rgba(16,185,129,.06)' : i % 2 === 0 ? 'rgba(255,255,255,.015)' : 'transparent' }}>
+                            <span className={`font-lato text-[13px] ${market.includes('Colombia') ? 'text-white/90 font-semibold' : 'text-white/60'}`}>{market}</span>
+                            <span className={`font-poppins font-semibold text-[13px] text-right ${market.includes('Colombia') ? '' : 'text-white/55'}`}
+                              style={{ color: market.includes('Colombia') ? PASEO_GREEN : undefined }}>{marketing}</span>
+                            <span className={`font-poppins font-semibold text-[13px] text-right ${market.includes('Colombia') ? '' : 'text-white/55'}`}
+                              style={{ color: market.includes('Colombia') ? PASEO_GREEN : undefined }}>{utility}</span>
+                            <span className="font-poppins font-bold text-[12px] text-right text-[#00bfa5]">FREE</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="px-3 py-2 text-[11px] font-lato text-white/25 text-center"
+                        style={{ borderTop: '1px solid rgba(245,158,11,.1)', background: 'rgba(245,158,11,.03)' }}>
+                        Fuente: Meta for Developers — WhatsApp Business Platform Pricing · Todos los valores en USD · Aplica por número destinatario
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
