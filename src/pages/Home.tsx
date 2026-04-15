@@ -39,6 +39,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/depaseo',
   },
+  {
+    slug: 'hotel-casa-rueda',
+    cliente: 'Hotel Casa Rueda',
+    sector: 'Hotelería · Alojamiento',
+    fecha: 'Abril 2026',
+    monto: 'COP 1.700.000',
+    estado: 'borrador',
+    path: '/hotel-casa-rueda',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
