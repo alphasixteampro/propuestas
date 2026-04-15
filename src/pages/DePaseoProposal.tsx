@@ -163,7 +163,7 @@ const DESGLOSE_PLAT = [
     color: '#1d70a2',
     items: [
       'Base de contactos centralizada: cada lead que entra se convierte automáticamente en un contacto con historial de conversación',
-      'Pipeline visual de ventas con etapas configuradas según el proceso de la agencia (Nuevo lead → En seguimiento → Cotización enviada → Cierre)',
+      'Hasta 2 pipelines (embudos de venta) configurados: uno para Planes de Viaje y otro para Hotel Eje Cafetero, con etapas adaptadas al proceso de cada producto',
       'Etapas iniciales automatizadas (contacto iniciado, transferido a asesor, en seguimiento) y etapas manuales gestionadas por el equipo',
       'Gestión de oportunidades: cada lead cualificado se convierte en una oportunidad de venta visible para todo el equipo',
       'Hasta 15 propiedades personalizadas en objeto Contactos (ej. destino de interés, fecha de viaje, número de personas, canal de origen)',
@@ -706,7 +706,7 @@ const DePaseoProposal = () => {
                 ['Canal WhatsApp',           'WhatsApp Business API · 1 número (1 cuenta)'],
                 ['Canales adicionales',      'Instagram · Messenger · Chat web'],
                 ['Usuarios incluidos',       '3 usuarios (Jose + 2 asesores)'],
-                ['Pipeline CRM',             '1 pipeline · hasta 15 prop. contactos · hasta 15 prop. oportunidades'],
+                ['Pipelines CRM',             'Hasta 2 (Planes de Viaje + Hotel) · 15 prop. contactos · 15 prop. oportunidades'],
                 ['Automatizaciones CRM',     'Hasta 6 automatizaciones (asignación, alertas, tareas)'],
                 ['Flujos de seguimiento',    '2 flujos: Atención Inicial de Leads + Atención Post Cotización'],
                 ['Routing de productos',     'Planes de viaje y Hotel identificados automáticamente'],
