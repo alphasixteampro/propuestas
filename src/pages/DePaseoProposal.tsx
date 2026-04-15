@@ -784,7 +784,11 @@ const DePaseoProposal = () => {
                   </p>
                   <span className="font-lato text-white/40 text-[16px] mb-1">/mes</span>
                 </div>
-                <p className="font-lato text-white/35 text-[14px] mb-4">Sixteam.pro Core · 3 usuarios · CRM + Agente IA</p>
+                <p className="font-lato text-white/35 text-[14px] mb-1">Sixteam.pro Core · 3 usuarios · CRM + Agente IA</p>
+                <p className="font-lato text-[12px] px-2 py-0.5 rounded-full self-start mb-4 inline-flex items-center gap-1"
+                  style={{ background: 'rgba(0,191,165,.1)', color: '#00bfa5', border: '1px solid rgba(0,191,165,.25)' }}>
+                  Facturación mes anticipado
+                </p>
                 <ul className="space-y-1.5">
                   {[
                     'Acceso completo a CRM y pipeline',
@@ -824,13 +828,16 @@ const DePaseoProposal = () => {
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
                 <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                  <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> ~COP 100–200 por mensaje de seguimiento enviado fuera de la ventana de servicio. Este costo lo cobra Meta directamente y aplica solo a los seguimientos proactivos.
+                  <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> ~COP 100–200 por mensaje de seguimiento enviado fuera de la ventana de servicio. Este costo lo cobra Meta directamente y aplica solo a los seguimientos proactivos.{' '}
+                  <span className="font-lato text-[13px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
                 </p>
               </div>
               <div className="flex items-start gap-2">
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
                 <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                  <strong className="text-white/75">Consumo de IA:</strong> costo variable según el volumen de conversaciones. Se factura mes a mes sobre el consumo real. Usa la calculadora a continuación para estimar tu costo mensual.
+                  <strong className="text-white/75">Consumo de IA:</strong> costo variable según el volumen de conversaciones. Se factura y cobra mes vencido sobre el consumo efectivo del período.{' '}
+                  <span className="font-lato text-[13px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
+                  {' '}Usa la calculadora a continuación para estimar tu costo mensual.
                 </p>
               </div>
             </div>
@@ -973,7 +980,7 @@ const DePaseoProposal = () => {
             {[
               { titulo: 'Vigencia de la propuesta', desc: 'Esta propuesta es válida por 30 días calendario a partir de la fecha de emisión. Pasado ese plazo, los precios y condiciones podrían estar sujetos a revisión según variaciones en la TRM o en los planes de la plataforma.' },
               { titulo: 'Inicio del proyecto', desc: 'El proyecto inicia una vez se firme el contrato de servicios y se realice el pago de la implementación. La fecha de inicio se acuerda en conjunto con el equipo de De Paseo por Colombia.' },
-              { titulo: 'Suscripción mensual', desc: 'La suscripción a Sixteam.pro Core se cobra mes vencido a partir del primer mes de operación activa. El primer período de facturación inicia al completar la Etapa 3 (Salida a Producción).' },
+              { titulo: 'Suscripción mensual', desc: 'La suscripción a Sixteam.pro Core se factura y cobra mes anticipado a partir del primer mes de operación activa. El primer período de facturación inicia al completar la Etapa 3 (Salida a Producción). El consumo de IA y las plantillas de mensajes automáticos se facturan y cobran mes vencido, según el consumo real determinado al cierre de cada período.' },
               { titulo: 'Propiedad del número de WhatsApp', desc: 'El número de WhatsApp pertenece a De Paseo por Colombia SAS. En caso de terminar la relación comercial, Sixteam.pro acompaña el proceso de desvinculación de la API para que el número pueda operar de forma independiente.' },
               { titulo: 'Confidencialidad', desc: 'Toda la información compartida por De Paseo por Colombia en el marco de este proyecto es tratada con estricta confidencialidad y no será divulgada a terceros sin autorización expresa.' },
             ].map((item, i) => (
