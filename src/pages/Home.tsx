@@ -30,6 +30,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/conecty',
   },
+  {
+    slug: 'depaseo',
+    cliente: 'De Paseo por Colombia SAS',
+    sector: 'Turismo receptivo · Agencia de viajes · Alojamiento',
+    fecha: 'Abril 2026',
+    monto: 'COP 1.821.465 + COP 728.586/mes',
+    estado: 'borrador',
+    path: '/depaseo',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
