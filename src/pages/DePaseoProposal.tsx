@@ -253,7 +253,7 @@ const DePaseoProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [etapaActiva, setEtapaActiva] = useState<number | null>(null);
   const [desgloseActivo, setDesgloseActivo] = useState<number | null>(null);
-  const [msgPerConv, setMsgPerConv] = useState(8);
+  const [msgPerConv, setMsgPerConv] = useState(6);
   const [leadsPerMonth, setLeadsPerMonth] = useState(600);
 
   const iaUSD = +(IA_USD_POR_MSG * msgPerConv * leadsPerMonth).toFixed(2);
@@ -861,13 +861,23 @@ const DePaseoProposal = () => {
                   <span className="font-lato text-white/60 text-[15px]">Mensajes promedio por conversación</span>
                   <span className="font-poppins font-black text-white text-[20px]">{msgPerConv}</span>
                 </div>
-                <input type="range" min={1} max={20} step={1} value={msgPerConv}
-                  onChange={(e) => setMsgPerConv(Number(e.target.value))}
-                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                  style={{ background: `linear-gradient(to right, ${PASEO_GREEN} ${((msgPerConv - 1) / 19) * 100}%, rgba(255,255,255,.12) ${((msgPerConv - 1) / 19) * 100}%)` }} />
+                <div className="relative">
+                  <input type="range" min={1} max={15} step={1} value={msgPerConv}
+                    onChange={(e) => setMsgPerConv(Number(e.target.value))}
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                    style={{ background: `linear-gradient(to right, ${PASEO_GREEN} ${((msgPerConv - 1) / 14) * 100}%, rgba(255,255,255,.12) ${((msgPerConv - 1) / 14) * 100}%)` }} />
+                  {/* Marcador promedio en posición 6 */}
+                  <div className="absolute -top-5 flex flex-col items-center pointer-events-none"
+                    style={{ left: `calc(${((6 - 1) / 14) * 100}% - 18px)` }}>
+                    <span className="font-lato text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap"
+                      style={{ background: 'rgba(16,185,129,.15)', color: PASEO_GREEN, border: '1px solid rgba(16,185,129,.3)' }}>
+                      prom. 6
+                    </span>
+                  </div>
+                </div>
                 <div className="flex justify-between mt-1">
                   <span className="font-lato text-white/25 text-[12px]">1</span>
-                  <span className="font-lato text-white/25 text-[12px]">20</span>
+                  <span className="font-lato text-white/25 text-[12px]">15</span>
                 </div>
               </div>
 
