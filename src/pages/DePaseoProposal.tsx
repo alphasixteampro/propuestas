@@ -23,7 +23,7 @@ const META = {
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
   contacto: 'Jose Alexander Zapata Romero',
-  objetivo: 'Automatización de atención y seguimiento de leads con agente IA + CRM comercial para escalar el canal digital',
+  objetivo: 'Chat center omnicanal con agente IA + CRM comercial para centralizar la atención, automatizar seguimientos y escalar el canal digital',
 };
 
 const PASEO_GREEN = '#10b981';
@@ -38,8 +38,8 @@ const HALLAZGOS = [
     icon: AlertCircle, tint: 'red',
   },
   {
-    titulo: 'WhatsApp Business desbordado y no escalable',
-    desc: 'Tres personas responden desde una sola línea vía WhatsApp Web. La app se congela, los mensajes se acumulan y la experiencia del cliente se degrada. Un número saturado de histórico es un riesgo constante de bloqueo.',
+    titulo: 'Sin chat center: tres personas en el mismo número sin orden',
+    desc: 'Tres personas responden desde una sola línea vía WhatsApp Web de forma descoordinada. No hay una bandeja compartida, no hay asignación de conversaciones y la app se congela con el volumen. El equipo no escala así.',
     icon: TrendingUp, tint: 'amber',
   },
   {
@@ -72,10 +72,11 @@ const ETAPAS = [
     color: PASEO_GREEN,
     colorAlpha: 'rgba(16,185,129,.12)',
     colorBorder: 'rgba(16,185,129,.3)',
-    descripcion: 'Antes de escribir una sola línea de código o conectar un canal, nos sentamos con el equipo de De Paseo por Colombia a entender el proceso real de atención. Esta etapa define todo lo que se va a construir.',
+    descripcion: 'Antes de activar un solo canal, nos sentamos con el equipo de De Paseo por Colombia a entender el proceso real de atención. Esta etapa define la arquitectura del chat center y todo lo que se va a construir.',
     actividades: [
       'Levantamiento de flujos de conversación para cada producto: circuitos turísticos vs. hotel Eje Cafetero',
-      'Definición del objetivo del agente IA: qué responde, hasta dónde llega y cuándo pasa a un asesor humano',
+      'Diseño del chat center omnicanal: cómo se distribuyen las conversaciones entre los 3 asesores, reglas de asignación y flujos de escalada',
+      'Definición del objetivo del agente IA: qué responde, hasta dónde llega y cuándo transfiere a un asesor humano en el chat center',
       'Diseño del pipeline CRM: etapas del embudo, criterios de avance y asignación por asesor',
       'Decisión de estrategia del bot: nombre, tono y personalidad del agente (humanizado o identificado como asistente)',
       'Configuración inicial de la cuenta en Sixteam.pro Core (3 usuarios, permisos y roles)',
@@ -90,13 +91,14 @@ const ETAPAS = [
     color: '#1d70a2',
     colorAlpha: 'rgba(29,112,162,.10)',
     colorBorder: 'rgba(29,112,162,.3)',
-    descripcion: 'Con el diseño aprobado, se construye todo el sistema: desde la conexión oficial de WhatsApp hasta los seguimientos inteligentes con IA, pasando por el CRM y la integración multi-canal.',
+    descripcion: 'Con el diseño aprobado, se construye todo el sistema: el chat center omnicanal donde los 3 asesores atienden desde una sola bandeja, el agente IA, los seguimientos automáticos y el CRM.',
     actividades: [
-      'Conexión del número de WhatsApp existente vía WhatsApp Business API oficial (sin riesgo de bloqueo, conexión robusta)',
-      'Construcción del agente IA con flujos diferenciados: circuitos turísticos y hotel Eje Cafetero con routing automático según origen de lead o contexto de conversación',
+      'Activación del chat center omnicanal Sixteam.pro Core: bandeja unificada donde los 3 asesores se conectan a una sola línea para atender leads y clientes en tiempo real, con asignación y transferencia de conversaciones entre agentes',
+      'Conexión de WhatsApp vía API oficial de Meta (WhatsApp Business API): integración robusta sin riesgo de bloqueo, como uno de los canales del chat center',
+      'Integración de canales adicionales al chat center: Instagram Direct, Messenger y chat web — todos los leads llegan a una sola bandeja',
+      'Construcción del agente IA con flujos diferenciados: circuitos turísticos y hotel Eje Cafetero con routing automático según origen del lead o contexto de conversación',
       'Configuración del CRM: base de contactos, pipeline comercial con etapas y gestión de oportunidades de venta',
       'Automatizaciones de seguimiento inteligente: mensajes a las 2h, 3h, 24h y 48h con contexto de la conversación del lead (no mensajes genéricos)',
-      'Integración multi-canal: WhatsApp API + Instagram + Messenger + chat web para unificar todos los leads en una sola bandeja',
       'Identificación de fuente de pauta: el sistema detecta de qué anuncio o campaña viene cada lead (cuando la privacidad del dispositivo lo permite)',
       'Pruebas de flujo completo con leads reales y ajustes antes de salida a producción',
     ],
@@ -138,16 +140,17 @@ const DESGLOSE_PLAT = [
     ],
   },
   {
-    categoria: 'WhatsApp Business API Oficial',
+    categoria: 'Chat Center Omnicanal + WhatsApp API Oficial',
     icon: Link2,
     color: '#00bfa5',
     items: [
-      'Conexión del número existente vía integración oficial de Meta (WhatsApp Business API) — sin WhatsApp Web, sin riesgo de bloqueo por volumen',
-      'Soporte para múltiples agentes respondiendo desde un solo número de forma simultánea',
-      'Recepción ilimitada de mensajes entrantes (leads que escriben primero)',
-      'Envío de mensajes de seguimiento (plantillas aprobadas por Meta) cuando se vence la ventana de servicio',
+      'Bandeja de entrada omnicanal (chat center): una sola vista donde los 3 asesores atienden y gestionan todas las conversaciones de todos los canales en simultáneo',
+      'Asignación y transferencia de conversaciones entre asesores dentro del chat center: cada lead tiene un responsable claro',
+      'WhatsApp integrado vía API oficial de Meta (WhatsApp Business API) como canal principal del chat center — 1 número (1 cuenta) conectado, sin WhatsApp Web, sin riesgo de bloqueo',
+      'Instagram Direct, Messenger y chat web también conectados al chat center: todos los leads en una sola bandeja sin importar de dónde vienen',
+      'Historial completo de cada conversación centralizado en la plataforma, accesible para todo el equipo',
       'Identificación de fuente publicitaria: el sistema registra de qué campaña o anuncio de Meta viene cada lead',
-      'Historial completo de conversaciones centralizado en la plataforma, sin depender de la app del celular',
+      'Envío de mensajes de seguimiento (plantillas aprobadas por Meta) cuando se vence la ventana de servicio de WhatsApp',
     ],
   },
   {
@@ -159,20 +162,23 @@ const DESGLOSE_PLAT = [
       'Pipeline visual de ventas con etapas configuradas según el proceso de la agencia (Nuevo lead → En seguimiento → Cotización enviada → Cierre)',
       'Etapas iniciales automatizadas (contacto iniciado, transferido a asesor, en seguimiento) y etapas manuales gestionadas por el equipo',
       'Gestión de oportunidades: cada lead cualificado se convierte en una oportunidad de venta visible para todo el equipo',
-      'Vista de todas las conversaciones activas y pendientes por asesor',
+      'Hasta 15 propiedades personalizadas en objeto Contactos (ej. destino de interés, fecha de viaje, número de personas, canal de origen)',
+      'Hasta 15 propiedades personalizadas en objeto Oportunidades (ej. producto de interés, valor cotizado, estado de la cotización, fuente de pauta)',
+      'Hasta 6 automatizaciones de CRM configuradas (asignación de leads, cambios de etapa, alertas al asesor, tareas automáticas)',
       '3 usuarios incluidos: Jose + 2 asesores con acceso diferenciado según rol',
     ],
   },
   {
-    categoria: 'Automatizaciones de Seguimiento Inteligente',
+    categoria: 'Flujos de Seguimiento Automático',
     icon: BellRing,
     color: '#a78bfa',
     items: [
-      'Seguimiento automático a las 2h, 3h, 24h y 48h cuando el lead deja de responder',
-      'Seguimientos contextuales con IA: el mensaje de seguimiento tiene en cuenta lo que dijo el lead en la conversación (no mensajes genéricos)',
-      'Opción de mensajes fijos definidos por el equipo para mayor control sobre el tono y contenido del seguimiento',
-      'Seguimientos post-cotización: recordatorios automáticos para leads que recibieron una cotización y no respondieron',
-      'Todas las automatizaciones de seguimiento usan plantillas aprobadas por Meta (costo variable por mensaje según tarifas Meta Colombia)',
+      'Hasta 2 flujos de seguimiento automático configurados e implementados:',
+      'Flujo 1 — Atención Inicial de Leads: seguimiento automático cuando un lead nuevo deja de responder (mensajes a las 2h, 3h, 24h y 48h)',
+      'Flujo 2 — Atención Post Cotización: seguimiento automático para leads que recibieron una cotización y no respondieron (recordatorios escalonados)',
+      'Seguimientos contextuales con IA: cada mensaje tiene en cuenta lo que dijo el lead en la conversación — no mensajes genéricos',
+      'Opción de mensajes fijos definidos por el equipo para mayor control sobre el tono y contenido',
+      'Todos los mensajes de seguimiento fuera de ventana usan plantillas aprobadas por Meta (costo variable por mensaje según tarifas Meta Colombia)',
     ],
   },
   {
@@ -406,9 +412,15 @@ const DePaseoProposal = () => {
                   <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,.08), transparent)' }} />
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <div className="w-24 h-24 rounded-2xl flex items-center justify-center"
-                    style={{ background: `linear-gradient(135deg, ${PASEO_GREEN}22, ${PASEO_GREEN}11)`, border: `1px solid ${PASEO_GREEN}33`, boxShadow: `0 4px 30px rgba(16,185,129,.20)` }}>
-                    <MapPin className="w-12 h-12" style={{ color: PASEO_GREEN, filter: `drop-shadow(0 2px 12px rgba(16,185,129,.6))` }} />
+                  <div className="rounded-2xl flex items-center justify-center overflow-hidden px-3 py-2"
+                    style={{ background: 'rgba(255,255,255,.92)', border: `1px solid ${PASEO_GREEN}33`, boxShadow: `0 4px 30px rgba(16,185,129,.20)` }}>
+                    <img src="/depaseo-logo.webp" alt="De Paseo por Colombia" className="h-20 w-auto object-contain"
+                      onError={(e) => {
+                        const t = e.target as HTMLImageElement;
+                        t.style.display = 'none';
+                        (t.nextSibling as HTMLElement)?.style?.removeProperty('display');
+                      }} />
+                    <MapPin className="w-12 h-12 hidden" style={{ color: PASEO_GREEN }} />
                   </div>
                   <div className="text-center">
                     <span className="font-poppins font-black text-white text-[20px] tracking-tight">De Paseo por Colombia</span>
@@ -441,9 +453,15 @@ const DePaseoProposal = () => {
           <div className="rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row gap-5 sm:gap-8 items-start sm:items-center"
             style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.07)' }}>
             <div className="flex-shrink-0 flex flex-col items-center gap-2">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${PASEO_GREEN}, #1d70a2)`, boxShadow: `0 4px 20px rgba(16,185,129,.25)` }}>
-                <MapPin className="w-7 h-7 text-white" />
+              <div className="rounded-2xl flex items-center justify-center overflow-hidden px-2 py-1.5"
+                style={{ background: 'rgba(255,255,255,.92)', boxShadow: `0 4px 20px rgba(16,185,129,.25)`, minWidth: 64 }}>
+                <img src="/depaseo-logo.webp" alt="De Paseo por Colombia" className="h-12 w-auto object-contain"
+                  onError={(e) => {
+                    const t = e.target as HTMLImageElement;
+                    t.style.display = 'none';
+                    (t.nextSibling as HTMLElement)?.style?.removeProperty('display');
+                  }} />
+                <MapPin className="w-7 h-7 hidden" style={{ color: PASEO_GREEN }} />
               </div>
               <span className="font-poppins font-black text-white text-[13px] tracking-tight text-center leading-tight max-w-[90px]">De Paseo por Colombia</span>
             </div>
@@ -520,7 +538,7 @@ const DePaseoProposal = () => {
               style={{ background: `radial-gradient(circle, rgba(16,185,129,.07), transparent 70%)`, transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 mb-4" style={{ color: PASEO_GREEN }} />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Implementar <strong className="text-white font-black">Sixteam.pro Core</strong> como la infraestructura de atención y seguimiento comercial de De Paseo por Colombia: conectar el canal de WhatsApp a una API oficial, activar un <em className="not-italic" style={{ color: PASEO_GREEN }}>agente de inteligencia artificial</em> que atienda los leads en segundos, automatizar los seguimientos para que ningún cliente se enfríe, y organizar todo en un CRM con pipeline visible — para que Jose y su equipo puedan escalar la pauta sin que el volumen los desborde.
+              Implementar <strong className="text-white font-black">Sixteam.pro Core</strong> como la infraestructura de atención y seguimiento comercial de De Paseo por Colombia: activar un <em className="not-italic" style={{ color: PASEO_GREEN }}>chat center omnicanal</em> donde todos los asesores se conectan a una sola bandeja para atender leads desde WhatsApp, Instagram, Messenger y web — con WhatsApp integrado vía API oficial, un agente de inteligencia artificial que responde en segundos, seguimientos automáticos para que ningún cliente se enfríe, y un CRM con pipeline visible para que Jose tenga control total sin que el volumen desborde al equipo.
             </p>
           </div>
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -670,13 +688,15 @@ const DePaseoProposal = () => {
             </div>
             <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
               {[
-                ['Agente IA',                '1 agente con flujos diferenciados para circuitos y hotel'],
-                ['Canal principal',          'WhatsApp Business API oficial (sin riesgo de bloqueo)'],
+                ['Agente IA',                '1 agente con atención a ambos productos: planes de viaje y Hotel'],
+                ['Chat center omnicanal',    'Bandeja única · 3 asesores conectados en simultáneo'],
+                ['Canal WhatsApp',           'WhatsApp Business API · 1 número (1 cuenta)'],
                 ['Canales adicionales',      'Instagram · Messenger · Chat web'],
                 ['Usuarios incluidos',       '3 usuarios (Jose + 2 asesores)'],
-                ['Pipeline CRM',             '1 pipeline con etapas automáticas y manuales'],
-                ['Seguimientos automáticos', 'A las 2h · 3h · 24h · 48h con contexto IA'],
-                ['Routing de productos',     'Hotel vs. circuitos turísticos identificados automáticamente'],
+                ['Pipeline CRM',             '1 pipeline · hasta 15 prop. contactos · hasta 15 prop. oportunidades'],
+                ['Automatizaciones CRM',     'Hasta 6 automatizaciones (asignación, alertas, tareas)'],
+                ['Flujos de seguimiento',    '2 flujos: Atención Inicial de Leads + Atención Post Cotización'],
+                ['Routing de productos',     'Planes de viaje y Hotel identificados automáticamente'],
                 ['Panel de métricas',        'Leads · conversión · tiempo de respuesta · actividad del equipo'],
                 ['Capacitación',             '1 sesión con los 3 usuarios + grabación + guía de uso'],
               ].map(([label, value], i) => (
