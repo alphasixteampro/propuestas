@@ -28,8 +28,11 @@ const META = {
 
 const PASEO_GREEN = '#10b981';
 const PRECIO_MENSUAL = 'COP 728.586';
-const PRECIO_IMPLEMENTACION = 'COP 1.821.465';
+const PRECIO_IMPLEMENTACION = 'COP 2.400.000';
+const USD_ADICIONAL = 'USD 25';
+const TRM_NUM = 3642.93;
 const TRM = '3.642,93';
+const IA_USD_POR_MSG = 0.02;
 
 const HALLAZGOS = [
   {
@@ -113,12 +116,13 @@ const ETAPAS = [
     colorBorder: 'rgba(245,158,11,.3)',
     descripcion: 'El sistema está listo. Ahora lo encendemos junto con el equipo. Esta etapa garantiza que Jose y sus dos asesores lleguen al primer día de uso sin fricción y que las campañas de pauta se puedan lanzar con confianza.',
     actividades: [
-      'Sesión de capacitación con los 3 usuarios: manejo de la bandeja de conversaciones, CRM y gestión de leads',
-      'Capacitación en gestión del pipeline: cómo avanzar, cerrar o reabrir oportunidades manualmente',
+      'Hasta 2 horas de capacitación en reuniones virtuales con los 3 usuarios: manejo del chat center, CRM, pipeline y gestión de leads',
+      'Módulos cubiertos: bandeja omnicanal, gestión de conversaciones, CRM y oportunidades, seguimientos automáticos y métricas',
+      'Grabación de todas las sesiones de capacitación entregadas al equipo para consulta posterior',
+      'Guías de uso por módulo adquirido en formato digital (chat center, CRM, agente IA, métricas)',
       'Acompañamiento en las primeras campañas de pauta activas: validación del flujo IA → asesor en condiciones reales',
       'Identificación y corrección de ajustes que emerjan en la operación real del primer día',
       'Canal de soporte dedicado durante toda la semana de salida a producción',
-      'Entrega de guías de uso por rol y grabación de la sesión de capacitación',
     ],
   },
 ];
@@ -198,6 +202,7 @@ const DESGLOSE_PLAT = [
     icon: LayoutDashboard,
     color: PASEO_GREEN,
     items: [
+      'Hasta 8 informes personalizados de métricas configurados según las necesidades del equipo',
       'Panel de métricas: leads recibidos, atendidos, en seguimiento y cerrados por período',
       'Tasa de respuesta del agente IA y tasa de transferencia a asesor humano',
       'Tiempo promedio de primera respuesta y seguimientos enviados',
@@ -248,6 +253,12 @@ const DePaseoProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [etapaActiva, setEtapaActiva] = useState<number | null>(null);
   const [desgloseActivo, setDesgloseActivo] = useState<number | null>(null);
+  const [msgPerConv, setMsgPerConv] = useState(10);
+  const [leadsPerMonth, setLeadsPerMonth] = useState(600);
+
+  const iaUSD = +(IA_USD_POR_MSG * msgPerConv * leadsPerMonth).toFixed(2);
+  const iaCOP = Math.round(iaUSD * TRM_NUM);
+  const fmtCOP = (n: number) => n.toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
   useEffect(() => {
     const handler = () => {
@@ -318,6 +329,8 @@ const DePaseoProposal = () => {
           .cover-ring-2{animation:cover-spin-rev 16s linear infinite}
           .cover-glow{animation:cover-pulse-glow 4s ease-in-out infinite}
           .cover-float{animation:cover-float 5s ease-in-out infinite}
+          input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#10b981;cursor:pointer;box-shadow:0 0 8px rgba(16,185,129,.6);border:2px solid #030d1a}
+          input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#10b981;cursor:pointer;box-shadow:0 0 8px rgba(16,185,129,.6);border:2px solid #030d1a}
         `}</style>
 
         <div className="relative z-10 flex-1 flex items-center justify-center py-12" style={{ paddingLeft: '10%', paddingRight: '10%' }}>
@@ -697,8 +710,8 @@ const DePaseoProposal = () => {
                 ['Automatizaciones CRM',     'Hasta 6 automatizaciones (asignación, alertas, tareas)'],
                 ['Flujos de seguimiento',    '2 flujos: Atención Inicial de Leads + Atención Post Cotización'],
                 ['Routing de productos',     'Planes de viaje y Hotel identificados automáticamente'],
-                ['Panel de métricas',        'Leads · conversión · tiempo de respuesta · actividad del equipo'],
-                ['Capacitación',             '1 sesión con los 3 usuarios + grabación + guía de uso'],
+                ['Panel de métricas',        'Hasta 8 informes personalizados · leads · conversión · actividad'],
+                ['Capacitación',             'Hasta 2h virtuales · grabaciones · guías por módulo'],
               ].map(([label, value], i) => (
                 <div key={i} className="flex flex-col sm:flex-row sm:items-center px-5 py-3 gap-1 sm:gap-0">
                   <span className="font-poppins font-semibold text-white/70 text-[15px] sm:w-2/5">{label}</span>
@@ -717,7 +730,7 @@ const DePaseoProposal = () => {
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
             La inversión tiene dos componentes: una <strong className="text-white/75">implementación inicial única</strong> y una <strong className="text-white/75">suscripción mensual</strong> a la plataforma. Valores en pesos colombianos (COP) calculados a TRM de{' '}
-            <strong className="text-white/75">$ {TRM} COP/USD</strong>. Precios más IVA.
+            <strong className="text-white/75">$ {TRM} COP/USD</strong>. <strong className="text-white/75">Precios sin IVA.</strong>
           </p>
 
           {/* Dos cards principales */}
@@ -791,25 +804,114 @@ const DePaseoProposal = () => {
             </div>
           </div>
 
+          {/* Nota usuarios adicionales */}
+          <div className="rounded-xl p-4 mb-4 flex gap-3"
+            style={{ background: 'rgba(29,112,162,.06)', border: '1px solid rgba(29,112,162,.2)' }}>
+            <Users className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#60b4f0]" />
+            <p className="font-lato text-white/55 text-[15px] leading-relaxed">
+              <strong className="text-white/75">Usuarios adicionales:</strong> el plan base incluye 3 usuarios. Cada usuario adicional tiene un costo de <strong className="text-white/75">{USD_ADICIONAL}/mes</strong> ({`COP ${fmtCOP(Math.round(25 * TRM_NUM))}`} aprox. a TRM actual).
+            </p>
+          </div>
+
           {/* Costos variables */}
-          <div className="rounded-xl p-5 mb-8 flex gap-3"
+          <div className="rounded-xl p-5 mb-4"
             style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.2)' }}>
-            <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
-            <div>
-              <p className="font-poppins font-semibold text-white/80 text-[17px] mb-2">Costos variables adicionales</p>
-              <div className="space-y-2">
-                <div className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                  <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                    <strong className="text-white/75">Tokens de IA (OpenAI):</strong> costo variable según el volumen de conversaciones del agente. Se factura mes a mes directamente sobre el consumo real. A escala de 20–50 leads/día el costo es bajo en relación al retorno generado.
-                  </p>
+            <div className="flex items-center gap-2 mb-4">
+              <Info className="w-4 h-4 text-[#f59e0b] flex-shrink-0" />
+              <p className="font-poppins font-semibold text-white/80 text-[17px]">Costos variables adicionales</p>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
+                <p className="font-lato text-white/55 text-[15px] leading-relaxed">
+                  <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> ~COP 100–200 por mensaje de seguimiento enviado fuera de la ventana de servicio. Este costo lo cobra Meta directamente y aplica solo a los seguimientos proactivos.
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
+                <p className="font-lato text-white/55 text-[15px] leading-relaxed">
+                  <strong className="text-white/75">Consumo de IA:</strong> costo variable según el volumen de conversaciones. Se factura mes a mes sobre el consumo real. Usa la calculadora a continuación para estimar tu costo mensual.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* ── CALCULADORA IA ── */}
+          <div className="rounded-2xl overflow-hidden mb-8"
+            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(16,185,129,.2)' }}>
+            {/* Header */}
+            <div className="px-5 py-4 flex items-center gap-2"
+              style={{ background: 'linear-gradient(135deg, rgba(16,185,129,.10), rgba(29,112,162,.08))', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+              <Zap className="w-4 h-4" style={{ color: PASEO_GREEN }} />
+              <p className="font-poppins font-semibold text-white/80 text-[15px] uppercase tracking-wider">Calculadora de consumo mensual IA</p>
+            </div>
+
+            <div className="p-5 sm:p-6 space-y-6">
+              {/* Parámetro fijo */}
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl"
+                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: PASEO_GREEN }} />
+                <span className="font-lato text-white/50 text-[14px]">Valor IA por mensaje</span>
+                <span className="font-poppins font-black ml-auto" style={{ color: PASEO_GREEN }}>USD {IA_USD_POR_MSG}</span>
+              </div>
+
+              {/* Slider 1 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-lato text-white/60 text-[15px]">Mensajes promedio por conversación</span>
+                  <span className="font-poppins font-black text-white text-[20px]">{msgPerConv}</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                  <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                    <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> ~COP 100–200 por mensaje de seguimiento enviado fuera de la ventana de servicio (leads que no respondieron en las últimas 24/72h). Este costo lo cobra Meta directamente y aplica solo a los seguimientos proactivos.
-                  </p>
+                <input type="range" min={5} max={20} step={1} value={msgPerConv}
+                  onChange={(e) => setMsgPerConv(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{ background: `linear-gradient(to right, ${PASEO_GREEN} ${((msgPerConv - 5) / 15) * 100}%, rgba(255,255,255,.12) ${((msgPerConv - 5) / 15) * 100}%)` }} />
+                <div className="flex justify-between mt-1">
+                  <span className="font-lato text-white/25 text-[12px]">5</span>
+                  <span className="font-lato text-white/25 text-[12px]">20</span>
                 </div>
+              </div>
+
+              {/* Slider 2 */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-lato text-white/60 text-[15px]">Leads promedio por mes</span>
+                  <span className="font-poppins font-black text-white text-[20px]">{leadsPerMonth.toLocaleString('es-CO')}</span>
+                </div>
+                <input type="range" min={100} max={3000} step={50} value={leadsPerMonth}
+                  onChange={(e) => setLeadsPerMonth(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{ background: `linear-gradient(to right, ${PASEO_GREEN} ${((leadsPerMonth - 100) / 2900) * 100}%, rgba(255,255,255,.12) ${((leadsPerMonth - 100) / 2900) * 100}%)` }} />
+                <div className="flex justify-between mt-1">
+                  <span className="font-lato text-white/25 text-[12px]">100</span>
+                  <span className="font-lato text-white/25 text-[12px]">3.000</span>
+                </div>
+              </div>
+
+              {/* Fórmula */}
+              <div className="rounded-xl px-4 py-3 flex flex-wrap items-center gap-2 text-[14px]"
+                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                <span className="font-lato text-white/40">USD {IA_USD_POR_MSG}</span>
+                <span className="text-white/25">×</span>
+                <span className="font-lato text-white/40">{msgPerConv} msg/conv</span>
+                <span className="text-white/25">×</span>
+                <span className="font-lato text-white/40">{leadsPerMonth.toLocaleString('es-CO')} leads</span>
+                <span className="text-white/25">=</span>
+                <span className="font-poppins font-bold text-white/70">USD {iaUSD.toFixed(2)}</span>
+              </div>
+
+              {/* Resultado */}
+              <div className="rounded-xl p-5 text-center"
+                style={{ background: 'linear-gradient(135deg, rgba(16,185,129,.10), rgba(29,112,162,.08))', border: `1px solid rgba(16,185,129,.3)` }}>
+                <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest mb-1">Consumo estimado de IA / mes</p>
+                <p className="font-poppins font-black text-white mb-1" style={{ fontSize: 'clamp(1.6rem, 4vw, 2.2rem)' }}>
+                  USD {iaUSD.toFixed(2)}
+                </p>
+                <p className="font-poppins font-bold mb-3" style={{ color: PASEO_GREEN, fontSize: '1.1rem' }}>
+                  ≈ COP {fmtCOP(iaCOP)}
+                </p>
+                <p className="font-lato text-white/30 text-[12px]">
+                  Estimado · TRM $ {TRM} COP/USD · El costo real depende del consumo efectivo de tokens por conversación
+                </p>
               </div>
             </div>
           </div>
