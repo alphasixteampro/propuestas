@@ -44,7 +44,7 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Hotel Casa Rueda',
     sector: 'Hotelería · Alojamiento',
     fecha: 'Abril 2026',
-    monto: 'COP 1.700.000',
+    monto: 'COP 1.700.000 / semestre',
     estado: 'borrador',
     path: '/hotel-casa-rueda',
   },

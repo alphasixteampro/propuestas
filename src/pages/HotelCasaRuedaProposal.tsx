@@ -67,50 +67,34 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 
 const SERVICIOS = [
   {
-    num: 'Servicio 1',
-    nombre: 'Mejoras web — contenidos, sección B2B e implementación de métricas',
-    tipo: 'Pago único',
-    valor: 'COP 500.000',
+    num: 'Servicio',
+    nombre: 'Reactivación, mejoras, métricas y mantenimiento web semestral',
+    tipo: 'Pago semestral',
+    valor: 'COP 1.700.000',
     icon: Wrench,
     destacado: true,
     entregables: [
+      'Reactivación del sitio web (página activa 24/7)',
       'Incorporación de nuevas fotografías de habitaciones (suministradas por el hotel)',
       'Reemplazo de imágenes pixeladas o de baja calidad',
       'Diseño e implementación de sección "Empresas" con planes corporativos',
       'Instalación y configuración de Google Tag Manager (GTM)',
       'Configuración de Microsoft Clarity (mapas de calor + grabaciones de sesión)',
       'Conexión de GTM con Google Analytics 4 para métricas de tráfico',
-      'Ajustes de textos y contenidos según indicaciones del hotel',
-      'Pruebas de visualización en móvil y escritorio',
-    ],
-    detalle: [
-      'Recepción del material fotográfico actualizado y criterios de la sección empresarial.',
-      'Optimización y reemplazo de imágenes en la galería de habitaciones.',
-      'Diseño de la sección B2B con planes empresariales, formulario de contacto y beneficios para empresas aliadas.',
-      'Instalación de Google Tag Manager en el sitio como capa de gestión de etiquetas; desde GTM se disparan Google Analytics 4 (tráfico, páginas vistas, eventos) y cualquier herramienta futura sin tocar el código.',
-      'Configuración de Microsoft Clarity (gratuito): mapas de calor por sección, grabaciones de sesión reales y detección de "rage clicks" — permite ver exactamente cómo navegan los visitantes.',
-      'Revisión final de contenidos y verificación de métricas activas antes de publicación.',
-    ],
-  },
-  {
-    num: 'Servicio 2',
-    nombre: 'Mantenimiento web semestral — página activa y actualizada',
-    tipo: 'Pago semestral',
-    valor: 'COP 1.200.000',
-    icon: RefreshCw,
-    destacado: false,
-    entregables: [
-      'Hosting y disponibilidad del sitio web (página activa 24/7)',
       'Actualizaciones sencillas de contenido: textos, fotos, precios, tarifas',
       'Soporte técnico ante caídas o errores del sitio',
       'Renovaciones de dominio y certificado SSL incluidas',
       'Reporte mensual de estado del sitio',
     ],
     detalle: [
-      'Gestión del hosting para garantizar que la página permanezca activa y accesible.',
+      'Recepción del material fotográfico actualizado y criterios de la sección empresarial.',
+      'Optimización y reemplazo de imágenes en la galería de habitaciones.',
+      'Diseño de la sección B2B con planes empresariales, formulario de contacto y beneficios para empresas aliadas.',
+      'Instalación de Google Tag Manager como capa de gestión de etiquetas; desde GTM se disparan GA4 (tráfico, páginas vistas, eventos) y cualquier herramienta futura sin tocar el código.',
+      'Configuración de Microsoft Clarity (gratuito): mapas de calor, grabaciones de sesión y detección de "rage clicks".',
+      'Gestión del hosting para garantizar disponibilidad continua y respuesta ante incidentes técnicos.',
       'Ejecución de cambios menores de contenido solicitados por el hotel (hasta 4 cambios por semestre).',
-      'Monitoreo básico y respuesta ante incidentes técnicos del sitio.',
-      'Comunicación directa vía WhatsApp para solicitudes de actualización.',
+      'Comunicación directa vía WhatsApp y reporte mensual de estado del sitio.',
     ],
   },
 ];
@@ -466,29 +450,8 @@ const HotelCasaRuedaProposal = () => {
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Servicios</TagLabel>
-          <SectionTitle>2 servicios · alcance claro</SectionTitle>
+          <SectionTitle>Alcance completo · todo en uno</SectionTitle>
           <Rule />
-
-          {/* Timeline visual */}
-          <div className="hidden sm:flex items-center mb-8 relative">
-            <div className="absolute top-5 left-5 right-5 h-px"
-              style={{ background: 'linear-gradient(90deg, transparent, rgba(29,112,162,.4) 20%, rgba(0,191,165,.4) 80%, transparent)' }} />
-            {SERVICIOS.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="flex-1 flex flex-col items-center gap-2 relative z-10">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border transition-all ${s.destacado ? 'border-[#00bfa5]/60' : 'border-white/10'}`}
-                    style={{ background: s.destacado ? 'linear-gradient(135deg,#1d70a2,#00bfa5)' : 'rgba(255,255,255,.04)' }}>
-                    <Icon className={`w-4 h-4 ${s.destacado ? 'text-white' : 'text-white/40'}`} />
-                  </div>
-                  <div className="text-center">
-                    <p className={`font-poppins font-bold text-[15px] ${s.destacado ? 'text-white' : 'text-white/50'}`}>{s.num}</p>
-                    <p className={`font-lato text-[13px] leading-tight mt-0.5 max-w-[100px] ${s.destacado ? 'text-[#00bfa5]' : 'text-white/30'}`}>{s.tipo}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
 
           <div className="space-y-2.5">
             {SERVICIOS.map((s, i) => {
@@ -618,29 +581,15 @@ const HotelCasaRuedaProposal = () => {
             </div>
           </div>
 
-          {/* Resumen total */}
-          <div className="rounded-2xl p-5 sm:p-7"
+          {/* Total */}
+          <div className="rounded-2xl p-5 sm:p-7 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8"
             style={{ background: 'rgba(201,168,76,.04)', border: `1px solid rgba(201,168,76,.18)` }}>
-            <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Zap className="w-4 h-4" style={{ color: HOTEL_ACCENT }} /> Resumen de inversión
-            </p>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-lato text-white/60 text-[18px]">Mejoras web (pago único)</span>
-                <span className="font-poppins font-bold text-white/80 text-[18px]">COP 500.000</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-lato text-white/60 text-[18px]">Mantenimiento semestral</span>
-                <span className="font-poppins font-bold text-white/80 text-[18px]">COP 1.200.000 / semestre</span>
-              </div>
-              <div className="border-t pt-3 mt-1" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
-                <div className="flex items-center justify-between">
-                  <span className="font-poppins font-semibold text-white/70 text-[18px]">Inversión inicial (primer semestre)</span>
-                  <span className="font-poppins font-black text-[23px]" style={{ color: HOTEL_ACCENT }}>COP 1.700.000</span>
-                </div>
-                <p className="font-lato text-white/30 text-[13px] mt-1">Mejoras + primer semestre de mantenimiento</p>
-              </div>
+            <Zap className="w-6 h-6 flex-shrink-0" style={{ color: HOTEL_ACCENT }} />
+            <div className="flex-1">
+              <p className="font-poppins font-semibold text-white/70 text-[18px]">Inversión total semestral</p>
+              <p className="font-lato text-white/35 text-[14px] mt-0.5">Incluye mejoras, métricas, mantenimiento y reportes mensuales</p>
             </div>
+            <p className="font-poppins font-black text-[32px]" style={{ color: HOTEL_ACCENT }}>COP 1.700.000</p>
           </div>
         </section>
 
@@ -659,14 +608,9 @@ const HotelCasaRuedaProposal = () => {
                 icon: CheckCircle,
               },
               {
-                titulo: 'Términos de Pago — Mejoras web',
-                desc: 'El pago de COP 500.000 se realiza en su totalidad antes de iniciar los trabajos de mejora. Al recibir el pago se da inicio inmediato a las actividades.',
+                titulo: 'Términos de Pago',
+                desc: 'El pago de COP 1.700.000 se realiza de forma anticipada al inicio de cada semestre. Al recibir el primer pago se da inicio inmediato a las actividades de mejora y configuración. Los semestres siguientes se facturan al inicio de cada período.',
                 icon: FileText,
-              },
-              {
-                titulo: 'Términos de Pago — Mantenimiento semestral',
-                desc: 'El mantenimiento se factura semestralmente de manera anticipada (COP 1.200.000 cada 6 meses). La primera factura cubre el semestre a partir de la fecha de activación del sitio.',
-                icon: Calendar,
               },
               {
                 titulo: 'Contenido y material',
