@@ -53,7 +53,7 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcciones',
     sector: 'Inmobiliaria · Lotes urbanos y rurales',
     fecha: 'Abril 2026',
-    monto: 'COP 3.500.000 + gestión',
+    monto: 'COP 800.000 + 10% / mes',
     estado: 'borrador',
     path: '/mizar',
   },

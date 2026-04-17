@@ -3,7 +3,7 @@ import {
   CheckCircle, Target, Zap, BarChart3,
   AlertCircle, TrendingUp, ArrowRight,
   Calendar, MapPin, Users, Layers,
-  Eye, MousePointer, RefreshCw, Star, ChevronDown, ChevronUp, Percent,
+  Eye, MousePointer, RefreshCw, Star, Percent, Settings,
 } from 'lucide-react';
 import LogoCarousel from '../components/LogoCarousel';
 
@@ -98,36 +98,22 @@ const CAPAS = [
   },
 ];
 
-// ─── FASES DE TRABAJO ────────────────────────────────────────────────────────
-
-type Actividad = { text: string; tag?: string };
-
-const FASES = [
-  {
-    num: '01',
-    nombre: 'Armado base — Configuración de la cuenta',
-    duracion: '1–2 semanas',
-    valor: 'COP 700.000',
-    recomendada: true,
-    icon: Zap,
-    descripcion: 'Configuración completa de la base técnica y estratégica de la cuenta Meta Ads. En esta fase se establece todo lo necesario para que las campañas corran con señales de calidad, audiencias bien definidas y una estructura alineada a los objetivos del funnel de Mizar.',
-    actividades: [
-      { text: 'Revisión y corrección del objetivo de campaña: migrar de "Interacción" a objetivos de Alcance, Tráfico o Clientes Potenciales según la capa del embudo', tag: 'Corrección crítica' },
-      { text: 'Verificación y configuración del Meta Pixel + validación de la Conversions API (eventos desde agendas y CRM)', tag: 'Píxel & API' },
-      { text: 'Configuración de remarketing activo: audiencias personalizadas de views al 75%, visitantes de perfil e interacciones en los últimos 180 días', tag: 'Audiencias' },
-      { text: 'Carga de base de leads calificados y compradores del CRM → creación de Lookalike Audiences para campañas de conversión', tag: 'Lookalike' },
-      { text: 'Estructuración del portafolio comercial en Meta: productos, proyectos y activos disponibles para pauta' },
-      { text: 'Diseño de la estructura base de campañas alineada a los tres objetivos del funnel (Reconocimiento · Consideración · Conversión)', tag: 'Estructura' },
-      { text: 'Configuración de reglas de exclusión: leads ya captados no reciben anuncios de prospección fría' },
-    ] as Actividad[],
-  },
-];
+// ─── GESTIÓN MENSUAL ─────────────────────────────────────────────────────────
 
 const GESTION = {
   fijo: 'COP 800.000',
   variable: '10% del presupuesto invertido en Meta ese mes',
   ejemplo: { inversion: 3000000, fijo: 800000, variable: 300000, total: 1100000 },
-  descripcion: 'Gestión mensual continua de la pauta Meta Ads una vez implementada la estructura. La fee se compone de una tarifa fija de administración más un porcentaje del presupuesto invertido — alineando los incentivos de Sixteam con los resultados de Mizar.',
+  descripcion: 'Gestión mensual continua de la pauta Meta Ads. La fee se compone de una tarifa fija de administración más un porcentaje del presupuesto invertido — alineando los incentivos de Sixteam con los resultados de Mizar. El primer mes incluye la configuración inicial de la cuenta, sin cobro adicional de setup.',
+  configuracion: [
+    { text: 'Revisión y corrección del objetivo de campaña: migrar de "Interacción" a objetivos de Alcance, Tráfico o Clientes Potenciales según la capa del embudo', tag: 'Corrección crítica' },
+    { text: 'Verificación y configuración del Meta Pixel + validación de la Conversions API (eventos desde agendas y CRM)', tag: 'Píxel & API' },
+    { text: 'Configuración de remarketing activo: audiencias personalizadas de views al 75%, visitantes de perfil e interacciones en los últimos 180 días', tag: 'Audiencias' },
+    { text: 'Carga de base de leads calificados y compradores del CRM → creación de Lookalike Audiences para campañas de conversión', tag: 'Lookalike' },
+    { text: 'Estructuración del portafolio comercial en Meta: productos, proyectos y activos disponibles para pauta' },
+    { text: 'Diseño de la estructura base de campañas alineada a los tres objetivos del funnel (Reconocimiento · Consideración · Conversión)', tag: 'Estructura' },
+    { text: 'Configuración de reglas de exclusión: leads ya captados no reciben anuncios de prospección fría' },
+  ] as { text: string; tag?: string }[],
   incluye: [
     'Creación de campañas, conjuntos de anuncios y anuncios en Meta Ads',
     'Revisión semanal de rendimiento por capa del embudo',
@@ -143,7 +129,6 @@ const GESTION = {
 const SECCIONES = [
   { id: 'resumen', label: 'Diagnóstico' },
   { id: 'embudo', label: 'Embudo' },
-  { id: 'plan', label: 'Plan de trabajo' },
   { id: 'gestion', label: 'Gestión mensual' },
   { id: 'inversion', label: 'Inversión' },
   { id: 'vigencia', label: 'Vigencia' },
@@ -181,7 +166,6 @@ const Rule = () => (
 
 const MizarProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
-  const [faseActiva, setFaseActiva] = useState<number | null>(null);
 
   useEffect(() => {
     const handler = () => {
@@ -199,7 +183,7 @@ const MizarProposal = () => {
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
+  const s4 = useVisible(); const s5 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -342,7 +326,7 @@ const MizarProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Diagnóstico actual', '2. Arquitectura de embudo', '3. Plan de trabajo', '4. Gestión mensual', '5. Propuesta de inversión', '6. Vigencia y términos'].map((item, i) => (
+                  {['1. Diagnóstico actual', '2. Arquitectura de embudo', '3. Gestión mensual', '4. Propuesta de inversión', '5. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-white/80 transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ArrowRight className="w-3 h-3 flex-shrink-0" style={{ color: MIZAR_GOLD }} />
@@ -533,88 +517,15 @@ const MizarProposal = () => {
           </div>
         </section>
 
-        {/* ── SECCIÓN 3: PLAN DE TRABAJO ── */}
-        <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
+        {/* ── SECCIÓN 3: GESTIÓN MENSUAL ── */}
+        <section id="gestion" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>Plan de trabajo</TagLabel>
-          <SectionTitle>Implementación inicial</SectionTitle>
-          <Rule />
-          <p className="font-lato text-white/60 text-lg leading-relaxed mb-10">
-            La implementación se ejecuta en una sola fase de 1 a 2 semanas. Una vez completada la base, se pasa directamente a la gestión recurrente mensual.
-          </p>
-
-          <div className="space-y-4">
-            {FASES.map((fase, i) => {
-              const Icon = fase.icon;
-              const abierta = faseActiva === i;
-              return (
-                <div key={i} className="rounded-2xl border overflow-hidden transition-all duration-300"
-                  style={{
-                    background: abierta ? `${MIZAR_GOLD_ALPHA}0.07)` : 'rgba(29,112,162,.05)',
-                    borderColor: abierta ? `${MIZAR_GOLD_ALPHA}0.3)` : 'rgba(29,112,162,.18)',
-                  }}>
-                  <button onClick={() => setFaseActiva(abierta ? null : i)}
-                    className="w-full flex items-center gap-4 p-5 text-left transition-all duration-200 hover:opacity-90">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: abierta ? `${MIZAR_GOLD_ALPHA}0.18)` : 'rgba(29,112,162,.12)', border: abierta ? `1px solid ${MIZAR_GOLD_ALPHA}0.35)` : '1px solid rgba(29,112,162,.2)' }}>
-                      <Icon className="w-5 h-5" style={{ color: abierta ? MIZAR_GOLD : '#60a5fa' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2 mb-0.5">
-                        <span className="font-poppins font-black text-white/25 text-[13px]">Fase {fase.num}</span>
-                        <h3 className="font-poppins font-bold text-white text-[15px]">{fase.nombre}</h3>
-                        {fase.recomendada && (
-                          <span className="font-lato text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider"
-                            style={{ background: `${MIZAR_GOLD_ALPHA}0.15)`, color: MIZAR_GOLD, border: `1px solid ${MIZAR_GOLD_ALPHA}0.3)` }}>
-                            Recomendada
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-3">
-                        <span className="font-lato text-white/40 text-[13px] flex items-center gap-1.5">
-                          <Calendar className="w-3 h-3" /> {fase.duracion}
-                        </span>
-                        <span className="font-lato text-[13px] font-semibold" style={{ color: MIZAR_GOLD }}>{fase.valor}</span>
-                      </div>
-                    </div>
-                    {abierta ? <ChevronUp className="w-5 h-5 text-white/30 flex-shrink-0" /> : <ChevronDown className="w-5 h-5 text-white/30 flex-shrink-0" />}
-                  </button>
-
-                  {abierta && (
-                    <div className="px-5 pb-6 border-t" style={{ borderColor: `${MIZAR_GOLD_ALPHA}0.12)` }}>
-                      <p className="font-lato text-white/60 text-[14px] leading-relaxed mt-4 mb-5">{fase.descripcion}</p>
-                      <div className="space-y-2">
-                        {fase.actividades.map((act, j) => (
-                          <div key={j} className="flex items-start gap-3 p-3 rounded-xl"
-                            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.05)' }}>
-                            <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
-                            <span className="font-lato text-white/70 text-[13px] leading-relaxed flex-1">{act.text}</span>
-                            {act.tag && (
-                              <span className="font-lato text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap flex-shrink-0"
-                                style={{ background: `${MIZAR_GOLD_ALPHA}0.1)`, color: MIZAR_GOLD, border: `1px solid ${MIZAR_GOLD_ALPHA}0.2)` }}>
-                                {act.tag}
-                              </span>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ── SECCIÓN 4: GESTIÓN MENSUAL ── */}
-        <section id="gestion" ref={s4.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>Continuidad</TagLabel>
           <SectionTitle>Gestión mensual de pauta</SectionTitle>
           <Rule />
           <p className="font-lato text-white/60 text-lg leading-relaxed mb-8">
-            Una vez implementada la estructura, la pauta requiere monitoreo y optimización continua. El algoritmo de Meta aprende con el tiempo,
-            y las audiencias Lookalike mejoran cada vez que se actualizan con nuevos datos del CRM. La gestión mensual garantiza que ese proceso sea sostenible.
+            La pauta requiere monitoreo y optimización continua. El algoritmo de Meta aprende con el tiempo, y las audiencias Lookalike mejoran cada vez que se actualizan con nuevos datos del CRM.
+            El servicio se contrata bajo un único esquema mensual — la configuración inicial de la cuenta queda incluida dentro del primer mes, sin cobro adicional de setup.
           </p>
 
           <p className="font-lato text-white/60 text-[14px] leading-relaxed mb-6">{GESTION.descripcion}</p>
@@ -659,104 +570,102 @@ const MizarProposal = () => {
             </div>
           </div>
 
-          {/* Qué incluye */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {GESTION.incluye.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-xl"
-                style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.05)' }}>
-                <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
-                <span className="font-lato text-white/70 text-[13px] leading-relaxed">{item}</span>
+          {/* Configuración inicial (primer mes, incluida) */}
+          <div className="mt-2 mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: `${MIZAR_GOLD_ALPHA}0.15)`, border: `1px solid ${MIZAR_GOLD_ALPHA}0.3)` }}>
+                <Settings className="w-4 h-4" style={{ color: MIZAR_GOLD }} />
               </div>
-            ))}
+              <div>
+                <p className="font-poppins font-bold text-white text-[15px]">Configuración inicial — primer mes</p>
+                <p className="font-lato text-white/45 text-[12px]">Incluida dentro de la gestión mensual, sin costo adicional de setup</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {GESTION.configuracion.map((act, j) => (
+                <div key={j} className="flex items-start gap-3 p-3 rounded-xl"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.05)' }}>
+                  <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
+                  <span className="font-lato text-white/70 text-[13px] leading-relaxed flex-1">{act.text}</span>
+                  {act.tag && (
+                    <span className="font-lato text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap flex-shrink-0"
+                      style={{ background: `${MIZAR_GOLD_ALPHA}0.1)`, color: MIZAR_GOLD, border: `1px solid ${MIZAR_GOLD_ALPHA}0.2)` }}>
+                      {act.tag}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Operación mensual recurrente */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                style={{ background: 'rgba(29,112,162,.15)', border: '1px solid rgba(29,112,162,.3)' }}>
+                <RefreshCw className="w-4 h-4" style={{ color: '#60a5fa' }} />
+              </div>
+              <div>
+                <p className="font-poppins font-bold text-white text-[15px]">Operación mensual recurrente</p>
+                <p className="font-lato text-white/45 text-[12px]">Actividades que se ejecutan cada mes dentro del servicio</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {GESTION.incluye.map((item, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 rounded-xl"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.05)' }}>
+                  <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
+                  <span className="font-lato text-white/70 text-[13px] leading-relaxed">{item}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* ── SECCIÓN 5: INVERSIÓN ── */}
-        <section id="inversion" ref={s5.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* ── SECCIÓN 4: INVERSIÓN ── */}
+        <section id="inversion" ref={s4.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>Propuesta de inversión</TagLabel>
           <SectionTitle>Resumen de inversión</SectionTitle>
           <Rule />
 
-          {/* Tabla de items */}
-          <div className="rounded-2xl overflow-hidden border mb-5" style={{ borderColor: 'rgba(29,112,162,.2)' }}>
-            {/* Header */}
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 px-6 py-3 border-b" style={{ background: 'rgba(29,112,162,.12)', borderColor: 'rgba(29,112,162,.2)' }}>
-              <span className="font-lato text-white/40 text-[11px] uppercase tracking-widest">Concepto</span>
-              <span className="font-lato text-white/40 text-[11px] uppercase tracking-widest text-right">Tipo</span>
-              <span className="font-lato text-white/40 text-[11px] uppercase tracking-widest text-right">Valor</span>
-            </div>
+          <p className="font-lato text-white/60 text-lg leading-relaxed mb-8">
+            Un único esquema recurrente: gestión mensual de pauta Meta Ads. La configuración inicial queda incluida dentro del primer mes, sin cobro separado de setup.
+          </p>
 
-            {/* Fila: Setup único */}
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 items-center px-6 py-4 border-b" style={{ background: 'rgba(255,255,255,.02)', borderColor: 'rgba(255,255,255,.05)' }}>
-              <div>
-                <p className="font-lato text-white/80 text-[14px]">Armado base — Configuración de la cuenta</p>
-                <p className="font-lato text-white/35 text-[12px]">Píxel & API · audiencias · portafolio en Meta · estructura base de campañas por embudo</p>
-              </div>
-              <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap" style={{ background: 'rgba(96,165,250,.1)', color: '#60a5fa', border: '1px solid rgba(96,165,250,.2)' }}>
-                Único
-              </span>
-              <span className="font-poppins font-bold text-white text-[14px] text-right whitespace-nowrap">COP 700.000</span>
-            </div>
-
-            {/* Fila: Gestión mensual — destacada */}
-            <div className="grid grid-cols-[1fr_auto_auto] gap-4 items-start px-6 py-5" style={{ background: `${MIZAR_GOLD_ALPHA}0.07)` }}>
-              <div>
-                <p className="font-poppins font-bold text-white text-[15px] mb-0.5">Gestión mensual de pauta Meta Ads</p>
-                <p className="font-lato text-white/45 text-[12px] leading-relaxed">
-                  Creación de campañas, conjuntos de anuncios y anuncios · revisión semanal · optimización · A/B testing · actualización de Lookalike desde CRM · informe mensual · 2 sesiones de revisión
-                </p>
-                <div className="flex flex-wrap gap-3 mt-2">
-                  <span className="font-lato text-white/55 text-[12px] flex items-center gap-1">
-                    <span className="font-semibold text-white/80">COP 800.000</span> fijo/mes
-                  </span>
-                  <span className="font-lato text-white/35 text-[12px]">+</span>
-                  <span className="font-lato text-white/55 text-[12px] flex items-center gap-1">
-                    <span className="font-semibold text-white/80">10%</span> del presupuesto invertido en Meta
-                  </span>
+          {/* Tarjeta única: gestión mensual */}
+          <div className="rounded-2xl overflow-hidden border mb-6" style={{ borderColor: `${MIZAR_GOLD_ALPHA}0.22)` }}>
+            <div className="p-6" style={{ background: `${MIZAR_GOLD_ALPHA}0.07)` }}>
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap"
+                      style={{ background: `${MIZAR_GOLD_ALPHA}0.18)`, color: MIZAR_GOLD, border: `1px solid ${MIZAR_GOLD_ALPHA}0.35)` }}>
+                      Recurrente
+                    </span>
+                  </div>
+                  <p className="font-poppins font-bold text-white text-[17px] mb-1">Gestión mensual de pauta Meta Ads</p>
+                  <p className="font-lato text-white/50 text-[13px] leading-relaxed">
+                    Configuración inicial incluida en el primer mes · creación de campañas · revisión semanal · optimización · A/B testing · actualización de Lookalike desde CRM · informe mensual · 2 sesiones de revisión
+                  </p>
+                </div>
+                <div className="text-right">
+                  <span className="font-poppins font-black text-[1.8rem] block whitespace-nowrap leading-none" style={{ color: MIZAR_GOLD }}>800K + 10%</span>
+                  <span className="font-lato text-white/40 text-[12px] block mt-1">por mes</span>
                 </div>
               </div>
-              <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap mt-1"
-                style={{ background: `${MIZAR_GOLD_ALPHA}0.18)`, color: MIZAR_GOLD, border: `1px solid ${MIZAR_GOLD_ALPHA}0.35)` }}>
-                Recurrente
-              </span>
-              <div className="text-right mt-1">
-                <span className="font-poppins font-black text-[15px] whitespace-nowrap" style={{ color: MIZAR_GOLD }}>800K + 10%</span>
-                <span className="font-lato text-white/35 text-[12px] block">/ mes</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Resumen mes 1 vs mes 2+ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="rounded-2xl p-5 border" style={{ background: 'rgba(29,112,162,.07)', borderColor: 'rgba(29,112,162,.2)' }}>
-              <p className="font-lato text-white/40 text-[11px] uppercase tracking-widest mb-3">Mes 1 (setup + gestión)</p>
-              <div className="space-y-1.5 mb-3">
-                <div className="flex justify-between font-lato text-white/55 text-[13px]">
-                  <span>Setup inicial</span><span>COP 700.000</span>
+              <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t" style={{ borderColor: `${MIZAR_GOLD_ALPHA}0.15)` }}>
+                <div className="flex items-center gap-2">
+                  <span className="font-lato text-white/40 text-[12px] uppercase tracking-widest">Fee fija</span>
+                  <span className="font-poppins font-bold text-white text-[14px]">COP 800.000</span>
+                  <span className="font-lato text-white/40 text-[12px]">/ mes</span>
                 </div>
-                <div className="flex justify-between font-lato text-white/55 text-[13px]">
-                  <span>Gestión mes 1</span><span>COP 800.000 + 10% pauta</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center border-t pt-3" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
-                <span className="font-poppins font-bold text-white/80 text-[14px]">Total mes 1</span>
-                <span className="font-poppins font-black text-white text-[18px]">COP 1.500.000 + 10%</span>
-              </div>
-            </div>
-            <div className="rounded-2xl p-5 border" style={{ background: `${MIZAR_GOLD_ALPHA}0.07)`, borderColor: `${MIZAR_GOLD_ALPHA}0.22)` }}>
-              <p className="font-lato text-white/40 text-[11px] uppercase tracking-widest mb-3">Mes 2 en adelante</p>
-              <p className="font-lato text-white/55 text-[13px] mb-3">
-                Solo gestión mensual recurrente. El setup se paga una sola vez.
-              </p>
-              <div className="border-t pt-3" style={{ borderColor: `${MIZAR_GOLD_ALPHA}0.15)` }}>
-                <div className="flex justify-between items-center">
-                  <span className="font-poppins font-bold text-white/80 text-[14px]">Mensualidad</span>
-                  <span className="font-poppins font-black text-[18px]" style={{ color: MIZAR_GOLD }}>COP 800.000</span>
-                </div>
-                <div className="flex justify-between items-center mt-1">
-                  <span className="font-lato text-white/40 text-[13px]">Variable pauta</span>
-                  <span className="font-poppins font-bold text-[15px]" style={{ color: MIZAR_GOLD }}>+ 10% invertido</span>
+                <span className="font-lato text-white/30 text-[13px]">+</span>
+                <div className="flex items-center gap-2">
+                  <span className="font-lato text-white/40 text-[12px] uppercase tracking-widest">Fee variable</span>
+                  <span className="font-poppins font-bold text-white text-[14px]">10%</span>
+                  <span className="font-lato text-white/40 text-[12px]">del presupuesto invertido en Meta</span>
                 </div>
               </div>
             </div>
@@ -778,9 +687,9 @@ const MizarProposal = () => {
           </div>
         </section>
 
-        {/* ── SECCIÓN 6: VIGENCIA ── */}
-        <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* ── SECCIÓN 5: VIGENCIA ── */}
+        <section id="vigencia" ref={s5.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>Términos</TagLabel>
           <SectionTitle>Vigencia y condiciones</SectionTitle>
           <Rule />
@@ -789,10 +698,10 @@ const MizarProposal = () => {
             {[
               { label: 'Vigencia de la propuesta', valor: '30 días desde la fecha de emisión' },
               { label: 'Inicio de trabajo', valor: 'Dentro de los 5 días hábiles tras la confirmación' },
-              { label: 'Forma de pago — Setup', valor: '100% al inicio de la fase de configuración' },
-              { label: 'Forma de pago — Gestión', valor: 'Mensual anticipado' },
+              { label: 'Forma de pago', valor: 'Mensual anticipado' },
               { label: 'Modalidad', valor: 'Remota con sesiones de videoconferencia' },
               { label: 'Cancelación gestión mensual', valor: 'Con 15 días de anticipación, sin penalidad' },
+              { label: 'Facturación', valor: 'Con IVA discriminado · desde Sixteam.pro' },
             ].map((item, i) => (
               <div key={i} className="rounded-xl p-4 border" style={{ background: 'rgba(255,255,255,.03)', borderColor: 'rgba(255,255,255,.07)' }}>
                 <p className="font-lato text-white/35 text-[11px] uppercase tracking-widest mb-1">{item.label}</p>
