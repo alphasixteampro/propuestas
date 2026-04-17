@@ -48,6 +48,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/hotel-casa-rueda',
   },
+  {
+    slug: 'mizar',
+    cliente: 'Mizar Diseño y Construcciones',
+    sector: 'Inmobiliaria · Lotes urbanos y rurales',
+    fecha: 'Abril 2026',
+    monto: 'COP 3.500.000 + gestión',
+    estado: 'borrador',
+    path: '/mizar',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -162,6 +171,10 @@ export default function Home() {
                     <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   ) : p.slug === 'stunet' ? (
                     <img src="/stunet-logo.png" alt="Stunet" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  ) : p.slug === 'mizar' ? (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
+                      <Building2 size={24} color="#c9a443" />
+                    </div>
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
                   )}

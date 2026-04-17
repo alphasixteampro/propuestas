@@ -4,8 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 const Home           = lazy(() => import('./pages/Home'));
 const StunetProposal   = lazy(() => import('./pages/StunetProposal'));
 const ConnectyProposal = lazy(() => import('./pages/ConnectyProposal'));
-const DePaseoProposal       = lazy(() => import('./pages/DePaseoProposal'));
+const DePaseoProposal        = lazy(() => import('./pages/DePaseoProposal'));
 const HotelCasaRuedaProposal = lazy(() => import('./pages/HotelCasaRuedaProposal'));
+const MizarProposal          = lazy(() => import('./pages/MizarProposal'));
 
 function Loader() {
   return (
@@ -31,7 +32,8 @@ export default function App() {
           <Route path="/stunet"               element={<StunetProposal />} />
           <Route path="/conecty"              element={<ConnectyProposal />} />
           <Route path="/depaseo"              element={<DePaseoProposal />} />
-          <Route path="/hotel-casa-rueda"    element={<HotelCasaRuedaProposal />} />
+          <Route path="/hotel-casa-rueda"     element={<HotelCasaRuedaProposal />} />
+          <Route path="/mizar"                element={<MizarProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
