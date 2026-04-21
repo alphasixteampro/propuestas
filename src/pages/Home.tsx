@@ -57,6 +57,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/mizar',
   },
+  {
+    slug: 'visitantioquia',
+    cliente: 'Visit Antioquia',
+    sector: 'Turismo receptivo · Agencia de viajes · B2C',
+    fecha: 'Abril 2026',
+    monto: 'COP 7.734.000 + COP 728.586/mes',
+    estado: 'borrador',
+    path: '/visitantioquia',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -175,6 +184,9 @@ export default function Home() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
                       <Building2 size={24} color="#c9a443" />
                     </div>
+                  ) : p.slug === 'visitantioquia' ? (
+                    <img src="/visitantioquia-logo.png" alt="Visit Antioquia" style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
                   )}
