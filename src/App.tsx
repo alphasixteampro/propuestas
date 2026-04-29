@@ -9,6 +9,7 @@ const HotelCasaRuedaProposal = lazy(() => import('./pages/HotelCasaRuedaProposal
 const MizarProposal          = lazy(() => import('./pages/MizarProposal'));
 const AnatoProposal          = lazy(() => import('./pages/AnatoProposal'));
 const AnatoDeck              = lazy(() => import('./pages/AnatoDeck'));
+const VisitAntioquiaProposal = lazy(() => import('./pages/VisitAntioquiaProposal'));
 
 function Loader() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/mizar"                element={<MizarProposal />} />
           <Route path="/anato"                element={<AnatoProposal />} />
           <Route path="/anato-deck"           element={<AnatoDeck />} />
+          <Route path="/visitantioquia"       element={<VisitAntioquiaProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
