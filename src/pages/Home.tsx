@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, Calendar, Building2, Tag } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Building2, Tag, Plane } from 'lucide-react';
 
 interface Proposal {
   slug: string;
@@ -56,6 +56,15 @@ const PROPOSALS: Proposal[] = [
     monto: 'COP 800.000 + 10% / mes',
     estado: 'borrador',
     path: '/mizar',
+  },
+  {
+    slug: 'anato',
+    cliente: 'ANATO Seccional Central',
+    sector: 'Turismo · Asociación gremial de agencias de viaje',
+    fecha: 'Abril 2026',
+    monto: 'Alianza · 25% dcto. afiliados',
+    estado: 'borrador',
+    path: '/anato',
   },
 ];
 
@@ -174,6 +183,10 @@ export default function Home() {
                   ) : p.slug === 'mizar' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
                       <Building2 size={24} color="#c9a443" />
+                    </div>
+                  ) : p.slug === 'anato' ? (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(232,84,10,.1)', borderRadius: 12 }}>
+                      <Plane size={24} color="#e8540a" />
                     </div>
                   ) : (
                     <Building2 size={20} color="#1d70a2" />

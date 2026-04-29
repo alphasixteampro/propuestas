@@ -7,6 +7,8 @@ const ConnectyProposal = lazy(() => import('./pages/ConnectyProposal'));
 const DePaseoProposal        = lazy(() => import('./pages/DePaseoProposal'));
 const HotelCasaRuedaProposal = lazy(() => import('./pages/HotelCasaRuedaProposal'));
 const MizarProposal          = lazy(() => import('./pages/MizarProposal'));
+const AnatoProposal          = lazy(() => import('./pages/AnatoProposal'));
+const AnatoDeck              = lazy(() => import('./pages/AnatoDeck'));
 
 function Loader() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
           <Route path="/depaseo"              element={<DePaseoProposal />} />
           <Route path="/hotel-casa-rueda"     element={<HotelCasaRuedaProposal />} />
           <Route path="/mizar"                element={<MizarProposal />} />
+          <Route path="/anato"                element={<AnatoProposal />} />
+          <Route path="/anato-deck"           element={<AnatoDeck />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
