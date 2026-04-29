@@ -3,7 +3,7 @@ import {
   CheckCircle, ChevronRight, FileText, Zap, BarChart3,
   MessageSquare, AlertCircle, TrendingUp, Mail, ArrowRight, Building2,
   Calendar, Hash, User, Info, Globe, MapPin, Plane, Users,
-  Monitor, Database, Layers,
+  Monitor, Database, Layers, Compass, Target, Settings, LineChart, GraduationCap,
 } from 'lucide-react';
 import LogoCarousel from '../components/LogoCarousel';
 
@@ -21,7 +21,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
-  objetivo: 'Sixteam.pro como socio de transformación digital para las agencias afiliadas a ANATO Seccional Central — del diagnóstico a la implementación, en todos sus procesos tecnológicos.',
+  objetivo: 'Acompañamiento estratégico para las agencias afiliadas a ANATO Seccional Central: consultoría y operación de todo su sistema operativo digital — el equipo que antes solo las grandes empresas podían costear, ahora al alcance de cada agencia.',
 };
 
 const ANATO_ORANGE = '#e8540a';
@@ -35,10 +35,10 @@ const STATS = [
 
 const PROBLEMAS = [
   {
-    titulo: '"Sin datos no hay IA"',
-    desc: 'Las agencias no mantienen un historial sistematizado del cliente. Sin datos estructurados, ninguna herramienta de automatización o inteligencia artificial puede funcionar a su potencial.',
+    titulo: 'Compran herramientas, no las usan',
+    desc: 'El mercado ofrece CRMs, IAs y plataformas de viajes — pero "sin datos no hay IA", y sin operación no hay datos. Las agencias adquieren software que termina sin adoptarse porque nadie tiene el tiempo, la formación ni la responsabilidad de operarlo día a día.',
     fuente: 'Luis Betancourt · ANATO Capacita Tech 2026',
-    icon: Database,
+    icon: Layers,
     tint: 'amber',
   },
   {
@@ -165,18 +165,23 @@ const MODELO_PASOS = [
 
 const DIFERENCIADORES = [
   {
-    titulo: 'El área de TI que la agencia no tiene',
-    desc: 'Sixteam actúa como el equipo de tecnología de la agencia. El gerente no necesita entender de CRM, automatizaciones ni pauta — eso es nuestro trabajo. Su expertise es el turismo; el nuestro, la tecnología.',
+    titulo: 'Consultoría + operación en el mismo equipo',
+    desc: 'No vendemos horas de consultoría sueltas ni licencias para que la agencia "intente". Pensamos la estrategia y operamos su ejecución mes a mes. Una sola contraparte, una sola cuenta de resultados.',
+    icon: Compass,
+  },
+  {
+    titulo: 'El área digital que la agencia no tiene',
+    desc: 'Sixteam actúa como el equipo de TI, growth y datos de la agencia. El gerente no necesita entender de CRM, automatizaciones, IA ni pauta — eso es nuestro trabajo. Su expertise es el turismo; el nuestro, la tecnología.',
     icon: Layers,
   },
   {
     titulo: 'Lo que antes costaba COP 15–25M/mes, hoy es accesible',
-    desc: 'Armar esto de forma independiente requiere: desarrollador web, agencia de pauta, consultor de CRM, especialista en automatización — cada uno cobrando por separado, sin integración garantizada. Sixteam entrega todo eso unificado desde COP 668.000/mes con descuento ANATO.',
+    desc: 'Armar esto de forma independiente requiere desarrollador, agencia de pauta, consultor de CRM y especialista en automatización — cada uno por separado, sin integración garantizada. Sixteam entrega todo unificado desde COP 668.000/mes con descuento ANATO.',
     icon: TrendingUp,
   },
   {
-    titulo: 'Implementadores, no solo plataforma',
-    desc: 'No entregamos un manual y un acceso. Asignamos un equipo que entiende la operación de la agencia, configura cada herramienta y acompaña hasta que se adopte y produzca resultados reales.',
+    titulo: 'Operadores, no solo implementadores',
+    desc: 'No entregamos un manual y un acceso. Asignamos un equipo que configura cada herramienta y queda a cargo de operarla — pauta digital activa, IA respondiendo, pipeline limpio, reportes mensuales.',
     icon: Users,
   },
   {
@@ -196,15 +201,82 @@ const DIFERENCIADORES = [
   },
 ];
 
+const FASES_ACOMPANAMIENTO = [
+  {
+    num: '01',
+    titulo: 'Diagnóstico',
+    desc: 'Auditamos la operación actual: canales activos, herramientas, datos del cliente, flujos comerciales y puntos de fuga del prospecto.',
+    icon: Compass,
+  },
+  {
+    num: '02',
+    titulo: 'Estrategia',
+    desc: 'Diseñamos la hoja de ruta digital alineada con los objetivos comerciales de la agencia: qué priorizar, qué medir y qué resultados esperar por trimestre.',
+    icon: Target,
+  },
+  {
+    num: '03',
+    titulo: 'Implementación',
+    desc: 'Configuramos las herramientas, integramos canales, montamos automatizaciones y dejamos el sistema operativo digital funcionando — sin que la agencia toque una línea de código.',
+    icon: Settings,
+  },
+  {
+    num: '04',
+    titulo: 'Operación',
+    desc: 'Operamos el día a día: pauta digital, atención automatizada, seguimiento del pipeline, depuración de datos y mantenimiento — como si fuéramos el área de TI y growth de la agencia.',
+    icon: Zap,
+  },
+  {
+    num: '05',
+    titulo: 'Optimización',
+    desc: 'Reuniones mensuales de revisión con reportes ejecutivos, hipótesis de mejora y ajustes continuos. El sistema evoluciona con el negocio.',
+    icon: LineChart,
+  },
+];
+
+const FRENTES = [
+  {
+    titulo: 'Captación digital',
+    desc: 'Sitio web del catálogo, pauta en Meta y Google, tracking con Pixel y Conversions API. Cada visita queda medida y trazable hasta la venta.',
+    icon: Monitor,
+  },
+  {
+    titulo: 'Atención con IA 24/7',
+    desc: 'Chat omnicanal con bot inteligente entrenado para turismo. Responde a leads en segundos en WhatsApp, Instagram, Facebook y web — y deriva al asesor cuando hace falta.',
+    icon: MessageSquare,
+  },
+  {
+    titulo: 'CRM y pipeline comercial',
+    desc: 'Pipeline de paquetes, grupos y corporativo con historial completo del cliente viajero. Ningún prospecto se pierde entre canales.',
+    icon: BarChart3,
+  },
+  {
+    titulo: 'Automatizaciones',
+    desc: 'Recordatorios, seguimientos, tareas asignadas, encuestas post-viaje, recompra. La agencia deja de depender de la memoria del asesor.',
+    icon: Layers,
+  },
+  {
+    titulo: 'Datos y reportes',
+    desc: 'Estructura de datos limpia (sin "datos no hay IA"). Reportes mensuales con CAC, conversión, tiempo de respuesta y rentabilidad por canal.',
+    icon: Database,
+  },
+  {
+    titulo: 'Capacitación del equipo',
+    desc: 'Acompañamos a comerciales y gerencia en la adopción real de las herramientas. La tecnología solo funciona cuando el equipo la usa con confianza.',
+    icon: GraduationCap,
+  },
+];
+
 const SECCIONES = [
-  { id: 'contexto',      label: 'Contexto'      },
-  { id: 'reto',          label: 'El reto'        },
-  { id: 'alianza',       label: 'La alianza'     },
-  { id: 'portafolio',    label: 'Portafolio'     },
-  { id: 'modelo',        label: 'Modelo'         },
-  { id: 'piloto',        label: 'Piloto'         },
-  { id: 'porquesixteam', label: 'Por qué Sixteam'},
-  { id: 'proximos',      label: 'Próximos pasos' },
+  { id: 'contexto',         label: 'Contexto'             },
+  { id: 'reto',             label: 'El reto'              },
+  { id: 'alianza',          label: 'La propuesta'         },
+  { id: 'acompanamiento',   label: 'Acompañamiento'       },
+  { id: 'portafolio',       label: 'Módulos del sistema'  },
+  { id: 'modelo',           label: 'Modelo'               },
+  { id: 'piloto',           label: 'Piloto'               },
+  { id: 'porquesixteam',    label: 'Por qué Sixteam'      },
+  { id: 'proximos',         label: 'Próximos pasos'       },
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -259,7 +331,7 @@ const AnatoProposal = () => {
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
   const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
-  const s7 = useVisible(); const s8 = useVisible();
+  const s7 = useVisible(); const s8 = useVisible(); const s9 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -330,7 +402,7 @@ const AnatoProposal = () => {
 
             {/* — Izquierda — */}
             <div className="flex flex-col justify-center">
-              <TagLabel>Propuesta de transformación digital</TagLabel>
+              <TagLabel>Propuesta de acompañamiento estratégico</TagLabel>
               <div className="mt-4 mb-3 flex flex-wrap items-center gap-2">
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
                   style={{ background: `linear-gradient(135deg, ${ANATO_ORANGE}, #c94408)` }}>
@@ -344,10 +416,10 @@ const AnatoProposal = () => {
                 </span>
               </div>
               <h1 className="font-poppins font-black text-white leading-[1.0] mb-4"
-                style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)' }}>
-                Transformación<br />
+                style={{ fontSize: 'clamp(2.6rem, 4.7vw, 4.6rem)' }}>
+                Acompañamiento<br />
                 <span style={{ background: 'linear-gradient(90deg,#1d70a2,#00bfa5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  Digital
+                  Estratégico
                 </span>
               </h1>
               <p className="font-lato text-white/55 text-xl leading-relaxed mb-5">
@@ -386,10 +458,11 @@ const AnatoProposal = () => {
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
                   {[
-                    '1. El momento del turismo', '2. El reto de las agencias',
-                    '3. La propuesta de alianza',  '4. Portafolio con descuento ANATO',
-                    '5. Modelo operativo',         '6. Piloto propuesto',
-                    '7. ¿Por qué Sixteam?',        '8. Próximos pasos',
+                    '1. El momento del turismo',           '2. El reto de las agencias',
+                    '3. La propuesta de alianza',          '4. Acompañamiento estratégico',
+                    '5. Módulos del sistema operativo',    '6. Modelo operativo',
+                    '7. Piloto propuesto',                 '8. ¿Por qué Sixteam?',
+                    '9. Próximos pasos',
                   ].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
@@ -528,13 +601,13 @@ const AnatoProposal = () => {
         <section id="alianza" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — La propuesta</TagLabel>
-          <SectionTitle>El socio de transformación digital que las agencias necesitan</SectionTitle>
+          <SectionTitle>Acompañamiento estratégico: el equipo que antes solo las grandes empresas podían tener</SectionTitle>
           <Rule />
 
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-8">
-            <p><strong className="text-white/90 font-semibold">Sixteam.pro no es un proveedor de software.</strong> Es el equipo de tecnología y transformación digital que las agencias no tienen — y que hasta hace poco solo las grandes empresas podían costear. Antes, lograr una transformación real requería contratar un gerente de TI, un desarrollador, un experto en pauta digital y un consultor de CRM. Una inversión fuera del alcance de la mayoría de agencias.</p>
-            <p>Hoy eso cambió. Armar la infraestructura digital de una agencia por cuenta propia significa contratar: un desarrollador web, una agencia de pauta, un consultor de CRM y un especialista en automatización — cada uno cobrando por separado, sin integración, sin visión de conjunto. <strong className="text-white/90 font-semibold">Un costo real de COP 15 a 25 millones mensuales o más</strong>, que la mayoría de agencias simplemente no puede sostener. Sixteam resuelve todo eso en un solo equipo, integrado, con foco en turismo, desde COP 668.000/mes con el descuento ANATO. <strong className="text-white/90 font-semibold">La brecha entre la agencia grande y la pequeña ya no es tecnología — es decisión.</strong></p>
-            <p>Proponemos a <strong className="text-white/90 font-semibold">ANATO Seccional Central</strong> convertirse en el canal que conecta a sus afiliadas con este modelo: acceso a Sixteam con un <strong className="text-white/90 font-semibold">25% de descuento exclusivo</strong> por pertenecer al gremio. Para ANATO no hay costo ni riesgo — solo el valor de ser el puente hacia la transformación digital del sector.</p>
+            <p>El servicio principal de Sixteam.pro <strong className="text-white/90 font-semibold">no es una plataforma — es un acompañamiento estratégico</strong>. Una agencia afiliada a ANATO no recibe acceso a un software para "que vea cómo se las arregla". Recibe un equipo que <strong className="text-white/90 font-semibold">diagnostica, diseña, implementa y opera</strong> mes a mes todo su sistema operativo digital, con responsabilidad sobre los resultados.</p>
+            <p>Hasta hace poco, este modelo era exclusivo de empresas grandes. Tener consultor, implementador y operador alineados con la estrategia comercial implicaba contratar un gerente de TI, un desarrollador, una agencia de pauta y un consultor de CRM — cada uno por separado, sin integración, con un costo real de <strong className="text-white/90 font-semibold">COP 15 a 25 millones mensuales o más</strong>. Una agencia pequeña o mediana simplemente no podía sostenerlo. <strong className="text-white/90 font-semibold">Sixteam unifica ese equipo en un solo servicio</strong>, con foco en turismo, desde COP 668.000/mes con el descuento ANATO. La brecha entre la agencia grande y la pequeña ya no es tecnología — es decisión.</p>
+            <p>Proponemos a <strong className="text-white/90 font-semibold">ANATO Seccional Central</strong> convertirse en el canal que conecta a sus afiliadas con este modelo: acceso al acompañamiento estratégico de Sixteam con un <strong className="text-white/90 font-semibold">25% de descuento exclusivo</strong> por pertenecer al gremio. Para ANATO no hay costo ni riesgo — solo el valor de ser el puente hacia la madurez digital del sector.</p>
           </div>
 
           {/* Beneficios de la alianza */}
@@ -542,7 +615,7 @@ const AnatoProposal = () => {
             {[
               {
                 quien: 'Agencias afiliadas',
-                beneficio: '25% de descuento en todos los servicios Sixteam + implementación accesible + equipo de acompañamiento.',
+                beneficio: 'Acompañamiento estratégico Sixteam con 25% de descuento: consultor + implementador + operador en un solo equipo, listo desde el primer mes.',
                 color: ANATO_ORANGE,
                 bgColor: `rgba(232,84,10,.06)`,
                 borderColor: `rgba(232,84,10,.2)`,
@@ -550,7 +623,7 @@ const AnatoProposal = () => {
               },
               {
                 quien: 'ANATO Seccional Central',
-                beneficio: 'Ofrece valor tangible y diferencial a sus afiliadas. Convierte la membresía en acceso a tecnología — sin costo para el gremio.',
+                beneficio: 'Convierte la membresía en acceso a un equipo de transformación digital sectorial — sin costo para el gremio y con reportes periódicos de impacto.',
                 color: '#00bfa5',
                 bgColor: 'rgba(0,191,165,.06)',
                 borderColor: 'rgba(0,191,165,.22)',
@@ -594,21 +667,126 @@ const AnatoProposal = () => {
                   Descuento exclusivo para afiliados ANATO Seccional Central
                 </p>
                 <p className="font-lato text-white/55 text-[17px]">
-                  Aplica sobre el 100% del portafolio Sixteam.pro: licencias mensuales, implementaciones, sitios web y gestión de pauta. Sin letra pequeña.
+                  Aplica sobre el acompañamiento estratégico completo de Sixteam.pro: consultoría, implementación, operación, sitios web y pauta digital. Sin letra pequeña.
                 </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ─ 04 PORTAFOLIO ─ */}
+        {/* ─ 04 ACOMPAÑAMIENTO ESTRATÉGICO ─ */}
+        <section id="acompanamiento" ref={s9.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s9.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>04 — Acompañamiento estratégico</TagLabel>
+          <SectionTitle>El sistema operativo digital de la agencia, operado por Sixteam</SectionTitle>
+          <Rule />
+
+          <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
+            <p>El acompañamiento estratégico es el servicio núcleo de Sixteam.pro y lo que diferencia a la agencia que crece de la que se queda rezagada. <strong className="text-white/90 font-semibold">No vendemos licencias para que el cliente "intente"</strong> — operamos el sistema digital completo de la agencia con responsabilidad sobre la ejecución y los resultados.</p>
+            <p>El gerente o dueño de la agencia <strong className="text-white/90 font-semibold">deja de tener que aprender de CRM, pauta digital, automatización o IA</strong>. Su trabajo es vender turismo. El nuestro es asegurarse de que su sistema operativo digital esté impecable mes a mes.</p>
+          </div>
+
+          {/* Las 5 fases del acompañamiento */}
+          <p className="font-poppins font-bold text-white/55 text-[13px] uppercase tracking-wider mb-4">El ciclo del acompañamiento</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 mb-12">
+            {FASES_ACOMPANAMIENTO.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div key={i} className="rounded-xl p-4 flex flex-col gap-2 relative overflow-hidden"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+                      style={{ background: 'rgba(0,191,165,.1)', border: '1px solid rgba(0,191,165,.2)' }}>
+                      <Icon className="w-4 h-4 text-[#00bfa5]" />
+                    </div>
+                    <span className="font-poppins font-black text-white/15 text-[18px]">{f.num}</span>
+                  </div>
+                  <p className="font-poppins font-bold text-white/85 text-[16px]">{f.titulo}</p>
+                  <p className="font-lato text-white/50 text-[14px] leading-relaxed">{f.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Frentes que cubre */}
+          <p className="font-poppins font-bold text-white/55 text-[13px] uppercase tracking-wider mb-4">Frentes que cubre el acompañamiento</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+            {FRENTES.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div key={i} className="rounded-xl p-4 flex gap-3"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(29,112,162,.12)', border: '1px solid rgba(29,112,162,.22)' }}>
+                    <Icon className="w-4 h-4 text-[#1d70a2]" />
+                  </div>
+                  <div>
+                    <p className="font-poppins font-bold text-white/85 text-[17px] mb-1">{f.titulo}</p>
+                    <p className="font-lato text-white/50 text-[15px] leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Comparativa: lo que antes costaba vs. lo que la agencia recibe */}
+          <div className="rounded-2xl p-6 sm:p-7 relative overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.06), rgba(29,112,162,.04))', border: '1px solid rgba(0,191,165,.18)' }}>
+            <div className="absolute top-0 right-0 w-64 h-64 pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(0,191,165,.06), transparent 70%)', transform: 'translate(25%,-25%)' }} />
+            <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <p className="font-poppins font-semibold text-white/40 text-[13px] uppercase tracking-wider mb-3">Antes — armarlo por cuenta propia</p>
+                <ul className="space-y-2">
+                  {[
+                    'Gerente de TI o líder digital interno',
+                    'Desarrollador web freelance o agencia',
+                    'Agencia de pauta digital (Meta + Google)',
+                    'Consultor de CRM e implementador',
+                    'Especialista en automatización e IA',
+                    'Analista de datos y reportes',
+                  ].map((it, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="w-1 h-1 rounded-full bg-white/30 flex-shrink-0 mt-2.5" />
+                      <span className="font-lato text-white/55 text-[16px]">{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="font-poppins font-black text-white/70 text-[20px] mt-4">COP 15–25M/mes</p>
+                <p className="font-lato text-white/35 text-[13px]">Sin integración garantizada · costos sumados</p>
+              </div>
+              <div>
+                <p className="font-poppins font-semibold text-[#00bfa5] text-[13px] uppercase tracking-wider mb-3">Hoy — Acompañamiento Sixteam</p>
+                <ul className="space-y-2">
+                  {[
+                    'Un solo equipo unificado por la agencia',
+                    'Consultor estratégico + implementadores',
+                    'Operadores día a día (pauta, IA, CRM)',
+                    'Plataforma propia integrada y mantenida',
+                    'Reportes ejecutivos mensuales',
+                    'Capacitación continua del equipo',
+                  ].map((it, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-1" />
+                      <span className="font-lato text-white/70 text-[16px]">{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="font-poppins font-black text-[#00bfa5] text-[20px] mt-4">Desde COP 668.000/mes</p>
+                <p className="font-lato text-white/45 text-[13px]">con descuento ANATO · todo incluido</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─ 05 PORTAFOLIO ─ */}
         <section id="portafolio" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Portafolio</TagLabel>
-          <SectionTitle>Servicios disponibles con descuento ANATO</SectionTitle>
+          <TagLabel>05 — Módulos del sistema</TagLabel>
+          <SectionTitle>Los módulos que orquestamos dentro del acompañamiento</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-            Una agencia de viajes en plena transformación digital necesita resolver cuatro frentes: captar leads, atenderlos rápido, convertirlos y fidelizarlos. Estas cuatro soluciones cubren ese ciclo completo — <strong className="text-white/75">no como herramientas aisladas, sino como un ecosistema conectado</strong> que Sixteam diseña, implementa y opera por la agencia. Todo con <strong className="text-white/75">25% de descuento exclusivo</strong> para afiliados a ANATO Seccional Central.
+            Estos son los componentes técnicos que el acompañamiento estratégico activa, integra y opera por la agencia. <strong className="text-white/75">No son productos sueltos para "comprar e instalar"</strong> — son módulos del sistema operativo digital que Sixteam configura y mantiene como parte del servicio. Los precios se aplican con el <strong className="text-white/75">25% de descuento exclusivo</strong> para afiliados a ANATO Seccional Central.
           </p>
 
           <div className="space-y-2.5">
@@ -670,10 +848,10 @@ const AnatoProposal = () => {
           </div>
         </section>
 
-        {/* ─ 05 MODELO OPERATIVO ─ */}
+        {/* ─ 06 MODELO OPERATIVO ─ */}
         <section id="modelo" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Modelo operativo</TagLabel>
+          <TagLabel>06 — Modelo operativo</TagLabel>
           <SectionTitle>¿Cómo funciona la alianza?</SectionTitle>
           <Rule />
           <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-8">
@@ -711,11 +889,11 @@ const AnatoProposal = () => {
           </div>
         </section>
 
-        {/* ─ 06 PILOTO ─ */}
+        {/* ─ 07 PILOTO ─ */}
         <section id="piloto" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Propuesta piloto</TagLabel>
-          <SectionTitle>Empecemos con una agencia: sin costo</SectionTitle>
+          <TagLabel>07 — Propuesta piloto</TagLabel>
+          <SectionTitle>Empecemos con una agencia: acompañamiento real, sin costo</SectionTitle>
           <Rule />
 
           <div className="rounded-2xl p-6 sm:p-8 relative overflow-hidden mb-6"
@@ -724,7 +902,7 @@ const AnatoProposal = () => {
               style={{ background: 'radial-gradient(circle, rgba(0,191,165,.06), transparent 70%)', transform: 'translate(20%,-20%)' }} />
             <div className="relative z-10">
               <p className="font-lato text-white/60 text-[19px] leading-relaxed mb-6">
-                Para demostrar el valor real de la alianza antes de cualquier compromiso mayor, proponemos iniciar con un <strong className="text-white/90 font-semibold">piloto gratuito en una agencia de la Seccional Central</strong> — seleccionada por ANATO según los criterios que considere apropiados.
+                Para que ANATO y sus agencias <strong className="text-white/90 font-semibold">vivan en carne propia el modelo de acompañamiento</strong> antes de cualquier compromiso mayor, proponemos iniciar con un <strong className="text-white/90 font-semibold">piloto sin costo en una agencia de la Seccional Central</strong> — seleccionada por ANATO según los criterios que considere apropiados.
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
@@ -732,11 +910,12 @@ const AnatoProposal = () => {
                   <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Qué incluye el piloto</p>
                   <ul className="space-y-2">
                     {[
-                      'Implementación completa de CRM Sixteam.pro',
-                      'Activación de Sixteam Inbox +IA',
+                      'Diagnóstico estratégico de la operación digital',
+                      'Implementación de CRM + Inbox con IA',
                       'Configuración de flujos y automatizaciones base',
-                      '2 meses de licencia incluidos sin costo',
-                      'Acompañamiento y capacitación del equipo',
+                      '2 meses de operación acompañada sin costo',
+                      'Capacitación al equipo comercial y gerencia',
+                      'Reporte ejecutivo de resultados al cierre',
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-0.5" />
@@ -779,14 +958,14 @@ const AnatoProposal = () => {
           </div>
         </section>
 
-        {/* ─ 07 POR QUÉ SIXTEAM ─ */}
+        {/* ─ 08 POR QUÉ SIXTEAM ─ */}
         <section id="porquesixteam" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Diferenciadores</TagLabel>
+          <TagLabel>08 — Diferenciadores</TagLabel>
           <SectionTitle>¿Por qué Sixteam.pro?</SectionTitle>
           <Rule />
           <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-7">
-            ANATO ya tiene alianzas con plataformas tecnológicas (DataCRM, Prolibu, Wetu). Son buenas herramientas — pero las herramientas solas no transforman una agencia. El verdadero problema no es el acceso a la plataforma: <strong className="text-white/80">es que se compran y no se usan</strong>, porque nadie en la agencia tiene el tiempo, la formación ni la responsabilidad de hacerlas funcionar. Sixteam resuelve exactamente eso: somos el equipo de transformación digital de la agencia, no un proveedor más de software.
+            ANATO ya tiene alianzas con plataformas tecnológicas (DataCRM, Prolibu, Wetu). Son buenas herramientas — pero las herramientas solas no transforman una agencia. El verdadero problema no es el acceso a la plataforma: <strong className="text-white/80">es que se compran y no se usan</strong>, porque nadie en la agencia tiene el tiempo, la formación ni la responsabilidad de hacerlas funcionar. <strong className="text-white/80">Por eso nuestra oferta es un acompañamiento estratégico, no una licencia.</strong> Somos el equipo de consultoría y operación digital de la agencia — y respondemos por los resultados.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -809,10 +988,10 @@ const AnatoProposal = () => {
           </div>
         </section>
 
-        {/* ─ 08 PRÓXIMOS PASOS ─ */}
+        {/* ─ 09 PRÓXIMOS PASOS ─ */}
         <section id="proximos" ref={s8.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s8.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>08 — Próximos pasos</TagLabel>
+          <TagLabel>09 — Próximos pasos</TagLabel>
           <SectionTitle>¿Cómo avanzamos?</SectionTitle>
           <Rule />
 
