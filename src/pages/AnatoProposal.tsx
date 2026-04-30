@@ -27,10 +27,10 @@ const META = {
 const ANATO_ORANGE = '#e8540a';
 
 const STATS = [
-  { valor: '30%', label: 'Crecimiento del sector turismo en Colombia · 2024', icon: TrendingUp },
-  { valor: '+$6.000M', label: 'Millones USD en reservas de agencias · 2024', icon: BarChart3 },
-  { valor: '48%', label: 'De las reservas ya ocurren por canales digitales', icon: Globe },
-  { valor: '134%', label: 'Crecimiento de asistentes a ANATO Capacita Tech', icon: Users },
+  { valor: '30%', label: 'Crecimiento turismo Colombia · 2024', icon: TrendingUp },
+  { valor: '+$6.000M', label: 'USD en reservas de agencias · 2024', icon: BarChart3 },
+  { valor: '48%', label: 'Reservas por canales digitales', icon: Globe },
+  { valor: '134%', label: 'Crecimiento ANATO Capacita Tech', icon: Users },
 ];
 
 const PROBLEMAS = [
@@ -74,30 +74,33 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 const SERVICIOS = [
   {
     nombre: 'CRM para Agencias de Viaje',
-    desc: 'Pipeline comercial de paquetes turísticos, seguimiento de prospectos, historial del cliente viajero y automatizaciones de seguimiento.',
+    desc: 'Plataforma comercial completa: pipeline de ventas, historial del cliente viajero, automatizaciones y chat center omnicanal (Sixteam Inbox) incluido en el precio mensual.',
     icon: BarChart3,
     precio_normal: 'COP 890.000/mes',
     precio_anato: 'COP 668.000/mes',
+    nota: 'El chat center omnicanal (Sixteam Inbox) ya está incluido en este plan. La agencia puede atender prospectos por WhatsApp, Instagram, Facebook y web desde el primer día, con agentes humanos.',
     items: [
       'Pipeline de ventas (paquetes, grupos, corporativo)',
       'Historial completo del cliente viajero',
       'Automatizaciones de seguimiento y recordatorios',
       'Reportes de rendimiento comercial',
+      'Chat center omnicanal (Sixteam Inbox) incluido',
       'Hasta 3 usuarios incluidos',
     ],
   },
   {
-    nombre: 'Sixteam Inbox +IA',
-    desc: 'Chat center omnicanal con bot de IA para atención inicial 24/7. WhatsApp, Instagram, Facebook y Web en una sola bandeja.',
+    nombre: 'Bot con IA · Implementación para el Chat Center',
+    desc: 'Entrenamiento e integración del bot de IA conversacional sobre el chat center ya incluido en el CRM. Implementación distinta y complementaria al CRM: el bot aprende el catálogo, responde autónomamente y deriva al asesor cuando hace falta.',
     icon: MessageSquare,
-    precio_normal: 'COP 590.000/mes',
-    precio_anato: 'COP 443.000/mes',
+    precio_normal: 'COP 590.000',
+    precio_anato: 'COP 443.000',
+    nota: 'El Sixteam Inbox (chat center) ya viene en el CRM. Este servicio activa la IA: el bot se entrena con los paquetes y destinos de la agencia, lo que implica un proceso de implementación independiente al del CRM.',
     items: [
-      'WhatsApp, Instagram, Facebook, Web en una bandeja',
-      'Bot de IA conversacional entrenado para turismo',
-      'Respuesta automática 24/7 a consultas de paquetes',
+      'Entrenamiento del bot con el catálogo de la agencia',
+      'Respuesta autónoma 24/7 a consultas de paquetes',
       'Transferencia inteligente bot → asesor humano',
-      'Hasta 2 usuarios incluidos',
+      'Configuración de flujos de conversación por destino',
+      'Integración con todos los canales del chat center',
     ],
   },
   {
@@ -106,6 +109,7 @@ const SERVICIOS = [
     icon: Monitor,
     precio_normal: 'Desde COP 2.400.000',
     precio_anato: 'Desde COP 1.800.000',
+    nota: null,
     items: [
       'Diseño profesional adaptado al sector turismo',
       'Catálogo de destinos y paquetes turísticos',
@@ -118,14 +122,60 @@ const SERVICIOS = [
     nombre: 'Gestión de Pauta Digital',
     desc: 'Administración estratégica de Meta Ads para captación de viajeros. Embudo completo desde reconocimiento hasta conversión, alineado con el ciclo del turismo.',
     icon: TrendingUp,
-    precio_normal: 'COP 800.000 + 10% del presupuesto/mes',
-    precio_anato: 'COP 600.000 + 10% del presupuesto/mes',
+    precio_normal: 'COP 1.170.000/mes',
+    precio_anato: 'COP 880.000/mes',
+    nota: null,
     items: [
       'Estructura de campañas por embudo (ToF / MoF / BoF)',
       'Meta Pixel + Conversions API configurados',
       'Audiencias segmentadas por perfil de viajero',
       'Optimización semanal y reportes mensuales',
       'Integración formularios Meta → CRM',
+    ],
+  },
+  {
+    nombre: 'Email Marketing',
+    desc: 'Envío masivo de correos electrónicos para campañas de reactivación, promociones de temporada y seguimiento post-viaje. Sin límite de envíos: el plan base incluye 10.000 correos/mes y puedes escalar según necesidad.',
+    icon: Mail,
+    precio_normal: 'COP 107.000/mes',
+    precio_anato: 'COP 80.000/mes',
+    nota: null,
+    items: [
+      '10.000 correos mensuales incluidos en el plan base',
+      'Capacidad de enviar la cantidad que necesites al mes',
+      'Plantillas diseñadas para turismo y viajes',
+      'Segmentación por destino, temporada o perfil de viajero',
+      'Reportes de apertura, clics y conversiones',
+    ],
+  },
+  {
+    nombre: 'Soporte y Operaciones',
+    desc: 'Paquete mensual de horas dedicadas a soporte técnico, ajustes operativos y mantenimiento de la infraestructura digital de la agencia.',
+    icon: Settings,
+    precio_normal: 'COP 800.000/mes',
+    precio_anato: 'COP 600.000/mes',
+    nota: null,
+    items: [
+      'Hasta 5 horas mensuales de soporte y operaciones',
+      'Ajustes de automatizaciones y flujos',
+      'Mantenimiento del CRM y canales activos',
+      'Soporte técnico prioritario con tiempo de respuesta garantizado',
+      'Reporte mensual de actividades y estado del sistema',
+    ],
+  },
+  {
+    nombre: 'Consultoría Estratégica',
+    desc: 'Asesoría directa de un especialista Sixteam para diagnóstico, priorización y toma de decisiones sobre la infraestructura digital de la agencia.',
+    icon: Compass,
+    precio_normal: 'COP 200.000/hora',
+    precio_anato: 'COP 150.000/hora',
+    nota: null,
+    items: [
+      'Sesiones estratégicas individuales o con el equipo',
+      'Diagnóstico de madurez digital',
+      'Definición de prioridades y hoja de ruta',
+      'Revisión de métricas y ajuste de estrategia',
+      'Modalidad presencial o virtual',
     ],
   },
 ];
@@ -176,7 +226,7 @@ const DIFERENCIADORES = [
   },
   {
     titulo: 'Lo que antes costaba COP 15–25M/mes, hoy es accesible',
-    desc: 'Armar esto de forma independiente requiere desarrollador, agencia de pauta, consultor de CRM y especialista en automatización — cada uno por separado, sin integración garantizada. Sixteam entrega todo unificado desde COP 668.000/mes con descuento ANATO.',
+    desc: 'Armar un equipo completo de forma independiente implica contratar múltiples perfiles sin integración garantizada. Sixteam entrega todo unificado bajo una sola cuenta de resultados, desde COP 2.228.000/mes con descuento ANATO para los módulos recurrentes.',
     icon: TrendingUp,
   },
   {
@@ -274,7 +324,6 @@ const SECCIONES = [
   { id: 'acompanamiento',   label: 'Acompañamiento'       },
   { id: 'portafolio',       label: 'Módulos del sistema'  },
   { id: 'modelo',           label: 'Modelo'               },
-  { id: 'piloto',           label: 'Piloto'               },
   { id: 'porquesixteam',    label: 'Por qué Sixteam'      },
   { id: 'proximos',         label: 'Próximos pasos'       },
 ];
@@ -312,6 +361,7 @@ const Rule = () => (
 const AnatoProposal = () => {
   const [activeSection, setActiveSection] = useState('contexto');
   const [servicioActivo, setServicioActivo] = useState<number | null>(null);
+  const [faseActiva, setFaseActiva] = useState<number | null>(null);
 
   useEffect(() => {
     const handler = () => {
@@ -330,7 +380,7 @@ const AnatoProposal = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
+  const s4 = useVisible(); const s5 = useVisible();
   const s7 = useVisible(); const s8 = useVisible(); const s9 = useVisible();
 
   return (
@@ -461,8 +511,7 @@ const AnatoProposal = () => {
                     '1. El momento del turismo',           '2. El reto de las agencias',
                     '3. La propuesta de alianza',          '4. Acompañamiento estratégico',
                     '5. Módulos del sistema operativo',    '6. Modelo operativo',
-                    '7. Piloto propuesto',                 '8. ¿Por qué Sixteam?',
-                    '9. Próximos pasos',
+                    '7. ¿Por qué Sixteam?',               '8. Próximos pasos',
                   ].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
@@ -509,9 +558,10 @@ const AnatoProposal = () => {
                 </div>
                 {/* ANATO badge */}
                 <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center justify-center w-28 h-28 rounded-2xl"
-                    style={{ background: `linear-gradient(135deg, rgba(232,84,10,.15), rgba(201,68,8,.08))`, border: `1px solid rgba(232,84,10,.3)`, boxShadow: `0 4px 24px rgba(232,84,10,.15)` }}>
-                    <Plane className="w-12 h-12" style={{ color: ANATO_ORANGE }} />
+                  <div className="flex items-center justify-center w-28 h-28 rounded-2xl overflow-hidden"
+                    style={{ background: `linear-gradient(135deg, rgba(232,84,10,.10), rgba(201,68,8,.05))`, border: `1px solid rgba(232,84,10,.3)`, boxShadow: `0 4px 24px rgba(232,84,10,.15)` }}>
+                    <img src="/logo-web-anato-1-1.png" alt="ANATO" className="w-full h-full object-contain p-3"
+                      style={{ filter: 'drop-shadow(0 2px 8px rgba(232,84,10,.3))' }} />
                   </div>
                   <span className="font-poppins font-black text-white/80 text-[22px] tracking-tight">ANATO</span>
                   <span className="font-lato text-white/30 text-[11px] uppercase tracking-[0.2em]">Seccional Central</span>
@@ -606,8 +656,8 @@ const AnatoProposal = () => {
 
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-8">
             <p>El servicio principal de Sixteam.pro <strong className="text-white/90 font-semibold">no es una plataforma — es un acompañamiento estratégico</strong>. Una agencia afiliada a ANATO no recibe acceso a un software para "que vea cómo se las arregla". Recibe un equipo que <strong className="text-white/90 font-semibold">diagnostica, diseña, implementa y opera</strong> mes a mes todo su sistema operativo digital, con responsabilidad sobre los resultados.</p>
-            <p>Hasta hace poco, este modelo era exclusivo de empresas grandes. Tener consultor, implementador y operador alineados con la estrategia comercial implicaba contratar un gerente de TI, un desarrollador, una agencia de pauta y un consultor de CRM — cada uno por separado, sin integración, con un costo real de <strong className="text-white/90 font-semibold">COP 15 a 25 millones mensuales o más</strong>. Una agencia pequeña o mediana simplemente no podía sostenerlo. <strong className="text-white/90 font-semibold">Sixteam unifica ese equipo en un solo servicio</strong>, con foco en turismo, desde COP 668.000/mes con el descuento ANATO. La brecha entre la agencia grande y la pequeña ya no es tecnología — es decisión.</p>
-            <p>Proponemos a <strong className="text-white/90 font-semibold">ANATO Seccional Central</strong> convertirse en el canal que conecta a sus afiliadas con este modelo: acceso al acompañamiento estratégico de Sixteam con un <strong className="text-white/90 font-semibold">25% de descuento exclusivo</strong> por pertenecer al gremio. Para ANATO no hay costo ni riesgo — solo el valor de ser el puente hacia la madurez digital del sector.</p>
+            <p>Hasta hace poco, este modelo era exclusivo de empresas grandes. Tener consultor, implementador y operador alineados con la estrategia comercial implicaba contratar múltiples perfiles por separado, sin integración, con un costo real de <strong className="text-white/90 font-semibold">COP 15 a 25 millones mensuales o más</strong>. Una agencia pequeña o mediana simplemente no podía sostenerlo. <strong className="text-white/90 font-semibold">Sixteam unifica ese equipo en un solo servicio</strong>, con foco en turismo. Los módulos se activan según las necesidades de cada agencia, con el <strong className="text-white/90 font-semibold">25% de descuento exclusivo para afiliados ANATO</strong>. La brecha entre la agencia grande y la pequeña ya no es tecnología — es decisión.</p>
+            <p>Proponemos a <strong className="text-white/90 font-semibold">ANATO Seccional Central</strong> convertirse en el canal que conecta a sus afiliadas con este modelo: acceso al acompañamiento estratégico de Sixteam con un <strong className="text-white/90 font-semibold">25% de descuento exclusivo</strong> por pertenecer al gremio. Para ANATO no hay costo ni riesgo — es simplemente parte de su misión: ser el puente hacia la madurez digital del sector y ofrecer beneficios concretos a sus asociadas.</p>
           </div>
 
           {/* Beneficios de la alianza */}
@@ -623,7 +673,7 @@ const AnatoProposal = () => {
               },
               {
                 quien: 'ANATO Seccional Central',
-                beneficio: 'Convierte la membresía en acceso a un equipo de transformación digital sectorial — sin costo para el gremio y con reportes periódicos de impacto.',
+                beneficio: 'Cumple su misión gremial ofreciendo a sus afiliadas acceso a acompañamiento estratégico digital de primer nivel. La alianza no le cuesta nada a ANATO — su labor es abrir las puertas y respaldar a cada agencia asociada.',
                 color: '#00bfa5',
                 bgColor: 'rgba(0,191,165,.06)',
                 borderColor: 'rgba(0,191,165,.22)',
@@ -678,7 +728,7 @@ const AnatoProposal = () => {
         <section id="acompanamiento" ref={s9.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s9.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>04 — Acompañamiento estratégico</TagLabel>
-          <SectionTitle>El sistema operativo digital de la agencia, operado por Sixteam</SectionTitle>
+          <SectionTitle>Soporte diario a la Infraestructura operativa Digital de la agencia</SectionTitle>
           <Rule />
 
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
@@ -686,26 +736,51 @@ const AnatoProposal = () => {
             <p>El gerente o dueño de la agencia <strong className="text-white/90 font-semibold">deja de tener que aprender de CRM, pauta digital, automatización o IA</strong>. Su trabajo es vender turismo. El nuestro es asegurarse de que su sistema operativo digital esté impecable mes a mes.</p>
           </div>
 
-          {/* Las 5 fases del acompañamiento */}
-          <p className="font-poppins font-bold text-white/55 text-[13px] uppercase tracking-wider mb-4">El ciclo del acompañamiento</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 mb-12">
-            {FASES_ACOMPANAMIENTO.map((f, i) => {
-              const Icon = f.icon;
-              return (
-                <div key={i} className="rounded-xl p-4 flex flex-col gap-2 relative overflow-hidden"
-                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center"
-                      style={{ background: 'rgba(0,191,165,.1)', border: '1px solid rgba(0,191,165,.2)' }}>
-                      <Icon className="w-4 h-4 text-[#00bfa5]" />
+          {/* El ciclo del acompañamiento — Timeline interactivo */}
+          <p className="font-poppins font-bold text-white/55 text-[13px] uppercase tracking-wider mb-5">El ciclo del acompañamiento</p>
+          <div className="relative mb-12">
+            <div className="absolute left-4 top-6 bottom-6 w-px hidden sm:block"
+              style={{ background: 'linear-gradient(180deg, rgba(0,191,165,.4), rgba(29,112,162,.1))' }} />
+            <div className="space-y-2.5">
+              {FASES_ACOMPANAMIENTO.map((f, i) => {
+                const Icon = f.icon;
+                const isOpen = faseActiva === i;
+                return (
+                  <div key={i} className="relative sm:pl-12 pl-0">
+                    <div className="absolute left-0 top-3 w-8 h-8 rounded-full hidden sm:flex items-center justify-center z-10 transition-all duration-300"
+                      style={{
+                        background: isOpen ? 'rgba(0,191,165,.2)' : 'rgba(255,255,255,.04)',
+                        border: `1px solid ${isOpen ? 'rgba(0,191,165,.45)' : 'rgba(255,255,255,.08)'}`,
+                      }}>
+                      <Icon className={`w-3.5 h-3.5 transition-colors ${isOpen ? 'text-[#00bfa5]' : 'text-white/25'}`} />
                     </div>
-                    <span className="font-poppins font-black text-white/15 text-[18px]">{f.num}</span>
+                    <button
+                      onClick={() => setFaseActiva(isOpen ? null : i)}
+                      className="w-full text-left rounded-xl px-4 py-3.5 transition-all duration-300"
+                      style={{
+                        background: isOpen ? 'rgba(0,191,165,.05)' : 'rgba(255,255,255,.025)',
+                        border: `1px solid ${isOpen ? 'rgba(0,191,165,.25)' : 'rgba(255,255,255,.06)'}`,
+                      }}>
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="sm:hidden flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center"
+                            style={{ background: isOpen ? 'rgba(0,191,165,.15)' : 'rgba(255,255,255,.05)' }}>
+                            <Icon className={`w-3.5 h-3.5 ${isOpen ? 'text-[#00bfa5]' : 'text-white/30'}`} />
+                          </div>
+                          <span className="font-poppins font-black text-[11px] tracking-wider flex-shrink-0"
+                            style={{ color: isOpen ? '#00bfa5' : 'rgba(255,255,255,.2)' }}>{f.num}</span>
+                          <p className={`font-poppins font-bold text-[17px] transition-colors duration-300 ${isOpen ? 'text-white' : 'text-white/65'}`}>{f.titulo}</p>
+                        </div>
+                        <ChevronRight className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-90 text-[#00bfa5]' : 'text-white/20'}`} />
+                      </div>
+                      {isOpen && (
+                        <p className="font-lato text-white/55 text-[16px] leading-relaxed mt-3 sm:ml-8">{f.desc}</p>
+                      )}
+                    </button>
                   </div>
-                  <p className="font-poppins font-bold text-white/85 text-[16px]">{f.titulo}</p>
-                  <p className="font-lato text-white/50 text-[14px] leading-relaxed">{f.desc}</p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* Frentes que cubre */}
@@ -713,16 +788,125 @@ const AnatoProposal = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
             {FRENTES.map((f, i) => {
               const Icon = f.icon;
+              const FRENTES_SVG = [
+                /* 0 — Captación digital */
+                <svg key={0} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(29,112,162,0.08)"/>
+                  <rect x="80" y="8" width="120" height="42" rx="4" fill="none" stroke="rgba(29,112,162,0.45)" strokeWidth="1.5"/>
+                  <rect x="95" y="32" width="8" height="13" rx="1.5" fill="rgba(0,191,165,0.4)"/>
+                  <rect x="108" y="25" width="8" height="20" rx="1.5" fill="rgba(0,191,165,0.6)"/>
+                  <rect x="121" y="18" width="8" height="27" rx="1.5" fill="rgba(0,191,165,0.8)"/>
+                  <rect x="134" y="13" width="8" height="32" rx="1.5" fill="#00bfa5"/>
+                  <rect x="147" y="20" width="8" height="25" rx="1.5" fill="rgba(0,191,165,0.55)"/>
+                  <rect x="133" y="50" width="14" height="5" rx="1.5" fill="rgba(29,112,162,0.3)"/>
+                  <rect x="127" y="55" width="26" height="3" rx="1.5" fill="rgba(29,112,162,0.22)"/>
+                  <circle cx="160" cy="15" r="3" fill="rgba(232,84,10,0.75)"/>
+                  <circle cx="28" cy="18" r="3.5" fill="rgba(0,191,165,0.12)"/>
+                  <circle cx="255" cy="28" r="4" fill="rgba(232,84,10,0.08)"/>
+                </svg>,
+                /* 1 — Atención IA 24/7 */
+                <svg key={1} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(0,191,165,0.06)"/>
+                  <rect x="48" y="12" width="100" height="28" rx="10" fill="rgba(0,191,165,0.12)" stroke="rgba(0,191,165,0.32)" strokeWidth="1"/>
+                  <circle cx="68" cy="26" r="6" fill="rgba(0,191,165,0.3)"/>
+                  <circle cx="68" cy="26" r="3" fill="rgba(0,191,165,0.9)"/>
+                  <circle cx="90" cy="26" r="2.5" fill="rgba(255,255,255,0.22)"/>
+                  <circle cx="100" cy="26" r="2.5" fill="rgba(255,255,255,0.22)"/>
+                  <circle cx="110" cy="26" r="2.5" fill="rgba(255,255,255,0.22)"/>
+                  <path d="M48 36 L43 45 L58 40" fill="rgba(0,191,165,0.12)"/>
+                  <rect x="132" y="36" width="100" height="24" rx="10" fill="rgba(29,112,162,0.12)" stroke="rgba(29,112,162,0.25)" strokeWidth="1"/>
+                  <line x1="150" y1="46" x2="212" y2="46" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round"/>
+                  <line x1="150" y1="52" x2="196" y2="52" stroke="rgba(255,255,255,0.12)" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M248 18 L250 24 L256 26 L250 28 L248 34 L246 28 L240 26 L246 24 Z" fill="rgba(0,191,165,0.55)"/>
+                  <text x="18" y="34" fill="rgba(0,191,165,0.45)" fontSize="9" fontFamily="monospace">24/7</text>
+                </svg>,
+                /* 2 — CRM y pipeline */
+                <svg key={2} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(29,112,162,0.06)"/>
+                  <path d="M78 12 L202 12 L186 28 L94 28 Z" fill="rgba(29,112,162,0.22)" stroke="rgba(29,112,162,0.4)" strokeWidth="1"/>
+                  <path d="M94 31 L186 31 L172 47 L108 47 Z" fill="rgba(29,112,162,0.15)" stroke="rgba(29,112,162,0.3)" strokeWidth="1"/>
+                  <path d="M108 50 L172 50 L160 64 L120 64 Z" fill="rgba(0,191,165,0.2)" stroke="rgba(0,191,165,0.4)" strokeWidth="1"/>
+                  <text x="140" y="23" fill="rgba(255,255,255,0.4)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Prospectos</text>
+                  <text x="140" y="41" fill="rgba(255,255,255,0.35)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">En proceso</text>
+                  <text x="140" y="59" fill="rgba(0,191,165,0.75)" fontSize="7" textAnchor="middle" fontFamily="sans-serif">Cierres</text>
+                  <circle cx="36" cy="20" r="3" fill="rgba(29,112,162,0.4)"/>
+                  <circle cx="36" cy="39" r="3" fill="rgba(29,112,162,0.3)"/>
+                  <circle cx="36" cy="57" r="3" fill="rgba(0,191,165,0.4)"/>
+                  <line x1="39" y1="20" x2="74" y2="20" stroke="rgba(29,112,162,0.2)" strokeWidth="1" strokeDasharray="3,2"/>
+                  <line x1="39" y1="39" x2="88" y2="39" stroke="rgba(29,112,162,0.2)" strokeWidth="1" strokeDasharray="3,2"/>
+                  <line x1="39" y1="57" x2="104" y2="57" stroke="rgba(0,191,165,0.2)" strokeWidth="1" strokeDasharray="3,2"/>
+                </svg>,
+                /* 3 — Automatizaciones */
+                <svg key={3} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(232,84,10,0.04)"/>
+                  <circle cx="58" cy="36" r="14" fill="rgba(29,112,162,0.15)" stroke="rgba(29,112,162,0.35)" strokeWidth="1.5"/>
+                  <circle cx="58" cy="36" r="5" fill="rgba(29,112,162,0.6)"/>
+                  <circle cx="140" cy="18" r="11" fill="rgba(0,191,165,0.12)" stroke="rgba(0,191,165,0.3)" strokeWidth="1.5"/>
+                  <circle cx="140" cy="18" r="4" fill="rgba(0,191,165,0.65)"/>
+                  <circle cx="140" cy="54" r="11" fill="rgba(232,84,10,0.1)" stroke="rgba(232,84,10,0.3)" strokeWidth="1.5"/>
+                  <circle cx="140" cy="54" r="4" fill="rgba(232,84,10,0.55)"/>
+                  <circle cx="222" cy="36" r="14" fill="rgba(0,191,165,0.15)" stroke="rgba(0,191,165,0.4)" strokeWidth="1.5"/>
+                  <circle cx="222" cy="36" r="5" fill="rgba(0,191,165,0.75)"/>
+                  <line x1="72" y1="30" x2="129" y2="21" stroke="rgba(29,112,162,0.4)" strokeWidth="1.5" strokeDasharray="4,3"/>
+                  <line x1="72" y1="42" x2="129" y2="51" stroke="rgba(232,84,10,0.3)" strokeWidth="1.5" strokeDasharray="4,3"/>
+                  <line x1="151" y1="20" x2="208" y2="30" stroke="rgba(0,191,165,0.4)" strokeWidth="1.5" strokeDasharray="4,3"/>
+                  <line x1="151" y1="52" x2="208" y2="42" stroke="rgba(0,191,165,0.35)" strokeWidth="1.5" strokeDasharray="4,3"/>
+                  <polygon points="207,30 201,27 202,33" fill="rgba(0,191,165,0.55)"/>
+                  <polygon points="207,42 201,39 202,45" fill="rgba(0,191,165,0.45)"/>
+                </svg>,
+                /* 4 — Datos y reportes */
+                <svg key={4} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(29,112,162,0.06)"/>
+                  <line x1="55" y1="10" x2="55" y2="56" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5"/>
+                  <line x1="95" y1="10" x2="95" y2="56" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5"/>
+                  <line x1="135" y1="10" x2="135" y2="56" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5"/>
+                  <line x1="175" y1="10" x2="175" y2="56" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5"/>
+                  <line x1="215" y1="10" x2="215" y2="56" stroke="rgba(255,255,255,0.06)" strokeWidth="0.5"/>
+                  <line x1="46" y1="56" x2="230" y2="56" stroke="rgba(255,255,255,0.12)" strokeWidth="0.75"/>
+                  <rect x="58" y="38" width="22" height="18" rx="2" fill="rgba(29,112,162,0.4)"/>
+                  <rect x="98" y="28" width="22" height="28" rx="2" fill="rgba(29,112,162,0.55)"/>
+                  <rect x="138" y="20" width="22" height="36" rx="2" fill="rgba(0,191,165,0.5)"/>
+                  <rect x="178" y="13" width="22" height="43" rx="2" fill="rgba(0,191,165,0.72)"/>
+                  <polyline points="69,38 109,28 149,20 189,13" fill="none" stroke="#00bfa5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="69" cy="38" r="2.5" fill="#00bfa5"/>
+                  <circle cx="109" cy="28" r="2.5" fill="#00bfa5"/>
+                  <circle cx="149" cy="20" r="2.5" fill="#00bfa5"/>
+                  <circle cx="189" cy="13" r="3.5" fill="#00bfa5" stroke="rgba(0,191,165,0.3)" strokeWidth="3"/>
+                </svg>,
+                /* 5 — Capacitación del equipo */
+                <svg key={5} viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+                  <rect width="280" height="72" fill="rgba(0,191,165,0.05)"/>
+                  <circle cx="110" cy="22" r="10" fill="rgba(29,112,162,0.2)" stroke="rgba(29,112,162,0.4)" strokeWidth="1.5"/>
+                  <circle cx="110" cy="22" r="5" fill="rgba(29,112,162,0.55)"/>
+                  <path d="M88 58 Q88 44 110 44 Q132 44 132 58" fill="rgba(29,112,162,0.15)" stroke="rgba(29,112,162,0.3)" strokeWidth="1.5"/>
+                  <circle cx="170" cy="22" r="10" fill="rgba(0,191,165,0.18)" stroke="rgba(0,191,165,0.38)" strokeWidth="1.5"/>
+                  <circle cx="170" cy="22" r="5" fill="rgba(0,191,165,0.6)"/>
+                  <path d="M148 58 Q148 44 170 44 Q192 44 192 58" fill="rgba(0,191,165,0.12)" stroke="rgba(0,191,165,0.28)" strokeWidth="1.5"/>
+                  <rect x="128" y="11" width="24" height="4" rx="1" fill="rgba(232,84,10,0.7)"/>
+                  <polygon points="140,6 152,11 140,16 128,11" fill="rgba(232,84,10,0.55)"/>
+                  <line x1="152" y1="11" x2="156" y2="18" stroke="rgba(232,84,10,0.6)" strokeWidth="1.5"/>
+                  <circle cx="156" cy="20" r="2" fill="rgba(232,84,10,0.75)"/>
+                  <circle cx="46" cy="24" r="2" fill="rgba(0,191,165,0.25)"/>
+                  <circle cx="36" cy="40" r="1.5" fill="rgba(29,112,162,0.25)"/>
+                  <circle cx="234" cy="20" r="2" fill="rgba(232,84,10,0.2)"/>
+                  <circle cx="246" cy="42" r="1.5" fill="rgba(0,191,165,0.18)"/>
+                </svg>,
+              ];
               return (
-                <div key={i} className="rounded-xl p-4 flex gap-3"
+                <div key={i} className="rounded-xl overflow-hidden flex flex-col"
                   style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(29,112,162,.12)', border: '1px solid rgba(29,112,162,.22)' }}>
-                    <Icon className="w-4 h-4 text-[#1d70a2]" />
+                  <div className="h-[72px] overflow-hidden">
+                    {FRENTES_SVG[i]}
                   </div>
-                  <div>
-                    <p className="font-poppins font-bold text-white/85 text-[17px] mb-1">{f.titulo}</p>
-                    <p className="font-lato text-white/50 text-[15px] leading-relaxed">{f.desc}</p>
+                  <div className="p-4 flex gap-3">
+                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                      style={{ background: 'rgba(29,112,162,.12)', border: '1px solid rgba(29,112,162,.22)' }}>
+                      <Icon className="w-4 h-4 text-[#1d70a2]" />
+                    </div>
+                    <div>
+                      <p className="font-poppins font-bold text-white/85 text-[17px] mb-1">{f.titulo}</p>
+                      <p className="font-lato text-white/50 text-[15px] leading-relaxed">{f.desc}</p>
+                    </div>
                   </div>
                 </div>
               );
@@ -772,8 +956,8 @@ const AnatoProposal = () => {
                     </li>
                   ))}
                 </ul>
-                <p className="font-poppins font-black text-[#00bfa5] text-[20px] mt-4">Desde COP 668.000/mes</p>
-                <p className="font-lato text-white/45 text-[13px]">con descuento ANATO · todo incluido</p>
+                <p className="font-poppins font-black text-[#00bfa5] text-[20px] mt-4">Desde COP 2.228.000/mes</p>
+                <p className="font-lato text-white/45 text-[13px]">módulos recurrentes con descuento ANATO · ver portafolio completo</p>
               </div>
             </div>
           </div>
@@ -816,6 +1000,13 @@ const AnatoProposal = () => {
                   </button>
                   {open && (
                     <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                      {srv.nota && (
+                        <div className="mt-4 mb-2 rounded-xl p-3.5 flex gap-2.5"
+                          style={{ background: 'rgba(29,112,162,.08)', border: '1px solid rgba(29,112,162,.2)' }}>
+                          <Info className="w-4 h-4 text-[#60a5fa] flex-shrink-0 mt-0.5" />
+                          <p className="font-lato text-white/55 text-[14px] leading-relaxed">{srv.nota}</p>
+                        </div>
+                      )}
                       <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
                           <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Incluye</p>
@@ -823,7 +1014,7 @@ const AnatoProposal = () => {
                             {srv.items.map((item, j) => (
                               <li key={j} className="flex items-start gap-2">
                                 <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                                <span className="font-lato text-white/65 text-[18px]">{item}</span>
+                                <span className="font-lato text-white/65 text-[16px]">{item}</span>
                               </li>
                             ))}
                           </ul>
@@ -845,6 +1036,42 @@ const AnatoProposal = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Resumen de inversión — sumatoria */}
+          <div className="mt-6 rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(0,191,165,.04)', border: '1px solid rgba(0,191,165,.18)' }}>
+            <p className="font-poppins font-bold text-[#00bfa5] text-[13px] uppercase tracking-wider mb-4">Resumen de inversión — con descuento ANATO (25%)</p>
+            <div className="space-y-2.5 mb-5">
+              {[
+                { nombre: 'CRM + Chat Center omnicanal (Sixteam Inbox)', precio: 'COP 668.000/mes', tipo: 'mensual' },
+                { nombre: 'Bot con IA · Implementación para el Chat Center', precio: 'COP 443.000', tipo: 'único' },
+                { nombre: 'Gestión de Pauta Digital', precio: 'COP 880.000/mes', tipo: 'mensual' },
+                { nombre: 'Email Marketing (desde 10.000 correos/mes)', precio: 'COP 80.000/mes', tipo: 'mensual' },
+                { nombre: 'Soporte y Operaciones (hasta 5 h/mes)', precio: 'COP 600.000/mes', tipo: 'mensual' },
+                { nombre: 'Sitio Web para Agencia', precio: 'Desde COP 1.800.000', tipo: 'único' },
+                { nombre: 'Consultoría Estratégica', precio: 'COP 150.000/hora', tipo: 'por hora' },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between gap-3 pb-2.5 border-b" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                  <span className="font-lato text-white/60 text-[14px]">{item.nombre}</span>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <span className="font-poppins font-bold text-white/80 text-[14px] text-right">{item.precio}</span>
+                    <span className="font-lato text-[10px] px-1.5 py-0.5 rounded-full uppercase tracking-wider"
+                      style={{
+                        background: item.tipo === 'mensual' ? 'rgba(0,191,165,.1)' : item.tipo === 'único' ? 'rgba(232,84,10,.1)' : 'rgba(29,112,162,.1)',
+                        color: item.tipo === 'mensual' ? '#00bfa5' : item.tipo === 'único' ? '#e8540a' : '#60a5fa',
+                        border: `1px solid ${item.tipo === 'mensual' ? 'rgba(0,191,165,.25)' : item.tipo === 'único' ? 'rgba(232,84,10,.25)' : 'rgba(96,165,250,.25)'}`,
+                      }}>
+                      {item.tipo}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+              <p className="font-lato text-white/55 text-[15px]">Total módulos recurrentes mensuales (sin web ni consulting)</p>
+              <p className="font-poppins font-black text-[#00bfa5] text-[22px] flex-shrink-0">COP 2.228.000/mes</p>
+            </div>
+            <p className="font-lato text-white/30 text-[13px] mt-1">Los módulos se activan según las necesidades de cada agencia.</p>
           </div>
         </section>
 
@@ -889,83 +1116,14 @@ const AnatoProposal = () => {
           </div>
         </section>
 
-        {/* ─ 07 PILOTO ─ */}
-        <section id="piloto" ref={s6.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Propuesta piloto</TagLabel>
-          <SectionTitle>Empecemos con una agencia: acompañamiento real, sin costo</SectionTitle>
-          <Rule />
-
-          <div className="rounded-2xl p-6 sm:p-8 relative overflow-hidden mb-6"
-            style={{ background: 'rgba(255,255,255,.035)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(0,191,165,.06), transparent 70%)', transform: 'translate(20%,-20%)' }} />
-            <div className="relative z-10">
-              <p className="font-lato text-white/60 text-[19px] leading-relaxed mb-6">
-                Para que ANATO y sus agencias <strong className="text-white/90 font-semibold">vivan en carne propia el modelo de acompañamiento</strong> antes de cualquier compromiso mayor, proponemos iniciar con un <strong className="text-white/90 font-semibold">piloto sin costo en una agencia de la Seccional Central</strong> — seleccionada por ANATO según los criterios que considere apropiados.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                <div>
-                  <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Qué incluye el piloto</p>
-                  <ul className="space-y-2">
-                    {[
-                      'Diagnóstico estratégico de la operación digital',
-                      'Implementación de CRM + Inbox con IA',
-                      'Configuración de flujos y automatizaciones base',
-                      '2 meses de operación acompañada sin costo',
-                      'Capacitación al equipo comercial y gerencia',
-                      'Reporte ejecutivo de resultados al cierre',
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                        <span className="font-lato text-white/65 text-[18px]">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Resultado esperado</p>
-                  <ul className="space-y-2">
-                    {[
-                      'Historial de clientes viajeros sistematizado',
-                      'Respuesta a leads en segundos con IA',
-                      'Seguimiento automático de prospectos',
-                      'Reporte de impacto presentable a ANATO',
-                      'Caso de éxito para escalar a más agencias',
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <CheckCircle className="w-3.5 h-3.5" style={{ color: ANATO_ORANGE }} />
-                        <span className="font-lato text-white/65 text-[18px]">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="rounded-xl p-4 flex items-center gap-4"
-                style={{ background: `rgba(232,84,10,.07)`, border: `1px solid rgba(232,84,10,.18)` }}>
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: `rgba(232,84,10,.15)` }}>
-                  <span className="font-poppins font-black text-[16px]" style={{ color: ANATO_ORANGE }}>$0</span>
-                </div>
-                <div>
-                  <p className="font-poppins font-bold text-white/85 text-[17px]">Costo del piloto para ANATO y la agencia seleccionada</p>
-                  <p className="font-lato text-white/45 text-[15px]">La implementación, las licencias y el acompañamiento del piloto son completamente sin costo. Solo pedimos disposición del equipo de la agencia.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─ 08 POR QUÉ SIXTEAM ─ */}
+        {/* ─ 07 POR QUÉ SIXTEAM ─ */}
         <section id="porquesixteam" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>08 — Diferenciadores</TagLabel>
+          <TagLabel>07 — Diferenciadores</TagLabel>
           <SectionTitle>¿Por qué Sixteam.pro?</SectionTitle>
           <Rule />
           <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-7">
-            ANATO ya tiene alianzas con plataformas tecnológicas (DataCRM, Prolibu, Wetu). Son buenas herramientas — pero las herramientas solas no transforman una agencia. El verdadero problema no es el acceso a la plataforma: <strong className="text-white/80">es que se compran y no se usan</strong>, porque nadie en la agencia tiene el tiempo, la formación ni la responsabilidad de hacerlas funcionar. <strong className="text-white/80">Por eso nuestra oferta es un acompañamiento estratégico, no una licencia.</strong> Somos el equipo de consultoría y operación digital de la agencia — y respondemos por los resultados.
+            Sixteam.pro no es una plataforma más que se contrata y se configura una vez. Es un <strong className="text-white/80">equipo que diagnostica, diseña, implementa y opera</strong> el sistema digital de la agencia mes a mes, con responsabilidad directa sobre la ejecución. La diferencia no está en el software — está en quién lo hace funcionar, y en que respondemos por los resultados.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -991,7 +1149,7 @@ const AnatoProposal = () => {
         {/* ─ 09 PRÓXIMOS PASOS ─ */}
         <section id="proximos" ref={s8.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s8.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>09 — Próximos pasos</TagLabel>
+          <TagLabel>08 — Próximos pasos</TagLabel>
           <SectionTitle>¿Cómo avanzamos?</SectionTitle>
           <Rule />
 

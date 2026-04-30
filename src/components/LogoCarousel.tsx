@@ -21,7 +21,6 @@ const defaultLogos = [
   { src: '/logo-dreams.png', alt: 'logo-dreams' },
   { src: '/logo-evolucione.png', alt: 'logo-evolucione' },
   { src: '/logo-glish.png', alt: 'logo-glish' },
-  { src: '/logo-web-anato-1-1.png', alt: 'logo-web-anato' },
   { src: '/images.jpg.jpeg', alt: 'images' },
   { src: '/Llogo Milote.png', alt: 'Llogo Milote' },
   { src: '/Logo bioquimica.png', alt: 'Logo bioquimica' }

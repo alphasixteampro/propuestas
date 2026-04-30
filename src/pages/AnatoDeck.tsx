@@ -3,7 +3,7 @@ import {
   ChevronLeft, ChevronRight, TrendingUp, BarChart3, Globe,
   Users, Database, AlertCircle, Zap, Monitor, MessageSquare,
   FileText, Mail, Plane, MapPin, CheckCircle, ArrowRight, X, Clock,
-  PhoneOff, Eye, Bot, DollarSign, Shield, Unlock,
+  PhoneOff, Eye, Bot, DollarSign, Shield, Unlock, Settings, Compass,
 } from 'lucide-react';
 
 const ANATO_ORANGE = '#e8540a';
@@ -88,9 +88,10 @@ const AnatoDeck = () => {
                 style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.12)' }}>
                 <span className="font-poppins font-black text-white/40 text-[22px]">×</span>
               </div>
-              <div className="flex items-center justify-center w-16 h-16 rounded-2xl"
-                style={{ background: `rgba(232,84,10,.15)`, border: `1px solid rgba(232,84,10,.3)` }}>
-                <Plane className="w-8 h-8" style={{ color: ANATO_ORANGE }} />
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl overflow-hidden"
+                style={{ background: `rgba(232,84,10,.12)`, border: `1px solid rgba(232,84,10,.3)` }}>
+                <img src="/logo-web-anato-1-1.png" alt="ANATO" className="w-full h-full object-contain p-2"
+                  style={{ filter: 'drop-shadow(0 2px 8px rgba(232,84,10,.3))' }} />
               </div>
             </div>
             <p className="font-lato text-[#00bfa5] text-[14px] uppercase tracking-[0.25em] mb-4">Propuesta de alianza estratégica</p>
@@ -320,25 +321,28 @@ const AnatoDeck = () => {
 
         {/* ── 7. SERVICIOS ── */}
         <Slide active={current === 6}>
-          <SlideLayout tag="Portafolio" title="Cuatro soluciones para el ciclo digital completo de una agencia">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <SlideLayout tag="Portafolio" title="El sistema operativo digital completo de tu agencia">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-6">
               {[
-                { icon: MessageSquare, titulo: 'Sixteam Inbox +IA',          desc: 'WhatsApp, IG, FB, Web en una bandeja. Bot de IA que responde consultas 24/7, en segundos, sin depender de que haya un asesor disponible.' },
-                { icon: BarChart3,     titulo: 'CRM para Agencias de Viaje',  desc: 'Pipeline de paquetes, historial del viajero, seguimiento automático. Cada lead trazado desde el primer contacto hasta el cierre.' },
-                { icon: Monitor,       titulo: 'Sitio Web para la Agencia',   desc: 'Diseño web profesional con catálogo de destinos, formularios conectados al CRM y analíticas. Visible en Google y en redes.' },
-                { icon: TrendingUp,    titulo: 'Gestión de Pauta Digital',    desc: 'Meta Ads con estructura de embudo para captar viajeros. Integrado al CRM para que cada peso de pauta se traduzca en un lead trazado.' },
+                { icon: BarChart3,     titulo: 'CRM + Chat Center',               desc: 'Pipeline de ventas, historial del viajero y chat omnicanal (WhatsApp, IG, FB, Web) en una sola plataforma. Todo incluido.' },
+                { icon: Bot,           titulo: 'Bot con IA · Chat Center',         desc: 'Add-on de IA sobre el chat center: el bot aprende tu catálogo y responde consultas 24/7, derivando al asesor cuando hace falta.' },
+                { icon: Monitor,       titulo: 'Sitio Web para la Agencia',        desc: 'Diseño profesional con catálogo de destinos, formularios conectados al CRM y analíticas. Visible en Google y en redes.' },
+                { icon: TrendingUp,    titulo: 'Gestión de Pauta Digital',         desc: 'Meta Ads con embudo completo para captar viajeros. Cada peso de pauta se convierte en un lead trazado en el CRM.' },
+                { icon: Mail,          titulo: 'Email Marketing',                  desc: '10.000 correos/mes incluidos. Reactivación, promociones de temporada y seguimiento post-viaje con plantillas para turismo.' },
+                { icon: Settings,      titulo: 'Soporte y Operaciones',            desc: 'Horas mensuales dedicadas a ajustes, mantenimiento y soporte técnico prioritario con tiempo de respuesta garantizado.' },
+                { icon: Compass,       titulo: 'Consultoría Estratégica',          desc: 'Asesoría directa de un especialista Sixteam para diagnóstico, priorización y toma de decisiones sobre tu madurez digital.' },
               ].map((s, i) => {
                 const Icon = s.icon;
                 return (
-                  <div key={i} className="rounded-xl p-5 flex gap-4"
+                  <div key={i} className="rounded-xl p-4 flex gap-4"
                     style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.22)' }}>
-                      <Icon className="w-5 h-5 text-[#00bfa5]" />
+                      <Icon className="w-4 h-4 text-[#00bfa5]" />
                     </div>
                     <div>
-                      <p className="font-poppins font-bold text-white/85 text-[19px] mb-1">{s.titulo}</p>
-                      <p className="font-lato text-white/50 text-[16px] leading-relaxed">{s.desc}</p>
+                      <p className="font-poppins font-bold text-white/85 text-[17px] mb-0.5">{s.titulo}</p>
+                      <p className="font-lato text-white/50 text-[15px] leading-relaxed">{s.desc}</p>
                     </div>
                   </div>
                 );
@@ -350,32 +354,35 @@ const AnatoDeck = () => {
         {/* ── 8. PRECIOS ── */}
         <Slide active={current === 7}>
           <SlideLayout tag="Inversión con descuento ANATO" title="25% off en todo el portafolio — sin letra pequeña">
-            <div className="mt-8 space-y-3">
+            <div className="mt-5 space-y-2">
               {[
-                { servicio: 'CRM Sixteam.pro Core',   normal: 'COP 890.000/mes',       anato: 'COP 668.000/mes'       },
-                { servicio: 'Sixteam Inbox +IA',       normal: 'COP 590.000/mes',       anato: 'COP 443.000/mes'       },
-                { servicio: 'Sitio Web para Agencia',  normal: 'Desde COP 2.400.000',   anato: 'Desde COP 1.800.000'   },
-                { servicio: 'Gestión de Pauta (fee)',  normal: 'COP 800.000/mes + 10%', anato: 'COP 600.000/mes + 10%' },
+                { servicio: 'CRM + Chat Center omnicanal',  normal: 'COP 890.000/mes',    anato: 'COP 668.000/mes'  },
+                { servicio: 'Bot con IA (implementación)',   normal: 'COP 590.000',         anato: 'COP 443.000'      },
+                { servicio: 'Sitio Web para Agencia',        normal: 'Desde COP 2.400.000', anato: 'Desde COP 1.800.000' },
+                { servicio: 'Gestión de Pauta Digital',      normal: 'COP 1.170.000/mes',  anato: 'COP 880.000/mes'  },
+                { servicio: 'Email Marketing',               normal: 'COP 107.000/mes',    anato: 'COP 80.000/mes'   },
+                { servicio: 'Soporte y Operaciones',         normal: 'COP 800.000/mes',    anato: 'COP 600.000/mes'  },
+                { servicio: 'Consultoría Estratégica',       normal: 'COP 200.000/hora',   anato: 'COP 150.000/hora' },
               ].map((row, i) => (
-                <div key={i} className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0"
+                <div key={i} className="rounded-xl px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0"
                   style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <p className="font-poppins font-semibold text-white/80 text-[18px] sm:flex-1">{row.servicio}</p>
-                  <div className="flex items-center gap-4 sm:gap-8">
+                  <p className="font-poppins font-semibold text-white/80 text-[16px] sm:flex-1">{row.servicio}</p>
+                  <div className="flex items-center gap-4 sm:gap-6">
                     <div className="text-right">
-                      <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-0.5">Normal</p>
-                      <p className="font-poppins font-bold text-white/35 text-[17px] line-through">{row.normal}</p>
+                      <p className="font-lato text-white/25 text-[11px] uppercase tracking-wider mb-0.5">Normal</p>
+                      <p className="font-poppins font-bold text-white/30 text-[15px] line-through">{row.normal}</p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[#00bfa5]/50 flex-shrink-0" />
-                    <div className="text-right">
-                      <p className="font-lato text-[#00bfa5] text-[13px] uppercase tracking-wider mb-0.5">Afiliado ANATO</p>
-                      <p className="font-poppins font-black text-[#00bfa5] text-[20px]">{row.anato}</p>
+                    <ArrowRight className="w-3 h-3 text-[#00bfa5]/50 flex-shrink-0" />
+                    <div className="text-right min-w-[160px]">
+                      <p className="font-lato text-[#00bfa5] text-[11px] uppercase tracking-wider mb-0.5">Afiliado ANATO</p>
+                      <p className="font-poppins font-black text-[#00bfa5] text-[17px]">{row.anato}</p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-            <p className="font-lato text-white/30 text-[16px] mt-4">
-              Implementaciones iniciales entre COP 5.000.000 y COP 25.000.000 según alcance. Pago 50/50 (inicio / entrega).
+            <p className="font-lato text-white/30 text-[15px] mt-3">
+              Implementaciones iniciales entre COP 5.000.000 y COP 25.000.000 según alcance. Pago 50/50 (inicio / entrega). Los módulos se activan según las necesidades de cada agencia.
             </p>
           </SlideLayout>
         </Slide>
