@@ -75,6 +75,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/visitantioquia',
   },
+  {
+    slug: 'grupo-mimi',
+    cliente: 'Grupo Mimi',
+    sector: 'Restaurantes · Gastronomía · Barranquilla',
+    fecha: 'Abril 2026',
+    monto: 'COP 1.000.000 + COP 500.000/mes',
+    estado: 'borrador',
+    path: '/grupo-mimi',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -181,7 +190,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' ? '#fff' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -199,6 +208,9 @@ export default function Home() {
                     </div>
                   ) : p.slug === 'visitantioquia' ? (
                     <img src="/visitantioquia-logo.png" alt="Visit Antioquia" style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'grupo-mimi' ? (
+                    <img src="https://assets.cdn.filesafe.space/dMX4yw4WB0RZFivUhgyG/media/69f29bc3e84e52bef4d5cb90.png" alt="Grupo Mimi" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
