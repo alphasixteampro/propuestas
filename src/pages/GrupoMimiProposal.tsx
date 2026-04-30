@@ -21,7 +21,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
-  objetivo: 'Bot de IA para toma de pedidos en WhatsApp — Mimi & Burguer Stock',
+  objetivo: 'Bot de IA para pedidos y reservas en WhatsApp — Mimi & Burguer Stock',
 };
 
 const ACCENT = '#e8530a';
@@ -53,7 +53,7 @@ const FLUJO = [
   {
     paso: '01',
     titulo: 'Bienvenida e identificación de marca',
-    desc: 'El bot recibe al cliente, lo saluda y le pregunta si quiere pedir de Mimi o de Burguer Stock — manejando ambas marcas desde un mismo número o desde números separados según la configuración elegida.',
+    desc: 'El bot recibe al cliente, lo saluda y le pregunta si quiere pedir de Mimi o de Burguer Stock — manejando ambas marcas desde un solo número de WhatsApp.',
     icon: MessageSquare,
     color: '#60a5fa',
   },
@@ -92,7 +92,7 @@ const SERVICIOS = [
     num: 'Servicio 1',
     nombre: 'Implementación del bot de IA para pedidos',
     tipo: 'Pago único',
-    valor: 'COP 1.000.000',
+    valor: 'COP 2.000.000',
     icon: Bot,
     destacado: true,
     entregables: [
@@ -102,7 +102,7 @@ const SERVICIOS = [
       'Reglas de handoff configuradas para transferencia al operador',
       'Configuración de respuestas rápidas y mensajes de bienvenida por marca',
       'Pruebas de calidad end-to-end con escenarios reales de pedido',
-      'Capacitación al operador (hasta 2 horas) sobre uso del panel y gestión de handoffs',
+      'Capacitación al operador (hasta 4 horas) sobre uso del panel y gestión de handoffs',
     ],
     detalle: [
       'Levantamiento del menú completo de ambas marcas y criterios de atención del negocio.',
@@ -511,7 +511,7 @@ const GrupoMimiProposal = () => {
               style={{ background: `radial-gradient(circle, ${ACCENT_ALPHA(0.05)}, transparent 70%)`, transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Implementar un bot de inteligencia artificial en WhatsApp que automatice la etapa inicial de atención de pedidos para Mimi y Burguer Stock — enviando el menú, resolviendo dudas y capturando los datos del cliente — para que el operador humano solo intervenga en el momento de confirmar y cerrar el pedido, multiplicando su capacidad sin perder el toque humano que distingue a las marcas.
+              Implementar un bot de inteligencia artificial en WhatsApp que automatice la etapa inicial de atención de pedidos y reservas para Mimi y Burguer Stock — enviando el menú, resolviendo dudas, gestionando reservas de mesa y capturando los datos del cliente — para que el operador humano solo intervenga en el momento de confirmar y cerrar, multiplicando su capacidad sin perder el toque humano que distingue a las marcas.
             </p>
           </div>
 
@@ -698,7 +698,7 @@ const GrupoMimiProposal = () => {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="font-lato text-white/60 text-[18px]">Implementación (único)</span>
-                <span className="font-poppins font-bold text-white/80 text-[18px]">COP 1.000.000</span>
+                <span className="font-poppins font-bold text-white/80 text-[18px]">COP 2.000.000</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="font-lato text-white/60 text-[18px]">Licencia mensual del bot</span>
@@ -711,7 +711,7 @@ const GrupoMimiProposal = () => {
               <div className="border-t pt-3 mt-1" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
                 <div className="flex items-center justify-between">
                   <span className="font-poppins font-semibold text-white/70 text-[18px]">Inversión primer mes</span>
-                  <span className="font-poppins font-black text-[23px]" style={{ color: ACCENT }}>COP 1.500.000 + IA</span>
+                  <span className="font-poppins font-black text-[23px]" style={{ color: ACCENT }}>COP 2.500.000 + IA</span>
                 </div>
                 <p className="font-lato text-white/30 text-[13px] mt-1">Implementación + primer mes de licencia. Desde el mes 2: COP 500.000 + IA.</p>
               </div>
@@ -740,7 +740,7 @@ const GrupoMimiProposal = () => {
               },
               {
                 titulo: 'Términos de pago — Licencia mensual',
-                desc: 'La licencia de COP 500.000 se factura mensualmente de forma anticipada el primer día hábil de cada mes. Incluye operación del bot, soporte y ajustes menores de contenido.',
+                desc: 'La licencia de COP 500.000 se factura mensualmente de forma anticipada el primer día hábil de cada mes. Incluye operación del bot, soporte y ajustes menores de contenido. También se puede configurar suscripción automática para mayor comodidad.',
                 icon: Calendar,
               },
               {
