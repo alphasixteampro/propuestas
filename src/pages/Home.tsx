@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Briefcase } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Building2, Tag, Plane } from 'lucide-react';
 
 interface Proposal {
   slug: string;
@@ -199,7 +199,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' ? '#fff' : p.slug === 'procurement-pro' ? 'rgba(79,70,229,.1)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' ? '#fff' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -222,9 +222,8 @@ export default function Home() {
                     <img src="https://assets.cdn.filesafe.space/dMX4yw4WB0RZFivUhgyG/media/69f29bc3e84e52bef4d5cb90.png" alt="Grupo Mimi" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'procurement-pro' ? (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
-                      <Briefcase size={24} color="#4f46e5" />
-                    </div>
+                    <img src="https://assets.cdn.filesafe.space/dMX4yw4WB0RZFivUhgyG/media/69fa7c8d76fece50438982a9.png" alt="Procurement Pro" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
                   )}
