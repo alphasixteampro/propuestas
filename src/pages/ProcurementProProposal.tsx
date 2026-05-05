@@ -501,7 +501,7 @@ const ProcurementProProposal = () => {
           <SectionTitle>3 componentes · implementación + operación</SectionTitle>
           <Rule />
 
-          <div className="space-y-2.5 mb-12">
+          <div className="space-y-2.5 mb-8">
             {SERVICIOS.map((s, i) => {
               const Icon = s.icon; const open = servicioActivo === i;
               return (
@@ -565,46 +565,10 @@ const ProcurementProProposal = () => {
             })}
           </div>
 
-          {/* ── COTIZACIÓN ── */}
-          <div className="border-t pt-10" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
-            <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-1">Cotización</p>
-            <h3 className="font-poppins font-extrabold text-white text-[28px] mb-2 leading-tight">Inversión</h3>
-            <div className="w-8 h-0.5 mb-6 mt-1" style={{ background: 'linear-gradient(90deg,#1d70a2,#00bfa5)' }} />
-            <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-              Todos los valores en <strong className="text-white/75">pesos colombianos (COP)</strong> y <strong className="text-white/75">sin IVA</strong>.
-            </p>
+          <p className="font-lato text-white/35 text-[14px] mb-6">Todos los valores en pesos colombianos (COP) · sin IVA · haz clic en cada servicio para ver el detalle</p>
 
-            {/* Filas de servicios */}
-            <div className="space-y-3 mb-8">
-              {SERVICIOS.map((s, i) => {
-                const Icon = s.icon;
-                return (
-                  <div key={i} className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0"
-                    style={{ background: s.destacado ? 'rgba(0,191,165,.05)' : 'rgba(255,255,255,.03)', border: s.destacado ? '1px solid rgba(0,191,165,.2)' : '1px solid rgba(255,255,255,.06)' }}>
-                    <div className="flex items-center gap-3 sm:w-2/5">
-                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ background: s.destacado ? 'rgba(0,191,165,.18)' : 'rgba(255,255,255,.05)' }}>
-                        <Icon className={`w-4 h-4 ${s.destacado ? 'text-[#00bfa5]' : 'text-white/30'}`} />
-                      </div>
-                      <div>
-                        <span className="font-poppins font-bold text-white/80 text-[18px]">{s.num}</span>
-                        <p className="font-lato text-white/45 text-[15px] mt-0.5">{s.tipo}</p>
-                      </div>
-                    </div>
-                    <div className="sm:w-1/4">
-                      <p className={`font-poppins font-black text-[23px] ${s.destacado ? 'text-[#00bfa5]' : 'text-white/75'}`}>{s.valor}</p>
-                      {s.nota && <p className="font-lato text-white/30 text-[12px] mt-0.5">{s.nota}</p>}
-                    </div>
-                    <div className="sm:w-1/3">
-                      <p className="font-lato text-white/35 text-[15px]">{s.nombre}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Nota pauta */}
-            <div className="rounded-xl p-4 sm:p-5 mb-6 flex gap-3"
+          {/* Nota pauta */}
+          <div className="rounded-xl p-4 sm:p-5 mb-6 flex gap-3"
               style={{ background: 'rgba(96,165,250,.05)', border: '1px solid rgba(96,165,250,.18)' }}>
               <AlertCircle className="w-4 h-4 text-[#60a5fa] flex-shrink-0 mt-0.5" />
               <div>
@@ -650,7 +614,6 @@ const ProcurementProProposal = () => {
                 </div>
               </div>
             </div>
-          </div>
         </section>
 
         {/* ─ 04 VIGENCIA ─ */}
