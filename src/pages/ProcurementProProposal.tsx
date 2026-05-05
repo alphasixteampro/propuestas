@@ -22,7 +22,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
-  objetivo: 'CRM, automatización comercial y pauta estratégica para escalar el negocio B2B',
+  objetivo: 'CRM, automatización comercial y pauta en Meta Ads para escalar el negocio B2B',
 };
 
 const ACCENT = '#4f46e5';
@@ -39,7 +39,7 @@ const DIAGNOSTICO = [
   },
   {
     titulo: 'Pauta sin estrategia ni medición',
-    desc: 'La inversión en Instagram se hace sin estructura definida ni seguimiento de resultados. El canal correcto (LinkedIn) no está siendo aprovechado con pauta activa, pese a ser donde ya existe posicionamiento orgánico.',
+    desc: 'La inversión en Meta Ads (Instagram y Facebook) se hace sin estructura definida ni seguimiento de resultados. Sin segmentación B2B clara ni optimización continua, el presupuesto no genera leads calificados que entren al pipeline comercial.',
     icon: TrendingUp,
     tint: 'amber',
   },
@@ -95,14 +95,14 @@ const SERVICIOS = [
   },
   {
     num: 'Servicio 2',
-    nombre: 'Gestión de pauta — LinkedIn / Meta Ads',
+    nombre: 'Gestión de pauta — Meta Ads',
     tipo: 'Pago mensual',
     valor: 'COP 500.000',
     nota: 'Sin IVA · hasta USD 300 de presupuesto en pauta',
     icon: MousePointer,
     destacado: false,
     entregables: [
-      'Gestión estratégica de pauta en LinkedIn y/o Meta Ads (hasta 3 productos o servicios)',
+      'Gestión estratégica de pauta en Meta Ads — Facebook e Instagram (hasta 3 productos o servicios)',
       'Configuración y optimización de campañas orientadas al segmento corporativo B2B',
       'Seguimiento y ajuste semanal de rendimiento',
       'Reporte mensual de resultados (impresiones, clics, leads generados, CPL)',
@@ -110,7 +110,7 @@ const SERVICIOS = [
     ],
     detalle: [
       'Definición de la estrategia de pauta según los servicios a promocionar: consultoría corporativa, formación in-house o cursos abiertos (máximo 3 productos simultáneos).',
-      'Configuración de campañas en LinkedIn Ads y/o Meta Ads con segmentación B2B: cargo, industria, tamaño de empresa y comportamientos afines al área de compras.',
+      'Configuración de campañas en Meta Ads (Facebook e Instagram) con segmentación B2B: cargo, industria, tamaño de empresa y comportamientos afines al área de compras.',
       'Optimización continua de pujas, creativos y segmentación para maximizar el retorno sobre el presupuesto invertido.',
       'Si el presupuesto mensual en pauta supera los USD 300, la tarifa de gestión se renegocia de común acuerdo antes de ejecutar el incremento.',
       'Integración del pixel / tracking con la landing page para que cada lead generado por pauta entre automáticamente al CRM.',
@@ -143,11 +143,10 @@ const SERVICIOS = [
 ];
 
 const SECCIONES = [
-  { id: 'resumen',    label: 'Resumen' },
-  { id: 'objetivo',   label: 'Objetivo' },
-  { id: 'plan',       label: 'Servicios' },
-  { id: 'cotizacion', label: 'Cotización' },
-  { id: 'vigencia',   label: 'Vigencia' },
+  { id: 'resumen',  label: 'Resumen' },
+  { id: 'objetivo', label: 'Objetivo' },
+  { id: 'plan',     label: 'Servicios' },
+  { id: 'vigencia', label: 'Vigencia' },
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -199,8 +198,8 @@ const ProcurementProProposal = () => {
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible();
+  const s1 = useVisible(); const s2 = useVisible();
+  const s3 = useVisible(); const s4 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -319,7 +318,7 @@ const ProcurementProProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo', '2. Objetivo general', '3. Servicios', '4. Cotización', '5. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo', '2. Objetivo general', '3. Servicios y cotización', '4. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -471,7 +470,7 @@ const ProcurementProProposal = () => {
               style={{ background: `radial-gradient(circle, ${ACCENT_ALPHA(0.06)}, transparent 70%)`, transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Implementar la infraestructura tecnológica y comercial que Procurement Pro necesita para escalar: un flujo completo de captación y gestión de leads corporativos en CRM, pauta estratégica en LinkedIn que aproveche el posicionamiento existente, y acceso a una plataforma centralizada que unifique CRM, landing pages, formularios y cursos — liberando a Anwar Tapias de la carga operativa para que invierta su tiempo en consultar, formar y crecer.
+              Implementar la infraestructura tecnológica y comercial que Procurement Pro necesita para escalar: un flujo completo de captación y gestión de leads corporativos en CRM, pauta estratégica en Meta Ads orientada al segmento B2B, y acceso a una plataforma centralizada que unifique CRM, landing pages, formularios y cursos — liberando a Anwar Tapias de la carga operativa para que invierta su tiempo en consultar, formar y crecer.
             </p>
           </div>
 
@@ -495,14 +494,14 @@ const ProcurementProProposal = () => {
           </div>
         </section>
 
-        {/* ─ 03 SERVICIOS ─ */}
+        {/* ─ 03 SERVICIOS Y COTIZACIÓN ─ */}
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>03 — Servicios</TagLabel>
+          <TagLabel>03 — Servicios y cotización</TagLabel>
           <SectionTitle>3 componentes · implementación + operación</SectionTitle>
           <Rule />
 
-          <div className="space-y-2.5">
+          <div className="space-y-2.5 mb-12">
             {SERVICIOS.map((s, i) => {
               const Icon = s.icon; const open = servicioActivo === i;
               return (
@@ -565,100 +564,99 @@ const ProcurementProProposal = () => {
               );
             })}
           </div>
-        </section>
 
-        {/* ─ 04 COTIZACIÓN ─ */}
-        <section id="cotizacion" ref={s4.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Cotización</TagLabel>
-          <SectionTitle>Inversión</SectionTitle>
-          <Rule />
-          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-            Todos los valores en <strong className="text-white/75">pesos colombianos (COP)</strong> y <strong className="text-white/75">sin IVA</strong>.
-          </p>
-
-          {/* Filas de servicios */}
-          <div className="space-y-3 mb-8">
-            {SERVICIOS.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0"
-                  style={{ background: s.destacado ? 'rgba(0,191,165,.05)' : 'rgba(255,255,255,.03)', border: s.destacado ? '1px solid rgba(0,191,165,.2)' : '1px solid rgba(255,255,255,.06)' }}>
-                  <div className="flex items-center gap-3 sm:w-2/5">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                      style={{ background: s.destacado ? 'rgba(0,191,165,.18)' : 'rgba(255,255,255,.05)' }}>
-                      <Icon className={`w-4 h-4 ${s.destacado ? 'text-[#00bfa5]' : 'text-white/30'}`} />
-                    </div>
-                    <div>
-                      <span className="font-poppins font-bold text-white/80 text-[18px]">{s.num}</span>
-                      <p className="font-lato text-white/45 text-[15px] mt-0.5">{s.tipo}</p>
-                    </div>
-                  </div>
-                  <div className="sm:w-1/4">
-                    <p className={`font-poppins font-black text-[23px] ${s.destacado ? 'text-[#00bfa5]' : 'text-white/75'}`}>{s.valor}</p>
-                    {s.nota && <p className="font-lato text-white/30 text-[12px] mt-0.5">{s.nota}</p>}
-                  </div>
-                  <div className="sm:w-1/3">
-                    <p className="font-lato text-white/35 text-[15px]">{s.nombre}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Nota pauta */}
-          <div className="rounded-xl p-4 sm:p-5 mb-6 flex gap-3"
-            style={{ background: 'rgba(96,165,250,.05)', border: '1px solid rgba(96,165,250,.18)' }}>
-            <AlertCircle className="w-4 h-4 text-[#60a5fa] flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-poppins font-semibold text-white/75 text-[15px] mb-1">Sobre el presupuesto de pauta</p>
-              <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                El presupuesto máximo en pauta es de <strong className="text-white/70">USD 300/mes</strong>. Si el cliente desea incrementarlo, la tarifa de gestión (COP 500.000) se renegocia antes de ejecutar el cambio. La pauta cubre máximo <strong className="text-white/70">3 productos o servicios simultáneos</strong>. El presupuesto de pauta es asumido directamente por el cliente y no está incluido en la tarifa de gestión.
-              </p>
-            </div>
-          </div>
-
-          {/* Resumen */}
-          <div className="rounded-2xl p-5 sm:p-7"
-            style={{ background: ACCENT_ALPHA(0.04), border: `1px solid ${ACCENT_ALPHA(0.20)}` }}>
-            <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Zap className="w-4 h-4" style={{ color: '#a5b4fc' }} /> Resumen de inversión
+          {/* ── COTIZACIÓN ── */}
+          <div className="border-t pt-10" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
+            <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-1">Cotización</p>
+            <h3 className="font-poppins font-extrabold text-white text-[28px] mb-2 leading-tight">Inversión</h3>
+            <div className="w-8 h-0.5 mb-6 mt-1" style={{ background: 'linear-gradient(90deg,#1d70a2,#00bfa5)' }} />
+            <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
+              Todos los valores en <strong className="text-white/75">pesos colombianos (COP)</strong> y <strong className="text-white/75">sin IVA</strong>.
             </p>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="font-lato text-white/60 text-[18px]">Implementación flujo completo (único)</span>
-                <span className="font-poppins font-bold text-white/80 text-[18px]">COP 2.000.000</span>
-              </div>
-              <div className="border-t pt-3 mt-1" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
-                <p className="font-lato text-white/30 text-[13px] uppercase tracking-widest mb-3">Recurrente mensual</p>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="font-lato text-white/60 text-[18px]">Gestión de pauta</span>
-                    <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 500.000</span>
+
+            {/* Filas de servicios */}
+            <div className="space-y-3 mb-8">
+              {SERVICIOS.map((s, i) => {
+                const Icon = s.icon;
+                return (
+                  <div key={i} className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-0"
+                    style={{ background: s.destacado ? 'rgba(0,191,165,.05)' : 'rgba(255,255,255,.03)', border: s.destacado ? '1px solid rgba(0,191,165,.2)' : '1px solid rgba(255,255,255,.06)' }}>
+                    <div className="flex items-center gap-3 sm:w-2/5">
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                        style={{ background: s.destacado ? 'rgba(0,191,165,.18)' : 'rgba(255,255,255,.05)' }}>
+                        <Icon className={`w-4 h-4 ${s.destacado ? 'text-[#00bfa5]' : 'text-white/30'}`} />
+                      </div>
+                      <div>
+                        <span className="font-poppins font-bold text-white/80 text-[18px]">{s.num}</span>
+                        <p className="font-lato text-white/45 text-[15px] mt-0.5">{s.tipo}</p>
+                      </div>
+                    </div>
+                    <div className="sm:w-1/4">
+                      <p className={`font-poppins font-black text-[23px] ${s.destacado ? 'text-[#00bfa5]' : 'text-white/75'}`}>{s.valor}</p>
+                      {s.nota && <p className="font-lato text-white/30 text-[12px] mt-0.5">{s.nota}</p>}
+                    </div>
+                    <div className="sm:w-1/3">
+                      <p className="font-lato text-white/35 text-[15px]">{s.nombre}</p>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-lato text-white/60 text-[18px]">Plan CRM Growth</span>
-                    <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 1.300.000</span>
+                );
+              })}
+            </div>
+
+            {/* Nota pauta */}
+            <div className="rounded-xl p-4 sm:p-5 mb-6 flex gap-3"
+              style={{ background: 'rgba(96,165,250,.05)', border: '1px solid rgba(96,165,250,.18)' }}>
+              <AlertCircle className="w-4 h-4 text-[#60a5fa] flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-poppins font-semibold text-white/75 text-[15px] mb-1">Sobre el presupuesto de pauta</p>
+                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                  El presupuesto máximo en pauta es de <strong className="text-white/70">USD 300/mes</strong>. Si el cliente desea incrementarlo, la tarifa de gestión (COP 500.000) se renegocia antes de ejecutar el cambio. La pauta cubre máximo <strong className="text-white/70">3 productos o servicios simultáneos</strong>. El presupuesto de pauta es asumido directamente por el cliente y no está incluido en la tarifa de gestión.
+                </p>
+              </div>
+            </div>
+
+            {/* Resumen */}
+            <div className="rounded-2xl p-5 sm:p-7"
+              style={{ background: ACCENT_ALPHA(0.04), border: `1px solid ${ACCENT_ALPHA(0.20)}` }}>
+              <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-5 flex items-center gap-2">
+                <Zap className="w-4 h-4" style={{ color: '#a5b4fc' }} /> Resumen de inversión
+              </p>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-lato text-white/60 text-[18px]">Implementación flujo completo (único)</span>
+                  <span className="font-poppins font-bold text-white/80 text-[18px]">COP 2.000.000</span>
+                </div>
+                <div className="border-t pt-3 mt-1" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
+                  <p className="font-lato text-white/30 text-[13px] uppercase tracking-widest mb-3">Recurrente mensual</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="font-lato text-white/60 text-[18px]">Gestión de pauta Meta Ads</span>
+                      <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 500.000</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-lato text-white/60 text-[18px]">Plan CRM Growth</span>
+                      <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 1.300.000</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="border-t pt-4 mt-2" style={{ borderColor: 'rgba(255,255,255,.10)' }}>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="font-poppins font-bold text-white/85 text-[20px]">Total recurrente mensual</span>
-                    <p className="font-lato text-white/30 text-[13px] mt-0.5">Sin IVA · Pauta aparte según consumo</p>
+                <div className="border-t pt-4 mt-2" style={{ borderColor: 'rgba(255,255,255,.10)' }}>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="font-poppins font-bold text-white/85 text-[20px]">Total recurrente mensual</span>
+                      <p className="font-lato text-white/30 text-[13px] mt-0.5">Sin IVA · Pauta aparte según consumo</p>
+                    </div>
+                    <span className="font-poppins font-black text-[28px]" style={{ color: '#a5b4fc' }}>COP 1.800.000</span>
                   </div>
-                  <span className="font-poppins font-black text-[28px]" style={{ color: '#a5b4fc' }}>COP 1.800.000</span>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ─ 05 VIGENCIA ─ */}
-        <section id="vigencia" ref={s5.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Vigencia y términos</TagLabel>
+        {/* ─ 04 VIGENCIA ─ */}
+        <section id="vigencia" ref={s4.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>04 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
