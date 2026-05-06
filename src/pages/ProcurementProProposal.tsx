@@ -45,7 +45,7 @@ const DIAGNOSTICO = [
   },
   {
     titulo: 'Procesos manuales que limitan la escala',
-    desc: 'Toda la gestión comercial — seguimiento de leads, envío de propuestas, recordatorios — se hace manualmente. Con 5 oportunidades mensuales de alto valor, cada hora no automatizada es una hora que no se invierte en cerrar negocios.',
+    desc: 'Toda la gestión comercial, incluyendo el seguimiento de leads, el envío de propuestas y los recordatorios, se hace manualmente. Con 5 oportunidades mensuales de alto valor, cada hora no automatizada es una hora que no se invierte en cerrar negocios.',
     icon: Settings,
     tint: 'blue',
   },
@@ -87,41 +87,43 @@ const SERVICIOS = [
     detalle: [
       'Levantamiento del proceso comercial actual de Procurement Pro: desde el primer contacto hasta el cierre de una consultoría o formación.',
       'Configuración del pipeline con etapas alineadas al ciclo real de venta: Prospecto → Contacto inicial → Propuesta enviada → Negociación → Cierre.',
-      'Construcción de la landing page de captación con formulario integrado al CRM — para que cada lead que llegue quede registrado automáticamente sin intervención manual.',
+      'Construcción de la landing page de captación con formulario integrado al CRM, de modo que cada lead que llegue quede registrado automáticamente sin intervención manual.',
       'Creación de propiedades personalizadas que permitan segmentar y priorizar leads por sector, tamaño de empresa, tipo de servicio de interés y etapa en su proceso de compras.',
       'Configuración de automatizaciones básicas: asignación automática de tareas, recordatorios de seguimiento y notificaciones cuando un lead avanza o se estanca.',
-      'Sesión de capacitación con Anwar Tapias: navegación del CRM, gestión de oportunidades, uso del pipeline y consulta de reportes básicos.',
+      'Sesión de capacitación con el equipo de Procurement Pro: navegación del CRM, gestión de oportunidades, uso del pipeline y consulta de reportes básicos.',
     ],
   },
   {
     num: 'Servicio 2',
-    nombre: 'Gestión de pauta — Meta Ads',
+    nombre: 'Gestión de pauta en Meta Ads',
     tipo: 'Pago mensual',
     valor: 'COP 500.000',
     nota: 'Sin IVA · hasta USD 300 de presupuesto en pauta',
     icon: MousePointer,
     destacado: false,
     entregables: [
-      'Gestión estratégica de pauta en Meta Ads — Facebook e Instagram (hasta 3 productos o servicios)',
+      'Gestión estratégica de pauta en Meta Ads, con cobertura en Facebook e Instagram (hasta 3 productos o servicios)',
       'Configuración y optimización de campañas orientadas al segmento corporativo B2B',
       'Seguimiento y ajuste semanal de rendimiento',
       'Reporte mensual de resultados (impresiones, clics, leads generados, CPL)',
       'Coordinación con el flujo del CRM para que leads de pauta entren directamente al pipeline',
+      'Hasta 2 reuniones mensuales de avance (seguimiento cada 2 semanas)',
     ],
     detalle: [
       'Definición de la estrategia de pauta según los servicios a promocionar: consultoría corporativa, formación in-house o cursos abiertos (máximo 3 productos simultáneos).',
       'Configuración de campañas en Meta Ads (Facebook e Instagram) con segmentación B2B: cargo, industria, tamaño de empresa y comportamientos afines al área de compras.',
       'Optimización continua de pujas, creativos y segmentación para maximizar el retorno sobre el presupuesto invertido.',
+      'Se incluyen hasta 2 reuniones mensuales de avance con el equipo de Procurement Pro (una cada 2 semanas) para revisar resultados y ajustar la estrategia.',
       'Si el presupuesto mensual en pauta supera los USD 300, la tarifa de gestión se renegocia de común acuerdo antes de ejecutar el incremento.',
       'Integración del pixel / tracking con la landing page para que cada lead generado por pauta entre automáticamente al CRM.',
     ],
   },
   {
     num: 'Servicio 3',
-    nombre: 'Plan CRM Growth — Licencia plataforma completa',
+    nombre: 'Plan CRM Growth con licencia de plataforma completa',
     tipo: 'Pago mensual',
-    valor: 'COP 1.300.000',
-    nota: 'Sin IVA · acceso full a la plataforma',
+    valor: 'COP 1.100.000',
+    nota: 'Sin IVA · hasta 5.000 emails/mes incluidos',
     icon: BookOpen,
     destacado: false,
     entregables: [
@@ -132,12 +134,38 @@ const SERVICIOS = [
       'CRM de contactos, empresas y oportunidades',
       'Automatizaciones y workflows',
       'Reportería y dashboards',
+      'Hasta 5.000 envíos de email marketing mensuales incluidos',
+      'Correos adicionales: COP 8.000 por cada 1.000 enviados (desde el envío 5.001)',
     ],
     detalle: [
       'Licencia mensual del Plan CRM Growth que da acceso completo a todos los módulos de la plataforma.',
       'Incluye los módulos de Landing Pages, Formularios, Websites, Cursos, CRM, Automatizaciones y Reportería.',
       'La implementación cubre lo definido en el Servicio 1 (flujo comercial). Módulos adicionales disponibles en la licencia pueden ser activados por el cliente de forma autónoma o cotizarse como implementación adicional.',
-      'El acceso a la plataforma de cursos permite a Anwar Tapias centralizar sus cursos grabados directamente en el ecosistema, sin depender de la plataforma externa actual construida en Lovable.',
+      'El acceso a la plataforma de cursos permite a Procurement Pro centralizar sus cursos grabados directamente en el ecosistema, sin depender de la plataforma externa actual construida en Lovable.',
+      'El plan incluye hasta 5.000 envíos de email marketing al mes. A partir del envío 5.001, el costo adicional es de COP 8.000 por cada 1.000 correos enviados, facturado al mes siguiente.',
+    ],
+  },
+  {
+    num: 'Servicio 4',
+    nombre: 'Acompañamiento mensual en adopción',
+    tipo: 'Pago mensual opcional',
+    valor: 'COP 500.000',
+    nota: 'Sin IVA · hasta 5 horas de trabajo al mes',
+    icon: Users,
+    destacado: false,
+    opcional: true,
+    entregables: [
+      'Hasta 5 horas de trabajo mensual en soporte y acompañamiento',
+      'Resolución de dudas funcionales del equipo',
+      'Ajustes finos en automatizaciones, flujos o configuraciones existentes',
+      'Revisión periódica del uso del CRM y recomendaciones de mejora',
+      'Comunicación directa con el equipo de Sixteam.pro',
+    ],
+    detalle: [
+      'Servicio disponible una vez finalizada la implementación (Servicio 1), diseñado para equipos que quieren un respaldo experto durante los primeros meses de operación autónoma.',
+      'Incluye hasta 5 horas mensuales de trabajo distribuidas según las necesidades del cliente: soporte funcional, ajustes al sistema o capacitación adicional.',
+      'Las horas no utilizadas en el mes no se acumulan para el siguiente período.',
+      'Se puede activar o pausar con 30 días de aviso previo.',
     ],
   },
 ];
@@ -146,7 +174,93 @@ const SECCIONES = [
   { id: 'resumen',  label: 'Resumen' },
   { id: 'objetivo', label: 'Objetivo' },
   { id: 'plan',     label: 'Servicios' },
+  { id: 'roadmap',  label: 'Roadmap' },
   { id: 'vigencia', label: 'Vigencia' },
+];
+
+// ─── ROADMAP ──────────────────────────────────────────────────────────────────
+
+const ROADMAP = [
+  {
+    semana: 'Semana 1',
+    fase: 'Contextualización',
+    descripcion: 'Reuniones de consultoría para entender el negocio antes de configurar nada. El objetivo es documentar el proceso comercial real y definir la estrategia de pauta con claridad.',
+    trackCRM: true,
+    trackPauta: true,
+    actividades: [
+      'Kickoff y diagnóstico del ciclo de venta actual',
+      'Mapeo de etapas del pipeline y perfiles de prospecto',
+      'Revisión de la base de contactos en OneDrive',
+      'Definición de audiencias y mensajes clave para pauta',
+    ],
+    color: '#1d70a2',
+    bg: 'rgba(29,112,162,.09)',
+    border: 'rgba(29,112,162,.28)',
+  },
+  {
+    semana: 'Semana 2',
+    fase: 'Configuración',
+    descripcion: 'Se construye la infraestructura completa: CRM, pipeline, landing page, automatizaciones y las primeras campañas en Meta Ads quedan activas.',
+    trackCRM: true,
+    trackPauta: true,
+    actividades: [
+      'Pipeline configurado con las etapas del ciclo B2B',
+      'Landing page y formularios integrados al CRM',
+      'Automatizaciones de seguimiento y notificaciones',
+      'Activación de primeras campañas en Meta Ads',
+    ],
+    color: '#4f46e5',
+    bg: 'rgba(79,70,229,.09)',
+    border: 'rgba(79,70,229,.26)',
+  },
+  {
+    semana: 'Semana 3',
+    fase: 'Integración y ajustes',
+    descripcion: 'El CRM y la pauta empiezan a funcionar como un solo sistema. Los primeros datos reales permiten ajustar la segmentación y afinar el flujo antes de la entrega final.',
+    trackCRM: true,
+    trackPauta: true,
+    actividades: [
+      'Pixel de Meta integrado a la landing page',
+      'Prueba del flujo completo: lead → CRM → automatización',
+      'Ajuste de segmentaciones con primeros datos reales',
+      'Migración de contactos existentes al CRM',
+    ],
+    color: '#0891b2',
+    bg: 'rgba(8,145,178,.09)',
+    border: 'rgba(8,145,178,.26)',
+  },
+  {
+    semana: 'Semana 4',
+    fase: 'Capacitación y puesta en marcha',
+    descripcion: 'El equipo de Procurement Pro ya tiene el sistema listo para operar. Se realizan las sesiones de capacitación y el flujo comercial entra oficialmente en funcionamiento.',
+    trackCRM: true,
+    trackPauta: true,
+    actividades: [
+      'Sesión de capacitación funcional (hasta 4 horas)',
+      'Primera ronda de optimización de pauta con datos reales',
+      'Entrega de guías de uso y documentación básica',
+      'Puesta en marcha oficial del flujo comercial',
+    ],
+    color: '#00bfa5',
+    bg: 'rgba(0,191,165,.09)',
+    border: 'rgba(0,191,165,.26)',
+  },
+  {
+    semana: 'Semana 5',
+    fase: 'Acompañamiento en la adopción',
+    descripcion: 'Semana de seguimiento para garantizar que el equipo opera el sistema con confianza y que el flujo completo funciona como se diseñó.',
+    trackCRM: true,
+    trackPauta: true,
+    actividades: [
+      'Resolución de dudas y ajustes finos al sistema',
+      'Revisión del primer ciclo real de leads en el CRM',
+      'Verificación de automatizaciones y notificaciones activas',
+      'Validación de resultados de pauta de la primera semana',
+    ],
+    color: '#22c55e',
+    bg: 'rgba(34,197,94,.08)',
+    border: 'rgba(34,197,94,.25)',
+  },
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -200,6 +314,7 @@ const ProcurementProProposal = () => {
 
   const s1 = useVisible(); const s2 = useVisible();
   const s3 = useVisible(); const s4 = useVisible();
+  const s5 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -318,7 +433,7 @@ const ProcurementProProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo', '2. Objetivo general', '3. Servicios y cotización', '4. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo', '2. Objetivo general', '3. Servicios y cotización', '4. Roadmap de implementación', '5. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -361,9 +476,10 @@ const ProcurementProProposal = () => {
                   <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,.08), transparent)' }} />
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <div className="w-24 h-24 rounded-2xl flex items-center justify-center"
-                    style={{ background: `linear-gradient(135deg, ${ACCENT_ALPHA(0.20)}, ${ACCENT_ALPHA(0.08)})`, border: `1px solid ${ACCENT_ALPHA(0.30)}`, boxShadow: `0 4px 30px ${ACCENT_ALPHA(0.18)}` }}>
-                    <BarChart3 className="w-12 h-12" style={{ color: '#a5b4fc' }} />
+                  <div className="w-24 h-24 rounded-2xl flex items-center justify-center overflow-hidden"
+                    style={{ background: '#ffffff', border: `1px solid ${ACCENT_ALPHA(0.30)}`, boxShadow: `0 4px 30px ${ACCENT_ALPHA(0.18)}`, padding: '10px' }}>
+                    <img src="/logo-procurement.png" alt="Procurement Pro" className="w-full h-full object-contain"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                   </div>
                   <div className="text-center">
                     <span className="font-poppins font-black text-white/80 text-[20px] tracking-tight">Procurement Pro</span>
@@ -401,12 +517,13 @@ const ProcurementProProposal = () => {
           <div className="rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row gap-5 sm:gap-8 items-start sm:items-center"
             style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.07)' }}>
             <div className="flex-shrink-0 flex flex-col items-center gap-2">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ background: `linear-gradient(135deg, ${ACCENT}, #3730a3)`, boxShadow: `0 4px 20px ${ACCENT_ALPHA(0.28)}` }}>
-                <BarChart3 className="w-7 h-7 text-white" />
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden"
+                style={{ background: '#ffffff', boxShadow: `0 4px 20px ${ACCENT_ALPHA(0.28)}`, padding: '6px' }}>
+                <img src="/logo-procurement.png" alt="Procurement Pro" className="w-full h-full object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
               </div>
               <span className="font-poppins font-black text-white text-[14px] tracking-tight text-center">Procurement Pro</span>
-              <span className="font-lato text-[11px] uppercase tracking-[0.18em] text-center" style={{ color: '#a5b4fc' }}>Anwar Tapias</span>
+              <span className="font-lato text-[11px] uppercase tracking-[0.18em] text-center" style={{ color: '#a5b4fc' }}>Compras · B2B</span>
             </div>
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
@@ -430,9 +547,9 @@ const ProcurementProProposal = () => {
 
           {/* Narrativa */}
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
-            <p>Procurement Pro es un negocio especializado en consultoría, formación corporativa y mentoría en el área de compras B2B. Su fundador, Anwar Tapias, tiene un posicionamiento orgánico sólido en LinkedIn y clientes de referencia como el Grupo Familia — lo que demuestra que el problema no es el producto ni el conocimiento: <strong className="text-white/90 font-semibold">el problema es la infraestructura operativa que soporta el crecimiento.</strong></p>
-            <p>Con un ciclo de venta de 2 a 4 meses, unas 5 oportunidades reales mensuales y una base de más de 600 estudiantes registrados en su plataforma de cursos, el negocio tiene tracción real. Pero hoy opera con información en carpetas de OneDrive, pauta sin estrategia y cero automatización — lo que significa que <strong className="text-white/90 font-semibold">cada hora de Anwar se va en gestión operativa en vez de en cerrar y entregar.</strong></p>
-            <p>La solución que propone Sixteam.pro no es solo un CRM: es <strong className="text-white/90 font-semibold">un flujo comercial completo que centraliza, automatiza y hace visible todo el proceso de captación y seguimiento</strong>, para que Anwar pueda enfocarse en lo que realmente hace crecer el negocio.</p>
+            <p>Procurement Pro es un negocio especializado en consultoría, formación corporativa y mentoría en el área de compras B2B. Con un posicionamiento orgánico sólido en LinkedIn y clientes de referencia como el Grupo Familia, el equipo demuestra que el problema no es el producto ni el conocimiento: <strong className="text-white/90 font-semibold">el problema es la infraestructura operativa que soporta el crecimiento.</strong></p>
+            <p>Con un ciclo de venta de 2 a 4 meses, unas 5 oportunidades reales mensuales y una base de más de 600 estudiantes registrados en su plataforma de cursos, el negocio tiene tracción real. Pero hoy opera con información en carpetas de OneDrive, pauta sin estrategia y cero automatización, lo que significa que <strong className="text-white/90 font-semibold">cada hora del equipo se va en gestión operativa en vez de en cerrar y entregar.</strong></p>
+            <p>La solución que propone Sixteam.pro no es solo un CRM: es <strong className="text-white/90 font-semibold">un flujo comercial completo que centraliza, automatiza y hace visible todo el proceso de captación y seguimiento</strong>, para que el equipo de Procurement Pro pueda enfocarse en lo que realmente hace crecer el negocio.</p>
           </div>
 
           {/* Diagnóstico */}
@@ -470,7 +587,7 @@ const ProcurementProProposal = () => {
               style={{ background: `radial-gradient(circle, ${ACCENT_ALPHA(0.06)}, transparent 70%)`, transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Implementar la infraestructura tecnológica y comercial que Procurement Pro necesita para escalar: un flujo completo de captación y gestión de leads corporativos en CRM, pauta estratégica en Meta Ads orientada al segmento B2B, y acceso a una plataforma centralizada que unifique CRM, landing pages, formularios y cursos — liberando a Anwar Tapias de la carga operativa para que invierta su tiempo en consultar, formar y crecer.
+              Implementar la infraestructura tecnológica y comercial que Procurement Pro necesita para escalar: un flujo completo de captación y gestión de leads corporativos en CRM, pauta estratégica en Meta Ads orientada al segmento B2B, y acceso a una plataforma centralizada que unifique CRM, landing pages, formularios y cursos, lo que libera al equipo de Procurement Pro de la carga operativa y le permite invertir su tiempo en consultar, formar y crecer.
             </p>
           </div>
 
@@ -478,7 +595,7 @@ const ProcurementProProposal = () => {
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { icon: Database,     title: 'Visibilidad total del pipeline', desc: 'Cada oportunidad registrada con su etapa, historial y próxima acción.' },
-              { icon: RefreshCw,    title: 'Seguimiento automatizado',       desc: 'Sin recordatorios manuales — el sistema avisa cuándo actuar y cómo.' },
+              { icon: RefreshCw,    title: 'Seguimiento automatizado',       desc: 'Sin recordatorios manuales: el sistema avisa cuándo actuar y cómo.' },
               { icon: TrendingUp,   title: 'Pauta con propósito',            desc: 'Cada peso en pauta conectado a un lead que entra al pipeline automáticamente.' },
             ].map((v, i) => {
               const Icon = v.icon;
@@ -519,6 +636,10 @@ const ProcurementProProposal = () => {
                         {s.destacado && (
                           <span className="px-2 py-0.5 rounded-full font-lato font-bold text-[11px] uppercase tracking-wider text-[#030d1a]"
                             style={{ background: '#00bfa5' }}>★ Inicio recomendado</span>
+                        )}
+                        {(s as any).opcional && (
+                          <span className="px-2 py-0.5 rounded-full font-lato font-bold text-[11px] uppercase tracking-wider"
+                            style={{ background: 'rgba(251,191,36,.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,.28)' }}>Opcional</span>
                         )}
                       </div>
                       <p className={`font-lato text-[18px] mt-0.5 ${open ? 'text-white/80' : 'text-white/40'}`}>{s.nombre}</p>
@@ -567,6 +688,73 @@ const ProcurementProProposal = () => {
 
           <p className="font-lato text-white/35 text-[14px] mb-6">Todos los valores en pesos colombianos (COP) · sin IVA · haz clic en cada servicio para ver el detalle</p>
 
+          {/* Alcance exacto */}
+          <div className="rounded-2xl overflow-hidden mb-6" style={{ border: '1px solid rgba(255,255,255,.08)' }}>
+            <div className="px-5 py-3.5 border-b flex items-center gap-2"
+              style={{ background: 'rgba(255,255,255,.03)', borderColor: 'rgba(255,255,255,.07)' }}>
+              <CheckCircle className="w-4 h-4 text-[#00bfa5] flex-shrink-0" />
+              <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Alcance exacto · entregables y límites por servicio</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              {/* S1 */}
+              <div className="p-5 border-b md:border-b-0 md:border-r" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
+                <p className="font-poppins font-bold text-[12px] uppercase tracking-wider mb-4" style={{ color: '#1d70a2' }}>01 · Implementación CRM</p>
+                <ul className="space-y-2.5">
+                  {([
+                    ['1 pipeline', 'de ventas con etapas del ciclo B2B'],
+                    ['2 formularios', 'de captación integrados al CRM'],
+                    ['1 landing page', 'conectada al CRM'],
+                    ['5 automatizaciones', 'de seguimiento configuradas'],
+                    ['15 campos', 'personalizados en Contactos'],
+                    ['15 campos', 'personalizados en Oportunidades'],
+                    ['Hasta 4 h', 'de capacitación funcional'],
+                  ] as [string, string][]).map(([val, lbl], i) => (
+                    <li key={i} className="flex items-baseline gap-2">
+                      <span className="font-poppins font-bold text-white text-[13px] flex-shrink-0">{val}</span>
+                      <span className="font-lato text-white/35 text-[12px] leading-snug">{lbl}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* S2 */}
+              <div className="p-5 border-b md:border-b-0 md:border-r" style={{ borderColor: 'rgba(255,255,255,.07)' }}>
+                <p className="font-poppins font-bold text-[12px] uppercase tracking-wider mb-4" style={{ color: '#4f46e5' }}>02 · Gestión Meta Ads</p>
+                <ul className="space-y-2.5">
+                  {([
+                    ['Hasta 3', 'productos/servicios simultáneos'],
+                    ['2 reuniones/mes', 'de avance (cada 2 semanas)'],
+                    ['Hasta USD 300', 'en pauta (asumido por cliente)'],
+                    ['1 reporte', 'mensual de resultados (CPL, leads, clics)'],
+                    ['Seguimiento', 'y optimización semanal de campañas'],
+                  ] as [string, string][]).map(([val, lbl], i) => (
+                    <li key={i} className="flex items-baseline gap-2">
+                      <span className="font-poppins font-bold text-white text-[13px] flex-shrink-0">{val}</span>
+                      <span className="font-lato text-white/35 text-[12px] leading-snug">{lbl}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              {/* S3 */}
+              <div className="p-5">
+                <p className="font-poppins font-bold text-[12px] uppercase tracking-wider mb-4" style={{ color: '#00bfa5' }}>03 · Plan CRM Growth</p>
+                <ul className="space-y-2.5">
+                  {([
+                    ['Acceso completo', 'a todos los módulos de la plataforma'],
+                    ['5.000 emails/mes', 'de email marketing incluidos'],
+                    ['COP 8.000', 'por c/1.000 correos adicionales (desde el 5.001)'],
+                    ['Sin límite', 'de contactos y empresas registradas'],
+                    ['Sin límite', 'de automatizaciones activas'],
+                  ] as [string, string][]).map(([val, lbl], i) => (
+                    <li key={i} className="flex items-baseline gap-2">
+                      <span className="font-poppins font-bold text-white text-[13px] flex-shrink-0">{val}</span>
+                      <span className="font-lato text-white/35 text-[12px] leading-snug">{lbl}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {/* Nota pauta */}
           <div className="rounded-xl p-4 sm:p-5 mb-6 flex gap-3"
               style={{ background: 'rgba(96,165,250,.05)', border: '1px solid rgba(96,165,250,.18)' }}>
@@ -599,7 +787,7 @@ const ProcurementProProposal = () => {
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-lato text-white/60 text-[18px]">Plan CRM Growth</span>
-                      <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 1.300.000</span>
+                      <span className="font-poppins font-semibold text-white/70 text-[18px]">COP 1.100.000</span>
                     </div>
                   </div>
                 </div>
@@ -609,17 +797,97 @@ const ProcurementProProposal = () => {
                       <span className="font-poppins font-bold text-white/85 text-[20px]">Total recurrente mensual</span>
                       <p className="font-lato text-white/30 text-[13px] mt-0.5">Sin IVA · Pauta aparte según consumo</p>
                     </div>
-                    <span className="font-poppins font-black text-[28px]" style={{ color: '#a5b4fc' }}>COP 1.800.000</span>
+                    <span className="font-poppins font-black text-[28px]" style={{ color: '#a5b4fc' }}>COP 1.600.000</span>
+                  </div>
+                </div>
+                <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(251,191,36,.12)' }}>
+                  <p className="font-lato text-white/25 text-[12px] uppercase tracking-widest mb-2">Adicional opcional</p>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-lato text-white/55 text-[18px]">Acompañamiento mensual en adopción</span>
+                        <span className="px-2 py-0.5 rounded-full font-lato font-bold text-[10px] uppercase tracking-wider"
+                          style={{ background: 'rgba(251,191,36,.12)', color: '#fbbf24', border: '1px solid rgba(251,191,36,.28)' }}>Opcional</span>
+                      </div>
+                      <p className="font-lato text-white/30 text-[13px] mt-0.5">Hasta 5 horas de trabajo · No incluido en el total</p>
+                    </div>
+                    <span className="font-poppins font-semibold text-[18px] flex-shrink-0 ml-4" style={{ color: '#fbbf24' }}>COP 500.000</span>
                   </div>
                 </div>
               </div>
             </div>
         </section>
 
-        {/* ─ 04 VIGENCIA ─ */}
-        <section id="vigencia" ref={s4.ref as React.RefObject<HTMLElement>}
+        {/* ─ 04 ROADMAP ─ */}
+        <section id="roadmap" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Vigencia y términos</TagLabel>
+          <TagLabel>04 — Plan de trabajo</TagLabel>
+          <SectionTitle>Roadmap de implementación</SectionTitle>
+          <Rule />
+
+          <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-10">
+            En 4 semanas Procurement Pro pasa de cero infraestructura a un sistema comercial completamente operativo. La semana 5 es de <span className="text-[#22c55e]/80 font-semibold">acompañamiento en la adopción</span> para garantizar que el equipo opera las herramientas con total confianza.
+          </p>
+
+          {/* Timeline — desktop */}
+          <div className="hidden md:block relative mb-2">
+            <div className="absolute h-px" style={{ top: '20px', left: '10%', right: '10%', background: 'linear-gradient(90deg,#1d70a2,#4f46e5,#0891b2,#00bfa5,#22c55e)' }} />
+            <div className="grid grid-cols-5 gap-4">
+              {ROADMAP.map((sem, i) => (
+                <div key={i} className="flex flex-col items-center">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center mb-4 relative z-10 flex-shrink-0"
+                    style={{ background: sem.color, boxShadow: `0 0 18px ${sem.color}66` }}>
+                    <span className="font-poppins font-black text-white text-[14px]">{i + 1}</span>
+                  </div>
+                  <p className="font-lato text-white/30 text-[11px] uppercase tracking-widest mb-1 text-center">{sem.semana}</p>
+                  <p className="font-poppins font-bold text-[14px] leading-tight mb-3 text-center" style={{ color: sem.color }}>{sem.fase}</p>
+                  <ul className="space-y-1.5 w-full">
+                    {sem.actividades.map((act, j) => (
+                      <li key={j} className="flex items-start gap-2">
+                        <div className="w-1 h-1 rounded-full flex-shrink-0 mt-[6px]" style={{ background: sem.color }} />
+                        <span className="font-lato text-white/45 text-[12px] leading-relaxed">{act}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline — mobile */}
+          <div className="md:hidden">
+            {ROADMAP.map((sem, i) => (
+              <div key={i} className="relative flex gap-5 pb-8 last:pb-0">
+                <div className="flex flex-col items-center flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 z-10"
+                    style={{ background: sem.color, boxShadow: `0 0 14px ${sem.color}55` }}>
+                    <span className="font-poppins font-black text-white text-[14px]">{i + 1}</span>
+                  </div>
+                  {i < ROADMAP.length - 1 && (
+                    <div className="flex-1 w-px mt-2 min-h-[2rem]" style={{ background: sem.border }} />
+                  )}
+                </div>
+                <div className="flex-1 pt-1.5">
+                  <p className="font-lato text-white/30 text-[11px] uppercase tracking-widest mb-0.5">{sem.semana}</p>
+                  <p className="font-poppins font-bold text-[15px] leading-tight mb-2.5" style={{ color: sem.color }}>{sem.fase}</p>
+                  <ul className="space-y-1.5">
+                    {sem.actividades.map((act, j) => (
+                      <li key={j} className="flex items-start gap-2">
+                        <div className="w-1 h-1 rounded-full flex-shrink-0 mt-[6px]" style={{ background: sem.color }} />
+                        <span className="font-lato text-white/45 text-[13px] leading-relaxed">{act}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ─ 05 VIGENCIA ─ */}
+        <section id="vigencia" ref={s5.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>05 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
@@ -631,13 +899,13 @@ const ProcurementProProposal = () => {
                 icon: CheckCircle,
               },
               {
-                titulo: 'Términos de pago — Implementación',
+                titulo: 'Términos de pago: Implementación',
                 desc: 'El pago de COP 2.000.000 por la implementación del flujo comercial se realiza 50% al inicio y 50% al finalizar la fase de puesta en marcha y capacitación.',
                 icon: FileText,
               },
               {
-                titulo: 'Términos de pago — Recurrente mensual',
-                desc: 'La tarifa mensual de COP 1.800.000 (gestión de pauta COP 500.000 + Plan CRM Growth COP 1.300.000) se factura de forma anticipada el primer día hábil de cada mes.',
+                titulo: 'Términos de pago: Recurrente mensual',
+                desc: 'La tarifa mensual de COP 1.600.000 (gestión de pauta COP 500.000 + Plan CRM Growth COP 1.100.000) se factura de forma anticipada el primer día hábil de cada mes.',
                 icon: Calendar,
               },
               {
@@ -652,7 +920,7 @@ const ProcurementProProposal = () => {
               },
               {
                 titulo: 'Inicio del proyecto',
-                desc: 'El cronograma de implementación (estimado 2–3 semanas) inicia a partir del recibo del primer pago y la entrega de accesos e información necesaria por parte del cliente.',
+                desc: 'El cronograma de implementación, estimado en 4 semanas, inicia a partir del recibo del primer pago y la entrega de accesos e información necesaria por parte del cliente.',
                 icon: Zap,
               },
             ].map((item, i) => {
