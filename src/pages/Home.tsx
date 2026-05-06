@@ -93,6 +93,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/procurement-pro',
   },
+  {
+    slug: 'viajes-capital',
+    cliente: 'Viajes Capital',
+    sector: 'Agencia de Viajes · Hotelería · Turismo · Cali',
+    fecha: 'Mayo 2026',
+    monto: 'COP 2.800.000 + COP 2.890.000/mes',
+    estado: 'borrador',
+    path: '/viajes-capital',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

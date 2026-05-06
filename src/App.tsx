@@ -12,6 +12,7 @@ const AnatoDeck              = lazy(() => import('./pages/AnatoDeck'));
 const VisitAntioquiaProposal = lazy(() => import('./pages/VisitAntioquiaProposal'));
 const GrupoMimiProposal      = lazy(() => import('./pages/GrupoMimiProposal'));
 const ProcurementProProposal = lazy(() => import('./pages/ProcurementProProposal'));
+const ViajesCapitalProposal  = lazy(() => import('./pages/ViajesCapitalProposal'));
 
 function Loader() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
           <Route path="/visitantioquia"       element={<VisitAntioquiaProposal />} />
           <Route path="/grupo-mimi"           element={<GrupoMimiProposal />} />
           <Route path="/procurement-pro"     element={<ProcurementProProposal />} />
+          <Route path="/viajes-capital"      element={<ViajesCapitalProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
