@@ -102,6 +102,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/viajes-capital',
   },
+  {
+    slug: 'travel-sol-playa',
+    cliente: 'Travel Sol y Playa SAS',
+    sector: 'Agencia de Viajes · Turismo · Barranquilla',
+    fecha: 'Mayo 2026',
+    monto: 'COP 2.500.000 + COP 850.000/mes',
+    estado: 'borrador',
+    path: '/travel-sol-playa',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
