@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, Calendar, Building2, Tag, Plane } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Lock } from 'lucide-react';
+
+const PASSWORD = 'sixteam2026';
+const SESSION_KEY = 'st_proposals_auth';
 
 interface Proposal {
   slug: string;
@@ -111,6 +115,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/travel-sol-playa',
   },
+  {
+    slug: 'mpm',
+    cliente: 'Stunet Education Agency — Mi Primer Millón',
+    sector: 'EdTech · Educación Financiera · Niños y Adolescentes',
+    fecha: 'Mayo 2026',
+    monto: 'COP 5.800.000 – COP 9.000.000',
+    estado: 'borrador',
+    path: '/mpm',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -121,6 +134,81 @@ const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; colo
 };
 
 export default function Home() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1');
+  const [input, setInput] = useState('');
+  const [error, setError] = useState(false);
+
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    if (input === PASSWORD) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      setAuthed(true);
+    } else {
+      setError(true);
+      setInput('');
+    }
+  }
+
+  if (!authed) return (
+    <div style={{
+      minHeight: '100vh', background: '#030d1a',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: 'Lato, sans-serif',
+    }}>
+      <div style={{
+        width: '100%', maxWidth: 360,
+        background: 'rgba(29,112,162,.07)',
+        border: '1px solid rgba(29,112,162,.25)',
+        borderRadius: 16, padding: '2.5rem 2rem',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          width: 52, height: 52, borderRadius: 14, margin: '0 auto 1.25rem',
+          background: 'linear-gradient(135deg, #1d70a2, #00bfa5)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Lock size={22} color="#fff" />
+        </div>
+        <h1 style={{
+          fontFamily: 'Poppins, sans-serif', fontWeight: 800,
+          fontSize: '1.25rem', color: '#fff', margin: '0 0 .35rem',
+        }}>
+          Sixteam<span style={{ color: '#00bfa5' }}>.pro</span>
+        </h1>
+        <p style={{ fontSize: 13, color: 'rgba(255,255,255,.4)', marginBottom: '1.75rem' }}>
+          Propuestas comerciales · Acceso restringido
+        </p>
+        <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={input}
+            autoFocus
+            onChange={e => { setInput(e.target.value); setError(false); }}
+            style={{
+              background: 'rgba(255,255,255,.06)',
+              border: `1px solid ${error ? '#f87171' : 'rgba(29,112,162,.35)'}`,
+              borderRadius: 8, padding: '10px 14px',
+              color: '#fff', fontSize: 14, outline: 'none',
+              fontFamily: 'Lato, sans-serif',
+            }}
+          />
+          {error && (
+            <p style={{ fontSize: 12, color: '#f87171', margin: 0 }}>Contraseña incorrecta</p>
+          )}
+          <button type="submit" style={{
+            background: 'linear-gradient(135deg, #1d70a2, #00bfa5)',
+            border: 'none', borderRadius: 8, padding: '11px',
+            color: '#fff', fontFamily: 'Poppins, sans-serif',
+            fontWeight: 700, fontSize: 14, cursor: 'pointer',
+          }}>
+            Entrar
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ minHeight: '100vh', background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
 

@@ -235,9 +235,9 @@ const DIFERENCIADORES = [
     icon: Users,
   },
   {
-    titulo: 'Experiencia en el sector turismo',
-    desc: 'Ya trabajamos con agencias de viaje en Colombia. Conocemos los paquetes, los ciclos de decisión del viajero y la operación real del sector — no llegamos a aprender.',
-    icon: Plane,
+    titulo: 'Todo lo que hacemos apunta a una sola cosa',
+    desc: 'CRM, pauta, IA, automatizaciones, reportes — cada decisión que tomamos existe para que la agencia venda más. No instalamos tecnología: generamos crecimiento.',
+    icon: Target,
   },
   {
     titulo: 'Equipo colombiano · Soporte local',

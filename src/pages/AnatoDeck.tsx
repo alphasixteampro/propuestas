@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   ChevronLeft, ChevronRight, TrendingUp, BarChart3, Globe,
   Users, Database, AlertCircle, Zap, Monitor, MessageSquare,
-  FileText, Mail, Plane, MapPin, CheckCircle, ArrowRight, X, Clock,
+  FileText, Mail, Plane, MapPin, ArrowRight, X, Clock,
   PhoneOff, Eye, Bot, DollarSign, Shield, Unlock, Settings, Compass,
 } from 'lucide-react';
 
@@ -17,8 +17,8 @@ const SLIDES = [
   { id: 'propuesta'      },
   { id: 'servicios'      },
   { id: 'precios'        },
-  { id: 'piloto'         },
   { id: 'porque'         },
+  { id: 'metodo'         }, // track record + cómo operamos
   { id: 'proximos'       },
 ];
 
@@ -387,49 +387,8 @@ const AnatoDeck = () => {
           </SlideLayout>
         </Slide>
 
-        {/* ── 9. PILOTO ── */}
+        {/* ── 9. ¿POR QUÉ SIXTEAM? ── */}
         <Slide active={current === 8}>
-          <SlideLayout tag="Piloto propuesto" title="Empecemos con una agencia — completamente gratis">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-              <div>
-                <p className="font-poppins font-semibold text-white/45 text-[13px] uppercase tracking-wider mb-4">Lo que incluye el piloto</p>
-                <ul className="space-y-3">
-                  {['Implementación completa de CRM Sixteam.pro', 'Activación de Sixteam Inbox +IA', 'Flujos y automatizaciones configurados', '2 meses de licencia incluidos sin costo', 'Capacitación del equipo de la agencia'].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                      <span className="font-lato text-white/65 text-[18px]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="font-poppins font-semibold text-white/45 text-[13px] uppercase tracking-wider mb-4">Lo que construimos juntos</p>
-                <ul className="space-y-3">
-                  {['Historial del cliente viajero sistematizado', 'Leads respondidos en segundos con IA', 'Seguimiento automático de prospectos', 'Reporte de impacto presentable a ANATO', 'Caso de éxito para escalar al resto de afiliadas'].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: ANATO_ORANGE }} />
-                      <span className="font-lato text-white/65 text-[18px]">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="mt-6 rounded-2xl p-5 flex items-center gap-4"
-              style={{ background: `rgba(232,84,10,.07)`, border: `1px solid rgba(232,84,10,.2)` }}>
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
-                style={{ background: `rgba(232,84,10,.15)`, border: `1px solid rgba(232,84,10,.3)` }}>
-                <span className="font-poppins font-black text-[24px]" style={{ color: ANATO_ORANGE }}>$0</span>
-              </div>
-              <div>
-                <p className="font-poppins font-bold text-white/85 text-[20px]">Costo para ANATO y la agencia piloto</p>
-                <p className="font-lato text-white/45 text-[17px]">Solo pedimos disposición del equipo de la agencia para adoptar la herramienta.</p>
-              </div>
-            </div>
-          </SlideLayout>
-        </Slide>
-
-        {/* ── 10. ¿POR QUÉ SIXTEAM? ── */}
-        <Slide active={current === 9}>
           <SlideLayout tag="¿Por qué Sixteam?" title="El problema no es la plataforma — es que nadie la hace funcionar">
             <p className="font-lato text-white/55 text-[18px] leading-relaxed mt-3 mb-5">
               ANATO ya tiene alianzas con DataCRM, Prolibu y Wetu. Son buenas plataformas. Pero el verdadero problema de las agencias no es el acceso a la herramienta — <strong className="text-white/80">es que las herramientas se compran y no se usan.</strong> Sixteam resuelve exactamente eso.
@@ -482,6 +441,54 @@ const AnatoDeck = () => {
                     <div>
                       <p className="font-poppins font-bold text-white/80 text-[16px] mb-0.5">{d.titulo}</p>
                       <p className="font-lato text-white/45 text-[14px] leading-relaxed">{d.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </SlideLayout>
+        </Slide>
+
+        {/* ── 10. CÓMO LO HACEMOS FUNCIONAR ── */}
+        <Slide active={current === 9}>
+          <SlideLayout tag="Nuestro método" title="No vendemos software. Implementamos operaciones que funcionan.">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6">
+              {[
+                { val: '+50',     label: 'Implementaciones', sub: 'entregadas en Latinoamérica',              icon: BarChart3   },
+                { val: '15+',     label: 'Plataformas',       sub: 'que conectamos sin fricción',             icon: Globe       },
+                { val: '30 días', label: 'En producción',     sub: 'desde diagnóstico hasta primer flujo',    icon: Zap         },
+                { val: '100%',    label: 'Acompañamiento',    sub: 'capacitación, soporte y mejora continua', icon: TrendingUp  },
+              ].map((s, i) => {
+                const Icon = s.icon;
+                return (
+                  <div key={i} className="rounded-2xl p-5 flex flex-col gap-2"
+                    style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
+                    <Icon className="w-4 h-4 text-[#00bfa5]" />
+                    <p className="font-poppins font-black text-white" style={{ fontSize: 'clamp(1.4rem, 3vw, 2.2rem)' }}>{s.val}</p>
+                    <p className="font-poppins font-bold text-white/70 text-[14px]">{s.label}</p>
+                    <p className="font-lato text-white/40 text-[13px] leading-snug">{s.sub}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+              {[
+                { icon: Settings,     titulo: 'Consultoría + ejecución',          desc: 'No solo configuramos herramientas: convertimos objetivos comerciales en procesos implementados y utilizables desde el día uno.' },
+                { icon: Bot,          titulo: 'IA conversacional con propósito',  desc: 'Bots y asistentes que informan, perfilan y transfieren sin perder la calidad de la atención humana.' },
+                { icon: Zap,          titulo: 'Integración del ecosistema',       desc: 'Marketing, ventas, servicio y activos digitales conectados para reducir fricción y mejorar trazabilidad de cada lead.' },
+                { icon: Users,        titulo: 'Acompañamiento real',              desc: 'Capacitamos, damos soporte y proponemos mejoras para que la adopción no se quede en el día 1 del lanzamiento.' },
+              ].map((a, i) => {
+                const Icon = a.icon;
+                return (
+                  <div key={i} className="rounded-xl p-4 flex gap-3"
+                    style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.15)' }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.22)' }}>
+                      <Icon className="w-4 h-4 text-[#00bfa5]" />
+                    </div>
+                    <div>
+                      <p className="font-poppins font-bold text-white/85 text-[16px] mb-0.5">{a.titulo}</p>
+                      <p className="font-lato text-white/50 text-[14px] leading-relaxed">{a.desc}</p>
                     </div>
                   </div>
                 );
