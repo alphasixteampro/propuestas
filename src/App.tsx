@@ -15,6 +15,7 @@ const ProcurementProProposal = lazy(() => import('./pages/ProcurementProProposal
 const ViajesCapitalProposal    = lazy(() => import('./pages/ViajesCapitalProposal'));
 const TravelSolPlayaProposal   = lazy(() => import('./pages/TravelSolPlayaProposal'));
 const MpmProposal            = lazy(() => import('./pages/MpmProposal'));
+const TravelSolPlayaProposalV2 = lazy(() => import('./pages/TravelSolPlayaProposalV2'));
 
 function Loader() {
   return (
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/viajes-capital"        element={<ViajesCapitalProposal />} />
           <Route path="/travel-sol-playa"    element={<TravelSolPlayaProposal />} />
           <Route path="/mpm"                  element={<MpmProposal />} />
+          <Route path="/travel-sol-playa-v2" element={<TravelSolPlayaProposalV2 />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
