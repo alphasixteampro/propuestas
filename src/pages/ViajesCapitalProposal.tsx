@@ -3,29 +3,32 @@ import {
   CheckCircle, ChevronRight, FileText, Target, Zap, BarChart3,
   MessageSquare, AlertCircle, TrendingUp, Mail, ArrowRight, Building2,
   Calendar, Hash, User, Info, Globe, MapPin, Plane,
-  Database, Inbox, Settings, Users,
+  Database, Inbox, Settings, Users, Clock,
 } from 'lucide-react';
 import LogoCarousel from '../components/LogoCarousel';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
 
-const ACCENT  = '#0ea5e9';
+const ACCENT = '#0ea5e9';
 const ACCENT2 = '#0077b6';
+const TRM_NUM = 4200;
+const TRM = '4.200';
+const IA_USD_POR_MSG = 0.02;
 
 const META = {
-  cliente:    'Viajes Capital',
-  contacto:   'Andrés Moros',
-  cargo:      'Gerente General',
-  sector:     'Agencia de Viajes · Turismo · Hotelería',
-  fundada:    '2014',
-  sede:       'Cali, Valle del Cauca',
-  fecha:      'Mayo 2026',
-  lugar:      'Cali, Colombia',
+  cliente: 'Viajes Capital',
+  contacto: 'Andrés Moros',
+  cargo: 'Gerente General',
+  sector: 'Agencia de Viajes · Turismo · Hotelería',
+  fundada: '2014',
+  sede: 'Cali, Valle del Cauca',
+  fecha: 'Mayo 2026',
+  lugar: 'Barranquilla, Colombia',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
-  nit:        '901.967.849-4',
-  correo:     'alpha@sixteam.pro',
-  rl:         'Samuel Armando Burgos Ferrer',
-  objetivo:   'Implementar CRM Sixteam.pro Core para centralizar, integrar y potenciar la operación comercial de la agencia.',
+  nit: '901.967.849-4',
+  correo: 'alpha@sixteam.pro',
+  rl: 'Samuel Armando Burgos Ferrer',
+  objetivo: 'Implementar CRM Sixteam.pro Core para centralizar, integrar y potenciar la operación comercial de la agencia.',
 };
 
 const HALLAZGOS = [
@@ -56,44 +59,44 @@ const HALLAZGOS = [
 ];
 
 const TINT: Record<string, { text: string; bg: string; border: string }> = {
-  amber: { text: 'text-amber-400',    bg: 'rgba(251,191,36,.07)',  border: 'rgba(251,191,36,.18)' },
-  blue:  { text: 'text-[#60a5fa]',    bg: 'rgba(96,165,250,.07)',  border: 'rgba(96,165,250,.18)' },
-  red:   { text: 'text-[#f87171]',    bg: 'rgba(221,51,51,.07)',   border: 'rgba(221,51,51,.2)'   },
-  teal:  { text: 'text-[#00bfa5]',    bg: 'rgba(0,191,165,.07)',   border: 'rgba(0,191,165,.18)'  },
+  amber: { text: 'text-amber-400', bg: 'rgba(251,191,36,.07)', border: 'rgba(251,191,36,.18)' },
+  blue: { text: 'text-[#60a5fa]', bg: 'rgba(96,165,250,.07)', border: 'rgba(96,165,250,.18)' },
+  red: { text: 'text-[#f87171]', bg: 'rgba(221,51,51,.07)', border: 'rgba(221,51,51,.2)' },
+  teal: { text: 'text-[#00bfa5]', bg: 'rgba(0,191,165,.07)', border: 'rgba(0,191,165,.18)' },
 };
 
 const FASES = [
   {
     num: 'Fase 1',
-    nombre: 'Auditoría, estructura y configuración base',
+    nombre: 'Consultoría en procesos comerciales y tecnología',
     duracion: '1–2 semanas',
     icon: FileText,
     recomendada: true,
     entregables: [
       'Auditoría del proceso comercial actual (atención, venta y seguimiento)',
+      'Mapeo de herramientas tecnológicas en uso y brechas identificadas',
       'Definición de estructura CRM: etapas del pipeline, campos personalizados y responsables',
+      'Diseño del flujo de atención desde primer contacto hasta cierre',
       'Configuración de usuarios y roles para el equipo operativo',
-      'Conexión del número WapTrip a la bandeja omnicanal',
-      'Importación y limpieza de la base de datos desde Viacap',
     ],
     detalle: [
       'Reunión de contexto con el equipo para mapear el proceso de atención y venta (hasta 2 horas).',
+      'Diagnóstico de herramientas actuales: WapTrip, Viacap y canales digitales. Definición de qué se integra y cómo.',
       'Creación del modelo de datos con hasta 15 campos personalizados, 2 tarjetas de contacto y 1 pipeline de ventas con etapas definidas.',
       'Configuración de accesos para 3 usuarios operativos y conexión del canal WapTrip a la bandeja omnicanal centralizada.',
-      'Migración de registros desde Viacap: deduplicación, limpieza y estructuración inicial de los 25.000 registros.',
     ],
   },
   {
     num: 'Fase 2',
-    nombre: 'Automatizaciones y flujos de atención',
-    duracion: '1–2 semanas',
+    nombre: 'Implementación CRM Sixteam.pro Core',
+    duracion: '2–3 semanas',
     icon: Zap,
     recomendada: false,
     entregables: [
+      'Conexión del número WapTrip a la bandeja omnicanal',
       'Reglas de asignación automática entre agentes por carga de trabajo',
       'Secuencias de seguimiento: 24 h, 3 días y 7 días post-consulta',
       'Respuestas automáticas fuera de horario configuradas',
-      'Flujos de reactivación para base de clientes inactivos',
       'Recordatorios automáticos de vencimiento de documentos de viaje',
     ],
     detalle: [
@@ -105,22 +108,22 @@ const FASES = [
   },
   {
     num: 'Fase 3',
-    nombre: 'Segmentación y activación de base de clientes',
-    duracion: '1–2 semanas',
-    icon: BarChart3,
+    nombre: 'Elaboración del agente IA conversacional',
+    duracion: '2–3 semanas',
+    icon: MessageSquare,
     recomendada: false,
     entregables: [
-      'Segmentación de los 25.000 registros por tipo de viajero y preferencias',
-      'Smart Lists dinámicas (Caribe, Europa, aventura, wellness, naturaleza)',
-      'Configuración de infraestructura de envíos masivos WhatsApp y Email',
-      'Plantillas de campaña para temporadas de viaje',
-      'Primera campaña de reactivación de base supervisada por Sixteam',
+      'Diseño del flujo conversacional para 1 línea de negocio (múltiples destinos)',
+      'Entrenamiento del agente con preguntas clasificatorias de perfilamiento del lead',
+      'Configuración del traspaso al asesor con resumen automático y tareas asignadas',
+      'Flujo de agendamiento de citas entre lead y asesor',
+      'Secuencias de reactivación para leads que dejan de responder',
     ],
     detalle: [
-      'Creación de vistas y listas dinámicas basadas en historial de viaje y preferencias registradas.',
-      'Configuración de la infraestructura de envíos masivos (hasta 10.000 WhatsApp/mes incluidos en la licencia mensual).',
-      'Diseño de hasta 2 plantillas de campaña para activar la base de clientes dormida.',
-      'Ejecución y monitoreo de la primera campaña de reactivación con reporte de resultados.',
+      'Diseño y mapeo del flujo conversacional adaptado al perfil de viajero de Viajes Capital.',
+      'Entrenamiento del agente con preguntas clasificatorias: tipo de viaje, destino, presupuesto, fechas y número de viajeros.',
+      'Configuración del traspaso al asesor: el bot genera un resumen de la conversación y crea tareas de seguimiento automáticamente.',
+      'Pruebas de calidad del flujo completo: atención inicial, perfilamiento, traspaso y reactivación de leads silenciosos.',
     ],
   },
   {
@@ -132,26 +135,28 @@ const FASES = [
     entregables: [
       'Panel de KPIs con métricas clave de la operación comercial',
       'Informes de rendimiento por asesor y por canal',
-      'Pruebas de calidad de todos los flujos y automatizaciones',
-      'Capacitación funcional del equipo (hasta 3 horas)',
+      'Pruebas de calidad de todos los flujos, automatizaciones y agente IA',
+      'Capacitación funcional del equipo (hasta 5 horas)',
       'Guías de uso y documentación operativa entregadas',
+      'Levantamiento de oportunidades de mejora: identificación de ajustes, funcionalidades y automatizaciones que impulsen la mejora continua y la proyección de crecimiento tecnológico de la operación',
     ],
     detalle: [
-      'Configuración de hasta 5 informes personalizados: conversaciones por canal, tasa de cierre, ticket promedio, tiempo de respuesta y reactivaciones.',
-      'Pruebas de calidad de todos los flujos, automatizaciones y reglas de routing antes de la entrega.',
-      'Sesión de capacitación con el equipo completo sobre el uso operativo de la plataforma.',
-      'Entrega de guías de uso, documentación del proceso y levantamiento de oportunidades de mejora.',
+      'Configuración de hasta 5 informes personalizados: conversaciones por canal, tasa de cierre, ticket promedio y tiempo de respuesta.',
+      'Pruebas de calidad de todos los flujos, automatizaciones y el agente IA antes de la entrega final.',
+      'Sesión de capacitación con el equipo completo sobre el uso operativo del CRM y el agente IA (hasta 5 horas, grabadas y entregadas para consulta posterior).',
+      'Entrega de guías de uso y documentación operativa por módulo.',
+      'Sesión de cierre de proyecto: levantamiento de oportunidades de mejora, definición de próximos pasos y construcción de una hoja de ruta de crecimiento tecnológico alineada con los objetivos del negocio.',
     ],
   },
 ];
 
 const SECCIONES = [
-  { id: 'resumen',       label: 'Resumen'        },
-  { id: 'objetivo',      label: 'Objetivo'        },
-  { id: 'plan',          label: 'Plan de trabajo' },
-  { id: 'cotizacion',    label: 'Cotización'      },
-  { id: 'recomendacion', label: 'Recomendación'   },
-  { id: 'vigencia',      label: 'Vigencia'        },
+  { id: 'resumen', label: 'Resumen' },
+  { id: 'objetivo', label: 'Objetivo' },
+  { id: 'plan', label: 'Plan de trabajo' },
+  { id: 'cotizacion', label: 'Cotización' },
+  { id: 'recomendacion', label: 'Recomendación' },
+  { id: 'vigencia', label: 'Vigencia' },
 ];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
@@ -186,15 +191,22 @@ const Rule = () => (
 
 const ViajesCapitalProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
-  const [faseActiva, setFaseActiva]       = useState<number | null>(null);
+  const [faseActiva, setFaseActiva] = useState<number | null>(null);
+  const [msgPerConv, setMsgPerConv] = useState(6);
+  const [leadsPerMonth, setLeadsPerMonth] = useState(600);
+
+  const iaUSD = +(IA_USD_POR_MSG * msgPerConv * leadsPerMonth).toFixed(2);
+  const iaCOP = Math.round(iaUSD * TRM_NUM);
+  const fmtCOP = (n: number) => n.toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
   useEffect(() => {
     const handler = () => {
+      const offset = window.innerWidth >= 1024 ? 140 : 60;
       for (const s of SECCIONES) {
         const el = document.getElementById(s.id);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
-        if (rect.top <= 140 && rect.bottom > 140) { setActiveSection(s.id); break; }
+        if (rect.top <= offset && rect.bottom > offset) { setActiveSection(s.id); break; }
       }
     };
     window.addEventListener('scroll', handler, { passive: true });
@@ -274,10 +286,12 @@ const ViajesCapitalProposal = () => {
           .font-poppins { font-family: 'Poppins', sans-serif; }
           .font-lato    { font-family: 'Lato', sans-serif; }
           @media print { .no-print { display:none !important; } }
+          input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#0ea5e9;cursor:pointer;box-shadow:0 0 8px rgba(14,165,233,.6);border:2px solid #030d1a}
+          input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#0ea5e9;cursor:pointer;box-shadow:0 0 8px rgba(14,165,233,.6);border:2px solid #030d1a}
         `}</style>
 
         {/* Cuerpo portada: 2 columnas */}
-        <div className="relative z-10 flex-1 flex items-center justify-center py-12" style={{ paddingLeft: '10%', paddingRight: '10%' }}>
+        <div className="relative z-10 flex-1 flex items-center justify-center py-12 px-6 sm:px-10 lg:px-[10%]">
           <div className="w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-10 lg:gap-12 items-center">
 
             {/* — Izquierda: texto — */}
@@ -322,9 +336,9 @@ const ViajesCapitalProposal = () => {
               <div className="flex flex-wrap gap-2 mb-8">
                 {[
                   { icon: Calendar, text: META.fecha },
-                  { icon: MapPin,   text: META.lugar },
-                  { icon: Globe,    text: META.sector },
-                  { icon: Hash,     text: `NIT ${META.nit}` },
+                  { icon: MapPin, text: META.lugar },
+                  { icon: Globe, text: META.sector },
+                  { icon: Hash, text: `NIT ${META.nit}` },
                 ].map((chip, i) => {
                   const Icon = chip.icon;
                   return (
@@ -339,7 +353,7 @@ const ViajesCapitalProposal = () => {
               {/* Índice rápido */}
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
+                <div className="grid grid-cols-1 min-[420px]:grid-cols-2 gap-x-6 gap-y-1.5">
                   {['1. Resumen ejecutivo', '2. Objetivo general', '3. Plan de trabajo', '4. Cotización', '5. Recomendación', '6. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
@@ -352,7 +366,7 @@ const ViajesCapitalProposal = () => {
             </div>
 
             {/* — Derecha: Sixteam × Viajes Capital — */}
-            <div className="flex items-center justify-center relative min-h-[380px]">
+            <div className="flex items-center justify-center relative min-h-[260px] sm:min-h-[380px]">
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                 <div className="cover-glow absolute w-80 h-80 rounded-full"
                   style={{ background: `radial-gradient(circle, ${ACCENT}12 0%, ${ACCENT2}06 50%, transparent 70%)` }} />
@@ -416,12 +430,28 @@ const ViajesCapitalProposal = () => {
         <LogoCarousel />
       </div>
 
+      {/* ── NAV MÓVIL STICKY ─ solo < lg ── */}
+      <nav className="lg:hidden sticky top-0 z-40 no-print"
+        style={{ background: 'rgba(3,13,26,0.96)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+        <div className="flex overflow-x-auto py-2.5 px-4 gap-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          {SECCIONES.map(s => (
+            <button key={s.id} onClick={() => scrollTo(s.id)}
+              className="flex-shrink-0 px-3.5 py-1.5 rounded-full font-lato text-[13px] whitespace-nowrap transition-all duration-200"
+              style={activeSection === s.id
+                ? { background: ACCENT, color: '#030d1a', fontWeight: 600 }
+                : { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.45)' }}>
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
       {/* ══════════════════════════════════════ CONTENIDO PRINCIPAL */}
       <main className="max-w-4xl mx-auto px-5 sm:px-8 md:px-10 py-20 space-y-24">
 
         {/* ─ 01 RESUMEN ─ */}
         <section id="resumen" ref={s1.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s1.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s1.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>01 — Resumen ejecutivo</TagLabel>
           <SectionTitle>Contexto y diagnóstico inicial</SectionTitle>
           <Rule />
@@ -496,7 +526,7 @@ const ViajesCapitalProposal = () => {
 
         {/* ─ 02 OBJETIVO ─ */}
         <section id="objetivo" ref={s2.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s2.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s2.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>02 — Objetivo general</TagLabel>
           <SectionTitle>Nuestra postura estratégica</SectionTitle>
           <Rule />
@@ -572,10 +602,31 @@ const ViajesCapitalProposal = () => {
 
         {/* ─ 03 PLAN DE TRABAJO ─ */}
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>4 fases · ~5–7 semanas</SectionTitle>
+          <SectionTitle>4 fases · hasta 2 meses</SectionTitle>
           <Rule />
+
+          {/* Pilares del servicio */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+            {[
+              { icon: FileText, titulo: 'Consultoría en procesos', desc: 'Auditoría, diagnóstico y diseño del modelo operativo comercial y tecnológico.' },
+              { icon: Settings, titulo: 'Implementación CRM', desc: 'Configuración completa del CRM, integraciones omnicanal y automatizaciones.' },
+              { icon: MessageSquare, titulo: 'Agente IA conversacional', desc: 'Diseño y entrenamiento del chatbot para atención, perfilamiento y seguimiento.' },
+            ].map(({ icon: Icon, titulo, desc }) => (
+              <div key={titulo} className="rounded-xl p-4 flex gap-3"
+                style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}18` }}>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                  style={{ background: `${ACCENT}15`, border: `1px solid ${ACCENT}28` }}>
+                  <Icon className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <div>
+                  <p className="font-poppins font-bold text-white text-[14px] mb-0.5">{titulo}</p>
+                  <p className="font-lato text-white/45 text-[13px] leading-relaxed">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
           {/* Timeline visual */}
           <div className="hidden sm:flex items-center mb-8 relative">
@@ -660,12 +711,12 @@ const ViajesCapitalProposal = () => {
 
         {/* ─ 04 COTIZACIÓN ─ */}
         <section id="cotizacion" ref={s4.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>04 — Cotización</TagLabel>
           <SectionTitle>Inversión</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-            Valores en <strong className="text-white/75">pesos colombianos (COP)</strong>. El licenciamiento mensual está denominado en dólares y se factura al TRM vigente. No incluye pauta publicitaria ni créditos de WhatsApp API.
+            Valores en <strong className="text-white/75">pesos colombianos (COP)</strong>. No incluye pauta publicitaria ni créditos de WhatsApp API.
           </p>
 
           {/* Implementación */}
@@ -684,15 +735,15 @@ const ViajesCapitalProposal = () => {
               </div>
             </div>
             <div className="sm:w-1/4">
-              <p className="font-poppins font-black text-[#00bfa5] text-[2rem]">COP 4.000.000</p>
+              <p className="font-poppins font-black text-[#00bfa5] text-[2rem]">COP 6.400.000<span className="font-lato font-normal text-white/40 text-[1rem]"> + IVA</span></p>
             </div>
             <div className="sm:w-1/3">
               <ul className="space-y-1">
                 {[
                   'Configuración completa de la plataforma',
-                  'Migración de base de datos Viacap',
                   'Integración del canal WapTrip',
                   'Automatizaciones y flujos configurados',
+                  'Agente de IA conversacional (1 línea de negocio)',
                   'Capacitación del equipo (hasta 3h)',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -704,6 +755,59 @@ const ViajesCapitalProposal = () => {
             </div>
           </div>
 
+          {/* Agente IA — incluido en implementación */}
+          <div className="rounded-xl p-5 sm:p-6 mb-8"
+            style={{ background: 'linear-gradient(135deg, rgba(14,165,233,.07), rgba(0,191,165,.04))', border: `1px solid ${ACCENT}22` }}>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                style={{ background: `${ACCENT}15`, border: `1px solid ${ACCENT}30` }}>
+                <MessageSquare className="w-4 h-4" style={{ color: ACCENT }} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <p className="font-poppins font-bold text-white text-[17px]">Agente de IA conversacional</p>
+                  <span className="px-2 py-0.5 rounded-full font-lato text-[11px] uppercase tracking-wider"
+                    style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>
+                    Incluido en implementación
+                  </span>
+                </div>
+                <p className="font-lato text-white/40 text-[14px]">Entrenamiento de 1 agente · 1 línea de negocio · múltiples destinos según necesidad</p>
+              </div>
+            </div>
+            <p className="font-lato text-white/55 text-[15px] leading-relaxed mb-4">
+              Se diseña, entrena e implementa un agente de inteligencia artificial conversacional adaptado a la operación de Viajes Capital, capaz de atender, clasificar y dar seguimiento a leads de forma autónoma dentro del canal de WhatsApp.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {[
+                {
+                  titulo: 'Perfilamiento del lead',
+                  desc: 'Atención inicial con preguntas clasificatorias para identificar tipo de viajero, presupuesto, destino y fecha de viaje.',
+                },
+                {
+                  titulo: 'Traspaso con contexto al asesor',
+                  desc: 'Al cerrar el primer contacto, genera un resumen y desglose de actividades en forma de tareas asignadas al asesor.',
+                },
+                {
+                  titulo: 'Agendamiento de citas',
+                  desc: 'Puede coordinar y agendar citas entre el lead y un asesor humano cuando el cliente lo solicita o el bot lo detecta necesario.',
+                },
+                {
+                  titulo: 'Flujo de seguimiento a silenciosos',
+                  desc: 'Activa secuencias automáticas de reactivación para leads que dejan de responder durante el proceso de atención.',
+                },
+              ].map(({ titulo, desc }) => (
+                <div key={titulo} className="rounded-lg p-3.5 flex gap-2.5"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-poppins font-semibold text-white/80 text-[14px] mb-0.5">{titulo}</p>
+                    <p className="font-lato text-white/45 text-[13px] leading-relaxed">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Licencia mensual */}
           <TagLabel>Licencia mensual · CRM Sixteam.pro Core</TagLabel>
           <Rule />
@@ -712,7 +816,13 @@ const ViajesCapitalProposal = () => {
             <div className="rounded-xl p-5 flex flex-col gap-3"
               style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
               <div>
-                <p className="font-poppins font-bold text-[#00bfa5] text-[15px] uppercase tracking-wider mb-1">Plan Base</p>
+                <div className="flex flex-wrap items-center gap-2 mb-1">
+                  <p className="font-poppins font-bold text-[#00bfa5] text-[15px] uppercase tracking-wider">Plan Base</p>
+                  <span className="px-2 py-0.5 rounded-full font-lato text-[11px] uppercase tracking-wider"
+                    style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
+                    Exento de IVA
+                  </span>
+                </div>
                 <p className="font-poppins font-black text-white text-3xl">
                   COP 900.000<span className="text-[18px] font-lato font-normal text-white/40">/mes</span>
                 </p>
@@ -727,6 +837,7 @@ const ViajesCapitalProposal = () => {
                   'Smart Lists y segmentación dinámica',
                   'Automatizaciones base activas',
                   'Informes y panel de KPIs',
+                  'Agente de IA conversacional',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0 mt-[3px]" />
@@ -734,6 +845,13 @@ const ViajesCapitalProposal = () => {
                   </li>
                 ))}
               </ul>
+              <div className="mt-3 rounded-lg px-3.5 py-3 flex items-start gap-2.5"
+                style={{ background: 'rgba(14,165,233,.06)', border: '1px solid rgba(14,165,233,.18)' }}>
+                <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: ACCENT }} />
+                <p className="font-lato text-white/45 text-[13px] leading-relaxed">
+                  El agente de IA tiene un <span className="text-white/70 font-semibold">costo adicional variable</span> según el volumen de conversaciones procesadas, facturado aparte de la licencia mensual.
+                </p>
+              </div>
             </div>
             {/* Usuarios adicionales */}
             <div className="rounded-xl p-5 flex flex-col gap-4"
@@ -741,9 +859,8 @@ const ViajesCapitalProposal = () => {
               <div>
                 <p className="font-poppins font-bold text-[15px] uppercase tracking-wider mb-1" style={{ color: ACCENT }}>Usuarios adicionales</p>
                 <p className="font-poppins font-black text-white text-3xl">
-                  25 USD<span className="text-[18px] font-lato font-normal text-white/40">/usuario/mes</span>
+                  COP 99.000<span className="text-[18px] font-lato font-normal text-white/40">/usuario/mes</span>
                 </p>
-                <p className="font-lato text-white/35 text-[13px] mt-1">Facturado al TRM vigente en COP</p>
               </div>
               <p className="font-lato text-white/55 text-[15px] leading-relaxed">
                 El plan base incluye 3 usuarios operativos. Cada Travel Manager adicional que necesite acceso a la plataforma se agrega a este valor mensual, sin permanencia mínima.
@@ -751,7 +868,7 @@ const ViajesCapitalProposal = () => {
               <div className="rounded-lg p-4 mt-auto"
                 style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}18` }}>
                 <p className="font-lato text-white/45 text-[14px] leading-relaxed">
-                  <span className="font-semibold text-white/65">Ejemplo:</span> Para 5 usuarios operativos totales, el plan mensual sería COP 900.000 + 2 × 25 USD (aprox. COP 100.000 c/u al TRM vigente).
+                  <span className="font-semibold text-white/65">Ejemplo:</span> Para 5 usuarios operativos totales, el plan mensual sería COP 900.000 + 2 × COP 99.000 = COP 1.098.000.
                 </p>
               </div>
             </div>
@@ -762,19 +879,19 @@ const ViajesCapitalProposal = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-5">
               <div>
                 <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Implementación (una sola vez)</p>
-                <p className="font-poppins font-black text-white text-[1.6rem]">COP 4.000.000</p>
+                <p className="font-poppins font-black text-white text-[1.6rem]">COP 6.400.000<span className="text-white/40 text-[1rem] font-lato font-normal"> + IVA</span></p>
               </div>
               <div>
                 <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Licencia mensual (base 3 usuarios)</p>
                 <p className="font-poppins font-black text-white text-[1.6rem]">COP 900.000<span className="text-white/40 text-[1rem] font-normal">/mes</span></p>
+                <p className="font-lato text-[12px] mt-1" style={{ color: 'rgba(0,191,165,.7)' }}>Exento de IVA</p>
               </div>
             </div>
             <div className="pt-5 border-t border-white/06 flex flex-wrap gap-4">
               {[
                 'Sin permanencia mínima tras la implementación',
-                'Precio fijo mensual · sin costos ocultos',
-                'Usuarios adicionales: 25 USD c/u al mes',
-                'Pauta publicitaria aparte del fee de plataforma',
+                'Usuarios adicionales: COP 99.000 c/u al mes',
+                'Implementación + IVA · licencia mensual exenta de IVA',
               ].map(item => (
                 <div key={item} className="flex items-center gap-2">
                   <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5]" />
@@ -783,11 +900,170 @@ const ViajesCapitalProposal = () => {
               ))}
             </div>
           </div>
+
+          {/* ── CALCULADORA IA ── */}
+          <div className="rounded-2xl overflow-hidden mt-8 mb-2"
+            style={{ background: 'rgba(255,255,255,.03)', border: `1px solid ${ACCENT}30` }}>
+            <div className="px-5 py-4 flex items-center gap-2"
+              style={{ background: `linear-gradient(135deg, ${ACCENT}14, ${ACCENT2}0d)`, borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+              <Zap className="w-4 h-4" style={{ color: ACCENT }} />
+              <p className="font-poppins font-semibold text-white/80 text-[15px] uppercase tracking-wider">Calculadora de consumo mensual IA</p>
+            </div>
+
+            <div className="p-5 sm:p-6 space-y-6">
+              <div className="flex items-center gap-3 px-4 py-3 rounded-xl"
+                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: ACCENT }} />
+                <span className="font-lato text-white/50 text-[14px]">Valor IA por mensaje</span>
+                <span className="font-poppins font-black ml-auto" style={{ color: ACCENT }}>USD {IA_USD_POR_MSG}</span>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-lato text-white/60 text-[15px]">Mensajes promedio por conversación</span>
+                  <span className="font-poppins font-black text-white text-[20px]">{msgPerConv}</span>
+                </div>
+                <div className="relative">
+                  <input type="range" min={1} max={15} step={1} value={msgPerConv}
+                    onChange={(e) => setMsgPerConv(Number(e.target.value))}
+                    className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                    style={{ background: `linear-gradient(to right, ${ACCENT} ${((msgPerConv - 1) / 14) * 100}%, rgba(255,255,255,.12) ${((msgPerConv - 1) / 14) * 100}%)` }} />
+                  <div className="absolute -top-5 flex flex-col items-center pointer-events-none"
+                    style={{ left: `calc(${((6 - 1) / 14) * 100}% - 18px)` }}>
+                    <span className="font-lato text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap"
+                      style={{ background: `${ACCENT}18`, color: ACCENT, border: `1px solid ${ACCENT}30` }}>
+                      prom. 6
+                    </span>
+                  </div>
+                </div>
+                <div className="flex justify-between mt-1">
+                  <span className="font-lato text-white/25 text-[12px]">1</span>
+                  <span className="font-lato text-white/25 text-[12px]">15</span>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="font-lato text-white/60 text-[15px]">Leads promedio por mes</span>
+                  <span className="font-poppins font-black text-white text-[20px]">{leadsPerMonth.toLocaleString('es-CO')}</span>
+                </div>
+                <input type="range" min={100} max={3000} step={50} value={leadsPerMonth}
+                  onChange={(e) => setLeadsPerMonth(Number(e.target.value))}
+                  className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
+                  style={{ background: `linear-gradient(to right, ${ACCENT} ${((leadsPerMonth - 100) / 2900) * 100}%, rgba(255,255,255,.12) ${((leadsPerMonth - 100) / 2900) * 100}%)` }} />
+                <div className="flex justify-between mt-1">
+                  <span className="font-lato text-white/25 text-[12px]">100</span>
+                  <span className="font-lato text-white/25 text-[12px]">3.000</span>
+                </div>
+              </div>
+
+              <div className="rounded-xl px-4 py-3 flex flex-wrap items-center gap-2 text-[14px]"
+                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                <span className="font-lato text-white/40">USD {IA_USD_POR_MSG}</span>
+                <span className="text-white/25">×</span>
+                <span className="font-lato text-white/40">{msgPerConv} msg/conv</span>
+                <span className="text-white/25">×</span>
+                <span className="font-lato text-white/40">{leadsPerMonth.toLocaleString('es-CO')} leads</span>
+                <span className="text-white/25">=</span>
+                <span className="font-poppins font-bold text-white/70">USD {iaUSD.toFixed(2)}</span>
+              </div>
+
+              <div className="rounded-xl p-5 text-center"
+                style={{ background: `linear-gradient(135deg, ${ACCENT}12, ${ACCENT2}08)`, border: `1px solid ${ACCENT}30` }}>
+                <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest mb-1">Consumo estimado de IA / mes</p>
+                <p className="font-poppins font-black text-white mb-1" style={{ fontSize: 'clamp(1.6rem, 4vw, 2.2rem)' }}>
+                  USD {iaUSD.toFixed(2)}
+                </p>
+                <p className="font-poppins font-bold mb-3" style={{ color: ACCENT, fontSize: '1.1rem' }}>
+                  ≈ COP {fmtCOP(iaCOP)}
+                </p>
+                <p className="font-lato text-white/30 text-[12px]">
+                  Estimado · TRM $ {TRM} COP/USD · El costo real depende del consumo efectivo de tokens por conversación
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Servicios adicionales */}
+          <div className="mt-10">
+            <TagLabel>Servicios adicionales · Opcionales</TagLabel>
+            <Rule />
+            {/* Pauta digital */}
+            <div className="rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:items-center mb-4"
+              style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
+              <div className="flex items-center gap-3 sm:w-2/5">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.3)' }}>
+                  <TrendingUp className="w-4 h-4 text-[#00bfa5]" />
+                </div>
+                <div>
+                  <p className="font-poppins font-bold text-[#00bfa5] text-[15px] uppercase tracking-wider">Pauta digital</p>
+                  <p className="font-lato text-white/40 text-[13px]">Mensual · recurrente</p>
+                </div>
+              </div>
+              <div className="sm:w-1/4">
+                <p className="font-poppins font-black text-white text-3xl">
+                  Desde COP 800.000<span className="text-[18px] font-lato font-normal text-white/40">/mes</span>
+                </p>
+              </div>
+              <p className="font-lato text-white/55 text-[14px] leading-relaxed sm:flex-1">
+                Gestión y ejecución de pauta digital en Meta Ads (Facebook e Instagram). Incluye configuración de campañas, segmentación de audiencias y reporte mensual de resultados.
+              </p>
+            </div>
+
+            {/* Soporte y Operaciones · paquete 5 horas */}
+            <div className="rounded-xl p-5 sm:p-6 flex flex-col sm:flex-row gap-5 sm:items-center mb-4"
+              style={{ background: `rgba(14,165,233,.05)`, border: `1px solid ${ACCENT}22` }}>
+              <div className="flex items-center gap-3 sm:w-2/5">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: `${ACCENT}15`, border: `1px solid ${ACCENT}28` }}>
+                  <Clock className="w-4 h-4" style={{ color: ACCENT }} />
+                </div>
+                <div>
+                  <p className="font-poppins font-bold text-[15px] uppercase tracking-wider" style={{ color: ACCENT }}>Soporte y Operaciones</p>
+                  <p className="font-lato text-white/40 text-[13px]">Paquete · 5 horas</p>
+                </div>
+              </div>
+              <div className="sm:w-1/4">
+                <p className="font-poppins font-black text-white text-3xl">
+                  COP 650.000<span className="text-[18px] font-lato font-normal text-white/40"> + IVA</span>
+                </p>
+                <p className="font-lato text-[12px] mt-1" style={{ color: `${ACCENT}bb` }}>5 horas · pago único</p>
+              </div>
+              <p className="font-lato text-white/55 text-[14px] leading-relaxed sm:flex-1">
+                Bloque de 5 horas para ajustes, mejoras y soporte operativo sobre la plataforma implementada. Cubre modificaciones de flujos, incorporación de nuevas automatizaciones, revisión de reportes y asistencia técnica al equipo.
+              </p>
+            </div>
+
+            {/* Manejo de base de datos · por cotización */}
+            <div className="rounded-xl p-5 flex flex-col sm:flex-row gap-4 sm:items-center"
+              style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.1)' }}>
+              <div className="flex items-center gap-3 sm:w-2/5">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)' }}>
+                  <Database className="w-4 h-4 text-white/45" />
+                </div>
+                <div>
+                  <p className="font-poppins font-bold text-white/80 text-[16px]">Manejo y migración de base de datos</p>
+                  <p className="font-lato text-white/35 text-[13px] mt-0.5">Importación, limpieza y estructuración desde Viacap</p>
+                </div>
+              </div>
+              <div className="sm:flex-1 flex flex-col sm:flex-row sm:items-center gap-3">
+                <span className="self-start px-3 py-1.5 rounded-full font-poppins font-bold text-[12px] uppercase tracking-wider whitespace-nowrap"
+                  style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.15)', color: 'rgba(255,255,255,.55)' }}>
+                  Valor por cotización
+                </span>
+                <p className="font-lato text-white/40 text-[14px] leading-relaxed">
+                  El alcance y valor de este servicio se cotiza según el volumen y estado de los datos existentes.
+                </p>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* ─ 05 RECOMENDACIÓN ─ */}
         <section id="recomendacion" ref={s5.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>05 — Recomendación final</TagLabel>
           <SectionTitle>Por qué Sixteam es la elección correcta</SectionTitle>
           <Rule />
@@ -840,8 +1116,35 @@ const ViajesCapitalProposal = () => {
             ))}
           </div>
 
+          {/* Confianza en la plataforma */}
+          <div className="mt-8 rounded-2xl p-6 sm:p-7"
+            style={{ background: 'rgba(255,255,255,.025)', border: '1px solid rgba(255,255,255,.07)' }}>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8">
+              <div className="sm:flex-1">
+                <p className="font-poppins font-bold text-white/85 text-[16px] mb-1">Plataforma certificada internacionalmente</p>
+                <p className="font-lato text-white/45 text-[14px] leading-relaxed">
+                  La infraestructura sobre la que opera el CRM cumple los estándares más exigentes de seguridad, privacidad y disponibilidad a nivel global. Los datos de Viajes Capital y sus clientes están protegidos bajo controles auditados independientemente.
+                </p>
+              </div>
+              <div className="flex flex-wrap sm:flex-nowrap gap-3 flex-shrink-0">
+                {[
+                  { label: 'ISO 27001', sub: 'Seguridad de la información' },
+                  { label: 'SOC 2 Type II', sub: 'Controles de confianza' },
+                  { label: 'VAPT', sub: 'Pruebas de penetración' },
+                  { label: 'SIG', sub: 'Gestión de riesgos' },
+                ].map(({ label, sub }) => (
+                  <div key={label} className="flex flex-col items-center gap-1 px-3 py-2.5 rounded-xl"
+                    style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}20`, minWidth: '80px' }}>
+                    <span className="font-poppins font-black text-white text-[13px] leading-tight text-center">{label}</span>
+                    <span className="font-lato text-white/35 text-[10px] leading-tight text-center">{sub}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Fórmula Sixteam */}
-          <div className="mt-8 rounded-2xl p-6 text-center"
+          <div className="mt-6 rounded-2xl p-6 text-center"
             style={{ background: `linear-gradient(135deg, ${ACCENT}06, #00bfa508)`, border: `1px solid ${ACCENT}15` }}>
             <p className="font-poppins font-black text-white/85 text-[1.05rem] tracking-widest uppercase">
               Process + Technology + People = <span style={{ color: ACCENT }}>Growth</span>
@@ -852,7 +1155,7 @@ const ViajesCapitalProposal = () => {
 
         {/* ─ 06 VIGENCIA Y TÉRMINOS ─ */}
         <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          className={`scroll-mt-14 lg:scroll-mt-0 transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>06 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
@@ -876,7 +1179,7 @@ const ViajesCapitalProposal = () => {
               },
               {
                 titulo: 'Ajuste de precios de licencia',
-                desc: 'El costo mensual está denominado en dólares estadounidenses (USD) y se factura al TRM vigente en COP. Cualquier variación será notificada mediante la factura emitida.',
+                desc: 'Los precios están expresados en pesos colombianos (COP). Cualquier ajuste en el valor de la licencia mensual será notificado con al menos un mes de anticipación.',
                 icon: Info,
               },
               {
