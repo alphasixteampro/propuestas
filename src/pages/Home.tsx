@@ -35,6 +35,15 @@ const PROPOSALS: Proposal[] = [
     path: '/conecty',
   },
   {
+    slug: 'conecty-v2',
+    cliente: 'Conecty V2',
+    sector: 'Telecomunicaciones · SIM & eSIM para viajeros',
+    fecha: 'Mayo 2026',
+    monto: 'COP 15.488.000',
+    estado: 'activa',
+    path: '/conecty-v2',
+  },
+  {
     slug: 'depaseo',
     cliente: 'De Paseo por Colombia SAS',
     sector: 'Turismo receptivo · Agencia de viajes · Alojamiento',
