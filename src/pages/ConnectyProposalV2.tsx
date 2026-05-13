@@ -562,7 +562,7 @@ const ConnectyProposalV2 = () => {
             {[
               { label: 'Distribuidores B2B', value: '1.172', sub: 'base activa' },
               { label: 'Usuarios CRM',       value: '12',    sub: '4 equipos · Masters, Desarrollo, Sostenimiento, Operación' },
-              { label: 'Pipeline',            value: '1',     sub: 'Adquisición' },
+              { label: 'Pipelines',           value: '2',     sub: 'Adquisición + adicional' },
               { label: 'Herramienta CRM',      value: '1',     sub: 'HubSpot Sales Hub Pro' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
