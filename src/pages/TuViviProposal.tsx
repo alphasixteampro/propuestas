@@ -736,7 +736,7 @@ const TuViviProposal = () => {
             <div>
               <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-2">Contacto</p>
               <p className="font-lato text-white/35 text-[15px]">{META.correo}</p>
-              <p className="font-lato text-white/35 text-[15px] mt-0.5">+57 300 450 7102</p>
+              <p className="font-lato text-white/35 text-[15px] mt-0.5">+57 300 4188522</p>
             </div>
             <div>
               <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-2">Representante Legal</p>
