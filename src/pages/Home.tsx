@@ -142,6 +142,24 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/travel-sol-playa-v2',
   },
+  {
+    slug: 'tuvivi',
+    cliente: 'TuVivi',
+    sector: 'Asesorías Financieras · Créditos · HubSpot',
+    fecha: 'Mayo 2026',
+    monto: 'COP 600.000 – 2.000.000 + IVA',
+    estado: 'borrador',
+    path: '/tuvivi',
+  },
+  {
+    slug: 'vuela-a-la-vida',
+    cliente: 'Vuela a la Vida',
+    sector: 'Agencia de Viajes · CRM + IA · WhatsApp-first',
+    fecha: 'Mayo 2026',
+    monto: 'COP 2.800.000 + COP 1.296.000/mes',
+    estado: 'borrador',
+    path: '/vuela-a-la-vida',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -323,7 +341,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' ? '#fff' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' ? '#fff' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -347,6 +365,9 @@ export default function Home() {
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'procurement-pro' ? (
                     <img src="https://assets.cdn.filesafe.space/dMX4yw4WB0RZFivUhgyG/media/69fa7c8d76fece50438982a9.png" alt="Procurement Pro" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'vuela-a-la-vida' ? (
+                    <img src="/vuela-a-la-vida-logo.webp" alt="Vuela a la Vida" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
