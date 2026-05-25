@@ -62,47 +62,49 @@ const SERVICIOS = [
   {
     num: 'Servicio 01',
     nombre: 'Implementación HubSpot CRM',
-    precio: 'USD $3.000',
-    detallePrecio: `Pago único · ≈ COP 11.001.000 (TRM $${TRM})`,
-    duracion: '4 – 6 semanas',
+    precio: 'USD $3.300',
+    detallePrecio: `Pago único · ≈ COP 12.101.100 (TRM $${TRM})`,
+    duracion: '2 – 3 semanas',
     icon: Settings,
     entregables: [
       'Portal HubSpot Sales Hub Pro configurado y listo para operar',
-      'Hasta 60 propiedades personalizadas distribuidas entre los objetos Contact, Company y Deal',
+      'Hasta 40 propiedades personalizadas distribuidas entre los objetos Contact, Company y Deal',
       'Hasta 1 pipeline de ventas estructurado según la actividad comercial actual del equipo',
-      'Hasta 6 automatizaciones de seguimiento y proceso comercial activas',
-      'Panel de reportes con hasta 6 informes personalizados para la operación',
+      'Hasta 1 vista y 1 lista por objeto (Contact, Company y Deal)',
+      'Hasta 10 automatizaciones de seguimiento y proceso comercial activas',
+      'Panel de reportes con hasta 10 informes personalizados para la operación',
       'Configuración de hasta 7 usuarios con roles y permisos diferenciados',
-      'Capacitación funcional del equipo: hasta 8 horas (sesiones en vivo + material grabado para consulta posterior)',
-      'Soporte post go-live: 30 días de acompañamiento incluido para resolución de dudas, ajustes finos y refuerzo de adopción',
+      'Capacitación funcional del equipo: hasta 4 horas grabadas para consulta posterior',
       'Documentación operativa del CRM entregada por módulo',
     ],
     fuera: [
       'Integración técnica con Tourplan, Axus u otros sistemas externos',
       'Configuración de Marketing Hub o Service Hub',
       'Personalización Enterprise o desarrollo de custom code',
-      'Más de 7 usuarios, más de 60 propiedades o más de 6 automatizaciones',
+      'Más de 7 usuarios, más de 40 propiedades o más de 10 automatizaciones',
     ],
     actividades: [
       'Sesión de contexto con el equipo (hasta 2 horas) para mapear el flujo comercial, las etapas del pipeline y los campos clave. Este análisis es el punto de partida de toda la configuración.',
       'Diseño del modelo de datos: definición de las propiedades a crear en Contact, Company y Deal, con revisión y aprobación de Gregorio antes de publicar en el portal.',
       'Configuración del pipeline de ventas adaptando las etapas que el equipo ya conoce desde Salesforce, asegurando que el nuevo flujo refleje cómo el equipo realmente vende.',
-      'Diseño e implementación de hasta 6 automatizaciones: seguimientos automáticos por etapa, alertas internas, asignación de tareas y notificaciones de actividad comercial.',
-      'Construcción del panel de reportes con los 6 informes clave: actividad por asesor, negocios por etapa, tasa de cierre, velocidad de pipeline y métricas de seguimiento.',
+      'Diseño e implementación de hasta 10 automatizaciones: seguimientos automáticos por etapa, alertas internas, asignación de tareas y notificaciones de actividad comercial.',
+      'Configuración de vistas y listas por objeto para facilitar la segmentación y el trabajo diario del equipo comercial.',
+      'Construcción del panel de reportes con los 10 informes clave: actividad por asesor, negocios por etapa, tasa de cierre, velocidad de pipeline y métricas de seguimiento.',
       'Alta de usuarios con permisos diferenciados y sesión de capacitación grabada con entrega de guías de uso por módulo.',
     ],
   },
   {
     num: 'Servicio 02',
     nombre: 'Migración de Datos · Salesforce → HubSpot',
-    precio: 'USD $2.000',
-    detallePrecio: `Pago único · ≈ COP 7.334.000 (TRM $${TRM})`,
-    duracion: '3 – 4 semanas',
+    precio: 'USD $2.800',
+    detallePrecio: `Pago único · ≈ COP 10.267.600 (TRM $${TRM})`,
+    duracion: '3 semanas · paralela',
     icon: Database,
     entregables: [
       'Documento de mapeo de campos aprobado antes de ejecutar la migración',
       'Reporte de calidad de datos: duplicados encontrados, registros limpios vs. descartados',
       'Base de datos migrada en HubSpot: Contacts + Companies con propiedades, asociaciones y asignaciones correctas',
+      'Hasta 100 propiedades personalizadas migradas al nuevo portal',
       'Reporte final de validación con conteo de registros migrados',
     ],
     fuera: [
@@ -571,13 +573,13 @@ const MetropolitanTouringProposal = () => {
               <div className="px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
                 <div className="pt-4 space-y-3 font-lato text-white/55 text-[16px] leading-relaxed">
                   <p>
-                    Durante el diagnóstico evaluamos alternativas como Zoho CRM, que el equipo ya había investigado. Si bien Zoho puede ser funcional en contextos específicos, desde nuestro punto de vista consultivo y con base en la experiencia de implementación, <strong className="text-white/80 font-semibold">HubSpot ofrece una experiencia de usuario significativamente superior</strong>: la adopción del equipo es más rápida, la interfaz es más intuitiva para equipos comerciales no técnicos y la configuración inicial requiere menos fricción.
+                    Durante el diagnóstico evaluamos Zoho CRM, que el equipo ya había investigado como alternativa. Zoho es una plataforma que Sixteam conoce y en la que también tiene experiencia de implementación: es más económica y tiene una arquitectura modular que permite escalar a otras funcionalidades — facturación, soporte, marketing, RRHH — de forma progresiva, integrando nuevos módulos sin necesidad de migrar a otro ecosistema.
                   </p>
                   <p>
-                    Más allá de la UX, HubSpot es la plataforma que mejor balancea robustez y simplicidad para una operación del tamaño de Metropolitan Touring Colombia. Las automatizaciones, el pipeline y los reportes son accesibles sin depender de un equipo técnico interno. Y cuando la operación crezca, hay espacio real para seguir optimizando: más automatizaciones, flujos de marketing, integraciones con otras herramientas, sin necesidad de migrar nuevamente.
+                    Sin embargo, Zoho tiene una curva de implementación más extensa y su personalización requiere más tiempo que HubSpot. Para una operación que necesita estar operativa antes del 1 de agosto, ese tiempo adicional representa un riesgo real. <strong className="text-white/80 font-semibold">Por eso esta cotización cubre exclusivamente la implementación de HubSpot, no de Zoho.</strong> Sixteam tiene el mismo nivel de expertise en ambas plataformas, y la decisión de recomendar HubSpot en este momento responde al plazo disponible, al perfil del equipo y a la necesidad de una adopción rápida.
                   </p>
                   <p>
-                    Esta no es una recomendación genérica. Es la conclusión de analizar las necesidades reales del equipo, el plazo disponible y las características de cada plataforma. <strong className="text-white/80 font-semibold">HubSpot es la mejor opción en este momento para esta operación.</strong>
+                    Si en el futuro el equipo evalúa ampliar el ecosistema digital con módulos adicionales, Zoho volvería a ser una alternativa válida a analizar. Por ahora, <strong className="text-white/80 font-semibold">HubSpot es la herramienta correcta para esta etapa de la operación Colombia.</strong>
                   </p>
                 </div>
               </div>
@@ -610,8 +612,8 @@ const MetropolitanTouringProposal = () => {
               <div className="grid grid-cols-3 gap-4 relative">
                 {[
                   { semana: 'Semana 1', titulo: 'Contexto y entendimiento del negocio', desc: 'Mapeo del proceso comercial, flujos de venta y definición del modelo de datos en HubSpot.' },
-                  { semana: 'Semanas 2 y 3', titulo: 'Implementación de configuraciones', desc: 'Propiedades, pipeline, automatizaciones e informes configurados y validados con el equipo.' },
-                  { semana: 'Semanas 4 a 6', titulo: 'Capacitación, puesta en marcha y soporte post go-live', desc: 'Sesiones de capacitación (hasta 8 horas), pruebas de calidad, go-live oficial y 30 días de acompañamiento incluidos para ajustes y refuerzo de adopción.' },
+                  { semana: 'Semanas 2, 3 y 4', titulo: 'Implementación de configuraciones', desc: 'Propiedades, pipeline, automatizaciones, vistas, listas e informes configurados y validados con el equipo.' },
+                  { semana: 'Semanas 5 y 6', titulo: 'Puesta en marcha y capacitaciones', desc: 'Sesión de capacitación con el equipo, pruebas de calidad y go-live oficial.' },
                 ].map((step, i) => (
                   <div key={i} className="flex flex-col items-center text-center gap-2">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center z-10 relative"
@@ -630,8 +632,8 @@ const MetropolitanTouringProposal = () => {
             <div className="sm:hidden space-y-3 mb-4">
               {[
                 { semana: 'Semana 1', titulo: 'Contexto y entendimiento del negocio' },
-                { semana: 'Semanas 2 y 3', titulo: 'Implementación de configuraciones' },
-                { semana: 'Semanas 4 a 6', titulo: 'Capacitación, puesta en marcha y soporte post go-live' },
+                { semana: 'Semanas 2, 3 y 4', titulo: 'Implementación de configuraciones' },
+                { semana: 'Semanas 5 y 6', titulo: 'Puesta en marcha y capacitaciones' },
               ].map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
@@ -650,7 +652,7 @@ const MetropolitanTouringProposal = () => {
               style={{ borderColor: 'rgba(255,255,255,.06)' }}>
               <Database className="w-3.5 h-3.5 flex-shrink-0 text-[#00bfa5]" />
               <p className="font-lato text-white/40 text-[13px]">
-                <span className="text-[#00bfa5] font-semibold">Migración de datos:</span> proceso paralelo que corre entre las semanas 2 y 5 (~4 semanas). Inicia con la recepción del export de Salesforce y finaliza con la validación de registros en HubSpot antes del go-live.
+                <span className="text-[#00bfa5] font-semibold">Migración de datos:</span> proceso paralelo de 3 semanas, ejecutado en simultáneo con la fase de configuraciones (semanas 2, 3 y 4). Inicia con la recepción del export de Salesforce y finaliza con la validación de registros en HubSpot antes del go-live.
               </p>
             </div>
           </div>
@@ -767,19 +769,19 @@ const MetropolitanTouringProposal = () => {
             </div>
             <div className="sm:w-[25%]">
               <p className="font-poppins font-black text-[1.8rem]" style={{ color: ACCENT }}>
-                USD $3.000<span className="font-lato font-normal text-white/40 text-[1rem]"> · pago único</span>
+                USD $3.300<span className="font-lato font-normal text-white/40 text-[1rem]"> · pago único</span>
               </p>
-              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 11.001.000 (TRM ${TRM})</p>
+              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 12.101.100 (TRM ${TRM})</p>
             </div>
             <div className="sm:flex-1">
               <ul className="space-y-1">
                 {[
                   'Configuración completa del portal HubSpot',
-                  'Hasta 60 propiedades en Contact, Company y Deal',
-                  '1 pipeline de ventas + 6 automatizaciones activas',
-                  '6 informes personalizados en el panel de reportes',
-                  'Hasta 7 usuarios configurados · 8 horas de capacitación',
-                  '30 días de soporte post go-live incluidos',
+                  'Hasta 40 propiedades en Contact, Company y Deal',
+                  '1 pipeline de ventas + hasta 10 automatizaciones activas',
+                  'Hasta 1 vista y 1 lista por objeto (Contact, Company y Deal)',
+                  'Hasta 10 informes personalizados en el panel de reportes',
+                  'Hasta 7 usuarios configurados · capacitación incluida',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle className="w-3 h-3 flex-shrink-0 mt-[3px]" style={{ color: ACCENT }} />
@@ -800,14 +802,14 @@ const MetropolitanTouringProposal = () => {
               </div>
               <div>
                 <p className="font-poppins font-bold text-white/85 text-[17px]">Migración de Datos · Salesforce → HubSpot</p>
-                <p className="font-lato text-white/40 text-[13px] mt-0.5">Pago único · hasta 5.000 registros</p>
+                <p className="font-lato text-white/40 text-[13px] mt-0.5">Pago único · 3 semanas · paralela a configuraciones</p>
               </div>
             </div>
             <div className="sm:w-[25%]">
               <p className="font-poppins font-black text-[1.8rem] text-[#00bfa5]">
-                USD $2.000
+                USD $2.800
               </p>
-              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 7.334.000 (TRM ${TRM})</p>
+              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 10.267.600 (TRM ${TRM})</p>
             </div>
             <div className="sm:flex-1">
               <ul className="space-y-1">
@@ -833,18 +835,18 @@ const MetropolitanTouringProposal = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
               <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
                 <p className="font-lato text-white/35 text-[13px] uppercase tracking-wider mb-1">Implementación HubSpot CRM</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">USD $3.000<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
-                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 11.001.000 (TRM ${TRM})</p>
+                <p className="font-poppins font-black text-white text-[1.2rem]">USD $3.300<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
+                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 12.101.100 (TRM ${TRM})</p>
               </div>
               <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
                 <p className="font-lato text-white/35 text-[13px] uppercase tracking-wider mb-1">Migración de Datos</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">USD $2.000<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
-                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 7.334.000 (TRM ${TRM})</p>
+                <p className="font-poppins font-black text-white text-[1.2rem]">USD $2.800<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
+                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 10.267.600 (TRM ${TRM})</p>
               </div>
               <div className="rounded-xl p-4" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}25` }}>
                 <p className="font-lato text-[13px] uppercase tracking-wider mb-1" style={{ color: `${ACCENT}90` }}>Total servicios Sixteam</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">USD $5.000</p>
-                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 18.335.000 (TRM ${TRM})</p>
+                <p className="font-poppins font-black text-white text-[1.2rem]">USD $6.100</p>
+                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 22.368.700 (TRM ${TRM})</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
