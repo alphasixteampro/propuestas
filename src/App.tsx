@@ -19,6 +19,7 @@ const TravelSolPlayaProposalV2 = lazy(() => import('./pages/TravelSolPlayaPropos
 const ConnectyProposalV2       = lazy(() => import('./pages/ConnectyProposalV2'));
 const VuelaALaVidaProposal     = lazy(() => import('./pages/VuelaALaVidaProposal'));
 const TuViviProposal           = lazy(() => import('./pages/TuViviProposal'));
+const MetropolitanTouringProposal = lazy(() => import('./pages/MetropolitanTouringProposal'));
 
 function Loader() {
   return (
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/conecty-v2"          element={<ConnectyProposalV2 />} />
           <Route path="/vuela-a-la-vida"     element={<VuelaALaVidaProposal />} />
           <Route path="/tuvivi"             element={<TuViviProposal />} />
+          <Route path="/metropolitan-touring" element={<MetropolitanTouringProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

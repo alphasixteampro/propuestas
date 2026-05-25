@@ -160,6 +160,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/vuela-a-la-vida',
   },
+  {
+    slug: 'metropolitan-touring',
+    cliente: 'Metropolitan Touring Colombia',
+    sector: 'Agencia de Viajes · Turismo de Lujo · HubSpot CRM',
+    fecha: 'Mayo 2026',
+    monto: 'COP 3.500.000 + USD $2.000',
+    estado: 'borrador',
+    path: '/metropolitan-touring',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -341,7 +350,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' ? '#fff' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -368,6 +377,9 @@ export default function Home() {
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'vuela-a-la-vida' ? (
                     <img src="/vuela-a-la-vida-logo.webp" alt="Vuela a la Vida" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'metropolitan-touring' ? (
+                    <img src="/logo-mt.svg" alt="Metropolitan Touring" style={{ width: '85%', height: '85%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
