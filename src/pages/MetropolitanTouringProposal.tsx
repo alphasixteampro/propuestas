@@ -62,25 +62,26 @@ const SERVICIOS = [
   {
     num: 'Servicio 01',
     nombre: 'Implementación HubSpot CRM',
-    precio: 'USD $1.000',
-    detallePrecio: `Pago único · ≈ COP 3.667.000 (TRM $${TRM})`,
-    duracion: '2 – 3 semanas',
+    precio: 'USD $3.000',
+    detallePrecio: `Pago único · ≈ COP 11.001.000 (TRM $${TRM})`,
+    duracion: '4 – 6 semanas',
     icon: Settings,
     entregables: [
       'Portal HubSpot Sales Hub Pro configurado y listo para operar',
-      'Hasta 40 propiedades personalizadas distribuidas entre los objetos Contact, Company y Deal',
+      'Hasta 60 propiedades personalizadas distribuidas entre los objetos Contact, Company y Deal',
       'Hasta 1 pipeline de ventas estructurado según la actividad comercial actual del equipo',
       'Hasta 6 automatizaciones de seguimiento y proceso comercial activas',
       'Panel de reportes con hasta 6 informes personalizados para la operación',
       'Configuración de hasta 7 usuarios con roles y permisos diferenciados',
-      'Capacitación funcional del equipo: hasta 4 horas grabadas para consulta posterior',
+      'Capacitación funcional del equipo: hasta 8 horas (sesiones en vivo + material grabado para consulta posterior)',
+      'Soporte post go-live: 30 días de acompañamiento incluido para resolución de dudas, ajustes finos y refuerzo de adopción',
       'Documentación operativa del CRM entregada por módulo',
     ],
     fuera: [
       'Integración técnica con Tourplan, Axus u otros sistemas externos',
       'Configuración de Marketing Hub o Service Hub',
       'Personalización Enterprise o desarrollo de custom code',
-      'Más de 7 usuarios, más de 40 propiedades o más de 6 automatizaciones',
+      'Más de 7 usuarios, más de 60 propiedades o más de 6 automatizaciones',
     ],
     actividades: [
       'Sesión de contexto con el equipo (hasta 2 horas) para mapear el flujo comercial, las etapas del pipeline y los campos clave. Este análisis es el punto de partida de toda la configuración.',
@@ -95,8 +96,8 @@ const SERVICIOS = [
     num: 'Servicio 02',
     nombre: 'Migración de Datos · Salesforce → HubSpot',
     precio: 'USD $2.000',
-    detallePrecio: `Pago único · ≈ COP 8.400.000 (TRM $${TRM})`,
-    duracion: '1 – 2 semanas',
+    detallePrecio: `Pago único · ≈ COP 7.334.000 (TRM $${TRM})`,
+    duracion: '3 – 4 semanas',
     icon: Database,
     entregables: [
       'Documento de mapeo de campos aprobado antes de ejecutar la migración',
@@ -599,7 +600,7 @@ const MetropolitanTouringProposal = () => {
           <div className="rounded-2xl p-5 sm:p-6 mb-8"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
             <p className="font-lato text-[12px] uppercase tracking-widest mb-5" style={{ color: `${ACCENT}90` }}>
-              Plan de trabajo · Implementación HubSpot CRM · 4 semanas
+              Plan de trabajo · Implementación HubSpot CRM · 6 semanas
             </p>
 
             {/* Timeline horizontal */}
@@ -610,7 +611,7 @@ const MetropolitanTouringProposal = () => {
                 {[
                   { semana: 'Semana 1', titulo: 'Contexto y entendimiento del negocio', desc: 'Mapeo del proceso comercial, flujos de venta y definición del modelo de datos en HubSpot.' },
                   { semana: 'Semanas 2 y 3', titulo: 'Implementación de configuraciones', desc: 'Propiedades, pipeline, automatizaciones e informes configurados y validados con el equipo.' },
-                  { semana: 'Semana 4', titulo: 'Capacitaciones y puesta en marcha', desc: 'Sesión de capacitación con el equipo, pruebas de calidad y go-live oficial.' },
+                  { semana: 'Semanas 4 a 6', titulo: 'Capacitación, puesta en marcha y soporte post go-live', desc: 'Sesiones de capacitación (hasta 8 horas), pruebas de calidad, go-live oficial y 30 días de acompañamiento incluidos para ajustes y refuerzo de adopción.' },
                 ].map((step, i) => (
                   <div key={i} className="flex flex-col items-center text-center gap-2">
                     <div className="w-8 h-8 rounded-full flex items-center justify-center z-10 relative"
@@ -630,7 +631,7 @@ const MetropolitanTouringProposal = () => {
               {[
                 { semana: 'Semana 1', titulo: 'Contexto y entendimiento del negocio' },
                 { semana: 'Semanas 2 y 3', titulo: 'Implementación de configuraciones' },
-                { semana: 'Semana 4', titulo: 'Capacitaciones y puesta en marcha' },
+                { semana: 'Semanas 4 a 6', titulo: 'Capacitación, puesta en marcha y soporte post go-live' },
               ].map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
@@ -649,7 +650,7 @@ const MetropolitanTouringProposal = () => {
               style={{ borderColor: 'rgba(255,255,255,.06)' }}>
               <Database className="w-3.5 h-3.5 flex-shrink-0 text-[#00bfa5]" />
               <p className="font-lato text-white/40 text-[13px]">
-                <span className="text-[#00bfa5] font-semibold">Migración de datos:</span> proceso paralelo de ~2 semanas. Inicia con la recepción del export de Salesforce y finaliza con la validación de registros en HubSpot antes del go-live.
+                <span className="text-[#00bfa5] font-semibold">Migración de datos:</span> proceso paralelo que corre entre las semanas 2 y 5 (~4 semanas). Inicia con la recepción del export de Salesforce y finaliza con la validación de registros en HubSpot antes del go-live.
               </p>
             </div>
           </div>
@@ -766,18 +767,19 @@ const MetropolitanTouringProposal = () => {
             </div>
             <div className="sm:w-[25%]">
               <p className="font-poppins font-black text-[1.8rem]" style={{ color: ACCENT }}>
-                USD $1.000<span className="font-lato font-normal text-white/40 text-[1rem]"> · pago único</span>
+                USD $3.000<span className="font-lato font-normal text-white/40 text-[1rem]"> · pago único</span>
               </p>
-              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 3.667.000 (TRM ${TRM})</p>
+              <p className="font-lato text-white/35 text-[13px] mt-0.5">≈ COP 11.001.000 (TRM ${TRM})</p>
             </div>
             <div className="sm:flex-1">
               <ul className="space-y-1">
                 {[
                   'Configuración completa del portal HubSpot',
-                  'Hasta 40 propiedades en Contact, Company y Deal',
+                  'Hasta 60 propiedades en Contact, Company y Deal',
                   '1 pipeline de ventas + 6 automatizaciones activas',
                   '6 informes personalizados en el panel de reportes',
-                  'Hasta 7 usuarios configurados · capacitación incluida',
+                  'Hasta 7 usuarios configurados · 8 horas de capacitación',
+                  '30 días de soporte post go-live incluidos',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <CheckCircle className="w-3 h-3 flex-shrink-0 mt-[3px]" style={{ color: ACCENT }} />
@@ -831,8 +833,8 @@ const MetropolitanTouringProposal = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
               <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
                 <p className="font-lato text-white/35 text-[13px] uppercase tracking-wider mb-1">Implementación HubSpot CRM</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">USD $1.000<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
-                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 3.667.000 (TRM ${TRM})</p>
+                <p className="font-poppins font-black text-white text-[1.2rem]">USD $3.000<span className="text-white/40 text-[0.85rem] font-lato font-normal"> · único</span></p>
+                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 11.001.000 (TRM ${TRM})</p>
               </div>
               <div className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
                 <p className="font-lato text-white/35 text-[13px] uppercase tracking-wider mb-1">Migración de Datos</p>
@@ -841,8 +843,8 @@ const MetropolitanTouringProposal = () => {
               </div>
               <div className="rounded-xl p-4" style={{ background: `${ACCENT}08`, border: `1px solid ${ACCENT}25` }}>
                 <p className="font-lato text-[13px] uppercase tracking-wider mb-1" style={{ color: `${ACCENT}90` }}>Total servicios Sixteam</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">USD $3.000</p>
-                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 11.001.000 (TRM ${TRM})</p>
+                <p className="font-poppins font-black text-white text-[1.2rem]">USD $5.000</p>
+                <p className="font-lato text-[12px] mt-0.5" style={{ color: `${ACCENT}aa` }}>≈ COP 18.335.000 (TRM ${TRM})</p>
               </div>
             </div>
             <div className="flex flex-wrap gap-4">
