@@ -1,13 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  CheckCircle, ChevronRight, ChevronDown, FileText, Zap,
-  AlertCircle, ArrowRight, Building2,
-  Calendar, Hash, User, Info, MapPin, Mail,
-  Target, Settings, GraduationCap,
-  ShoppingCart, CreditCard, Users, Award, BookOpen,
-  MessageSquare, BarChart3, Monitor, Bot,
+  CheckCircle, ChevronRight, ChevronDown,
+  Building2, Calendar, Hash, User, Info, MapPin, Mail,
+  Target, Settings, MessageSquare, BarChart3, Monitor, Briefcase,
 } from 'lucide-react';
-import PDFButton from '../components/PDFButton';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
 
@@ -15,17 +11,18 @@ const META = {
   cliente: 'Stunet Education Agency',
   programa: 'Mi Primer Millón',
   sigla: 'MPM',
-  tagline: 'Ecosistema de marketing y ventas digital',
   sector: 'EdTech · Educación Financiera · Niños y Adolescentes',
   alcance: 'Colombia · Latinoamérica',
   fecha: 'Mayo 2026',
-  lugar: 'Barranquilla, Colombia',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
+  dirigidoA: 'Miguel Illidge',
+  elaboradaPor: 'Ernesto Hernandez',
+  cargoElaborador: 'Gerente Comercial',
   objetivo:
-    'Diseño e implementación del ecosistema de marketing y ventas digital para Mi Primer Millón: pauta digital, CRM, tres landing pages, pasarela de pago, plataforma del curso con entrega de accesos y agente IA de atención inicial. Todo en un solo sistema conectado.',
+    'Diseño e implementación del ecosistema de marketing y ventas digital para Mi Primer Millón: pauta digital, CRM con automatizaciones de fidelización y ventas, tres landing pages y agente IA de atención inicial. Todo conectado, todo trazable.',
 };
 
 const MPM_GOLD = '#d4af37';
@@ -38,34 +35,31 @@ const COMPONENTES = [
     num: '01',
     nombre: 'Pauta Digital',
     subtitulo: 'Meta Ads + CAPI',
-    desc: 'Campañas en Meta Ads con audiencias de padres de alto poder adquisitivo. CAPI configurado para devolver eventos de compra al servidor de Meta y entrenar el algoritmo con datos reales.',
+    desc: 'Campañas en Meta Ads con audiencias de padres de alto poder adquisitivo. CAPI configurado para devolver eventos al servidor de Meta y entrenar el algoritmo con datos reales.',
     icon: Target,
     tint: 'blue',
-    precio: null as null | { impl?: string; mensual?: string; nota?: string },
     items: [
       'Estructura de campañas Tráfico → Conversión',
       'Audiencias por comportamiento (viajeros, ejecutivos)',
       'Audiencias personalizadas y similares (lookalike)',
       'CAPI — Conversions API de Meta integrada al CRM',
-      'Brief de creativos para equipo de contenido',
       'Píxel y Events Manager validados sin duplicados',
     ],
   },
   {
     id: 'crm',
     num: '02',
-    nombre: 'CRM',
-    subtitulo: 'Plataforma Sixteam · Pipeline de ventas',
-    desc: 'Sistema de gestión de leads y ventas: pipeline comercial, historial del prospecto, etiquetas por plan (Standard / Premium), automatizaciones de seguimiento y reportería de rendimiento.',
+    nombre: 'CRM + Automatizaciones',
+    subtitulo: 'Plataforma Sixteam · Pipeline + Flujos',
+    desc: 'Sistema de gestión de leads y ventas con pipeline comercial, historial del prospecto, 1 flujo automatizado de fidelización y 1 flujo comercial, más reportería de rendimiento.',
     icon: BarChart3,
     tint: 'teal',
-    precio: { impl: 'COP 500.000', mensual: 'COP 650.000/mes' },
     items: [
       'Subaccount MPM configurado en Plataforma Sixteam',
       'Pipeline de ventas con etapas definidas',
       'Campos personalizados para datos del prospecto',
-      'Etiquetado automático Standard vs. Premium',
-      'Automatizaciones de seguimiento y tareas',
+      '1 flujo automatizado para proceso de fidelización',
+      '1 flujo automatizado para proceso comercial (ventas)',
       'Usuarios, roles y permisos del equipo',
     ],
   },
@@ -74,82 +68,41 @@ const COMPONENTES = [
     num: '03',
     nombre: '3 Landing Pages',
     subtitulo: 'Captura · Ventas · Upsell',
-    desc: 'Tres páginas construidas en Plataforma Sixteam con copy y estructura orientados a conversión. El diseño se realiza con referencia aprobada por el cliente. El contenido (textos, imágenes, copy) debe ser proporcionado por el cliente.',
+    desc: 'Tres páginas construidas en Plataforma Sixteam con estructura orientada a conversión. El diseño se realiza con referencia aprobada por el cliente. El contenido debe ser proporcionado por el cliente.',
     icon: Monitor,
     tint: 'amber',
-    precio: { impl: 'COP 1.200.000', nota: 'Contenido e imágenes aportados por el cliente.' },
     items: [
       'Landing 1: Lead Magnet (captura de contactos)',
-      'Landing 2: Página de ventas Plan Standard ($99.99 USD)',
-      'Landing 3: Upsell Plan Premium ($599.99 USD) — 1 clic',
-      'Order forms integrados a Mercado Pago',
+      'Landing 2: Página de ventas Plan Standard',
+      'Landing 3: Upsell Plan Premium — 1 clic',
       'Thank You Page con instrucciones de acceso',
       'Integración formularios → CRM con todos los campos',
     ],
   },
   {
-    id: 'pago',
-    num: '04',
-    nombre: 'Pasarela de Pago',
-    subtitulo: 'Mercado Pago · Upsell 1 clic',
-    desc: 'Integración nativa de Mercado Pago en Plataforma Sixteam — la opción más adoptada en Colombia. El upsell reutiliza el token de pago capturado en el checkout base: el padre compra el Premium sin volver a ingresar su tarjeta.',
-    icon: CreditCard,
-    tint: 'green',
-    precio: { impl: 'COP 1.000.000' },
-    items: [
-      'Integración nativa Mercado Pago ↔ Plataforma Sixteam',
-      'Checkout Plan Standard ($99.99 USD)',
-      'Upsell 1 clic Plan Premium ($599.99 USD)',
-      'Configuración de "Upsell Product" sin reingreso de tarjeta',
-      'Webhook de confirmación de pago al CRM',
-      'Pruebas E2E de flujo completo de compra',
-    ],
-  },
-  {
-    id: 'plataforma',
-    num: '05',
-    nombre: 'Plataforma del Curso',
-    subtitulo: 'LMS · Membresías · Accesos automáticos',
-    desc: 'Área de miembros en Plataforma Sixteam con los módulos del programa. Tras la compra confirmada, el sistema entrega las credenciales de acceso automáticamente por WhatsApp y correo — sin intervención del equipo.',
-    icon: BookOpen,
-    tint: 'red',
-    precio: { impl: 'COP 500.000', mensual: 'COP 350.000/mes' },
-    items: [
-      'Área de miembros MPM en Plataforma Sixteam LMS',
-      'Estructura de módulos Standard y Premium',
-      'Entrega automática de accesos tras compra (WhatsApp + email)',
-      'Restricción de contenido por plan adquirido',
-      'Flujo de bienvenida y onboarding del alumno',
-      'Panel de progreso del estudiante',
-    ],
-  },
-  {
     id: 'agente-ia',
-    num: '06',
+    num: '04',
     nombre: 'Agente IA Atención Inicial',
     subtitulo: 'Bot de ventas · Speed to Lead',
     desc: 'Agente de IA que responde al lead en los primeros 5 minutos, califica el prospecto, resuelve objeciones frecuentes y lo deriva al Student Coach cuando está listo para cerrar. Disponible 24/7 en WhatsApp.',
     icon: MessageSquare,
     tint: 'purple',
-    precio: { impl: 'COP 500.000' },
     items: [
       'Bot IA entrenado con el programa MPM y objeciones comunes',
       'Respuesta automática < 5 min tras captura del lead',
       'Flujo de calificación (edad del hijo, interés, presupuesto)',
-      'Envío automático de video de presentación del programa',
       'Handoff bot → Student Coach con ficha completa del prospecto',
       'Recuperación de carrito abandonado (email + WhatsApp)',
+      'Derivación directa a página de pago sin asesor intermediario',
     ],
   },
 ];
 
 const TINT: Record<string, { text: string; bg: string; border: string }> = {
-  amber:  { text: 'text-amber-400',    bg: 'rgba(251,191,36,.07)',  border: 'rgba(251,191,36,.18)' },
-  teal:   { text: 'text-[#00bfa5]',   bg: 'rgba(0,191,165,.07)',   border: 'rgba(0,191,165,.18)'  },
-  blue:   { text: 'text-[#60a5fa]',   bg: 'rgba(96,165,250,.07)',  border: 'rgba(96,165,250,.18)' },
-  red:    { text: 'text-[#f87171]',   bg: 'rgba(221,51,51,.07)',   border: 'rgba(221,51,51,.2)'   },
-  green:  { text: 'text-[#d4af37]',   bg: 'rgba(212,175,55,.07)',   border: 'rgba(212,175,55,.18)'  },
-  purple: { text: 'text-[#c084fc]',   bg: 'rgba(192,132,252,.07)', border: 'rgba(192,132,252,.18)' },
+  amber:  { text: 'text-amber-400',   bg: 'rgba(251,191,36,.07)',  border: 'rgba(251,191,36,.18)'  },
+  teal:   { text: 'text-[#00bfa5]',  bg: 'rgba(0,191,165,.07)',   border: 'rgba(0,191,165,.18)'   },
+  blue:   { text: 'text-[#60a5fa]',  bg: 'rgba(96,165,250,.07)',  border: 'rgba(96,165,250,.18)'  },
+  purple: { text: 'text-[#c084fc]',  bg: 'rgba(192,132,252,.07)', border: 'rgba(192,132,252,.18)' },
 };
 
 // ─── FASES ────────────────────────────────────────────────────────────────────
@@ -157,33 +110,9 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 const FASES = [
   {
     num: 'Fase 1',
-    nombre: 'CRM + Infraestructura base',
-    duracion: '1–2 semanas',
-    valor: 'COP 500.000',
-    mensual: 'COP 650.000/mes',
-    recomendada: true,
-    icon: Settings,
-    tint: 'teal',
-    entregables: [
-      'Subaccount MPM configurado en Plataforma Sixteam',
-      'Pipeline de ventas con etapas y responsables',
-      'Campos personalizados para contactos (hasta 15)',
-      'Automatizaciones críticas: recordatorios, tareas, cambios de etapa',
-      'Usuarios, roles y permisos',
-      'Capacitación funcional del equipo (hasta 2 horas)',
-    ],
-    detalle: [
-      'Ambiente limpio y separado para Mi Primer Millón dentro de Plataforma Sixteam. Base sobre la que se construyen el resto de los componentes del ecosistema.',
-      'Pipeline comercial con etapas definidas para el proceso de ventas del Student Coach — desde el primer contacto hasta el pago confirmado.',
-      'Automatizaciones de seguimiento: recordatorios automáticos, asignación de tareas y cambios de etapa que reducen la carga manual del equipo.',
-    ],
-  },
-  {
-    num: 'Fase 2',
-    nombre: 'Pauta Digital — Meta Ads + CAPI',
+    nombre: 'Implementación de Pauta Digital',
     duracion: '1 semana',
-    valor: null as string | null,
-    mensual: null as string | null,
+    valor: 'COP 1.000.000',
     recomendada: true,
     icon: Target,
     tint: 'blue',
@@ -193,12 +122,34 @@ const FASES = [
       'Audiencias personalizadas (visitantes, leads) y similares',
       'Implementación de CAPI (Conversions API)',
       'Validación en Events Manager sin duplicados',
-      'Brief de creativos para el equipo de contenido',
+      'Píxel configurado y verificado en el dominio del cliente',
     ],
     detalle: [
-      'Dado que Meta restringe la segmentación por ingresos en Colombia, las audiencias se construyen por comportamientos de alto poder adquisitivo: viajeros internacionales, directores ejecutivos, propietarios de negocio.',
-      'CAPI configurado dentro de Plataforma Sixteam: el CRM devuelve eventos de compra y lead directamente al servidor de Meta. El algoritmo aprende de datos reales y mejora la calidad del tráfico en cada iteración.',
-      'Brief de creativos con los ángulos de mensaje, formatos recomendados y referencias visuales — para que el equipo de contenido produzca piezas alineadas a la estrategia.',
+      'CAPI configurado dentro de Plataforma Sixteam: el CRM devuelve eventos de lead directamente al servidor de Meta. El algoritmo aprende de datos reales y mejora la calidad del tráfico en cada iteración.',
+    ],
+  },
+  {
+    num: 'Fase 2',
+    nombre: 'Implementación de CRM + Automatizaciones',
+    duracion: '1–2 semanas',
+    valor: 'COP 3.400.000',
+    recomendada: true,
+    icon: BarChart3,
+    tint: 'teal',
+    entregables: [
+      'Subaccount MPM configurado en Plataforma Sixteam',
+      'Pipeline de ventas con etapas y responsables',
+      'Campos personalizados para contactos (hasta 15)',
+      'Automatizaciones de seguimiento: recordatorios, tareas, cambios de etapa',
+      '1 flujo automatizado para proceso de fidelización',
+      '1 flujo automatizado para proceso comercial (ventas)',
+      'Usuarios, roles y permisos',
+      'Capacitación funcional del equipo (hasta 2 horas)',
+    ],
+    detalle: [
+      'Ambiente limpio y separado para Mi Primer Millón dentro de Plataforma Sixteam. Base sobre la que se construye el resto del ecosistema.',
+      'Pipeline comercial con etapas definidas para el proceso de ventas del Student Coach — desde el primer contacto hasta la conversión.',
+      '1 flujo automatizado para fidelización: secuencia de nurturing que mantiene activos a los prospectos en cada etapa del funnel. 1 flujo para el proceso comercial: recordatorios, seguimientos y reactivaciones que reducen la carga manual del equipo.',
     ],
   },
   {
@@ -206,14 +157,13 @@ const FASES = [
     nombre: '3 Landing Pages',
     duracion: '2 semanas',
     valor: 'COP 1.200.000',
-    mensual: null as string | null,
     recomendada: true,
     icon: Monitor,
     tint: 'amber',
     entregables: [
       'Landing 1: Lead Magnet (captura de contactos)',
-      'Landing 2: Página de ventas Plan Standard ($99.99 USD) + order form',
-      'Landing 3: Upsell Plan Premium ($599.99 USD) — 1 clic',
+      'Landing 2: Página de ventas Plan Standard + formulario',
+      'Landing 3: Upsell Plan Premium — 1 clic',
       'Thank You Page con instrucciones de acceso',
       'Diseño con referencia aprobada por el cliente',
       'Contenido (textos e imágenes) aportado por el cliente',
@@ -221,85 +171,43 @@ const FASES = [
     detalle: [
       'Las tres páginas se construyen en Plataforma Sixteam con estructura orientada a conversión. El diseño se realiza sobre una referencia aprobada en conjunto con el cliente.',
       'El contenido — textos, copy, imágenes, logotipos y videos — debe ser entregado por el cliente antes del inicio de esta fase. Sixteam monta y publica; no redacta el copy del programa.',
-      'Cada landing queda conectada al CRM para trazabilidad completa desde el primer clic hasta la compra.',
+      'Cada landing queda conectada al CRM para trazabilidad completa desde el primer clic hasta la conversión.',
     ],
   },
   {
     num: 'Fase 4',
-    nombre: 'Pasarela de Pago + Plataforma del Curso',
+    nombre: 'Agente IA Conversacional — Atención Inicial',
     duracion: '1–2 semanas',
-    valor: 'COP 1.500.000',
-    mensual: 'COP 350.000/mes',
+    valor: 'COP 800.000',
     recomendada: true,
-    icon: BookOpen,
-    tint: 'red',
-    entregables: [
-      'Integración nativa Mercado Pago ↔ Plataforma Sixteam',
-      'Upsell 1 clic Plan Premium (sin reingreso de tarjeta)',
-      'Webhook de confirmación de pago al CRM',
-      'Área de miembros MPM configurada en LMS',
-      'Entrega automática de accesos tras compra (WhatsApp + email)',
-      'Pruebas E2E de flujo completo pago → acceso',
-    ],
-    detalle: [
-      'La integración de Mercado Pago permite el upsell de 1 clic: el sistema reutiliza el token de pago del plan Standard para que el padre compre el Premium sin volver a ingresar su tarjeta.',
-      'El LMS actúa como área de miembros del programa. El acceso se restringe automáticamente por plan (Standard o Premium) según la etiqueta del CRM.',
-      'Tras la compra confirmada (webhook de Mercado Pago), el workflow envía credenciales por WhatsApp y email en menos de 5 minutos — cero intervención del equipo.',
-    ],
-  },
-  {
-    num: 'Fase 5',
-    nombre: 'Agente IA de Atención Inicial',
-    duracion: '1–2 semanas',
-    valor: 'COP 500.000',
-    mensual: null as string | null,
-    recomendada: false,
     icon: MessageSquare,
     tint: 'purple',
     entregables: [
       'Bot IA entrenado con programa MPM y objeciones frecuentes',
       'Respuesta automática < 5 min tras captura del lead (WhatsApp)',
       'Flujo de calificación del prospecto (edad, interés, presupuesto)',
-      'Envío automático de video de presentación (max. 60 seg)',
+      'Derivación directa a página de pago sin asesor intermediario',
       'Handoff inteligente bot → Student Coach con ficha del lead',
       'Workflow de recuperación de carrito abandonado (email + WhatsApp)',
     ],
     detalle: [
       'El agente responde al lead en los primeros 5 minutos de forma personalizada. Cada minuto sin contacto reduce la tasa de cierre hasta un 80% — el bot garantiza la ventana crítica sin depender de la disponibilidad del equipo.',
-      'El bot califica al prospecto (edad del hijo, nivel de interés, presupuesto estimado) y le envía un video de presentación de MPM. Cuando el prospecto está calificado y listo, hace el handoff al Student Coach con toda la ficha completa.',
-      'El workflow de recuperación de carrito se activa si el prospecto ingresa sus datos en el checkout pero no completa la compra en 15 minutos — dispara email + WhatsApp de recuperación de forma automática.',
+      'El bot califica al prospecto (edad del hijo, nivel de interés, presupuesto estimado). Cuando el prospecto está listo, hace el handoff al Student Coach con toda la ficha completa.',
+      'El workflow de recuperación se activa si el prospecto no completa la acción en 15 minutos — dispara email + WhatsApp de seguimiento de forma automática.',
     ],
   },
 ];
 
-const FASE_POSTLANZAMIENTO = {
-  nombre: 'Agente IA de Acompañamiento del Curso',
-  subtitulo: 'Post-lanzamiento · Implementación independiente',
-  valor: 'COP 2.000.000',
-  desc: 'Agente IA que acompaña al alumno durante su proceso dentro del programa. Responde preguntas sobre el contenido del módulo activo, motiva la continuidad, notifica hitos de progreso y escala a soporte humano cuando es necesario. Se activa una vez el programa esté en operación.',
-  items: [
-    'IA entrenada con el contenido pedagógico de MPM',
-    'Respuesta 24/7 a preguntas del módulo activo',
-    'Notificaciones de progreso y motivación automática',
-    'Escalado a soporte humano para casos complejos',
-    'Integrado al LMS y al CRM (historial del alumno visible)',
-    'Implementación: ≥ 2 semanas post-lanzamiento del programa',
-  ],
-};
-
 const SECCIONES = [
-  { id: 'resumen',      label: 'Resumen'      },
-  { id: 'ecosistema',   label: 'Ecosistema'   },
-  { id: 'plan',         label: 'Plan'         },
-  { id: 'cotizacion',   label: 'Cotización'   },
-  { id: 'vigencia',     label: 'Vigencia'     },
+  { id: 'resumen',    label: 'Resumen'    },
+  { id: 'ecosistema', label: 'Ecosistema' },
+  { id: 'plan',       label: 'Plan'       },
+  { id: 'cotizacion', label: 'Cotización' },
+  { id: 'terminos',   label: 'Términos'   },
+  { id: 'vigencia',   label: 'Vigencia'   },
 ];
 
-// Implementaciones únicas: CRM 500K + Landings 1.200K + Pago+Plataforma 1.500K + Agente IA 500K = 3.700.000
-// Mensual: CRM 650K + Plataforma 350K = 1.000.000/mes
-const TOTAL_IMPL    = 'COP 3.700.000';
-const TOTAL_MENSUAL = 'COP 1.000.000/mes';
-const TOTAL_POST    = 'COP 2.000.000';
+const TOTAL_IMPL = 'COP 6.400.000';
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
@@ -335,6 +243,11 @@ const MpmProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [compActivo, setCompActivo] = useState<number | null>(null);
   const [faseActiva, setFaseActiva] = useState<number | null>(null);
+  const [showCalc, setShowCalc] = useState(false);
+  const [mensajesConv, setMensajesConv] = useState(6);
+  const [leadesMes, setLeadesMes] = useState(300);
+
+  const consumoIAUSD = (0.02 * mensajesConv * leadesMes).toFixed(2);
 
   useEffect(() => {
     const handler = () => {
@@ -353,7 +266,7 @@ const MpmProposal = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible();
+  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -396,6 +309,7 @@ const MpmProposal = () => {
           .fade-up-3 { animation-delay: .25s; }
           .fade-up-4 { animation-delay: .35s; }
           .fade-up-5 { animation-delay: .5s;  }
+          input[type=range] { accent-color: #d4af37; }
         `}</style>
 
         {/* Top bar */}
@@ -420,7 +334,6 @@ const MpmProposal = () => {
         <div className="relative z-10 flex-1 flex items-center px-6 md:px-12 lg:px-20">
           <div className="w-full max-w-6xl mx-auto py-16 md:py-20 grid lg:grid-cols-2 gap-14 items-center">
 
-            {/* Texto */}
             <div>
               <div className="fade-up fade-up-1 inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full border"
                 style={{ borderColor: 'rgba(212,175,55,.25)', background: 'rgba(212,175,55,.07)' }}>
@@ -458,7 +371,7 @@ const MpmProposal = () => {
               </div>
             </div>
 
-            {/* Mapa del ecosistema */}
+            {/* Mapa del ecosistema — 2×2 */}
             <div className="fade-up fade-up-5">
               <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-4">Componentes del ecosistema</p>
               <div className="grid grid-cols-2 gap-3">
@@ -476,16 +389,6 @@ const MpmProposal = () => {
                     </div>
                   );
                 })}
-
-                {/* Post-lanzamiento */}
-                <div className="col-span-2 rounded-xl p-4 border flex items-start gap-3"
-                  style={{ background: 'rgba(192,132,252,.05)', borderColor: 'rgba(192,132,252,.18)', borderStyle: 'dashed' }}>
-                  <Bot size={16} className="text-[#c084fc] flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-poppins font-bold text-[13px] text-[#c084fc]">07 Agente IA de Acompañamiento</p>
-                    <p className="font-lato text-white/40 text-[11px] mt-0.5">Post-lanzamiento · COP 2.000.000 · implementación independiente</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -495,10 +398,10 @@ const MpmProposal = () => {
         <div className="relative z-10 px-6 md:px-12 lg:px-20 pb-10">
           <div className="max-w-6xl mx-auto flex flex-wrap gap-6 pt-6 border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
             {[
-              { icon: Building2, label: 'Cliente', val: META.cliente },
-              { icon: Calendar,  label: 'Fecha',   val: META.fecha   },
-              { icon: MapPin,    label: 'Alcance',  val: META.alcance },
-              { icon: User,      label: 'RL',       val: META.rl      },
+              { icon: Building2, label: 'Cliente',     val: META.cliente    },
+              { icon: User,      label: 'Dirigida a',  val: META.dirigidoA  },
+              { icon: Calendar,  label: 'Fecha',        val: META.fecha      },
+              { icon: User,      label: 'RL',           val: META.rl         },
             ].map(({ icon: Icon, label, val }) => (
               <div key={label} className="flex items-center gap-2">
                 <Icon size={14} className="text-white/30 flex-shrink-0" />
@@ -521,21 +424,21 @@ const MpmProposal = () => {
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div>
               <p className="font-lato text-white/65 leading-relaxed mb-5" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
-                <strong className="text-white">Mi Primer Millón</strong> es el programa de educación financiera de Stunet Education Agency para niños y adolescentes. Sixteam.pro diseñará e implementará el ecosistema de marketing y ventas digital que lleva a MPM desde el primer anuncio hasta un alumno activo dentro de la plataforma.
+                <strong className="text-white">Mi Primer Millón</strong> es el programa de educación financiera de Stunet Education Agency para niños y adolescentes. Sixteam.pro diseñará e implementará el ecosistema de marketing y ventas digital que lleva a MPM desde el primer anuncio hasta un prospecto calificado y en proceso de cierre.
               </p>
               <p className="font-lato text-white/65 leading-relaxed mb-8" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
-                El ecosistema cubre los <strong className="text-white">6 componentes críticos</strong> del proceso: pauta digital con trazabilidad real, CRM de ventas, tres landing pages optimizadas, pasarela de pago con upsell de 1 clic, plataforma del curso con entrega automática de accesos y agente IA de atención inicial 24/7. Todo conectado, todo trazable.
+                El ecosistema cubre los <strong className="text-white">4 componentes críticos</strong> del proceso: pauta digital con trazabilidad real, CRM con automatizaciones de fidelización y ventas, tres landing pages optimizadas y agente IA de atención inicial 24/7. Todo conectado, todo trazable.
               </p>
 
-              {/* Flujo visual simplificado */}
+              {/* Flujo visual */}
               <div className="space-y-2">
-                <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-3">Flujo del prospecto al alumno</p>
+                <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-3">Flujo del prospecto a la conversión</p>
                 {[
-                  { paso: 'Anuncio en Meta Ads', sub: 'Audiencia de padres · alto PA' },
-                  { paso: 'Lead Magnet', sub: 'Landing 1 · CRM recibe el contacto' },
-                  { paso: 'Agente IA responde < 5 min', sub: 'WhatsApp · calificación y video' },
-                  { paso: 'Checkout · Upsell 1 clic', sub: 'Landing 2 y 3 · Mercado Pago' },
-                  { paso: 'Acceso automático al curso', sub: 'WhatsApp + email · LMS' },
+                  { paso: 'Anuncio en Meta Ads',           sub: 'Audiencia de padres · alto PA'                    },
+                  { paso: 'Lead Magnet',                   sub: 'Landing 1 · CRM recibe el contacto'              },
+                  { paso: 'Agente IA responde < 5 min',   sub: 'WhatsApp · calificación inicial'                  },
+                  { paso: 'Página de ventas · Upsell',    sub: 'Landing 2 y 3 · Formularios de conversión'        },
+                  { paso: 'Fidelización y seguimiento',   sub: 'CRM · automatizaciones y reactivación'            },
                 ].map(({ paso, sub }, i) => (
                   <div key={i} className="flex items-start gap-3">
                     <div className="flex flex-col items-center">
@@ -562,12 +465,13 @@ const MpmProposal = () => {
                 <p className="font-lato text-white/50 text-sm mt-1">Programa: {META.programa} ({META.sigla})</p>
                 <div className="mt-4 pt-4 border-t border-white/5 space-y-2">
                   {[
-                    { label: 'Sector',      val: META.sector      },
-                    { label: 'Alcance',     val: META.alcance     },
-                    { label: 'Fecha',       val: META.fecha       },
-                    { label: 'Proponente',  val: META.proponente  },
-                    { label: 'NIT',         val: META.nit         },
-                    { label: 'Correo',      val: META.correo      },
+                    { label: 'Dirigida a',   val: META.dirigidoA   },
+                    { label: 'Sector',       val: META.sector       },
+                    { label: 'Alcance',      val: META.alcance      },
+                    { label: 'Fecha',        val: META.fecha        },
+                    { label: 'Proponente',   val: META.proponente   },
+                    { label: 'NIT',          val: META.nit          },
+                    { label: 'Correo',       val: META.correo       },
                   ].map(({ label, val }) => (
                     <div key={label} className="flex justify-between gap-4">
                       <span className="font-lato text-white/35 text-[13px]">{label}</span>
@@ -585,12 +489,16 @@ const MpmProposal = () => {
                     <span className="font-poppins font-bold text-white">{TOTAL_IMPL}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="font-lato text-white/60 text-sm">CRM + Plataforma (mensual)</span>
-                    <span className="font-poppins font-bold text-white">{TOTAL_MENSUAL}</span>
+                    <span className="font-lato text-white/60 text-sm">CRM mensual</span>
+                    <span className="font-poppins font-bold text-white">COP 890.000 + IA</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-lato text-white/60 text-sm">Pauta Digital mensual</span>
+                    <span className="font-poppins font-bold text-white">COP 800.000 + 10%</span>
                   </div>
                   <div className="border-t border-white/10 pt-2 flex justify-between items-center">
-                    <span className="font-lato text-white/50 text-sm">Agente IA Acompañamiento (post-lanzamiento)</span>
-                    <span className="font-poppins font-bold" style={{ color: MPM_GOLD }}>{TOTAL_POST}</span>
+                    <span className="font-lato text-white/50 text-sm">Soporte y Operaciones</span>
+                    <span className="font-poppins font-bold" style={{ color: MPM_GOLD }}>COP 1.200.000/mes</span>
                   </div>
                 </div>
               </div>
@@ -604,7 +512,7 @@ const MpmProposal = () => {
         className="px-6 md:px-12 lg:px-20 py-20 md:py-28 border-t" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
         <div className={`max-w-6xl mx-auto transition-all duration-700 ${s2.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>Ecosistema Digital</TagLabel>
-          <SectionTitle>Los 6 componentes del sistema</SectionTitle>
+          <SectionTitle>Los 4 componentes del sistema</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/55 leading-relaxed mb-10 max-w-3xl" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
@@ -659,35 +567,6 @@ const MpmProposal = () => {
               );
             })}
           </div>
-
-          {/* Post-lanzamiento callout */}
-          <div className="mt-6 rounded-2xl p-6 border" style={{ borderColor: 'rgba(192,132,252,.2)', background: 'rgba(192,132,252,.05)', borderStyle: 'dashed' }}>
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center border flex-shrink-0"
-                style={{ background: 'rgba(192,132,252,.1)', borderColor: 'rgba(192,132,252,.3)' }}>
-                <Bot size={18} className="text-[#c084fc]" />
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-3 mb-1">
-                  <span className="font-poppins font-bold text-white">07 · {FASE_POSTLANZAMIENTO.nombre}</span>
-                  <span className="font-lato text-[11px] px-2.5 py-1 rounded-full border"
-                    style={{ color: '#c084fc', borderColor: 'rgba(192,132,252,.3)', background: 'rgba(192,132,252,.08)' }}>
-                    Post-lanzamiento
-                  </span>
-                  <span className="font-poppins font-black text-[13px] text-[#c084fc]">{FASE_POSTLANZAMIENTO.valor}</span>
-                </div>
-                <p className="font-lato text-white/55 text-sm leading-relaxed mb-4">{FASE_POSTLANZAMIENTO.desc}</p>
-                <div className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                  {FASE_POSTLANZAMIENTO.items.map((item, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <CheckCircle size={13} className="text-[#c084fc] flex-shrink-0 mt-0.5" />
-                      <span className="font-lato text-white/55 text-[13px]">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -700,7 +579,7 @@ const MpmProposal = () => {
           <Rule />
 
           <p className="font-lato text-white/55 leading-relaxed mb-10 max-w-3xl" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
-            Las 5 fases se implementan de forma consecutiva en un plazo estimado de <strong className="text-white">6–8 semanas</strong>. El Agente IA de Acompañamiento se activa post-lanzamiento de forma independiente.
+            Las 4 fases se implementan de forma consecutiva en un plazo estimado de <strong className="text-white">5–7 semanas</strong>, con kick-off en los 3 días hábiles siguientes al pago de la primera fase.
           </p>
 
           <div className="space-y-4">
@@ -779,10 +658,11 @@ const MpmProposal = () => {
             <div className="flex items-start gap-0 overflow-x-auto pb-2">
               {FASES.map((fase, i) => {
                 const t = TINT[fase.tint];
+                const dotColor = t.text.includes('60a5fa') ? '#60a5fa' : t.text.includes('00bfa5') ? '#00bfa5' : t.text.includes('fbbf24') || t.text.includes('amber') ? '#fbbf24' : '#c084fc';
                 return (
                   <React.Fragment key={i}>
                     <div className="flex flex-col items-center min-w-[110px] flex-shrink-0">
-                      <div className="w-3 h-3 rounded-full flex-shrink-0 mb-2" style={{ background: t.text.replace('text-[', '').replace(']', '').replace('text-', '') === 'amber-400' ? '#fbbf24' : t.text.includes('00bfa5') ? '#00bfa5' : t.text.includes('60a5fa') ? '#60a5fa' : t.text.includes('f87171') ? '#f87171' : t.text.includes('d4af37') ? '#d4af37' : '#c084fc' }} />
+                      <div className="w-3 h-3 rounded-full flex-shrink-0 mb-2" style={{ background: dotColor }} />
                       <p className="font-poppins font-bold text-[11px] text-white/70 text-center">{fase.num}</p>
                       <p className="font-lato text-[10px] text-white/35 text-center mt-0.5">{fase.duracion}</p>
                     </div>
@@ -792,12 +672,6 @@ const MpmProposal = () => {
                   </React.Fragment>
                 );
               })}
-              <div className="w-px h-6 mt-1.5 mx-3" style={{ background: 'rgba(192,132,252,.3)' }} />
-              <div className="flex flex-col items-center min-w-[130px] flex-shrink-0">
-                <div className="w-3 h-3 rounded-full flex-shrink-0 mb-2" style={{ background: '#c084fc' }} />
-                <p className="font-poppins font-bold text-[11px] text-[#c084fc] text-center">Post-lanzamiento</p>
-                <p className="font-lato text-[10px] text-white/35 text-center mt-0.5">Agente IA Acompañamiento</p>
-              </div>
             </div>
           </div>
         </div>
@@ -811,21 +685,20 @@ const MpmProposal = () => {
           <SectionTitle>Inversión por componente</SectionTitle>
           <Rule />
 
-          {/* Tres bloques de cotización */}
-          <div className="grid md:grid-cols-3 gap-5 mb-6">
+          <div className="grid md:grid-cols-2 gap-5 mb-6">
 
             {/* Bloque 1: Implementaciones únicas */}
-            <div className="md:col-span-1 rounded-2xl overflow-hidden border" style={{ borderColor: 'rgba(255,255,255,.08)' }}>
+            <div className="rounded-2xl overflow-hidden border" style={{ borderColor: 'rgba(255,255,255,.08)' }}>
               <div className="px-5 py-3 border-b" style={{ borderColor: 'rgba(255,255,255,.06)', background: 'rgba(255,255,255,.03)' }}>
                 <p className="font-lato text-white/45 text-[12px] uppercase tracking-wider">Implementación</p>
-                <p className="font-lato text-white/30 text-[11px]">Pago único por componente</p>
+                <p className="font-lato text-white/30 text-[11px]">Pago único por fase</p>
               </div>
               <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
                 {[
-                  { comp: '02 CRM', label: 'Ajustes y configuración', val: 'COP 500.000', t: 'teal' },
-                  { comp: '03 Landing Pages', label: '3 páginas con diseño ref.', val: 'COP 1.200.000', t: 'amber' },
-                  { comp: '04 Pasarela + Plataforma', label: 'Mercado Pago + LMS', val: 'COP 1.500.000', t: 'red' },
-                  { comp: '05 Agente IA Inicial', label: 'Implementación del bot', val: 'COP 500.000', t: 'purple' },
+                  { comp: '01 Pauta Digital',          label: 'Configuración Meta Ads + CAPI',      val: 'COP 1.000.000', t: 'blue'   },
+                  { comp: '02 CRM + Automatizaciones', label: 'Pipeline + 2 flujos automatizados',  val: 'COP 3.400.000', t: 'teal'   },
+                  { comp: '03 Landing Pages',          label: '3 páginas con diseño ref.',           val: 'COP 1.200.000', t: 'amber'  },
+                  { comp: '04 Agente IA Atención',     label: 'Bot conversacional WhatsApp',         val: 'COP 800.000',   t: 'purple' },
                 ].map(({ comp, label, val, t }) => (
                   <div key={comp} className="px-5 py-3 flex items-start justify-between gap-2 hover:bg-white/[0.015] transition-colors">
                     <div>
@@ -836,72 +709,128 @@ const MpmProposal = () => {
                   </div>
                 ))}
                 <div className="px-5 py-3 flex justify-between items-center" style={{ background: 'rgba(212,175,55,.05)' }}>
-                  <span className="font-poppins font-black text-white text-[13px]">Total impl.</span>
+                  <span className="font-poppins font-black text-white text-[13px]">Total implementación</span>
                   <span className="font-poppins font-black" style={{ color: MPM_GOLD }}>{TOTAL_IMPL}</span>
                 </div>
               </div>
             </div>
 
-            {/* Bloque 2: Costos mensuales */}
+            {/* Bloque 2: Costos mensuales recurrentes */}
             <div className="rounded-2xl overflow-hidden border" style={{ borderColor: 'rgba(0,191,165,.2)' }}>
               <div className="px-5 py-3 border-b" style={{ borderColor: 'rgba(0,191,165,.1)', background: 'rgba(0,191,165,.04)' }}>
                 <p className="font-lato text-[#00bfa5] text-[12px] uppercase tracking-wider">Mensual recurrente</p>
                 <p className="font-lato text-white/30 text-[11px]">Costo operativo continuo</p>
               </div>
               <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
-                <div className="px-5 py-4 flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-poppins font-bold text-[12px] text-[#00bfa5]">02 CRM</p>
-                    <p className="font-lato text-white/40 text-[11px]">Plataforma Sixteam</p>
-                  </div>
-                  <span className="font-poppins font-bold text-white text-[13px]">COP 650.000</span>
-                </div>
-                <div className="px-5 py-4 flex items-start justify-between gap-2">
-                  <div>
-                    <p className="font-poppins font-bold text-[12px] text-[#f87171]">05 Plataforma Curso</p>
-                    <p className="font-lato text-white/40 text-[11px]">LMS + membresías</p>
-                  </div>
-                  <span className="font-poppins font-bold text-white text-[13px]">COP 350.000</span>
-                </div>
-                <div className="px-5 py-4 flex items-center justify-between gap-2">
-                  <div>
-                    <p className="font-poppins font-bold text-[12px] text-[#60a5fa]">01 Pauta Digital</p>
-                    <p className="font-lato text-white/40 text-[11px]">Gestión asesorada</p>
-                  </div>
-                  <span className="font-lato text-white/40 text-[12px] italic">Incluida</span>
-                </div>
-                <div className="px-5 py-3 flex justify-between items-center" style={{ background: 'rgba(0,191,165,.05)' }}>
-                  <span className="font-poppins font-black text-white text-[13px]">Total mensual</span>
-                  <span className="font-poppins font-black text-[#00bfa5]">{TOTAL_MENSUAL}</span>
-                </div>
-              </div>
-            </div>
 
-            {/* Bloque 3: Post-lanzamiento */}
-            <div className="rounded-2xl overflow-hidden border" style={{ borderColor: 'rgba(192,132,252,.2)', borderStyle: 'dashed' }}>
-              <div className="px-5 py-3 border-b" style={{ borderColor: 'rgba(192,132,252,.15)', background: 'rgba(192,132,252,.04)' }}>
-                <p className="font-lato text-[#c084fc] text-[12px] uppercase tracking-wider">Post-lanzamiento</p>
-                <p className="font-lato text-white/30 text-[11px]">Implementación independiente</p>
-              </div>
-              <div className="px-5 py-5 flex-1">
-                <div className="flex items-start gap-3 mb-4">
-                  <Bot size={16} className="text-[#c084fc] flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-poppins font-bold text-white text-[14px]">Agente IA de Acompañamiento</p>
-                    <p className="font-lato text-white/45 text-[12px] mt-1 leading-relaxed">Acompaña al alumno dentro del programa: responde preguntas del módulo activo, motiva la continuidad y escala a soporte humano.</p>
+                {/* CRM */}
+                <div className="px-5 py-4">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <div>
+                      <p className="font-poppins font-bold text-[12px] text-[#00bfa5]">Plataforma CRM</p>
+                      <p className="font-lato text-white/40 text-[11px]">Hasta 3 usuarios · 1 número WhatsApp conectado</p>
+                    </div>
+                    <span className="font-poppins font-bold text-white text-[13px] flex-shrink-0">COP 890.000</span>
+                  </div>
+                  {/* Calculadora IA */}
+                  <button
+                    onClick={() => setShowCalc(!showCalc)}
+                    className="flex items-center gap-1.5 mt-2 transition-opacity hover:opacity-80"
+                    style={{ color: 'rgba(212,175,55,.7)' }}>
+                    <span className="font-lato text-[11px]">+ consumo mensual por uso de IA</span>
+                    <ChevronDown size={12} className={`transition-transform ${showCalc ? 'rotate-180' : ''}`} />
+                  </button>
+                  {showCalc && (
+                    <div className="mt-3 p-3 rounded-xl border" style={{ background: 'rgba(212,175,55,.04)', borderColor: 'rgba(212,175,55,.15)' }}>
+                      <p className="font-lato text-white/45 text-[11px] mb-3 uppercase tracking-wider">Calculadora de consumo de IA</p>
+
+                      <div className="space-y-3 mb-3">
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-lato text-white/35 text-[11px]">Mensajes promedio por conversación</span>
+                            <span className="font-poppins font-bold text-white text-[12px]">{mensajesConv}</span>
+                          </div>
+                          <input
+                            type="range" min={1} max={12} step={1}
+                            value={mensajesConv}
+                            onChange={e => setMensajesConv(Number(e.target.value))}
+                            className="w-full"
+                          />
+                        </div>
+                        <div>
+                          <div className="flex justify-between mb-1">
+                            <span className="font-lato text-white/35 text-[11px]">Leads promedio por mes</span>
+                            <span className="font-poppins font-bold text-white text-[12px]">{leadesMes}</span>
+                          </div>
+                          <input
+                            type="range" min={50} max={2000} step={50}
+                            value={leadesMes}
+                            onChange={e => setLeadesMes(Number(e.target.value))}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center pt-2 border-t" style={{ borderColor: 'rgba(212,175,55,.12)' }}>
+                        <div>
+                          <span className="font-lato text-white/40 text-[11px]">Consumo estimado</span>
+                          <p className="font-lato text-white/25 text-[10px] mt-0.5">USD 0,02 × {mensajesConv} msg × {leadesMes} leads</p>
+                        </div>
+                        <span className="font-poppins font-bold text-[14px]" style={{ color: MPM_GOLD }}>
+                          ≈ USD {consumoIAUSD}/mes
+                        </span>
+                      </div>
+                      <p className="font-lato text-white/25 text-[10px] mt-2 leading-relaxed">
+                        Estimación referencial a USD 0,02 por mensaje. El consumo real varía según el volumen de leads y la duración de las conversaciones.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Pauta */}
+                <div className="px-5 py-4">
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="font-poppins font-bold text-[12px] text-[#60a5fa]">Servicio de Pauta Digital</p>
+                      <p className="font-lato text-white/40 text-[11px]">Gestión asesorada Meta Ads · fee fijo + variable</p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <span className="font-poppins font-bold text-white text-[13px] block">COP 800.000</span>
+                      <span className="font-lato text-white/35 text-[11px]">+ 10% inversión en pauta</span>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-1 mb-5">
-                  {['IA entrenada con el contenido de MPM', 'Respuesta 24/7 dentro del LMS', 'Notificaciones de progreso automáticas', 'Escalado a soporte humano'].map(item => (
-                    <div key={item} className="flex items-center gap-2">
-                      <CheckCircle size={12} className="text-[#c084fc]" />
-                      <span className="font-lato text-white/50 text-[12px]">{item}</span>
+
+                {/* Soporte */}
+                <div className="px-5 py-4">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <div>
+                      <p className="font-poppins font-bold text-[12px] text-amber-400">Soporte y Operaciones</p>
+                      <p className="font-lato text-white/40 text-[11px]">Mejora continua · hasta 10 horas/mes</p>
                     </div>
-                  ))}
+                    <span className="font-poppins font-bold text-white text-[13px] flex-shrink-0">COP 1.200.000</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 mt-1">
+                    {[
+                      'Arreglo de errores y configuraciones',
+                      'Levantamiento de oportunidades de mejora',
+                      'Capacitación al equipo en el uso de herramientas',
+                      'Apoyo en operación del sistema',
+                    ].map(item => (
+                      <div key={item} className="flex items-start gap-1.5">
+                        <CheckCircle size={11} className="text-amber-400 flex-shrink-0 mt-0.5" />
+                        <span className="font-lato text-white/40 text-[11px] leading-snug">{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="rounded-xl px-4 py-3 flex justify-between items-center" style={{ background: 'rgba(192,132,252,.08)', border: '1px solid rgba(192,132,252,.2)' }}>
-                  <span className="font-poppins font-bold text-[#c084fc] text-[13px]">Implementación</span>
-                  <span className="font-poppins font-black text-[#c084fc] text-lg">{TOTAL_POST}</span>
+
+                <div className="px-5 py-3 flex justify-between items-center" style={{ background: 'rgba(0,191,165,.05)' }}>
+                  <span className="font-poppins font-black text-white text-[13px]">Base mensual</span>
+                  <div className="text-right">
+                    <span className="font-poppins font-black text-[#00bfa5] block">COP 2.890.000</span>
+                    <span className="font-lato text-white/30 text-[10px]">+ consumo IA + % pauta variable</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -912,16 +841,83 @@ const MpmProposal = () => {
             style={{ background: 'rgba(255,255,255,.02)', borderColor: 'rgba(255,255,255,.07)' }}>
             <Info size={15} className="text-white/30 flex-shrink-0 mt-0.5" />
             <p className="font-lato text-white/45 text-sm leading-relaxed">
-              Los valores no incluyen IVA (19%). Las licencias de Plataforma Sixteam, Zapier ni el presupuesto de pauta de Meta Ads están incluidos en esta propuesta — son costos operativos del cliente. Cada fase se contrata y paga de forma independiente al cierre de la misma.
+              Los valores no incluyen IVA (19%). Las licencias de Plataforma Sixteam y el presupuesto de pauta de Meta Ads son costos operativos del cliente, no incluidos en esta propuesta. Cada fase se contrata y paga de forma independiente al inicio de la misma. El servicio de Soporte y Operaciones se activa una vez finalizada la implementación.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════ VIGENCIA ═════════════════════ */}
-      <section id="vigencia" ref={s5.ref as React.RefObject<HTMLElement>}
+      {/* ══════════════════════════════════════ TÉRMINOS ═════════════════════ */}
+      <section id="terminos" ref={s5.ref as React.RefObject<HTMLElement>}
         className="px-6 md:px-12 lg:px-20 py-20 md:py-28 border-t" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
         <div className={`max-w-6xl mx-auto transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>Condiciones comerciales</TagLabel>
+          <SectionTitle>Términos y Condiciones</SectionTitle>
+          <Rule />
+
+          <div className="grid md:grid-cols-2 gap-5">
+            {[
+              {
+                num: '01',
+                titulo: 'Vigencia de la propuesta',
+                texto: 'Esta propuesta tiene validez de 30 días calendario a partir de su fecha de emisión. Transcurrido ese plazo sin confirmación por escrito, Sixteam.pro se reserva el derecho de actualizar los valores y condiciones.',
+              },
+              {
+                num: '02',
+                titulo: 'Forma de pago',
+                texto: 'Cada fase se factura y cancela al inicio de la misma mediante transferencia bancaria o PSE a nombre de Sixteam Innovación y Estrategia Digital S.A.S. NIT 901.967.849-4. Los servicios mensuales se facturan al inicio de cada período.',
+              },
+              {
+                num: '03',
+                titulo: 'Alcance y entregables',
+                texto: 'El alcance de esta propuesta se limita a los entregables descritos en cada fase. Cualquier ajuste, adición o modificación fuera del alcance acordado será cotizado por separado y aprobado por escrito antes de su ejecución.',
+              },
+              {
+                num: '04',
+                titulo: 'Responsabilidades del cliente',
+                texto: 'El cliente se compromete a: (a) designar un punto de contacto para la coordinación, (b) aprobar entregables en máximo 5 días hábiles desde su presentación, (c) suministrar accesos, contenidos e información necesaria al inicio de cada fase. Los retrasos en estas responsabilidades pueden afectar los plazos de implementación.',
+              },
+              {
+                num: '05',
+                titulo: 'Confidencialidad',
+                texto: 'La información compartida entre las partes en el marco de esta propuesta y su ejecución se considera confidencial. Ambas partes se comprometen a no divulgar información sensible del negocio a terceros sin autorización escrita previa.',
+              },
+              {
+                num: '06',
+                titulo: 'Propiedad intelectual',
+                texto: 'Una vez canceladas todas las fases contratadas, los entregables producidos — landing pages, configuraciones del CRM, flujos de automatización y agente IA — son propiedad del cliente. Sixteam.pro retiene el derecho de referenciar el proyecto en su portafolio con autorización del cliente.',
+              },
+              {
+                num: '07',
+                titulo: 'Cancelación y suspensión',
+                texto: 'La cancelación de un servicio mensual debe notificarse con 15 días calendario de anticipación. Las fases de implementación canceladas después de iniciadas no son reembolsables; los avances realizados hasta la fecha de cancelación serán entregados al cliente.',
+              },
+              {
+                num: '08',
+                titulo: 'Modificaciones al alcance',
+                texto: 'Cualquier solicitud de cambio fuera del alcance acordado generará una cotización adicional aprobada por escrito antes de su ejecución. Sixteam.pro se reserva el derecho de ajustar los plazos si los cambios impactan la planificación del proyecto.',
+              },
+            ].map(({ num, titulo, texto }) => (
+              <div key={num} className="rounded-2xl p-5 border flex items-start gap-4"
+                style={{ background: 'rgba(255,255,255,.02)', borderColor: 'rgba(255,255,255,.07)' }}>
+                <span className="font-poppins font-black text-[13px] flex-shrink-0 w-7 h-7 rounded-full border flex items-center justify-center"
+                  style={{ color: MPM_GOLD, borderColor: 'rgba(212,175,55,.25)', background: 'rgba(212,175,55,.06)' }}>
+                  {num}
+                </span>
+                <div>
+                  <p className="font-poppins font-bold text-white text-[14px] mb-1">{titulo}</p>
+                  <p className="font-lato text-white/50 text-sm leading-relaxed">{texto}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════ VIGENCIA ═════════════════════ */}
+      <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
+        className="px-6 md:px-12 lg:px-20 py-20 md:py-28 border-t" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
+        <div className={`max-w-6xl mx-auto transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>Vigencia y Cierre</TagLabel>
           <SectionTitle>¿Cuándo empezamos?</SectionTitle>
           <Rule />
@@ -929,7 +925,7 @@ const MpmProposal = () => {
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div>
               <p className="font-lato text-white/65 leading-relaxed mb-6" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
-                Esta propuesta tiene una vigencia de <strong className="text-white">30 días calendario</strong> a partir de su fecha de emisión, hasta el <strong className="text-white">11 de junio de 2026</strong>.
+                Esta propuesta tiene una vigencia de <strong className="text-white">30 días calendario</strong> a partir de su fecha de emisión, hasta el <strong className="text-white">26 de junio de 2026</strong>.
               </p>
               <p className="font-lato text-white/65 leading-relaxed mb-8" style={{ fontSize: 'clamp(.95rem,1.7vw,1.08rem)' }}>
                 Para iniciar: (1) confirmación de las fases a contratar, (2) firma del acuerdo de servicios, (3) pago de la Fase 1. La implementación arranca en los 3 días hábiles siguientes al pago.
@@ -955,26 +951,37 @@ const MpmProposal = () => {
 
             <div className="space-y-5">
               <div className="rounded-2xl p-6 border" style={{ background: 'rgba(212,175,55,.04)', borderColor: 'rgba(212,175,55,.15)' }}>
-                <p className="font-lato text-white/40 text-[12px] uppercase tracking-wider mb-4">Contacto</p>
-                <p className="font-poppins font-bold text-white text-lg mb-1">{META.rl}</p>
-                <p className="font-lato text-white/50 text-sm mb-3">{META.proponente}</p>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Mail size={14} className="text-white/30" />
-                    <span className="font-lato text-white/60 text-sm">{META.correo}</span>
+                <p className="font-lato text-white/40 text-[12px] uppercase tracking-wider mb-4">Información de la propuesta</p>
+
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-0.5">Dirigida a</p>
+                    <p className="font-poppins font-bold text-white text-base">{META.dirigidoA}</p>
+                    <p className="font-lato text-white/45 text-sm">{META.cliente}</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Hash size={14} className="text-white/30" />
-                    <span className="font-lato text-white/60 text-sm">NIT {META.nit}</span>
+                  <div className="pt-3 border-t border-white/5">
+                    <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-0.5">Elaborada por</p>
+                    <p className="font-poppins font-bold text-white text-base">{META.elaboradaPor}</p>
+                    <p className="font-lato text-white/45 text-sm">{META.cargoElaborador} · {META.proponente}</p>
+                  </div>
+                  <div className="pt-3 border-t border-white/5">
+                    <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-0.5">Representante Legal</p>
+                    <p className="font-poppins font-bold text-white text-base">{META.rl}</p>
+                    <p className="font-lato text-white/45 text-sm">{META.proponente}</p>
+                  </div>
+                  <div className="pt-3 border-t border-white/5 space-y-1.5">
+                    <div className="flex items-center gap-2">
+                      <Mail size={14} className="text-white/30" />
+                      <span className="font-lato text-white/60 text-sm">{META.correo}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Hash size={14} className="text-white/30" />
+                      <span className="font-lato text-white/60 text-sm">NIT {META.nit}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-2xl p-6 border" style={{ background: 'rgba(255,255,255,.02)', borderColor: 'rgba(255,255,255,.07)' }}>
-                <p className="font-lato text-white/40 text-[12px] uppercase tracking-wider mb-3">Descargar propuesta</p>
-                <p className="font-lato text-white/50 text-sm mb-4">Exporta esta propuesta como PDF para compartir con el equipo o conservar como referencia.</p>
-                <PDFButton filename="propuesta-mpm-sixteam.pdf" elementId="proposal-root" label="Exportar PDF" />
-              </div>
             </div>
           </div>
         </div>
@@ -982,18 +989,28 @@ const MpmProposal = () => {
 
       {/* ══════════════════════════════════════ FOOTER ═══════════════════════ */}
       <footer className="px-6 md:px-12 lg:px-20 py-10 border-t" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-lg overflow-hidden bg-white flex items-center justify-center">
-              <img src="/sixteam-logo.png" alt="Sixteam.pro" className="w-full h-full object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 rounded-lg overflow-hidden bg-white flex items-center justify-center">
+                <img src="/sixteam-logo.png" alt="Sixteam.pro" className="w-full h-full object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              </div>
+              <span className="font-poppins font-black text-white text-lg">Sixteam<span style={{ color: MPM_GOLD }}>.</span>pro</span>
             </div>
-            <span className="font-poppins font-black text-white text-lg">Sixteam<span style={{ color: MPM_GOLD }}>.</span>pro</span>
+            <p className="font-lato text-white/25 text-[13px] text-center">
+              Propuesta confidencial · {META.cliente} · {META.programa} · {META.fecha}
+            </p>
+            <p className="font-lato text-white/25 text-[13px]">Process + Technology + People = Growth</p>
           </div>
-          <p className="font-lato text-white/25 text-[13px] text-center">
-            Propuesta confidencial · {META.cliente} · {META.programa} · {META.fecha}
-          </p>
-          <p className="font-lato text-white/25 text-[13px]">Process + Technology + People = Growth</p>
+          <div className="pt-5 border-t flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
+            <p className="font-lato text-white/20 text-[12px]">
+              Propuesta elaborada por <span className="text-white/40">{META.elaboradaPor}</span> · {META.cargoElaborador}
+            </p>
+            <p className="font-lato text-white/20 text-[12px]">
+              Dirigida a <span className="text-white/40">{META.dirigidoA}</span> · {META.cliente}
+            </p>
+          </div>
         </div>
       </footer>
 
