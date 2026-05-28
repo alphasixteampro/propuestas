@@ -169,6 +169,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/metropolitan-touring',
   },
+  {
+    slug: 'nutsport',
+    cliente: 'Nutsport',
+    sector: 'Nutrición Deportiva · Salud · Chile',
+    fecha: 'Mayo 2026',
+    monto: 'USD 1.100 impl. + USD 240/mes',
+    estado: 'borrador',
+    path: '/nutsport',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
