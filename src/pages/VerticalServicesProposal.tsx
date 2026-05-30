@@ -103,13 +103,11 @@ const ETAPAS = [
     color: '#a78bfa',
     colorAlpha: 'rgba(167,139,250,.10)',
     colorBorder: 'rgba(167,139,250,.3)',
-    descripcion: 'Diseñamos y enviamos la primera campaña a la base de datos. El formato es un email plano, personalizado y directo: sin diseño recargado, como si el fundador le escribiera personalmente al administrador del edificio. Este tono genera tasas de respuesta significativamente mayores.',
+    descripcion: 'Configuramos y ejecutamos la primera campaña usando el email preparado por el equipo de Vertical Services. El formato recomendado es un email plano, personalizado y directo: sin diseño recargado, como si el fundador le escribiera personalmente al administrador del edificio. Ese tono genera tasas de respuesta significativamente mayores.',
     actividades: [
-      { text: 'Redacción del email plano y personalizado con la propuesta de valor de Vertical Services orientada al administrador de PH' },
-      { text: 'Revisión y aprobación con el equipo de Vertical Services antes de cualquier envío', tag: 'Aprobación conjunta' },
+      { text: 'Revisión y carga del email preparado por Vertical Services antes de cualquier envío', tag: 'Aprobación conjunta' },
       { text: 'Envío programado a la base de datos cargada en la plataforma' },
       { text: 'Monitoreo en tiempo real de tasa de apertura, clics hacia la landing y respuestas directas' },
-      { text: 'Gestión de respuestas de interesados durante la semana del envío (incluido en las 5 horas mensuales)' },
     ] as Actividad[],
   },
   {
@@ -153,14 +151,14 @@ const DESGLOSE = [
     icon: Mail,
     color: '#00bfa5',
     items: [
-      'Acceso a plataforma all-in-one de email marketing, CRM básico y formularios de captura',
+      'Acceso a plataforma all-in-one de email marketing, listado de contactos y formularios de captura',
       'Hasta 5.000 correos de marketing al mes incluidos en el plan base',
       'Capacidad adicional disponible: COP 8.000 por cada 1.000 correos sobre los 5.000 incluidos',
       'Autenticación de dominio para garantizar entregabilidad óptima (SPF, DKIM, DMARC)',
       'Panel de reportes con tasas de apertura, clics y comportamiento por campaña',
       'Formularios web conectados para captura automática de leads desde la landing page',
       '1 usuario incluido en el plan base',
-      'Primer mes completamente gratuito como período de prueba sin costo',
+      'Costo mensual desde el primer mes: COP 300.000',
     ],
   },
   {
@@ -168,13 +166,13 @@ const DESGLOSE = [
     icon: Send,
     color: '#a78bfa',
     items: [
-      '5 horas mensuales dedicadas a implementación, diseño y envío de campañas',
-      'Redacción de emails en formato plano orientados a administradores de propiedad horizontal en Bogotá',
+      '5 horas dedicadas a implementación, configuración y envío de campañas (pago único)',
       'Carga, depuración y segmentación de bases de datos en la plataforma',
-      'Programación y envío de campañas con seguimiento en tiempo real',
+      'Revisión técnica y envío del email preparado por Vertical Services con seguimiento en tiempo real',
       'Gestión de respuestas e interesados durante la semana de cada envío',
-      'Ajuste de mensajería basado en métricas acumuladas de campaña anterior',
-      'Reporte mensual de resultados con recomendaciones de siguiente paso',
+      'Ajuste de segmentación o configuración basado en métricas del primer envío',
+      'Reporte de resultados con recomendaciones de siguiente paso',
+      'Hora adicional de trabajo fuera del alcance contratado: COP 150.000 por hora',
     ],
   },
 ];
@@ -513,8 +511,8 @@ const VerticalServicesProposal = () => {
           </div>
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Componentes del MVP', value: '3',       sub: 'Landing · Plataforma · Campañas' },
-              { label: 'Primer mes',           value: 'Gratis', sub: 'Período de prueba de la plataforma' },
+              { label: 'Componentes del MVP', value: '3',        sub: 'Landing · Plataforma · Campañas' },
+              { label: 'Plataforma mensual',   value: '300K',   sub: 'COP/mes · Hasta 5.000 correos' },
               { label: 'Capacidad incluida',   value: '5.000',  sub: 'correos de marketing por mes' },
               { label: 'Tiempo de arranque',   value: '1 sem.', sub: 'Landing lista para lanzar' },
             ].map((k, i) => (
@@ -748,10 +746,7 @@ const VerticalServicesProposal = () => {
                       style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
                       Mensual
                     </span>
-                    <div className="text-right">
-                      <span className="font-lato text-white/25 text-[12px] line-through block">COP 300.000</span>
-                      <span className="font-poppins font-black text-[#00bfa5] text-[18px]">Gratis · 1er mes</span>
-                    </div>
+                    <span className="font-poppins font-black text-white text-[18px]">COP 300.000</span>
                   </div>
                 </div>
                 <div className="hidden sm:grid items-center" style={{ gridTemplateColumns: '2.5fr 1fr 1.5fr' }}>
@@ -768,10 +763,7 @@ const VerticalServicesProposal = () => {
                       Mensual
                     </span>
                   </div>
-                  <div className="text-right">
-                    <span className="font-lato text-white/25 text-[12px] line-through block">COP 300.000/mes</span>
-                    <span className="font-poppins font-black text-[#00bfa5] text-[17px]">Gratis · 1er mes</span>
-                  </div>
+                  <p className="font-poppins font-black text-white text-[17px] text-right">COP 300.000/mes</p>
                 </div>
               </div>
 
@@ -779,11 +771,11 @@ const VerticalServicesProposal = () => {
               <div className="px-5 py-4">
                 <div className="sm:hidden mb-1">
                   <p className="font-poppins font-semibold text-white/85 text-[15px]">Ejecución de campañas</p>
-                  <p className="font-lato text-white/35 text-[13px] mt-0.5">5 horas mensuales · Diseño, envío y reporte</p>
+                  <p className="font-lato text-white/35 text-[13px] mt-0.5">5 horas · Configuración, envío y reporte del MVP</p>
                   <div className="flex items-center justify-between mt-2">
                     <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
                       style={{ background: 'rgba(167,139,250,.12)', border: '1px solid rgba(167,139,250,.28)', color: '#a78bfa' }}>
-                      Mensual
+                      Pago único
                     </span>
                     <span className="font-poppins font-black text-white text-[18px]">COP 750.000</span>
                   </div>
@@ -793,48 +785,47 @@ const VerticalServicesProposal = () => {
                     <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: 'linear-gradient(to bottom, #a78bfa, rgba(167,139,250,.2))' }} />
                     <div>
                       <p className="font-poppins font-semibold text-white/85 text-[15px]">Ejecución de campañas</p>
-                      <p className="font-lato text-white/35 text-[13px] mt-0.5">5 horas mensuales · Diseño, envío y reporte</p>
+                      <p className="font-lato text-white/35 text-[13px] mt-0.5">5 horas · Configuración, envío y reporte del MVP</p>
                     </div>
                   </div>
                   <div className="flex justify-center">
                     <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
                       style={{ background: 'rgba(167,139,250,.12)', border: '1px solid rgba(167,139,250,.28)', color: '#a78bfa' }}>
-                      Mensual
+                      Pago único
                     </span>
                   </div>
-                  <p className="font-poppins font-black text-white text-[17px] text-right">COP 750.000/mes</p>
+                  <p className="font-poppins font-black text-white text-[17px] text-right">COP 750.000</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Cards resumen por mes */}
+          {/* Cards resumen inversión */}
           <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-4">
-            Resumen de inversión por período
+            Resumen de inversión
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            {/* Mes 1 */}
+            {/* Pagos únicos */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{ background: 'linear-gradient(135deg, rgba(59,130,246,.10) 0%, rgba(3,13,26,.9) 100%)', border: `1px solid rgba(59,130,246,.3)` }}>
               <div className="absolute top-0 right-0 w-40 h-40 pointer-events-none"
                 style={{ background: 'radial-gradient(circle, rgba(59,130,246,.06), transparent 70%)', transform: 'translate(20%,-20%)' }} />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Mes 1</p>
+                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Pagos únicos</p>
                   <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>
-                    Mejor momento para arrancar
+                    style={{ background: 'rgba(59,130,246,.15)', border: '1px solid rgba(59,130,246,.35)', color: VS_BLUE }}>
+                    Se pagan una sola vez
                   </span>
                 </div>
                 <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
                   COP 1.150.000
                 </p>
-                <p className="font-lato text-white/40 text-[14px] mb-4">Landing única + campañas · Plataforma gratis</p>
+                <p className="font-lato text-white/40 text-[14px] mb-4">Landing page + ejecución de campañas del MVP</p>
                 <ul className="space-y-1.5">
                   {[
-                    { label: 'Landing page', value: 'COP 400.000', tipo: 'Pago único' },
-                    { label: 'Plataforma Sixteam.pro', value: 'Gratis', tipo: '1er mes de prueba' },
-                    { label: 'Ejecución de campañas', value: 'COP 750.000', tipo: '5 horas' },
+                    { label: 'Landing page', value: 'COP 400.000' },
+                    { label: 'Ejecución de campañas', value: 'COP 750.000' },
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between gap-2">
                       <span className="font-lato text-white/55 text-[14px]">{r.label}</span>
@@ -845,26 +836,25 @@ const VerticalServicesProposal = () => {
               </div>
             </div>
 
-            {/* Mes 2 en adelante */}
+            {/* Costo mensual plataforma */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Mes 2 en adelante</p>
+                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Plataforma mensual</p>
                   <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', color: 'rgba(255,255,255,.5)' }}>
+                    style={{ background: 'rgba(0,191,165,.10)', border: '1px solid rgba(0,191,165,.25)', color: '#00bfa5' }}>
                     Mensual recurrente
                   </span>
                 </div>
                 <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
-                  COP 1.050.000
+                  COP 300.000
                 </p>
                 <p className="font-lato text-white/40 text-[14px] mb-4">Por mes · Sin compromisos de permanencia</p>
                 <ul className="space-y-1.5">
                   {[
-                    { label: 'Plataforma Sixteam.pro', value: 'COP 300.000', tipo: 'Hasta 5.000 correos' },
-                    { label: 'Ejecución de campañas', value: 'COP 750.000', tipo: '5 horas mensuales' },
-                    { label: 'Landing page', value: 'Incluida', tipo: 'Ya pagada en mes 1' },
+                    { label: 'Plataforma Sixteam.pro', value: 'COP 300.000/mes' },
+                    { label: 'Hasta 5.000 correos incluidos', value: 'Incluido' },
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between gap-2">
                       <span className="font-lato text-white/55 text-[14px]">{r.label}</span>
@@ -877,7 +867,7 @@ const VerticalServicesProposal = () => {
           </div>
 
           {/* Nota sobre correos adicionales */}
-          <div className="rounded-xl p-4 sm:p-5 mb-8 flex gap-3"
+          <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
             style={{ background: 'rgba(59,130,246,.05)', border: '1px solid rgba(59,130,246,.2)' }}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: VS_BLUE }} />
             <div>
@@ -888,37 +878,102 @@ const VerticalServicesProposal = () => {
             </div>
           </div>
 
+          {/* Plugin verificación de correos */}
+          <div className="rounded-xl p-4 sm:p-5 mb-8 flex gap-3"
+            style={{ background: 'rgba(167,139,250,.05)', border: '1px solid rgba(167,139,250,.2)' }}>
+            <Zap className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#a78bfa]" />
+            <div>
+              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-1">
+                Complemento opcional: verificación de correos
+                <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium uppercase tracking-wide align-middle"
+                  style={{ background: 'rgba(167,139,250,.12)', border: '1px solid rgba(167,139,250,.3)', color: '#a78bfa' }}>
+                  Opcional
+                </span>
+              </p>
+              <p className="font-lato text-white/50 text-[16px] leading-relaxed">
+                Plugin que verifica la validez de cada correo antes del envío para evitar rebotes y proteger la reputación del dominio de email marketing. El costo es de <strong className="text-white/70">COP 12.000 por cada 1.000 correos enviados</strong>. Recomendado cuando se trabaja con bases de datos externas o de Cámara de Comercio, donde la tasa de correos inválidos puede ser alta.
+              </p>
+            </div>
+          </div>
+
           {/* Servicios opcionales futura fase */}
           <div>
             <TagLabel>Servicios opcionales para fases siguientes</TagLabel>
             <Rule />
-            <div className="rounded-xl p-5 flex flex-col gap-4"
-              style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,191,165,.15)' }}>
-                  <Zap className="w-4 h-4 text-[#00bfa5]" />
+            <div className="space-y-3">
+              {/* CRM */}
+              <div className="rounded-xl p-5 flex flex-col gap-3"
+                style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,191,165,.15)' }}>
+                      <Users className="w-4 h-4 text-[#00bfa5]" />
+                    </div>
+                    <div>
+                      <p className="font-poppins font-bold text-white/85 text-[17px]">Implementación de CRM Sixteam.pro</p>
+                      <p className="font-lato text-white/40 text-[13px] mt-0.5">Gestión de contactos, oportunidades y pipeline de ventas</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-poppins font-bold text-white/85 text-[18px]">Bot de WhatsApp y CRM completo</p>
-                  <p className="font-lato text-white/40 text-[13px] mt-0.5">Fase 2 · Disponible según resultados del MVP</p>
+                <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(0,191,165,.10)', border: '1px solid rgba(0,191,165,.25)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Implementación</p>
+                    <p className="font-poppins font-black text-[#00bfa5] text-[16px]">Desde COP 2.500.000</p>
+                  </div>
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.10)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Plataforma mensual</p>
+                    <p className="font-poppins font-black text-white/80 text-[16px]">Desde COP 890.000/mes</p>
+                  </div>
                 </div>
               </div>
-              <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                Una vez que el MVP confirme el apetito de mercado, la siguiente fase incluye la implementación de un bot de WhatsApp para gestión automática de consultas y un CRM completo para administrar el pipeline de ventas. Estos servicios se cotizarán por separado según el alcance definido en ese momento.
-              </p>
-              <ul className="space-y-1.5">
-                {[
-                  'Bot de WhatsApp con flujo de calificación y respuestas automáticas',
-                  'CRM para gestión de oportunidades y seguimiento de prospectos',
-                  'Pauta digital en Google o Meta según tracción obtenida en el MVP',
-                  'Automatización de correos de seguimiento para leads capturados',
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <CheckCircle className="w-3 h-3 text-[#00bfa5] flex-shrink-0 mt-[3px]" />
-                    <span className="font-lato text-white/55 text-[15px]">{item}</span>
-                  </li>
-                ))}
-              </ul>
+
+              {/* Agente IA */}
+              <div className="rounded-xl p-5 flex flex-col gap-3"
+                style={{ background: 'rgba(167,139,250,.06)', border: '1px solid rgba(167,139,250,.22)' }}>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(167,139,250,.15)' }}>
+                    <Zap className="w-4 h-4 text-[#a78bfa]" />
+                  </div>
+                  <div>
+                    <p className="font-poppins font-bold text-white/85 text-[17px]">Elaboración de Agente Conversacional con Inteligencia Artificial</p>
+                    <p className="font-lato text-white/40 text-[13px] mt-0.5">Agente de IA para atención, calificación y respuesta automática de prospectos</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(167,139,250,.10)', border: '1px solid rgba(167,139,250,.25)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Implementación</p>
+                    <p className="font-poppins font-black text-[#a78bfa] text-[16px]">Desde COP 800.000</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Pauta digital */}
+              <div className="rounded-xl p-5 flex flex-col gap-3"
+                style={{ background: 'rgba(59,130,246,.06)', border: '1px solid rgba(59,130,246,.22)' }}>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(59,130,246,.15)' }}>
+                    <TrendingUp className="w-4 h-4 text-[#3b82f6]" />
+                  </div>
+                  <div>
+                    <p className="font-poppins font-bold text-white/85 text-[17px]">Servicio de Implementación y Administración de Pauta Digital</p>
+                    <p className="font-lato text-white/40 text-[13px] mt-0.5">Google Ads, Meta Ads o LinkedIn según canal más efectivo para Vertical Services</p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-3 mt-1">
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(59,130,246,.10)', border: '1px solid rgba(59,130,246,.25)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Implementación</p>
+                    <p className="font-poppins font-black text-[#3b82f6] text-[16px]">Desde COP 1.000.000</p>
+                  </div>
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.10)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Administración mensual</p>
+                    <p className="font-poppins font-black text-white/80 text-[16px]">Desde COP 600.000/mes</p>
+                  </div>
+                  <div className="rounded-lg px-3 py-2" style={{ background: 'rgba(245,158,11,.08)', border: '1px solid rgba(245,158,11,.22)' }}>
+                    <p className="font-lato text-white/35 text-[11px] uppercase tracking-wider mb-0.5">Sobre inversión administrada</p>
+                    <p className="font-poppins font-black text-[#f59e0b] text-[16px]">+ 10% de la inversión mensual</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -938,9 +993,9 @@ const VerticalServicesProposal = () => {
           <div className="space-y-3">
             {[
               { titulo: 'Aprobación', desc: 'Para aceptar esta propuesta y dar inicio al proyecto, se requiere confirmación vía WhatsApp, correo o verbal. Con esa confirmación se habilita el contrato a firmar y se procede con el inicio del trabajo.', icon: CheckCircle },
-              { titulo: 'Términos de pago', desc: 'El pago de la landing page (COP 400.000) se realiza al inicio del proyecto. El primer mes de la plataforma es gratuito. Los servicios mensuales de ejecución de campañas (COP 750.000) se facturan al inicio de cada mes. Los pagos se realizan mediante transferencia bancaria.', icon: FileText },
+              { titulo: 'Términos de pago', desc: 'El pago de la landing page (COP 400.000) y la ejecución de campañas (COP 750.000) se realizan al inicio del proyecto, son pagos únicos. La plataforma Sixteam.pro se factura mensualmente desde el primer mes de uso (COP 300.000/mes). Los pagos se realizan mediante transferencia bancaria.', icon: FileText },
               { titulo: 'Inicio del proyecto', desc: 'El cronograma inicia desde la confirmación de la propuesta y la entrega del material necesario por parte de Vertical Services: logo, información de la empresa y acceso al dominio o VPS.', icon: Zap },
-              { titulo: 'Plataforma Sixteam.pro', desc: 'El primer mes de la plataforma es completamente gratuito como período de prueba. A partir del segundo mes, el costo mensual es de COP 300.000 por 1 usuario con hasta 5.000 correos incluidos.', icon: Mail },
+              { titulo: 'Plataforma Sixteam.pro', desc: 'El costo mensual de la plataforma es de COP 300.000 por 1 usuario con hasta 5.000 correos incluidos. Si el volumen supera ese límite, se aplica un cobro adicional de COP 8.000 por cada 1.000 correos adicionales enviados.', icon: Mail },
               { titulo: 'Correos adicionales', desc: 'Si el volumen de envío mensual supera los 5.000 correos incluidos en el plan, el costo adicional es de COP 8.000 por cada 1.000 correos adicionales enviados. Esto se informará antes de cualquier envío que supere ese límite.', icon: Info },
               { titulo: 'Modificaciones al alcance', desc: 'Cualquier solicitud de servicio o funcionalidad no estipulada en esta propuesta requerirá una nueva cotización. Ejemplos: integración de bot de WhatsApp, pauta digital, diseño de redes sociales o desarrollo de funcionalidades adicionales en la landing.', icon: AlertCircle },
               { titulo: 'Vigencia de la propuesta', desc: 'Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión. Pasado este plazo, los valores podrán ser revisados según condiciones del mercado.', icon: Clock },
