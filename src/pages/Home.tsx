@@ -178,6 +178,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/nutsport',
   },
+  {
+    slug: 'vertical-services',
+    cliente: 'Vertical Services',
+    sector: 'Tecnología · Drones · Propiedad Horizontal · Bogotá',
+    fecha: 'Mayo 2026',
+    monto: 'COP 400.000 único + COP 1.050.000/mes',
+    estado: 'borrador',
+    path: '/vertical-services',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

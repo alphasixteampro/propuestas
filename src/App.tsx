@@ -21,6 +21,7 @@ const VuelaALaVidaProposal     = lazy(() => import('./pages/VuelaALaVidaProposal
 const TuViviProposal           = lazy(() => import('./pages/TuViviProposal'));
 const MetropolitanTouringProposal = lazy(() => import('./pages/MetropolitanTouringProposal'));
 const NutsportProposal            = lazy(() => import('./pages/NutsportProposal'));
+const VerticalServicesProposal    = lazy(() => import('./pages/VerticalServicesProposal'));
 
 function Loader() {
   return (
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/tuvivi"             element={<TuViviProposal />} />
           <Route path="/metropolitan-touring" element={<MetropolitanTouringProposal />} />
           <Route path="/nutsport"             element={<NutsportProposal />} />
+          <Route path="/vertical-services"    element={<VerticalServicesProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
