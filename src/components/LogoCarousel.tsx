@@ -8,8 +8,6 @@ interface LogoSliderProps {
 const defaultLogos = [
   { src: '/Logo cebra.png', alt: 'Logo cebra' },
   { src: '/Logo dance.png', alt: 'Logo dance' },
-  { src: '/Logo genosur.png', alt: 'Logo genosur' },
-  { src: '/Logo magnetica.png', alt: 'Logo magnetica' },
   { src: '/Logo Mizar.png', alt: 'Logo Mizar' },
   { src: '/Logo nibec.png', alt: 'Logo nibec' },
   { src: '/Logo RAD.png', alt: 'Logo RAD' },
@@ -22,8 +20,7 @@ const defaultLogos = [
   { src: '/logo-evolucione.png', alt: 'logo-evolucione' },
   { src: '/logo-glish.png', alt: 'logo-glish' },
   { src: '/images.jpg.jpeg', alt: 'images' },
-  { src: '/Llogo Milote.png', alt: 'Llogo Milote' },
-  { src: '/Logo bioquimica.png', alt: 'Logo bioquimica' }
+  { src: '/Llogo Milote.png', alt: 'Llogo Milote' }
 ];
 
 // We double the logos to create a seamless infinite loop effect
