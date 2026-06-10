@@ -23,6 +23,7 @@ const MetropolitanTouringProposal = lazy(() => import('./pages/MetropolitanTouri
 const NutsportProposal            = lazy(() => import('./pages/NutsportProposal'));
 const VerticalServicesProposal    = lazy(() => import('./pages/VerticalServicesProposal'));
 const ClinicaMagneticaProposal    = lazy(() => import('./pages/ClinicaMagneticaProposal'));
+const MotionMindsProposal         = lazy(() => import('./pages/MotionMindsProposal'));
 
 function Loader() {
   return (
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="/nutsport"             element={<NutsportProposal />} />
           <Route path="/vertical-services"    element={<VerticalServicesProposal />} />
           <Route path="/clinica-magnetica"    element={<ClinicaMagneticaProposal />} />
+          <Route path="/motion-minds"         element={<MotionMindsProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

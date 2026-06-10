@@ -196,6 +196,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/clinica-magnetica',
   },
+  {
+    slug: 'motion-minds',
+    cliente: 'Motion Minds',
+    sector: 'Academia de Baile · Entretenimiento · Guatemala',
+    fecha: 'Junio 2026',
+    monto: 'USD 400 impl. + USD 180/mes + IA',
+    estado: 'activa',
+    path: '/motion-minds',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
