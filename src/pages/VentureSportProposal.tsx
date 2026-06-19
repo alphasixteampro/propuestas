@@ -96,22 +96,6 @@ const ETAPAS = [
   },
   {
     num: '03',
-    nombre: 'Automatizaciones de Instagram',
-    duracion: '3 a 5 días',
-    icon: Send,
-    color: '#a78bfa',
-    colorAlpha: 'rgba(167,139,250,.10)',
-    colorBorder: 'rgba(167,139,250,.3)',
-    descripcion: 'Conectamos el agente conversacional a los DMs de Instagram. Cuando alguien comenta una palabra clave en una publicación (como "beca"), el bot le escribe automáticamente y arranca el flujo de calificación. Así Nico puede publicar contenido con CTAs sin miedo a que le bloqueen la cuenta.',
-    actividades: [
-      { text: 'Configuración de la automatización de respuesta en comentarios: DM automático al comentar una palabra clave', tag: 'Solución al colapso' },
-      { text: 'Conexión del agente conversacional con los DMs de Instagram para activar el flujo de calificación' },
-      { text: 'Configuración inicial para una publicación o campaña de contenido activa' },
-      { text: 'Prueba técnica completa con publicaciones de prueba antes del lanzamiento en vivo', tag: 'Aprobación conjunta' },
-    ] as Actividad[],
-  },
-  {
-    num: '04',
     nombre: 'Pruebas, ajustes y entrega en vivo',
     duracion: '1 semana',
     icon: Rocket,
@@ -122,8 +106,8 @@ const ETAPAS = [
     actividades: [
       { text: 'Sesión de pruebas con Nico y su equipo: recorrer todos los flujos como prospectos reales', tag: 'Trabajo conjunto' },
       { text: 'Ajuste de respuestas, textos del bot y criterios de calificación según el feedback recibido' },
-      { text: 'Documentación del sistema: cómo monitorear el bot, interpretar los indicadores y escalar a humano desde GoHighLevel' },
-      { text: 'Lanzamiento en vivo con la primera publicación activada y el agente operativo' },
+      { text: 'Documentación del sistema: cómo monitorear el agente, interpretar los indicadores y escalar a humano desde GoHighLevel' },
+      { text: 'Lanzamiento en vivo con el agente operativo y recibiendo conversaciones por DM' },
       { text: 'Primera sesión de revisión post-lanzamiento incluida para ajustar en base a interacciones reales' },
     ] as Actividad[],
   },
@@ -164,15 +148,16 @@ const DESGLOSE = [
     ],
   },
   {
-    categoria: 'Automatizaciones de Instagram',
+    categoria: 'Automatizaciones de Comentarios en Instagram',
     icon: Send,
     color: '#a78bfa',
     items: [
-      'Automatización de respuesta en comentarios: DM automático cuando alguien comenta una palabra clave (ej. "beca") en una publicación',
-      'Activación del flujo del agente conversacional desde el DM de Instagram para comenzar la calificación inmediatamente',
-      'Diseño del mensaje inicial diferenciado según el tipo de publicación o campaña de contenido',
-      'Configuración inicial para una publicación activa incluida en la implementación',
-      'Publicaciones o flujos adicionales para otras campañas: gestionados a través de créditos de Soporte y Operaciones',
+      'Servicio independiente del agente conversacional — se gestiona y cobra por separado a través de créditos de Soporte y Operaciones',
+      'Cada palabra clave configurada para automatizar su respuesta en comentarios tiene un costo de 7 créditos',
+      'Cuando alguien comenta la palabra clave en una publicación, el sistema envía automáticamente un DM al usuario',
+      'El mensaje del DM es personalizado según la publicación o campaña de contenido activa',
+      'El agente conversacional entra en acción cuando el usuario responde ese DM — a partir de ese punto, el bot toma el control de la conversación',
+      'Cada palabra clave adicional o nueva campaña se presupuesta y aprueba antes de activar',
     ],
   },
 ];
@@ -539,16 +524,7 @@ const VentureSportProposal = () => {
               <div>
                 <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Agente Conversacional con IA</p>
                 <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Entrenado con el conocimiento del negocio de Nico. Responde, califica y filtra prospectos para que el equipo solo reciba los que valen.
-                </p>
-              </div>
-            </div>
-            <div className="rounded-xl p-5 flex gap-4" style={{ background: 'rgba(167,139,250,.06)', border: '1px solid rgba(167,139,250,.2)' }}>
-              <Send className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#a78bfa]" />
-              <div>
-                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Automatizaciones de Instagram</p>
-                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Respuesta automática en comentarios y DMs. Nico puede publicar con CTAs sin miedo a colapsar o a que le bloqueen la cuenta.
+                  Entrenado con el conocimiento del negocio de Nico. Responde por DM, califica y filtra prospectos para que el equipo solo reciba los que valen.
                 </p>
               </div>
             </div>
@@ -561,14 +537,16 @@ const VentureSportProposal = () => {
                 </p>
               </div>
             </div>
-            <div className="rounded-xl p-5 flex gap-4" style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
-              <Rocket className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
-              <div>
-                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Consultoría de diseño de soluciones</p>
-                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Sixteam asesora al equipo sobre cómo abordar cada reto tecnológico — no solo ejecuta, sino que ayuda a pensar qué vale la pena construir y por qué.
-                </p>
-              </div>
+          </div>
+
+          <p className="font-lato text-white/30 text-[13px] uppercase tracking-widest mb-3">Disponible por separado a través de S&O</p>
+          <div className="rounded-xl p-5 flex gap-4 mb-8" style={{ background: 'rgba(167,139,250,.05)', border: '1px dashed rgba(167,139,250,.25)' }}>
+            <Send className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#a78bfa]" />
+            <div>
+              <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Automatizaciones de comentarios en Instagram</p>
+              <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                Servicio independiente del agente. Cuando alguien comenta una palabra clave en una publicación, el sistema le envía un DM automático. A partir de ahí, el bot toma el control de la conversación. Cada palabra clave configurada tiene un costo de <strong className="text-white/75">7 créditos</strong>.
+              </p>
             </div>
           </div>
 
@@ -576,8 +554,8 @@ const VentureSportProposal = () => {
             {[
               { label: 'Soporte y Ops',   value: 'USD 280',   sub: 'Paquete Inicial · 100 créditos/mes' },
               { label: 'GoHighLevel',     value: 'Incluido',  sub: 'Con servicio S&O activo' },
-              { label: 'Primer proyecto', value: 'USD 1.000', sub: 'Chatbot IA · Pago único' },
-              { label: 'Tiempo arranque', value: '~4 sem.',   sub: 'Kickoff a lanzamiento en vivo' },
+              { label: 'Primer proyecto', value: 'USD 1.000', sub: 'Agente IA · Pago único' },
+              { label: 'Tiempo arranque', value: '~3 sem.',   sub: 'Kickoff a lanzamiento en vivo' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
                 style={{ background: i < 2 ? 'rgba(0,191,165,.07)' : 'rgba(29,112,162,.07)', border: i < 2 ? '1px solid rgba(0,191,165,.2)' : '1px solid rgba(29,112,162,.2)' }}>
@@ -593,12 +571,12 @@ const VentureSportProposal = () => {
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>4 fases · ~4 semanas</SectionTitle>
+          <SectionTitle>3 fases · ~3 semanas</SectionTitle>
           <Rule />
 
           <div className="relative mb-10">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: `linear-gradient(to bottom, rgba(34,197,94,.4), rgba(0,191,165,.4), rgba(167,139,250,.4), rgba(245,158,11,.4))` }} />
+              style={{ background: `linear-gradient(to bottom, rgba(34,197,94,.4), rgba(0,191,165,.4), rgba(245,158,11,.4))` }} />
 
             <div className="space-y-3">
               {ETAPAS.map((et, i) => {
@@ -681,7 +659,14 @@ const VentureSportProposal = () => {
               style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
               <Rocket className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                La <strong className="text-white/80">Fase 04</strong> incluye una sesión de revisión post-lanzamiento para ajustar el bot con las primeras interacciones reales. Sixteam permanece como partner a través de Soporte y Operaciones para seguir iterando con el equipo.
+                La <strong className="text-white/80">Fase 03</strong> incluye una sesión de revisión post-lanzamiento para ajustar el agente con las primeras interacciones reales. Sixteam permanece como partner a través de Soporte y Operaciones para seguir iterando con el equipo.
+              </p>
+            </div>
+            <div className="rounded-xl p-4 flex gap-3"
+              style={{ background: 'rgba(167,139,250,.05)', border: '1px solid rgba(167,139,250,.2)' }}>
+              <Send className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#a78bfa]" />
+              <p className="font-lato text-white/55 text-[16px] leading-relaxed">
+                Las <strong className="text-white/80">automatizaciones de respuesta a comentarios en Instagram</strong> son un servicio separado, gestionado a través de créditos de Soporte y Operaciones. Cada palabra clave configurada tiene un costo de <strong className="text-white/80">7 créditos</strong>.
               </p>
             </div>
           </div>
@@ -889,7 +874,7 @@ const VentureSportProposal = () => {
                   {[
                     { label: 'Agente conversacional con IA', value: 'Incluido' },
                     { label: 'Base de conocimientos personalizada', value: 'Incluido' },
-                    { label: 'Automatización Instagram (1 publicación)', value: 'Incluido' },
+                    { label: 'Configuración en GoHighLevel', value: 'Incluido' },
                     { label: 'Sesión de pruebas y revisión post-lanzamiento', value: 'Incluido' },
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between gap-2">
@@ -1074,7 +1059,7 @@ const VentureSportProposal = () => {
               { titulo: 'Términos de pago', desc: 'El pago de la implementación del Chatbot IA (USD 1.000) se realiza al inicio del proyecto. El servicio de Soporte y Operaciones se factura por período anticipado (mensual, semestral o anual) según el paquete de créditos acordado. Los pagos se realizan mediante transferencia bancaria.', icon: FileText },
               { titulo: 'Inicio del proyecto', desc: 'El cronograma inicia desde la confirmación de la propuesta y la primera sesión de kickoff con el equipo de Venture Sport USA. El equipo deberá compartir la información del negocio, preguntas frecuentes y acceso a la cuenta de Instagram para comenzar la configuración.', icon: Zap },
               { titulo: 'Soporte y Operaciones del Paquete Inicial Sixteam', desc: 'El Paquete Inicial Sixteam incluye 100 créditos por mes. El acceso a GoHighLevel está incluido mientras el servicio esté activo: las funcionalidades se habilitan bajo solicitud y Sixteam las configura y activa. Los créditos no son acumulables al período siguiente. Antes de ejecutar cualquier solicitud, Sixteam presenta el costo estimado en créditos para que el equipo apruebe. Excepciones de cobro directo por GoHighLevel (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y campañas de email masivo.', icon: Shield },
-              { titulo: 'Automatizaciones adicionales de Instagram', desc: 'La implementación incluye la configuración de una publicación o campaña activa con automatización de comentarios. Las publicaciones o flujos adicionales se gestionan con los créditos del Paquete Inicial y se presupuestan con el equipo antes de ejecutar.', icon: Send },
+              { titulo: 'Automatizaciones de comentarios en Instagram', desc: 'Las automatizaciones de respuesta a comentarios en Instagram son un servicio separado del agente conversacional. Se gestionan a través de créditos de Soporte y Operaciones. Cada palabra clave configurada tiene un costo de 7 créditos. El equipo solicita a Sixteam la palabra clave a activar, se presupuesta y se aprueba antes de ejecutar.', icon: Send },
               { titulo: 'Modificaciones al alcance', desc: 'Cualquier solicitud de servicio o funcionalidad no estipulada en esta propuesta requerirá una nueva cotización o se gestionará a través del sistema de créditos de S&O. Ejemplos: campañas de email marketing, pauta digital, integración con otras plataformas.', icon: AlertCircle },
               { titulo: 'Vigencia de la propuesta', desc: 'Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión. Pasado este plazo, los valores podrán ser revisados según condiciones del mercado.', icon: Clock },
             ].map((item, i) => {
