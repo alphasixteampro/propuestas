@@ -205,6 +205,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/motion-minds',
   },
+  {
+    slug: 'venture-sport',
+    cliente: 'Venture Sport USA',
+    sector: 'Becas Deportivas · Instagram · IA · Chile',
+    fecha: 'Junio 2026',
+    monto: 'USD 1.000 impl. + créditos S&O',
+    estado: 'borrador',
+    path: '/venture-sport',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
