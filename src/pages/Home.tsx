@@ -214,6 +214,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/venture-sport',
   },
+  {
+    slug: 'siar',
+    cliente: 'SIAR S.A.S.',
+    sector: 'Gestión Documental · Custodia · Digitalización · Colombia',
+    fecha: 'Junio 2026',
+    monto: 'COP 12M impl. + COP 3.990.000/mes (Op. 1)',
+    estado: 'activa',
+    path: '/siar',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

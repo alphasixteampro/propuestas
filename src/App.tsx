@@ -25,6 +25,7 @@ const VerticalServicesProposal    = lazy(() => import('./pages/VerticalServicesP
 const ClinicaMagneticaProposal    = lazy(() => import('./pages/ClinicaMagneticaProposal'));
 const MotionMindsProposal         = lazy(() => import('./pages/MotionMindsProposal'));
 const VentureSportProposal        = lazy(() => import('./pages/VentureSportProposal'));
+const SiarProposal                = lazy(() => import('./pages/SiarProposal'));
 
 function Loader() {
   return (
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="/clinica-magnetica"    element={<ClinicaMagneticaProposal />} />
           <Route path="/motion-minds"         element={<MotionMindsProposal />} />
           <Route path="/venture-sport"        element={<VentureSportProposal />} />
+          <Route path="/siar"                 element={<SiarProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
