@@ -15,7 +15,7 @@ const META = {
   sede: 'Chile / Estados Unidos',
   fecha: 'Junio 2026',
   lugar: 'Chile',
-  objetivo: 'Automatizar la calificación de prospectos y escalar sin colapsar operativamente',
+  objetivo: 'Un equipo experto de tecnología a disposición del equipo de Venture Sport USA para resolver sus retos digitales y escalar sin colapsar operativamente',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -133,7 +133,23 @@ const ETAPAS = [
 
 const DESGLOSE = [
   {
-    categoria: 'Agente Conversacional con IA (Chatbot Sixteam)',
+    categoria: 'Soporte y Operaciones Sixteam — Servicio principal',
+    icon: Shield,
+    color: '#00bfa5',
+    items: [
+      'Equipo experto de Sixteam disponible para recibir y atender solicitudes del equipo de Venture Sport USA en temas de tecnología',
+      'Consultoría sobre diseño de soluciones: Sixteam asesora al equipo sobre cómo resolver cada problema con las herramientas adecuadas — no solo ejecuta, sino que ayuda a pensar qué construir y por qué',
+      'Acceso a GoHighLevel incluido mientras el servicio esté activo — sin costo adicional de licencia',
+      'Las funcionalidades de GoHighLevel se habilitan bajo solicitud: el equipo pide lo que necesita y Sixteam lo configura y activa',
+      'Monitoreo continuo de los sistemas y automatizaciones activas: detección de errores, flujos rotos o prospectos sin atender',
+      'Levantamiento periódico de oportunidades de mejora y propuestas de nuevos proyectos',
+      'Elaboración de configuraciones adicionales y nuevas automatizaciones según las solicitudes del equipo',
+      'Presupuesto en créditos presentado antes de ejecutar cualquier solicitud — el equipo aprueba antes de que se haga cualquier trabajo',
+      'Excepciones de cobro directo por la plataforma (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y campañas de email masivo',
+    ],
+  },
+  {
+    categoria: 'Primer proyecto: Agente Conversacional con IA',
     icon: Bot,
     color: VS_GREEN,
     items: [
@@ -143,7 +159,7 @@ const DESGLOSE = [
       'Escalamiento automático a un asesor humano cuando el prospecto cumple el perfil ideal de cliente',
       'Asignación de tareas al equipo cuando se genera un prospecto calificado: recordatorio de llamada, envío de información, seguimiento',
       'Seguimientos automáticos para prospectos que no completaron el flujo o manifestaron interés futuro',
-      'Construcción colaborativa de la base de conocimientos: el equipo de Nico comparte la información, Sixteam la estructura y entrena al bot',
+      'Construcción colaborativa de la base de conocimientos: el equipo de Nico comparte la información, Sixteam la estructura y entrena al agente',
       'Configuración completa en la plataforma GoHighLevel',
     ],
   },
@@ -157,23 +173,6 @@ const DESGLOSE = [
       'Diseño del mensaje inicial diferenciado según el tipo de publicación o campaña de contenido',
       'Configuración inicial para una publicación activa incluida en la implementación',
       'Publicaciones o flujos adicionales para otras campañas: gestionados a través de créditos de Soporte y Operaciones',
-    ],
-  },
-  {
-    categoria: 'GoHighLevel + Soporte y Operaciones Sixteam',
-    icon: Shield,
-    color: '#00bfa5',
-    items: [
-      'Acceso a GoHighLevel incluido con la contratación del servicio de Soporte y Operaciones — sin costo adicional de licencia',
-      'Las funcionalidades de GoHighLevel se habilitan bajo solicitud: el equipo de Nico pide lo que necesita y Sixteam lo configura y activa a través del sistema de créditos',
-      'Base de datos de prospectos centralizada: nombre, datos de contacto, perfil, etapa en el funnel y clasificación (califica / no califica / seguimiento)',
-      'Historial completo de conversaciones por prospecto disponible para el equipo de Venture Sport USA',
-      'Monitoreo continuo del comportamiento del bot: detección de respuestas incorrectas, flujos rotos o prospectos sin atender',
-      'Levantamiento periódico de oportunidades de mejora y propuestas de ajuste',
-      'Elaboración de configuraciones adicionales y nuevas automatizaciones según las solicitudes del equipo',
-      'Feedback transparente sobre el costo en créditos antes de ejecutar cada solicitud',
-      'Remarketing: prospectos no calificados quedan en la base de datos para campañas futuras o cruce con otros negocios de Nico',
-      'Excepciones de cobro directo por la plataforma (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y envío de campañas de email masivo — estos son cargos directos de GoHighLevel al cliente',
     ],
   },
 ];
@@ -304,7 +303,7 @@ const VentureSportProposal = () => {
           <div className="w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-10 lg:gap-12 items-center">
 
             <div className="flex flex-col justify-center">
-              <TagLabel>Propuesta de trabajo y cotización · Automatización e IA</TagLabel>
+              <TagLabel>Propuesta de trabajo y cotización · Soporte y Operaciones</TagLabel>
               <div className="mt-4 mb-3 flex flex-wrap items-center gap-2">
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
                   style={{ background: `linear-gradient(135deg, ${VS_GREEN}, #16a34a)` }}>
@@ -472,7 +471,10 @@ const VentureSportProposal = () => {
               El resultado fue inmediato: un carrusel se fue viral y generó cientos de mensajes. Sin embargo, al responder manualmente de la misma forma a todos, <strong className="text-white/90 font-semibold">Instagram bloqueó la cuenta por comportamiento similar al de un bot</strong>. La ironía: el canal que estaba generando más prospectos se convirtió en el cuello de botella del negocio.
             </p>
             <p>
-              Nico sabe qué herramientas existen (ManyChat, GoHighLevel), pero no tiene tiempo para implementarlas y no quiere arriesgarse a hacerlo mal. La solución que acordamos en reunión es clara: <strong className="text-white/90 font-semibold">un agente conversacional con IA conectado a Instagram para calificar, filtrar y gestionar prospectos sin intervención manual constante</strong>, operado y mantenido por Sixteam.
+              Nico sabe qué herramientas existen (ManyChat, GoHighLevel), pero no dispone del tiempo para implementarlas ni quiere arriesgarse a hacerlo mal. Lo que Venture Sport USA necesita no es solo un bot: <strong className="text-white/90 font-semibold">necesita un equipo experto en tecnología que los acompañe de forma continua, atienda sus solicitudes y los asesore en cómo resolver sus problemas con las herramientas adecuadas</strong>.
+            </p>
+            <p>
+              Eso es exactamente lo que Sixteam ofrece a través de su servicio de <strong className="text-white/90 font-semibold">Soporte y Operaciones</strong>. El primer proyecto que abordaremos juntos bajo ese servicio es el agente conversacional con IA conectado a Instagram — un problema concreto, urgente y con solución clara. Pero la relación no termina ahí.
             </p>
           </div>
 
@@ -504,31 +506,40 @@ const VentureSportProposal = () => {
           <SectionTitle>¿Qué hacemos juntos?</SectionTitle>
           <Rule />
           <div className="rounded-2xl p-6 sm:p-8 relative overflow-hidden mb-6"
-            style={{ background: 'rgba(255,255,255,.035)', border: '1px solid rgba(255,255,255,.08)' }}>
+            style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.18)' }}>
             <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
-              style={{ background: `radial-gradient(circle, rgba(34,197,94,.06), transparent 70%)`, transform: 'translate(20%,-20%)' }} />
-            <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
+              style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
+            <Shield className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Implementar un <strong className="text-white font-black">Agente Conversacional con Inteligencia Artificial</strong> conectado a los DMs e Instagram de Venture Sport USA: un sistema que responde automáticamente, califica prospectos, construye una base de datos estructurada y asigna las conversaciones de valor real al equipo humano, todo sin que Nico tenga que intervenir en cada mensaje.
+              Sixteam acompaña al equipo de Venture Sport USA como su <strong className="text-white font-black">partner tecnológico experto</strong> a través del servicio de <strong className="text-white font-black">Soporte y Operaciones</strong>: un equipo disponible para recibir solicitudes, diseñar soluciones y ejecutarlas — sin que Nico tenga que contratar un equipo de tecnología propio ni perderse en herramientas que no domina.
             </p>
           </div>
 
+          {/* S&O como servicio principal */}
+          <div className="rounded-xl p-5 flex gap-4 mb-4" style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.25)' }}>
+            <Shield className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <p className="font-poppins font-bold text-white/90 text-[17px]">Soporte y Operaciones Sixteam</p>
+                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                  style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>
+                  Servicio principal
+                </span>
+              </div>
+              <p className="font-lato text-white/55 text-[15px] leading-relaxed">
+                El equipo de Nico envía solicitudes — desde configurar una automatización hasta consultarnos cómo resolver un problema de negocio con tecnología — y Sixteam las atiende, diseña la solución y ejecuta. Incluye acceso completo a GoHighLevel y a todo su ecosistema de funcionalidades, habilitadas bajo solicitud.
+              </p>
+            </div>
+          </div>
+
+          <p className="font-lato text-white/30 text-[13px] uppercase tracking-widest mb-3 mt-6">Primer proyecto a ejecutar bajo S&O</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             <div className="rounded-xl p-5 flex gap-4" style={{ background: `rgba(34,197,94,.06)`, border: `1px solid rgba(34,197,94,.2)` }}>
               <Bot className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: VS_GREEN }} />
               <div>
-                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Chatbot Sixteam con IA</p>
+                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Agente Conversacional con IA</p>
                 <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Agente entrenado con el conocimiento del negocio de Nico. Responde, califica, filtra y entrega prospectos listos para cierre.
-                </p>
-              </div>
-            </div>
-            <div className="rounded-xl p-5 flex gap-4" style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.2)' }}>
-              <Shield className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-              <div>
-                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Soporte y Operaciones Sixteam</p>
-                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Sixteam como partner tecnológico permanente: monitoreo, ajustes, configuraciones nuevas y acceso a GoHighLevel incluido.
+                  Entrenado con el conocimiento del negocio de Nico. Responde, califica y filtra prospectos para que el equipo solo reciba los que valen.
                 </p>
               </div>
             </div>
@@ -546,7 +557,16 @@ const VentureSportProposal = () => {
               <div>
                 <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Base de datos estructurada</p>
                 <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Todos los prospectos quedan registrados. Los que no califican hoy sirven para remarketing futuro o para el negocio de implementos deportivos.
+                  Todos los prospectos quedan registrados y disponibles para remarketing futuro o cruce con otros negocios de Nico.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-xl p-5 flex gap-4" style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
+              <Rocket className="w-5 h-5 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
+              <div>
+                <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Consultoría de diseño de soluciones</p>
+                <p className="font-lato text-white/50 text-[15px] leading-relaxed">
+                  Sixteam asesora al equipo sobre cómo abordar cada reto tecnológico — no solo ejecuta, sino que ayuda a pensar qué vale la pena construir y por qué.
                 </p>
               </div>
             </div>
@@ -554,13 +574,13 @@ const VentureSportProposal = () => {
 
           <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Implementación', value: 'USD 1.000', sub: 'Chatbot IA · Pago único' },
-              { label: 'Soporte y Ops',  value: 'USD 280',    sub: 'Paquete Inicial · 100 créditos/mes' },
-              { label: 'GoHighLevel',    value: 'Incluido',  sub: 'Con servicio S&O activo' },
-              { label: 'Tiempo arranque', value: '~4 sem.',  sub: 'Kickoff a lanzamiento en vivo' },
+              { label: 'Soporte y Ops',   value: 'USD 280',   sub: 'Paquete Inicial · 100 créditos/mes' },
+              { label: 'GoHighLevel',     value: 'Incluido',  sub: 'Con servicio S&O activo' },
+              { label: 'Primer proyecto', value: 'USD 1.000', sub: 'Chatbot IA · Pago único' },
+              { label: 'Tiempo arranque', value: '~4 sem.',   sub: 'Kickoff a lanzamiento en vivo' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
-                style={{ background: 'rgba(29,112,162,.07)', border: '1px solid rgba(29,112,162,.2)' }}>
+                style={{ background: i < 2 ? 'rgba(0,191,165,.07)' : 'rgba(29,112,162,.07)', border: i < 2 ? '1px solid rgba(0,191,165,.2)' : '1px solid rgba(29,112,162,.2)' }}>
                 <p className="font-poppins font-black text-white text-[22px] leading-none mb-1">{k.value}</p>
                 <p className="font-poppins font-semibold text-white/70 text-[13px] mb-0.5">{k.label}</p>
                 <p className="font-lato text-white/35 text-[12px]">{k.sub}</p>
@@ -719,10 +739,10 @@ const VentureSportProposal = () => {
         <section id="cotizacion" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>05 — Propuesta de inversión</TagLabel>
-          <SectionTitle>Invierte en el sistema, no en el tiempo perdido.</SectionTitle>
+          <SectionTitle>Invierte en el equipo, no en el tiempo perdido.</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            El esquema de inversión combina una implementación inicial para construir el agente y un modelo de operación continua basado en créditos, diseñado para que Venture Sport USA solo pague por lo que efectivamente usa. Valores en{' '}
+            El servicio principal es <strong className="text-white/75">Soporte y Operaciones</strong> — un modelo de acompañamiento continuo basado en créditos donde Venture Sport USA solo paga por lo que efectivamente solicita. Adicional a eso, el primer proyecto (el agente conversacional con IA) tiene un costo de implementación único. Valores en{' '}
             <strong className="text-white/75">dólares estadounidenses (USD)</strong>.
           </p>
 
@@ -748,42 +768,11 @@ const VentureSportProposal = () => {
             </div>
 
             <div className="divide-y divide-white/5">
-              {/* Chatbot IA */}
-              <div className="px-5 py-4">
-                <div className="sm:hidden mb-1">
-                  <p className="font-poppins font-semibold text-white/85 text-[15px]">Implementación del Chatbot IA</p>
-                  <p className="font-lato text-white/35 text-[13px] mt-0.5">Base de conocimientos, agente conversacional y automatizaciones de Instagram</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
-                      style={{ background: `rgba(34,197,94,.12)`, border: `1px solid rgba(34,197,94,.28)`, color: VS_GREEN }}>
-                      Pago único
-                    </span>
-                    <span className="font-poppins font-black text-white text-[18px]">USD 1.000</span>
-                  </div>
-                </div>
-                <div className="hidden sm:grid items-center" style={{ gridTemplateColumns: '2.5fr 1fr 1.5fr' }}>
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: `linear-gradient(to bottom, ${VS_GREEN}, rgba(34,197,94,.2))` }} />
-                    <div>
-                      <p className="font-poppins font-semibold text-white/85 text-[15px]">Implementación del Chatbot IA</p>
-                      <p className="font-lato text-white/35 text-[13px] mt-0.5">Base de conocimientos, agente conversacional y automatizaciones de Instagram</p>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
-                      style={{ background: `rgba(34,197,94,.12)`, border: `1px solid rgba(34,197,94,.28)`, color: VS_GREEN }}>
-                      Pago único
-                    </span>
-                  </div>
-                  <p className="font-poppins font-black text-white text-[17px] text-right">USD 1.000</p>
-                </div>
-              </div>
-
-              {/* Soporte y Operaciones */}
+              {/* Soporte y Operaciones — primero */}
               <div className="px-5 py-4">
                 <div className="sm:hidden mb-1">
                   <p className="font-poppins font-semibold text-white/85 text-[15px]">Soporte y Operaciones · Paquete Inicial Sixteam</p>
-                  <p className="font-lato text-white/35 text-[13px] mt-0.5">100 créditos / mes · USD 2,80 por crédito · Incluye GoHighLevel</p>
+                  <p className="font-lato text-white/35 text-[13px] mt-0.5">100 créditos / mes · Incluye GoHighLevel · Acompañamiento tecnológico continuo</p>
                   <div className="flex items-center justify-between mt-2">
                     <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
                       style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
@@ -809,6 +798,37 @@ const VentureSportProposal = () => {
                   <p className="font-poppins font-black text-white text-[17px] text-right">USD 280/mes</p>
                 </div>
               </div>
+
+              {/* Primer proyecto: Chatbot IA */}
+              <div className="px-5 py-4">
+                <div className="sm:hidden mb-1">
+                  <p className="font-poppins font-semibold text-white/85 text-[15px]">Primer proyecto — Implementación del Agente con IA</p>
+                  <p className="font-lato text-white/35 text-[13px] mt-0.5">Base de conocimientos, agente conversacional y automatizaciones de Instagram</p>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
+                      style={{ background: `rgba(34,197,94,.12)`, border: `1px solid rgba(34,197,94,.28)`, color: VS_GREEN }}>
+                      Pago único
+                    </span>
+                    <span className="font-poppins font-black text-white text-[18px]">USD 1.000</span>
+                  </div>
+                </div>
+                <div className="hidden sm:grid items-center" style={{ gridTemplateColumns: '2.5fr 1fr 1.5fr' }}>
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-10 rounded-full flex-shrink-0" style={{ background: `linear-gradient(to bottom, ${VS_GREEN}, rgba(34,197,94,.2))` }} />
+                    <div>
+                      <p className="font-poppins font-semibold text-white/85 text-[15px]">Primer proyecto — Implementación del Agente con IA</p>
+                      <p className="font-lato text-white/35 text-[13px] mt-0.5">Base de conocimientos, agente conversacional y automatizaciones de Instagram</p>
+                    </div>
+                  </div>
+                  <div className="flex justify-center">
+                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full"
+                      style={{ background: `rgba(34,197,94,.12)`, border: `1px solid rgba(34,197,94,.28)`, color: VS_GREEN }}>
+                      Pago único
+                    </span>
+                  </div>
+                  <p className="font-poppins font-black text-white text-[17px] text-right">USD 1.000</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -817,29 +837,29 @@ const VentureSportProposal = () => {
             Resumen de inversión
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            {/* Pago único */}
+            {/* Soporte y Operaciones — primero */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
-              style={{ background: `linear-gradient(135deg, rgba(34,197,94,.10) 0%, rgba(3,13,26,.9) 100%)`, border: `1px solid rgba(34,197,94,.3)` }}>
+              style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.10) 0%, rgba(3,13,26,.9) 100%)', border: '1px solid rgba(0,191,165,.3)' }}>
               <div className="absolute top-0 right-0 w-40 h-40 pointer-events-none"
-                style={{ background: `radial-gradient(circle, rgba(34,197,94,.06), transparent 70%)`, transform: 'translate(20%,-20%)' }} />
+                style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Implementación</p>
+                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Servicio principal · Paquete Inicial</p>
                   <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{ background: `rgba(34,197,94,.15)`, border: `1px solid rgba(34,197,94,.35)`, color: VS_GREEN }}>
-                    Pago único
+                    style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>
+                    Mensual anticipado
                   </span>
                 </div>
-                <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
-                  USD 1.000
+                <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
+                  USD 280
                 </p>
-                <p className="font-lato text-white/40 text-[14px] mb-4">Chatbot IA completo · Base de conocimientos · Instagram</p>
+                <p className="font-lato text-white/40 text-[14px] mb-4">100 créditos / mes · Soporte y Operaciones · GoHighLevel incluido</p>
                 <ul className="space-y-1.5">
                   {[
-                    { label: 'Agente conversacional con IA', value: 'Incluido' },
-                    { label: 'Base de conocimientos personalizada', value: 'Incluido' },
-                    { label: 'Automatización Instagram (1 publicación)', value: 'Incluido' },
-                    { label: 'Sesión de pruebas y revisión post-lanzamiento', value: 'Incluido' },
+                    { label: 'Equipo experto Sixteam disponible', value: 'Incluido' },
+                    { label: 'GoHighLevel (acceso completo)', value: 'Con S&O activo' },
+                    { label: '100 créditos mensuales', value: 'Anticipado' },
+                    { label: 'Presupuesto en créditos antes de ejecutar', value: 'Siempre' },
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between gap-2">
                       <span className="font-lato text-white/55 text-[14px]">{r.label}</span>
@@ -850,27 +870,27 @@ const VentureSportProposal = () => {
               </div>
             </div>
 
-            {/* Soporte y Operaciones */}
+            {/* Primer proyecto — Chatbot IA */}
             <div className="rounded-2xl p-6 relative overflow-hidden"
               style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Paquete Inicial Sixteam</p>
+                  <p className="font-lato text-white/40 text-[13px] uppercase tracking-widest">Primer proyecto</p>
                   <span className="font-lato text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
-                    style={{ background: 'rgba(0,191,165,.10)', border: '1px solid rgba(0,191,165,.25)', color: '#00bfa5' }}>
-                    Mensual anticipado
+                    style={{ background: `rgba(34,197,94,.10)`, border: `1px solid rgba(34,197,94,.25)`, color: VS_GREEN }}>
+                    Pago único
                   </span>
                 </div>
-                <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
-                  USD 280
+                <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2rem, 4vw, 2.8rem)' }}>
+                  USD 1.000
                 </p>
-                <p className="font-lato text-white/40 text-[14px] mb-4">100 créditos / mes · USD 2,80 por crédito</p>
+                <p className="font-lato text-white/40 text-[14px] mb-4">Agente IA completo · Base de conocimientos · Instagram</p>
                 <ul className="space-y-1.5">
                   {[
-                    { label: 'GoHighLevel (acceso incluido)', value: 'Con S&O activo' },
-                    { label: '100 créditos mensuales', value: 'Anticipado' },
-                    { label: 'Créditos no acumulables al período siguiente', value: 'Por período' },
-                    { label: 'Presupuesto en créditos antes de ejecutar', value: 'Siempre' },
+                    { label: 'Agente conversacional con IA', value: 'Incluido' },
+                    { label: 'Base de conocimientos personalizada', value: 'Incluido' },
+                    { label: 'Automatización Instagram (1 publicación)', value: 'Incluido' },
+                    { label: 'Sesión de pruebas y revisión post-lanzamiento', value: 'Incluido' },
                   ].map((r, i) => (
                     <li key={i} className="flex items-center justify-between gap-2">
                       <span className="font-lato text-white/55 text-[14px]">{r.label}</span>
