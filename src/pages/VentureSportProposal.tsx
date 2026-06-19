@@ -125,11 +125,15 @@ const DESGLOSE = [
       'Consultoría sobre diseño de soluciones: Sixteam asesora al equipo sobre cómo resolver cada problema con las herramientas adecuadas — no solo ejecuta, sino que ayuda a pensar qué construir y por qué',
       'Acceso a GoHighLevel incluido mientras el servicio esté activo — sin costo adicional de licencia',
       'Las funcionalidades de GoHighLevel se habilitan bajo solicitud: el equipo pide lo que necesita y Sixteam lo configura y activa',
+      'Reentrenamiento del agente IA cuando el equipo comparta información nueva, actualice el proceso de becas o necesite incorporar nuevas preguntas frecuentes',
       'Monitoreo continuo de los sistemas y automatizaciones activas: detección de errores, flujos rotos o prospectos sin atender',
-      'Levantamiento periódico de oportunidades de mejora y propuestas de nuevos proyectos',
-      'Elaboración de configuraciones adicionales y nuevas automatizaciones según las solicitudes del equipo',
+      'Adición de nuevas funcionalidades, automatizaciones e integraciones según las necesidades del equipo — se van incorporando a medida que el negocio escala',
+      'Refuerzo en el uso de GoHighLevel para el equipo cuando sea necesario',
+      'Levantamiento periódico de oportunidades de mejora y propuestas de nuevos proyectos de la mano de Sixteam',
+      'Reporte mensual del consumo de créditos: desglose por solicitud ejecutada en el período, visible para el equipo en todo momento',
       'Presupuesto en créditos presentado antes de ejecutar cualquier solicitud — el equipo aprueba antes de que se haga cualquier trabajo',
-      'Excepciones de cobro directo por la plataforma (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y campañas de email masivo',
+      'Atención vía canal dedicado · SLA de 4 horas en días hábiles',
+      'Excepciones de cobro directo por la plataforma (no cubiertas por S&O): consumo de IA por tokens, plantillas de WhatsApp Business y campañas de email masivo',
     ],
   },
   {
@@ -203,6 +207,12 @@ const VentureSportProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [etapaActiva, setEtapaActiva] = useState<number | null>(null);
   const [desgloseActivo, setDesgloseActivo] = useState<number | null>(null);
+  const [showCostosVariables, setShowCostosVariables] = useState(false);
+  const [showMetaTable, setShowMetaTable] = useState(false);
+  const [showCalcIA, setShowCalcIA] = useState(false);
+  const [mensajesConv, setMensajesConv] = useState(6);
+  const [convsMes, setConvsMes] = useState(150);
+  const consumoIAUSD = (0.02 * mensajesConv * convsMes).toFixed(2);
 
   useEffect(() => {
     const handler = () => {
@@ -571,7 +581,7 @@ const VentureSportProposal = () => {
         <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>3 fases · ~3 semanas</SectionTitle>
+          <SectionTitle>3 etapas · ~3 semanas</SectionTitle>
           <Rule />
 
           <div className="relative mb-10">
@@ -652,14 +662,14 @@ const VentureSportProposal = () => {
               style={{ background: `rgba(34,197,94,.05)`, border: `1px solid rgba(34,197,94,.2)` }}>
               <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: VS_GREEN }} />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                Las <strong className="text-white/80">Fases 01</strong> y <strong className="text-white/80">02</strong> son las más colaborativas: el equipo de Venture Sport USA es clave para construir la base de conocimientos. Cuanto más detallada sea la información que Nico y su equipo nos compartan, más eficaz será el agente.
+                Las <strong className="text-white/80">Etapas 01</strong> y <strong className="text-white/80">02</strong> son las más colaborativas: el equipo de Venture Sport USA es clave para construir la base de conocimientos. Cuanto más detallada sea la información que Nico y su equipo nos compartan, más eficaz será el agente.
               </p>
             </div>
             <div className="rounded-xl p-4 flex gap-3"
               style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
               <Rocket className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                La <strong className="text-white/80">Fase 03</strong> incluye una sesión de revisión post-lanzamiento para ajustar el agente con las primeras interacciones reales. Sixteam permanece como partner a través de Soporte y Operaciones para seguir iterando con el equipo.
+                La <strong className="text-white/80">Etapa 03</strong> incluye una sesión de revisión post-lanzamiento para ajustar el agente con las primeras interacciones reales. Sixteam permanece como partner a través de Soporte y Operaciones para seguir iterando con el equipo.
               </p>
             </div>
             <div className="rounded-xl p-4 flex gap-3"
@@ -887,23 +897,200 @@ const VentureSportProposal = () => {
             </div>
           </div>
 
-          {/* GoHighLevel incluido + excepciones */}
+          {/* GoHighLevel incluido + excepciones acordeón */}
           <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
             style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.2)' }}>
             <Shield className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">GoHighLevel incluido con Soporte y Operaciones</p>
               <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-3">
                 Con el servicio de <strong className="text-white/70">Soporte y Operaciones de Sixteam</strong>, Venture Sport USA tiene acceso a las funcionalidades de <strong className="text-white/70">GoHighLevel sin costo adicional de licencia</strong>. Las funcionalidades se van habilitando bajo solicitud — el equipo pide lo que necesita y Sixteam lo configura y activa.
               </p>
-              <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
-                <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
-                <div>
-                  <p className="font-poppins font-semibold text-[#f59e0b] text-[14px] mb-1">Excepciones — cobros directos de la plataforma</p>
-                  <p className="font-lato text-white/45 text-[14px] leading-relaxed">
-                    Ciertas funcionalidades generan cobros directos de GoHighLevel al cliente, independientemente del servicio de S&O: <strong className="text-white/65">consumo de IA por tokens</strong>, <strong className="text-white/65">envío de plantillas de WhatsApp Business</strong> y <strong className="text-white/65">envío de campañas de email masivo</strong>. Estos cargos son de la plataforma y no están cubiertos por el paquete de Soporte y Operaciones.
-                  </p>
-                </div>
+
+              {/* Acordeón costos variables */}
+              <div className="rounded-xl overflow-hidden transition-all duration-300"
+                style={{ border: showCostosVariables ? '1px solid rgba(245,158,11,.35)' : '1px solid rgba(255,255,255,.07)' }}>
+                <button onClick={() => setShowCostosVariables(v => !v)}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200"
+                  style={{ background: showCostosVariables ? 'rgba(245,158,11,.06)' : 'transparent' }}>
+                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0"
+                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.35)' }} />
+                  <span className="font-lato text-[13px] flex-1"
+                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.4)' }}>
+                    Costos variables adicionales de la plataforma
+                  </span>
+                  <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
+                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.25)',
+                      transform: showCostosVariables ? 'rotate(90deg)' : undefined }} />
+                </button>
+
+                {showCostosVariables && (
+                  <div className="px-4 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                    <div className="pt-4 space-y-5">
+
+                      {/* WhatsApp plantillas */}
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
+                        <div className="flex-1">
+                          <p className="font-lato text-white/55 text-[14px] leading-relaxed mb-2">
+                            <strong className="text-white/75">Mensajes plantilla WhatsApp (Meta):</strong> cada mensaje enviado fuera de la ventana de servicio de 24h (recordatorios, seguimientos, campañas) tiene un costo directo de Meta —{' '}
+                            <strong className="text-white/75">no es un cobro de Sixteam.pro</strong>. La tarifa varía según el país y el tipo de plantilla (Marketing o Utility).{' '}
+                            <span className="font-lato text-[12px] px-1.5 py-0.5 rounded"
+                              style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>
+                              Facturado mes vencido · según consumo real
+                            </span>
+                          </p>
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                              style={{ background: 'rgba(34,197,94,.08)', border: `1px solid rgba(34,197,94,.25)` }}>
+                              <span className="font-poppins font-semibold text-white/90 text-[13px]">🇨🇱 Chile</span>
+                              <span className="font-lato text-white/45 text-[12px]">Marketing</span>
+                              <span className="font-poppins font-bold text-[13px]" style={{ color: VS_GREEN }}>USD 0.0933</span>
+                              <span className="font-lato text-white/30 text-[11px]">|</span>
+                              <span className="font-lato text-white/45 text-[12px]">Utility</span>
+                              <span className="font-poppins font-bold text-[13px]" style={{ color: VS_GREEN }}>USD 0.0210</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
+                              style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
+                              <span className="font-lato text-white/40 text-[12px]">Atención entrante (Service)</span>
+                              <span className="font-poppins font-bold text-[#00bfa5] text-[13px]">FREE</span>
+                            </div>
+                          </div>
+                          <button onClick={() => setShowMetaTable(v => !v)}
+                            className="flex items-center gap-1.5 mb-2 transition-colors duration-200"
+                            style={{ color: showMetaTable ? '#f59e0b' : 'rgba(255,255,255,.3)' }}
+                            onMouseEnter={e => (e.currentTarget.style.color = '#f59e0b')}
+                            onMouseLeave={e => (e.currentTarget.style.color = showMetaTable ? '#f59e0b' : 'rgba(255,255,255,.3)')}>
+                            <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-200 ${showMetaTable ? 'rotate-90' : ''}`} />
+                            <span className="font-lato text-[13px]">{showMetaTable ? 'Ocultar' : 'Ver'} tarifas por país — fuente Meta</span>
+                          </button>
+                          {showMetaTable && (
+                            <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(245,158,11,.2)' }}>
+                              <div className="grid grid-cols-4 px-3 py-2 text-[11px] font-poppins font-semibold uppercase tracking-wider text-white/30"
+                                style={{ background: 'rgba(245,158,11,.06)', borderBottom: '1px solid rgba(245,158,11,.15)' }}>
+                                <span>País / Mercado</span>
+                                <span className="text-right">Marketing (USD)</span>
+                                <span className="text-right">Utility (USD)</span>
+                                <span className="text-right">Service</span>
+                              </div>
+                              <div className="divide-y max-h-72 overflow-y-auto" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
+                                {[
+                                  ['🇨🇱 Chile','0.0933','0.0210'],['🇦🇷 Argentina','0.0649','0.0273'],['🇧🇷 Brazil','0.0656','0.0071'],
+                                  ['🇨🇴 Colombia','0.0131','0.0008'],['🇪🇬 Egypt','0.0676','0.0038'],['🇫🇷 France','0.0902','0.0315'],
+                                  ['🇩🇪 Germany','0.1433','0.0578'],['🇮🇳 India','0.0124','0.0015'],['🇮🇩 Indonesia','0.0432','0.0263'],
+                                  ['🇮🇱 Israel','0.0371','0.0056'],['🇮🇹 Italy','0.0726','0.0315'],['🇲🇾 Malaysia','0.0903','0.0147'],
+                                  ['🇲🇽 Mexico','0.0320','0.0089'],['🇳🇱 Netherlands','0.1677','0.0525'],['🇳🇬 Nigeria','0.0542','0.0070'],
+                                  ['🇵🇰 Pakistan','0.0497','0.0057'],['🇵🇪 Peru','0.0738','0.0210'],['🇷🇺 Russia','0.0842','0.0420'],
+                                  ['🇸🇦 Saudi Arabia','0.0478','0.0112'],['🇿🇦 South Africa','0.0398','0.0080'],['🇪🇸 Spain','0.0646','0.0210'],
+                                  ['🇹🇷 Turkey','0.0114','0.0056'],['🇦🇪 United Arab Emirates','0.0524','0.0165'],['🇬🇧 United Kingdom','0.0555','0.0231'],
+                                  ['🌎 North America','0.0263','0.0036'],['🌍 Rest of Africa','0.0236','0.0042'],['🌏 Rest of Asia Pacific','0.0769','0.0119'],
+                                  ['🌍 Rest of C. & E. Europe','0.0903','0.0223'],['🌎 Rest of Latin America','0.0777','0.0119'],
+                                  ['🌍 Rest of Middle East','0.0358','0.0096'],['🌍 Rest of Western Europe','0.0622','0.0180'],['🌐 Other','0.0634','0.0081'],
+                                ].map(([market, marketing, utility], idx) => (
+                                  <div key={idx} className="grid grid-cols-4 px-3 py-2 items-center"
+                                    style={{ background: market.includes('Chile') ? `rgba(34,197,94,.06)` : idx % 2 === 0 ? 'rgba(255,255,255,.015)' : 'transparent' }}>
+                                    <span className={`font-lato text-[13px] ${market.includes('Chile') ? 'text-white/90 font-semibold' : 'text-white/60'}`}>{market}</span>
+                                    <span className="font-poppins font-semibold text-[13px] text-right"
+                                      style={{ color: market.includes('Chile') ? VS_GREEN : 'rgba(255,255,255,.55)' }}>{marketing}</span>
+                                    <span className="font-poppins font-semibold text-[13px] text-right"
+                                      style={{ color: market.includes('Chile') ? VS_GREEN : 'rgba(255,255,255,.55)' }}>{utility}</span>
+                                    <span className="font-poppins font-bold text-[12px] text-right text-[#00bfa5]">FREE</span>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="px-3 py-2 text-[11px] font-lato text-white/25 text-center"
+                                style={{ borderTop: '1px solid rgba(245,158,11,.1)', background: 'rgba(245,158,11,.03)' }}>
+                                Fuente: Meta for Developers — WhatsApp Business Platform Pricing · Todos los valores en USD · Aplica por número destinatario
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Consumo IA */}
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
+                        <div className="flex-1">
+                          <p className="font-lato text-white/55 text-[14px] leading-relaxed mb-3">
+                            <strong className="text-white/75">Consumo de IA:</strong> costo variable según el volumen de mensajes procesados por el agente conversacional. Se factura mes vencido sobre el consumo efectivo del período.{' '}
+                            <span className="font-lato text-[12px] px-1.5 py-0.5 rounded"
+                              style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>
+                              Facturado mes vencido · según consumo real
+                            </span>{' '}
+                            Usa la calculadora para estimar tu costo mensual.
+                          </p>
+                          <div className="rounded-xl overflow-hidden transition-all duration-300"
+                            style={{ border: showCalcIA ? `1px solid rgba(34,197,94,.35)` : '1px solid rgba(255,255,255,.07)' }}>
+                            <button onClick={() => setShowCalcIA(v => !v)}
+                              className="w-full flex items-center gap-2.5 px-4 py-3 text-left"
+                              style={{ background: showCalcIA ? `rgba(34,197,94,.06)` : 'transparent' }}>
+                              <span className="font-lato text-[13px] flex-1" style={{ color: `rgba(34,197,94,.7)` }}>
+                                + Calcular consumo mensual por uso de IA
+                              </span>
+                              <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
+                                style={{ color: `rgba(34,197,94,.5)`, transform: showCalcIA ? 'rotate(90deg)' : undefined }} />
+                            </button>
+                            {showCalcIA && (
+                              <div className="px-4 pb-4 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                                <div className="pt-3 space-y-3">
+                                  <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg"
+                                    style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: VS_GREEN }} />
+                                    <span className="font-lato text-white/50 text-[13px]">Valor IA por mensaje</span>
+                                    <span className="font-poppins font-black ml-auto text-[13px]" style={{ color: VS_GREEN }}>USD 0.02</span>
+                                  </div>
+                                  <div>
+                                    <div className="flex justify-between mb-1">
+                                      <span className="font-lato text-white/35 text-[11px]">Mensajes promedio por conversación</span>
+                                      <span className="font-poppins font-bold text-white text-[12px]">{mensajesConv}</span>
+                                    </div>
+                                    <input type="range" min={2} max={20} step={1}
+                                      value={mensajesConv} onChange={e => setMensajesConv(Number(e.target.value))} className="w-full" />
+                                  </div>
+                                  <div>
+                                    <div className="flex justify-between mb-1">
+                                      <span className="font-lato text-white/35 text-[11px]">Conversaciones promedio por mes</span>
+                                      <span className="font-poppins font-bold text-white text-[12px]">{convsMes}</span>
+                                    </div>
+                                    <input type="range" min={50} max={1000} step={25}
+                                      value={convsMes} onChange={e => setConvsMes(Number(e.target.value))} className="w-full" />
+                                  </div>
+                                  <div className="flex justify-between items-center pt-2 border-t" style={{ borderColor: `rgba(34,197,94,.12)` }}>
+                                    <div>
+                                      <span className="font-lato text-white/40 text-[11px]">Consumo estimado</span>
+                                      <p className="font-lato text-white/25 text-[10px] mt-0.5">USD 0.02 × {mensajesConv} msg × {convsMes} conv</p>
+                                    </div>
+                                    <span className="font-poppins font-bold text-[14px]" style={{ color: VS_GREEN }}>≈ USD {consumoIAUSD}/mes</span>
+                                  </div>
+                                  <p className="font-lato text-white/25 text-[10px] leading-relaxed">
+                                    Estimación referencial. El consumo real varía según el volumen de conversaciones gestionadas por el agente IA.
+                                  </p>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Campañas de email */}
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
+                        <div className="flex-1">
+                          <p className="font-lato text-white/55 text-[14px] leading-relaxed">
+                            <strong className="text-white/75">Campañas de email masivo:</strong> el envío de campañas de correo electrónico tiene un costo de{' '}
+                            <strong className="text-white/75">USD 15 por cada 5.000 emails enviados</strong>, cobrado directamente por GoHighLevel. Este cargo aplica únicamente cuando se realizan envíos de campañas masivas y{' '}
+                            <strong className="text-white/75">no está cubierto por el servicio de Soporte y Operaciones</strong>.{' '}
+                            <span className="font-lato text-[12px] px-1.5 py-0.5 rounded"
+                              style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>
+                              Facturado mes vencido · según consumo real
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
