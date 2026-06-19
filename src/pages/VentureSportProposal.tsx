@@ -543,7 +543,7 @@ const VentureSportProposal = () => {
               <div>
                 <p className="font-poppins font-bold text-white/90 text-[17px] mb-1">Base de datos estructurada</p>
                 <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                  Todos los prospectos quedan registrados y disponibles para remarketing futuro o cruce con otros negocios de Nico.
+                  Todos los prospectos quedan registrados y disponibles para remarketing futuro o cruce con otros negocios de Nico. Incluye la creación de hasta <strong className="text-white/70">10 campos personalizados</strong> en el módulo de contactos de GoHighLevel.
                 </p>
               </div>
             </div>
@@ -1221,7 +1221,7 @@ const VentureSportProposal = () => {
                   </div>
                 </div>
                 <p className="font-lato text-white/50 text-[15px] leading-relaxed ml-11">
-                  Una vez el agente esté estable en Instagram, se puede extender a WhatsApp Business para centralizar todas las conversaciones y calificación de prospectos en GoHighLevel, independientemente del canal por donde lleguen.
+                  Una vez el agente esté estable en Instagram, se puede extender a WhatsApp Business para centralizar todas las conversaciones y calificación de prospectos en GoHighLevel, independientemente del canal por donde lleguen. La conexión del número de WhatsApp Business a la plataforma tiene un costo adicional de <strong className="text-white/70">USD 15 mensuales</strong> directos de GoHighLevel.
                 </p>
               </div>
             </div>
