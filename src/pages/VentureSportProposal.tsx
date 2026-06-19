@@ -164,7 +164,8 @@ const DESGLOSE = [
     icon: Shield,
     color: '#00bfa5',
     items: [
-      'Acceso a GoHighLevel incluido con la contratación del servicio de Soporte y Operaciones',
+      'Acceso a GoHighLevel incluido con la contratación del servicio de Soporte y Operaciones — sin costo adicional de licencia',
+      'Las funcionalidades de GoHighLevel se habilitan bajo solicitud: el equipo de Nico pide lo que necesita y Sixteam lo configura y activa a través del sistema de créditos',
       'Base de datos de prospectos centralizada: nombre, datos de contacto, perfil, etapa en el funnel y clasificación (califica / no califica / seguimiento)',
       'Historial completo de conversaciones por prospecto disponible para el equipo de Venture Sport USA',
       'Monitoreo continuo del comportamiento del bot: detección de respuestas incorrectas, flujos rotos o prospectos sin atender',
@@ -172,6 +173,7 @@ const DESGLOSE = [
       'Elaboración de configuraciones adicionales y nuevas automatizaciones según las solicitudes del equipo',
       'Feedback transparente sobre el costo en créditos antes de ejecutar cada solicitud',
       'Remarketing: prospectos no calificados quedan en la base de datos para campañas futuras o cruce con otros negocios de Nico',
+      'Excepciones de cobro directo por la plataforma (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y envío de campañas de email masivo — estos son cargos directos de GoHighLevel al cliente',
     ],
   },
 ];
@@ -278,13 +280,9 @@ const VentureSportProposal = () => {
             </div>
             <div className="w-px h-8 bg-white/10 hidden sm:block" />
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: `linear-gradient(135deg, ${VS_GREEN}, #16a34a)` }}>
-                <span className="font-poppins font-black text-white text-[14px]">VS</span>
-              </div>
-              <div className="hidden sm:block">
-                <span className="font-poppins font-bold text-white text-[15px] tracking-tight">Venture Sport USA</span>
-                <p className="font-lato text-white/35 text-[12px] leading-none mt-0.5">Becas deportivas en EE.UU.</p>
+              <div className="flex items-center justify-center flex-shrink-0 h-9">
+                <img src="/venture-sport-logo.png" alt="Venture Sport USA" className="h-full w-auto object-contain"
+                  style={{ filter: 'drop-shadow(0 1px 4px rgba(34,197,94,.25))' }} />
               </div>
             </div>
           </div>
@@ -394,12 +392,12 @@ const VentureSportProposal = () => {
                   <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,.08), transparent)' }} />
                 </div>
                 <div className="flex flex-col items-center gap-3">
-                  <div className="w-28 h-28 rounded-2xl flex items-center justify-center"
+                  <div className="rounded-2xl p-4 flex items-center justify-center"
                     style={{ background: `linear-gradient(135deg, ${VS_GREEN}22, rgba(34,197,94,.08))`, border: `1px solid rgba(34,197,94,.25)`, boxShadow: `0 4px 30px rgba(34,197,94,.15)` }}>
-                    <span className="font-poppins font-black text-white/90 text-[38px] leading-none" style={{ color: VS_GREEN }}>VSU</span>
+                    <img src="/venture-sport-logo.png" alt="Venture Sport USA" className="h-14 w-auto object-contain"
+                      style={{ filter: 'drop-shadow(0 2px 12px rgba(34,197,94,.4))' }} />
                   </div>
                   <div className="text-center">
-                    <span className="font-poppins font-black text-white text-[22px] tracking-tight">Venture Sport USA</span>
                     <p className="font-lato text-[13px] uppercase tracking-[0.2em] mt-1" style={{ color: VS_GREEN }}>Becas Deportivas · EE.UU.</p>
                   </div>
                 </div>
@@ -428,11 +426,11 @@ const VentureSportProposal = () => {
           <div className="rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row gap-5 sm:gap-8 items-start sm:items-center"
             style={{ background: 'rgba(2,8,20,.85)', border: `1px solid rgba(34,197,94,.18)` }}>
             <div className="flex-shrink-0 flex flex-col items-center gap-2">
-              <div className="w-20 h-20 rounded-xl flex items-center justify-center"
+              <div className="rounded-xl p-3 flex items-center justify-center"
                 style={{ background: `linear-gradient(135deg, ${VS_GREEN}22, rgba(34,197,94,.08))`, border: `1px solid rgba(34,197,94,.25)` }}>
-                <span className="font-poppins font-black text-[26px]" style={{ color: VS_GREEN }}>VSU</span>
+                <img src="/venture-sport-logo.png" alt="Venture Sport USA" className="h-10 w-auto object-contain"
+                  style={{ filter: 'drop-shadow(0 1px 6px rgba(34,197,94,.3))' }} />
               </div>
-              <span className="font-poppins font-black text-white text-[15px] tracking-tight">Venture Sport USA</span>
               <span className="font-lato text-[11px] uppercase tracking-[0.2em]" style={{ color: VS_GREEN }}>Chile / EE.UU.</span>
             </div>
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -884,6 +882,27 @@ const VentureSportProposal = () => {
             </div>
           </div>
 
+          {/* GoHighLevel incluido + excepciones */}
+          <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
+            style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.2)' }}>
+            <Shield className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
+            <div>
+              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">GoHighLevel incluido con Soporte y Operaciones</p>
+              <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-3">
+                Con el servicio de <strong className="text-white/70">Soporte y Operaciones de Sixteam</strong>, Venture Sport USA tiene acceso a las funcionalidades de <strong className="text-white/70">GoHighLevel sin costo adicional de licencia</strong>. Las funcionalidades se van habilitando bajo solicitud — el equipo pide lo que necesita y Sixteam lo configura y activa.
+              </p>
+              <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
+                <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
+                <div>
+                  <p className="font-poppins font-semibold text-[#f59e0b] text-[14px] mb-1">Excepciones — cobros directos de la plataforma</p>
+                  <p className="font-lato text-white/45 text-[14px] leading-relaxed">
+                    Ciertas funcionalidades generan cobros directos de GoHighLevel al cliente, independientemente del servicio de S&O: <strong className="text-white/65">consumo de IA por tokens</strong>, <strong className="text-white/65">envío de plantillas de WhatsApp Business</strong> y <strong className="text-white/65">envío de campañas de email masivo</strong>. Estos cargos son de la plataforma y no están cubiertos por el paquete de Soporte y Operaciones.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Cómo funciona el sistema de créditos */}
           <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
             style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.2)' }}>
@@ -898,8 +917,8 @@ const VentureSportProposal = () => {
                 <div className="flex flex-col gap-1.5">
                   {[
                     { step: '01', text: 'El equipo de Nico envía la solicitud a Sixteam describiendo qué necesitan (ej: "quiero activar la automatización de comentarios para la nueva publicación del lunes")' },
-                    { step: '02', text: 'Sixteam analiza la solicitud y responde con un presupuesto de créditos: cuántos se consumirán y cuánto representan en dólares. El equipo decide si aprueba antes de que se ejecute cualquier trabajo.' },
-                    { step: '03', text: 'El equipo aprueba y Sixteam ejecuta. Los 7 créditos se descuentan del saldo disponible del período, que queda actualizado y visible en todo momento' },
+                    { step: '02', text: 'Sixteam analiza la solicitud y responde con un presupuesto en créditos: cuántos se consumirán. El equipo decide si aprueba antes de que se ejecute cualquier trabajo.' },
+                    { step: '03', text: 'El equipo aprueba y Sixteam ejecuta. Los créditos se descuentan del saldo disponible del período, que queda actualizado y visible en todo momento.' },
                   ].map((s) => (
                     <div key={s.step} className="flex items-start gap-3">
                       <span className="font-poppins font-black text-[11px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
@@ -936,7 +955,7 @@ const VentureSportProposal = () => {
                   <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
                     style={{ background: `rgba(34,197,94,.20)`, color: VS_GREEN }}>Sixteam</span>
                   <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                    "Recibido. Para activar la automatización de comentarios en esa publicación necesitamos <strong className="text-white/75 not-italic">7 créditos, es decir USD 19,60</strong>. Te quedarían 93 créditos disponibles este mes. ¿Aprobamos?"
+                    "Recibido. Para activar la automatización de comentarios en esa publicación necesitamos <strong className="text-white/75 not-italic">7 créditos</strong>. Te quedarían 93 créditos disponibles este mes. ¿Aprobamos?"
                   </p>
                 </div>
                 <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
@@ -1034,7 +1053,7 @@ const VentureSportProposal = () => {
               { titulo: 'Aprobación', desc: 'Para aceptar esta propuesta y dar inicio al proyecto, se requiere confirmación vía WhatsApp, correo o verbal. Con esa confirmación se habilita el contrato a firmar y se procede con el inicio del trabajo.', icon: CheckCircle },
               { titulo: 'Términos de pago', desc: 'El pago de la implementación del Chatbot IA (USD 1.000) se realiza al inicio del proyecto. El servicio de Soporte y Operaciones se factura por período anticipado (mensual, semestral o anual) según el paquete de créditos acordado. Los pagos se realizan mediante transferencia bancaria.', icon: FileText },
               { titulo: 'Inicio del proyecto', desc: 'El cronograma inicia desde la confirmación de la propuesta y la primera sesión de kickoff con el equipo de Venture Sport USA. El equipo deberá compartir la información del negocio, preguntas frecuentes y acceso a la cuenta de Instagram para comenzar la configuración.', icon: Zap },
-              { titulo: 'Soporte y Operaciones del Paquete Inicial Sixteam', desc: 'El Paquete Inicial Sixteam incluye 100 créditos por mes a USD 280 mensuales anticipados. El acceso a GoHighLevel está incluido mientras el servicio esté activo. Los créditos no son acumulables al período siguiente. Antes de ejecutar cualquier solicitud, Sixteam presenta el costo estimado en créditos para que el equipo apruebe.', icon: Shield },
+              { titulo: 'Soporte y Operaciones del Paquete Inicial Sixteam', desc: 'El Paquete Inicial Sixteam incluye 100 créditos por mes. El acceso a GoHighLevel está incluido mientras el servicio esté activo: las funcionalidades se habilitan bajo solicitud y Sixteam las configura y activa. Los créditos no son acumulables al período siguiente. Antes de ejecutar cualquier solicitud, Sixteam presenta el costo estimado en créditos para que el equipo apruebe. Excepciones de cobro directo por GoHighLevel (no cubiertas por S&O): consumo de IA por tokens, envío de plantillas de WhatsApp Business y campañas de email masivo.', icon: Shield },
               { titulo: 'Automatizaciones adicionales de Instagram', desc: 'La implementación incluye la configuración de una publicación o campaña activa con automatización de comentarios. Las publicaciones o flujos adicionales se gestionan con los créditos del Paquete Inicial y se presupuestan con el equipo antes de ejecutar.', icon: Send },
               { titulo: 'Modificaciones al alcance', desc: 'Cualquier solicitud de servicio o funcionalidad no estipulada en esta propuesta requerirá una nueva cotización o se gestionará a través del sistema de créditos de S&O. Ejemplos: campañas de email marketing, pauta digital, integración con otras plataformas.', icon: AlertCircle },
               { titulo: 'Vigencia de la propuesta', desc: 'Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión. Pasado este plazo, los valores podrán ser revisados según condiciones del mercado.', icon: Clock },
