@@ -16,7 +16,7 @@ const META = {
   sede: 'Colombia',
   fecha: 'Junio 2026',
   lugar: 'Colombia',
-  objetivo: 'Una plataforma financiero-operativa a la medida que le da a SIAR visibilidad real de sus proyectos: costos, presupuesto, rentabilidad y alertas — en tiempo real, sin depender del área contable.',
+  objetivo: 'Una plataforma financiero-operativa a la medida que le da a SIAR visibilidad real de sus proyectos: costos, presupuesto, rentabilidad y alertas, todo en tiempo real y sin depender del área contable.',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -79,7 +79,7 @@ const MODULOS = [
       { text: 'Dashboard por proyecto con: valor vendido (precio de cierre), presupuesto estimado, gasto real causado, gasto esperado según avance y margen real vs. estimado', tag: 'Core' },
       { text: 'Dos vistas diferenciadas: flujo de caja (cuándo entra y sale el dinero) y rentabilidad/costo del proyecto (utilidad real)' },
       { text: 'Indicadores de desviación: alertas visuales cuando el gasto real supera el esperado o cuando el margen entra en zona de riesgo' },
-      { text: 'Carga inicial de información desde SIIGO mediante archivo plano exportado — sin integración compleja en esta fase', tag: 'MVP' },
+      { text: 'Carga inicial de información desde SIIGO mediante archivo plano exportado; sin integración compleja en esta fase', tag: 'MVP' },
       { text: 'Vista consolidada: todos los proyectos activos con su estado de salud financiera de un vistazo' },
       { text: 'Acceso diferenciado por rol desde el primer día: visualización gerencial para el señor Freddy, y vistas operativas para los líderes de proyecto' },
     ] as Actividad[],
@@ -96,7 +96,7 @@ const MODULOS = [
     actividades: [
       { text: 'Módulo de creación de presupuesto por proyecto: el líder selecciona servicios, cantidades, tiempos de ejecución y recursos necesarios', tag: 'Core' },
       { text: 'Cálculo automático de costos totales: mano de obra, insumos, costos indirectos, administración, imprevistos, IVA y utilidad esperada' },
-      { text: 'Visualización del precio de venta mínimo para alcanzar el margen objetivo — el comercial sabe hasta dónde puede negociar' },
+      { text: 'Visualización del precio de venta mínimo para alcanzar el margen objetivo; así el equipo comercial sabe hasta dónde puede negociar' },
       { text: 'Soporte para proyectos multi-mes con inicio diferenciado por servicio (ej. custodia desde mes 1, digitalización desde mes 10)' },
       { text: 'Campos para costos de tipo único (digitalización) y recurrentes (custodia mensual) con flujo de caja automático por período' },
       { text: 'Módulo de validación operativa: el director de operaciones confirma capacidad instalada y asignación de recursos antes de aprobar la propuesta comercial', tag: 'Decisión data-driven' },
@@ -112,10 +112,10 @@ const MODULOS = [
     colorBorder: 'rgba(245,158,11,.3)',
     descripcion: 'Una vez el MVP esté en producción y el equipo empiece a cargar datos reales, construimos la capa de inteligencia: la matriz de costos parametrizable que evoluciona con el negocio, las alertas automáticas por desviación y la integración directa con SIIGO para eliminar la carga manual de información.',
     actividades: [
-      { text: 'Matriz de costos parametrizable por categoría: mano de obra, insumos, tecnología, logística, gastos administrativos — actualizable por el equipo sin necesidad de desarrollo', tag: 'Parametrizable' },
+      { text: 'Matriz de costos parametrizable por categoría: mano de obra, insumos, tecnología, logística, gastos administrativos; actualizable por el equipo sin necesidad de desarrollo', tag: 'Parametrizable' },
       { text: 'Costos estándar por rol/perfil/día como base inicial (archivista, técnico, auxiliar), con posibilidad de evolucionar hacia costos reales por horas hombre' },
       { text: 'Sistema de alertas configurables: cuando el gasto real supera el presupuestado, cuando una categoría se acerca al tope o cuando el margen entra en zona de riesgo' },
-      { text: 'Integración API con SIIGO: sincronización automática de causaciones y centros de costo — elimina la carga manual de archivos planos', tag: 'Fase posterior' },
+      { text: 'Integración API con SIIGO: sincronización automática de causaciones y centros de costo, lo que elimina la carga manual de archivos planos', tag: 'Fase posterior' },
       { text: 'Prorrateo de gastos administrativos y de talento humano entre proyectos según participación en ventas o horas hombre registradas' },
       { text: 'Modelo de depreciación de activos: posibilidad de asignar un porcentaje de uso de un activo (escáner, bodega) a un proyecto específico' },
     ] as Actividad[],
@@ -131,7 +131,7 @@ const DESGLOSE = [
     color: SIAR_BLUE,
     items: [
       'Vista por proyecto con: valor vendido, presupuesto estimado, gasto real, gasto esperado según avance del proyecto y margen estimado vs. real',
-      'Vista de flujo de caja separada de la vista de rentabilidad/costo — porque son dos análisis con lógicas distintas',
+      'Vista de flujo de caja separada de la vista de rentabilidad/costo, pues responden a dos análisis con lógicas distintas',
       'Indicadores de salud financiera por proyecto: verde (en control), amarillo (alerta) y rojo (desviación crítica)',
       'Vista consolidada de todos los proyectos activos: el señor Freddy puede ver de un solo vistazo cuáles están en riesgo',
       'Histórico de proyectos cerrados para análisis de rentabilidad real vs. estimada',
@@ -158,9 +158,9 @@ const DESGLOSE = [
     color: '#f59e0b',
     items: [
       'Catálogo de ítems de costo organizado por categoría: mano de obra, insumos, tecnología, logística, viáticos, servicios externos',
-      'Costos estándar por rol como punto de partida: archivista, técnico de archivo, auxiliar, coordinador técnico — actualizables por el equipo',
+      'Costos estándar por rol como punto de partida: archivista, técnico de archivo, auxiliar, coordinador técnico; actualizables por el equipo',
       'Posibilidad de agregar nuevos ítems de costo desde la interfaz, sin necesidad de desarrollo',
-      'Actualización periódica de precios unitarios sin tocar el código — la herramienta está diseñada para ser administrada por el equipo de SIAR',
+      'Actualización periódica de precios unitarios sin tocar el código; la herramienta está diseñada para ser administrada por el equipo de SIAR',
       'Evolución hacia costeo por horas hombre: en fases posteriores, conectar las horas reales registradas en las herramientas operativas con el costo real del proyecto',
       'Soporte para factores de depreciación de activos: asignar un porcentaje de uso de equipo (escáner, estantería, bodega) a proyectos específicos',
     ],
@@ -196,11 +196,11 @@ const DESGLOSE = [
     icon: GitBranch,
     color: '#60a5fa',
     items: [
-      'Fase 1 (MVP): carga de información desde SIIGO mediante archivo plano exportado — el equipo sube el reporte de causaciones periódicamente y la herramienta lo procesa',
-      'Fase 2: integración API con SIIGO para sincronización automática de movimientos contables, centros de costo y causaciones — sin carga manual',
+      'Fase 1 (MVP): carga de información desde SIIGO mediante archivo plano exportado; el equipo sube el reporte de causaciones periódicamente y la herramienta lo procesa',
+      'Fase 2: integración API con SIIGO para sincronización automática de movimientos contables, centros de costo y causaciones, sin carga manual',
       'Cruce automático entre el presupuesto del proyecto y las causaciones reales por centro de costo desde SIIGO',
       'Conexión con Zoho CRM: cuando un negocio cierra en el CRM, el valor del trato y los servicios vendidos se registran automáticamente como insumos del presupuesto',
-      'Los checks de aprobación comercial/operativa/financiera que hoy se hacen en el CRM pueden alimentarse con data real de la herramienta — cerrando el ciclo entre comercial y financiero',
+      'Los checks de aprobación comercial/operativa/financiera que hoy se hacen en el CRM pueden alimentarse con data real de la herramienta, cerrando el ciclo entre lo comercial y lo financiero',
       'La herramienta actúa como sistema de registro financiero-operativo, complementario (no sustituto) del sistema contable SIIGO',
     ],
   },
@@ -221,68 +221,49 @@ const OPCIONES = [
   {
     num: '01',
     titulo: 'Modelo Sixteam como propietario y administrador',
-    subtitulo: 'La herramienta como servicio administrado',
+    subtitulo: 'La herramienta como servicio administrado con soporte técnico',
     color: SIAR_BLUE,
     colorAlpha: 'rgba(26,111,180,.10)',
     colorBorder: 'rgba(26,111,180,.30)',
     implementacion: '$12.000.000 COP',
-    mensualidad: '$3.990.000 COP/mes',
+    mensualidad: '$1.999.000 COP/mes',
+    mensualidadLabel: 'Mensualidad',
     permanencia: 'Permanencia mínima: 12 meses',
-    total: '$59.880.000 COP',
+    total: '$35.988.000 COP',
     totalLabel: 'Total primer año',
     badge: 'Recomendada',
     puntos: [
-      'Uso de la herramienta, administración y soporte funcional incluidos',
-      'Mantenimiento correctivo y ajustes menores sin costo adicional',
-      'Respaldo, acompañamiento mensual y evolución controlada',
-      'SIAR es dueño de sus datos — Sixteam conserva la propiedad del código base y los componentes reutilizables',
-      'Hasta 20 horas mensuales de soporte y operación incluidas',
+      'Uso de la herramienta, administración y soporte técnico incluidos',
+      'Mantenimiento correctivo sin costo adicional',
+      'Respaldo mensual y evolución controlada de la plataforma',
+      'SIAR es dueño de sus datos; Sixteam conserva la propiedad del código base y los componentes reutilizables',
+      'El soporte operativo y la ejecución de mejoras no están incluidos; se cotizan por separado según el alcance de cada solicitud',
     ],
-    nota: 'Ideal para equipos que quieren foco en el negocio, no en la administración técnica de una herramienta.',
+    nota: 'Ideal para equipos que quieren foco en el negocio sin ocuparse de la administración técnica de la herramienta.',
   },
   {
     num: '02',
-    titulo: 'Propiedad SIAR con administración Sixteam',
-    subtitulo: 'SIAR dueño del desarrollo, Sixteam a cargo de la operación',
+    titulo: 'Propiedad y administración total SIAR',
+    subtitulo: 'SIAR como propietario y administrador total; Sixteam entrega la documentación completa y soporte documental',
     color: '#00bfa5',
     colorAlpha: 'rgba(0,191,165,.10)',
     colorBorder: 'rgba(0,191,165,.30)',
-    implementacion: '$20.000.000 COP',
-    mensualidad: '$2.990.000 COP/mes',
-    permanencia: 'Permanencia mínima: 6 meses',
-    total: 'Desde $37.940.000 hasta $55.880.000 COP',
-    totalLabel: 'Rango primer año',
-    badge: null,
-    puntos: [
-      'SIAR queda como propietario de la herramienta desarrollada específicamente para su operación',
-      'Sixteam mantiene la administración técnica, ajustes, soporte y evolución',
-      'Sixteam conserva metodologías, componentes genéricos y librerías reutilizables no confidenciales',
-      'Hasta 15 horas mensuales de soporte incluidas',
-      'SIAR puede decidir tomar control técnico total en cualquier momento tras el período mínimo',
-    ],
-    nota: 'Para organizaciones que valoran la propiedad del activo digital sin sacrificar el acompañamiento experto.',
-  },
-  {
-    num: '03',
-    titulo: 'Desarrollo completo con entrega y transferencia',
-    subtitulo: 'Sixteam desarrolla, documenta y entrega todo',
-    color: '#f59e0b',
-    colorAlpha: 'rgba(245,158,11,.10)',
-    colorBorder: 'rgba(245,158,11,.30)',
-    implementacion: '$50.000.000 COP',
-    mensualidad: 'Desde $1.900.000 COP/mes',
-    permanencia: 'Soporte posterior opcional (10h/mes)',
-    total: '$50.000.000 COP',
+    implementacion: '$30.000.000 COP',
+    mensualidad: 'Desde $120.000 COP por solicitud',
+    mensualidadLabel: 'Soporte posterior opcional',
+    permanencia: 'Soporte posterior opcional',
+    total: '$30.000.000 COP',
     totalLabel: 'Valor único de desarrollo',
     badge: null,
     puntos: [
-      'Desarrollo completo, documentación funcional y técnica incluidas',
+      'SIAR queda como propietario y administrador total de la herramienta desarrollada',
+      'Sixteam entrega toda la documentación funcional y técnica del sistema',
       'Capacitación al equipo de SIAR para administrar la herramienta de forma autónoma',
-      'Entrega del repositorio de código y transferencia completa de administración',
-      'Garantía correctiva limitada de 30 a 60 días después de la entrega',
-      'Sixteam entrega la propiedad total — incluyendo estructura, código y componentes desarrollados para SIAR',
+      'Entrega del repositorio de código con transferencia completa de administración',
+      'Garantía correctiva de 30 días calendario después de la entrega',
+      'Servicio opcional de soporte técnico para mejoras desde $120.000 COP por solicitud adicional; el valor corresponde a la complejidad de cada requerimiento',
     ],
-    nota: 'Para organizaciones con equipo técnico interno que deseen tomar control total del activo en el largo plazo.',
+    nota: 'Para organizaciones con visión de largo plazo que desean tener control total del activo digital. El costo por solicitud de soporte varía según la complejidad de cada requerimiento.',
   },
 ];
 
@@ -522,7 +503,7 @@ const SiarProposal = () => {
         {/* ─ 01 RESUMEN ─ */}
         <section id="resumen" ref={s1.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s1.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>01 — Resumen ejecutivo</TagLabel>
+          <TagLabel>01 · Resumen ejecutivo</TagLabel>
           <SectionTitle>Contexto y diagnóstico</SectionTitle>
           <Rule />
 
@@ -543,7 +524,7 @@ const SiarProposal = () => {
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Certificación</p>
-                <p className="font-poppins font-semibold text-white/80 text-[18px]">ISO 9001 — Gestión de calidad</p>
+                <p className="font-poppins font-semibold text-white/80 text-[18px]">ISO 9001: Gestión de calidad</p>
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Sistemas actuales</p>
@@ -575,7 +556,7 @@ const SiarProposal = () => {
               El reto que enfrenta SIAR hoy no es tecnológico en su superficie: es un reto de <strong className="text-white/90 font-semibold">visibilidad financiera</strong>. Para saber cuánto se ha gastado en un proyecto, el equipo depende de solicitudes al área contable. El tarifario comercial se actualiza con el IPC, pero no está respaldado por un modelo de costos reales. Y cuando un proyecto empieza a salirse del presupuesto, nadie lo sabe hasta que ya es tarde.
             </p>
             <p>
-              Sixteam propone no un simple desarrollo de pantallas, sino una <strong className="text-white/90 font-semibold">solución financiero-operativa a la medida</strong>: el diseño del modelo de datos, los flujos de aprobación, los roles, las alertas, la integración con SIIGO y Zoho, y la visualización por proyecto — construida específicamente para la forma en que SIAR opera.
+              Sixteam propone no un simple desarrollo de pantallas, sino una <strong className="text-white/90 font-semibold">solución financiero-operativa a la medida</strong>: el diseño del modelo de datos, los flujos de aprobación, los roles, las alertas, la integración con SIIGO y Zoho, y la visualización por proyecto, construida específicamente para la forma en que SIAR opera.
             </p>
           </div>
 
@@ -604,7 +585,7 @@ const SiarProposal = () => {
         {/* ─ 02 SOLUCIÓN ─ */}
         <section id="solucion" ref={s2.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s2.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>02 — Solución propuesta</TagLabel>
+          <TagLabel>02 · Solución propuesta</TagLabel>
           <SectionTitle>¿Qué construimos juntos?</SectionTitle>
           <Rule />
 
@@ -614,7 +595,7 @@ const SiarProposal = () => {
               style={{ background: `radial-gradient(circle, rgba(26,111,180,.07), transparent 70%)`, transform: 'translate(20%,-20%)' }} />
             <Activity className="w-7 h-7 mb-4" style={{ color: SIAR_BLUE }} />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Sixteam propone una <strong className="text-white font-black">plataforma financiero-operativa a la medida</strong> — no como un simple desarrollo de pantallas, sino como una solución que incluye el diseño del modelo de datos, los flujos de decisión, los roles, las alertas, la conexión con SIIGO y Zoho, y la visualización financiera por proyecto, pensada exactamente para la operación de SIAR.
+              Sixteam propone una <strong className="text-white font-black">plataforma financiero-operativa a la medida</strong>: no como un simple desarrollo de pantallas, sino como una solución que incluye el diseño del modelo de datos, los flujos de decisión, los roles, las alertas, la conexión con SIIGO y Zoho, y la visualización financiera por proyecto, pensada exactamente para la operación de SIAR.
             </p>
           </div>
 
@@ -662,7 +643,7 @@ const SiarProposal = () => {
             <div>
               <p className="font-poppins font-semibold text-white/80 text-[17px] mb-2">Herramienta de gestión financiera, no sistema contable</p>
               <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                Esta herramienta es un <strong className="text-white/70">sistema financiero de gestión por proyectos</strong>, complementario a SIIGO. No reemplaza la contabilidad — la complementa con una capa de visibilidad operativa que SIIGO no ofrece: ver en tiempo real cómo va el presupuesto de cada proyecto, quién está gastando qué y cuándo hay que tomar una decisión.
+                Esta herramienta es un <strong className="text-white/70">sistema financiero de gestión por proyectos</strong>, complementario a SIIGO. No reemplaza la contabilidad; la complementa con una capa de visibilidad operativa que SIIGO no ofrece: ver en tiempo real cómo va el presupuesto de cada proyecto, quién está gastando qué y cuándo hay que tomar una decisión.
               </p>
             </div>
           </div>
@@ -687,7 +668,7 @@ const SiarProposal = () => {
         {/* ─ 03 MÓDULOS ─ */}
         <section id="modulos" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>03 — Módulos del sistema</TagLabel>
+          <TagLabel>03 · Módulos del sistema</TagLabel>
           <SectionTitle>3 módulos · MVP + evolución</SectionTitle>
           <Rule />
 
@@ -776,14 +757,7 @@ const SiarProposal = () => {
               style={{ background: 'rgba(245,158,11,.06)', border: '1px solid rgba(245,158,11,.2)' }}>
               <Settings className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
               <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                El <strong className="text-white/80">Módulo 03</strong> (matriz de costos, alertas avanzadas e integración API con SIIGO) es la fase de evolución. Se construye una vez el MVP esté en producción y el equipo haya comenzado a cargar datos reales — permitiendo que la herramienta aprenda y mejore con el uso.
-              </p>
-            </div>
-            <div className="rounded-xl p-4 flex gap-3"
-              style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.18)' }}>
-              <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-              <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                La información de la <strong className="text-white/80">SOLPED y órdenes de compra</strong> estará cubierta bajo la integración con SIIGO — la herramienta consume los datos contables desde SIIGO sin requerir una gestión paralela de solicitudes de pedido en la nueva plataforma.
+                El <strong className="text-white/80">Módulo 03</strong> (matriz de costos, alertas avanzadas e integración API con SIIGO) es la fase de evolución. Se construye una vez el MVP esté en producción y el equipo haya comenzado a cargar datos reales, de manera que la herramienta aprende y mejora con el uso.
               </p>
             </div>
           </div>
@@ -792,7 +766,7 @@ const SiarProposal = () => {
         {/* ─ 04 ALCANCE ─ */}
         <section id="alcance" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Alcance de servicios</TagLabel>
+          <TagLabel>04 · Alcance de servicios</TagLabel>
           <SectionTitle>Qué está incluido</SectionTitle>
           <Rule />
 
@@ -840,12 +814,12 @@ const SiarProposal = () => {
         {/* ─ 05 INVERSIÓN ─ */}
         <section id="inversion" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Propuesta de inversión</TagLabel>
-          <SectionTitle>Tres opciones, una sola solución.</SectionTitle>
+          <TagLabel>05 · Propuesta de inversión</TagLabel>
+          <SectionTitle>Dos opciones, una sola solución.</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Las tres opciones cubren el mismo <strong className="text-white/75">MVP robusto</strong> — dashboard por proyecto, calculadora de presupuesto, roles, alertas e integración inicial con SIIGO. La diferencia está en quién es el propietario de la herramienta y cómo se estructura el acompañamiento posterior. Valores en{' '}
+            Las dos opciones cubren el mismo <strong className="text-white/75">MVP robusto</strong>: dashboard por proyecto, calculadora de presupuesto, roles, alertas e integración inicial con SIIGO. La diferencia está en quién es el propietario de la herramienta y cómo se estructura el acompañamiento posterior. Valores en{' '}
             <strong className="text-white/75">pesos colombianos (COP).</strong>
           </p>
 
@@ -860,7 +834,7 @@ const SiarProposal = () => {
                   color: opcionActiva === i ? op.color : 'rgba(255,255,255,.45)',
                 }}>
                 <span>{op.num}</span>
-                <span className="hidden sm:inline">— {op.titulo.split(' ').slice(0,3).join(' ')}…</span>
+                <span className="hidden sm:inline">· {op.titulo.split(' ').slice(0,3).join(' ')}…</span>
                 {op.badge && (
                   <span className="text-[10px] px-1.5 py-0.5 rounded-full uppercase tracking-wide"
                     style={{ background: `${op.color}25`, border: `1px solid ${op.color}45`, color: op.color }}>
@@ -910,7 +884,7 @@ const SiarProposal = () => {
                           <div className="rounded-xl px-4 py-2.5 text-center mt-1"
                             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
                             <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-0.5">
-                              {i === 2 ? 'Soporte opcional posterior' : 'Mensualidad'}
+                              {op.mensualidadLabel}
                             </p>
                             <p className="font-poppins font-bold text-white/80 text-[16px] leading-none">{op.mensualidad}</p>
                           </div>
@@ -959,14 +933,14 @@ const SiarProposal = () => {
               <p className="font-poppins font-semibold text-white/80 text-[18px]">Forma de pago sugerida</p>
               <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
                 style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
-                Aplica a las 3 opciones
+                Aplica a las 2 opciones
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
                 { pct: '30%', momento: 'Al inicio del proyecto', desc: 'Con la confirmación de la propuesta y firma del contrato.' },
-                { pct: '30%', momento: 'Contra prototipo funcional', desc: 'Entrega de la primera versión navegable con módulos principales activos.' },
-                { pct: '40%', momento: 'Salida a producción', desc: 'Entrega de la versión en pruebas y puesta en producción del sistema.' },
+                { pct: '40%', momento: 'Contra prototipo funcional', desc: 'Entrega de la primera versión navegable con módulos principales activos.' },
+                { pct: '30%', momento: 'Salida a producción', desc: 'Entrega de la versión en pruebas y puesta en producción del sistema.' },
               ].map((pago, i) => (
                 <div key={i} className="rounded-xl p-4"
                   style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
@@ -977,7 +951,7 @@ const SiarProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
-              Para las opciones 1 y 2, la mensualidad inicia desde la salida a producción o máximo 30 días después de la entrega del MVP.
+              Para la opción 1, la mensualidad inicia desde la salida a producción o máximo 30 días después de la entrega del MVP.
             </p>
           </div>
 
@@ -986,20 +960,38 @@ const SiarProposal = () => {
             style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Los valores de cada opción cubren un <strong className="text-white/75">MVP robusto</strong>, no una herramienta infinita. El MVP incluye los módulos acordados en esta propuesta. Funcionalidades adicionales fuera del alcance — como la integración API completa con SIIGO (fase 2), módulo de horas hombre en tiempo real, o nuevos módulos no contemplados — se cotizarán por separado o se incluirán en la evolución del servicio.
+              Ambas opciones cubren un <strong className="text-white/75">MVP robusto</strong>, no una herramienta infinita. El MVP incluye los módulos acordados en esta propuesta. Funcionalidades adicionales fuera del alcance, como la integración API completa con SIIGO (fase 2), módulo de horas hombre en tiempo real o nuevos módulos no contemplados, se cotizarán por separado o se incluirán en la evolución del servicio.
             </p>
           </div>
         </section>
 
         {/* ── LOGOS DE CLIENTES ── */}
         <div className="mt-16">
-          <LogoCarousel />
+          <LogoCarousel logos={(() => {
+            const l = [
+              { src: '/Logo cebra.png',      alt: 'Logo cebra' },
+              { src: '/Logo dance.png',       alt: 'Logo dance' },
+              { src: '/Logo Mizar.png',       alt: 'Logo Mizar' },
+              { src: '/Logo nibec.png',       alt: 'Logo nibec' },
+              { src: '/Logo RAD.png',         alt: 'Logo RAD' },
+              { src: '/Logo roofing.png',     alt: 'Logo roofing' },
+              { src: '/Logo STC.png',         alt: 'Logo STC' },
+              { src: '/Logo stunet.png',      alt: 'Logo stunet' },
+              { src: '/LOGO-CALAS.png',       alt: 'LOGO-CALAS' },
+              { src: '/logo-dreams.png',      alt: 'logo-dreams' },
+              { src: '/logo-evolucione.png',  alt: 'logo-evolucione' },
+              { src: '/logo-glish.png',       alt: 'logo-glish' },
+              { src: '/images.jpg.jpeg',      alt: 'images' },
+              { src: '/Llogo Milote.png',     alt: 'Llogo Milote' },
+            ];
+            return [...l, ...l];
+          })()} />
         </div>
 
         {/* ─ 06 VIGENCIA ─ */}
         <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Vigencia y términos</TagLabel>
+          <TagLabel>06 · Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
@@ -1012,12 +1004,12 @@ const SiarProposal = () => {
               },
               {
                 titulo: 'Opción de propuesta seleccionada',
-                desc: 'Las tres opciones cubren el mismo MVP. La selección de la opción define quién es el propietario del desarrollo, la estructura de pagos periódicos y las condiciones de permanencia mínima. Cualquiera de las tres puede acordarse dentro de la vigencia de esta propuesta.',
+                desc: 'Las dos opciones cubren el mismo MVP. La selección de la opción define quién es el propietario del desarrollo, la estructura de pagos y las condiciones de permanencia. Cualquiera de las dos puede acordarse dentro de la vigencia de esta propuesta.',
                 icon: Layers,
               },
               {
                 titulo: 'Términos de pago',
-                desc: 'El pago se estructura en tres hitos: 30% al inicio del proyecto, 30% contra entrega del prototipo funcional y 40% contra entrega de la versión en pruebas y salida a producción. Los pagos se realizan mediante transferencia bancaria.',
+                desc: 'El pago se estructura en tres hitos: 30% al inicio del proyecto, 40% contra entrega del prototipo funcional y 30% contra entrega de la versión en pruebas y salida a producción. Los pagos se realizan mediante transferencia bancaria.',
                 icon: FileText,
               },
               {
@@ -1027,7 +1019,7 @@ const SiarProposal = () => {
               },
               {
                 titulo: 'Propiedad y confidencialidad',
-                desc: 'En las opciones 1 y 2, SIAR es propietario de sus datos y de la configuración operativa de la herramienta. En la opción 3, SIAR adquiere la propiedad completa del desarrollo. En todos los casos, Sixteam se compromete a mantener la confidencialidad de la información de SIAR y sus clientes.',
+                desc: 'En ambas opciones, SIAR es propietario de sus datos y de la configuración operativa de la herramienta. En la opción 2, SIAR adquiere además la propiedad completa del código y el desarrollo. En todos los casos, Sixteam se compromete a mantener la confidencialidad de la información de SIAR y sus clientes.',
                 icon: Shield,
               },
               {
@@ -1071,6 +1063,12 @@ const SiarProposal = () => {
                 <span>{META.correo}</span>
                 <span>·</span>
                 <span>RL: {META.rl}</span>
+              </div>
+              <div className="flex flex-wrap justify-center gap-1.5 text-[13px] text-white/25 font-lato mt-2">
+                <span>Propuesta realizada por</span>
+                <span className="text-white/40 font-medium">Ernesto Hernández</span>
+                <span>·</span>
+                <span>Gerente Comercial</span>
               </div>
               <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/20 text-[13px]">
