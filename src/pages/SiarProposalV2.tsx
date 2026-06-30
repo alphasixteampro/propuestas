@@ -150,7 +150,7 @@ const ALCANCE = [
     colorBorder: 'rgba(52,152,219,.30)',
     descripcion: 'Configuración de Zoho Projects como el repositorio de proyectos activos, vinculado al modelo financiero de Zoho Books para que cada proyecto tenga su propio espacio de seguimiento financiero.',
     items: [
-      { text: 'Creación y configuración de proyectos en Zoho Projects con los datos de SIAR', tag: 'Setup' },
+      { text: 'Creación y configuración de proyectos en Zoho Projects con los datos de SIAR — limitado a los proyectos activos en 2026 que cuenten con centro de costo discriminado en Siigo', tag: 'Setup' },
       { text: 'Establecimiento de la asociación entre proyectos en Zoho Projects y centros de costo en Zoho Books' },
       { text: 'Configuración del flujo de sincronización entre Zoho Projects y Zoho Books' },
       { text: 'Definición del ciclo de actualización: con qué frecuencia se actualiza la información financiera por proyecto' },
@@ -210,6 +210,7 @@ const NO_INCLUYE = [
   'Proyección de matrices de costo o modelos de costeo detallado',
   'Licencias de Zoho Books, Zoho Projects o Zoho Analytics (se contratan directamente con Zoho)',
   'Metodologías de costeo — se recomienda mantener las metodologías actuales de SIAR',
+  'Creación de registros para proyectos históricos (anteriores a 2026) o proyectos sin centro de costo discriminado en Siigo',
   'Integración con sistemas distintos a Siigo y Zoho',
   'Desarrollo de software a medida o plataforma propia',
 ];
