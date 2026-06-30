@@ -21,7 +21,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
-  destinatarios: 'Guillermo Grisales · María Grisales',
+  destinatarios: 'Gerencia Galcomex',
 };
 
 const GALCOMEX_BLUE = '#0077b6';
@@ -65,7 +65,7 @@ const BENEFICIOS = [
   {
     icon: Eye, color: GALCOMEX_BLUE, colorAlpha: 'rgba(0,119,182,.08)', colorBorder: 'rgba(0,119,182,.22)',
     titulo: 'Visibilidad total de cada importación',
-    desc: 'Guillermo y María pueden ver, en cualquier momento y desde cualquier dispositivo, el estado exacto de cada trámite: qué etapa está, qué documentos tiene, qué pagos se han hecho y qué queda pendiente.',
+    desc: 'La Gerencia puede ver, en cualquier momento y desde cualquier dispositivo, el estado exacto de cada trámite: qué etapa está, qué documentos tiene, qué pagos se han hecho y qué queda pendiente.',
   },
   {
     icon: DollarSign, color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.08)', colorBorder: 'rgba(0,191,165,.22)',
@@ -85,7 +85,7 @@ const BENEFICIOS = [
   {
     icon: Shield, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
     titulo: 'Control por roles: cada quien ve lo que necesita',
-    desc: 'Camila tiene acceso total. El equipo operativo gestiona trámites y pagos. Luis Martínez accede únicamente a sus propias operaciones. La información sensible queda protegida sin limitar la productividad.',
+    desc: 'La Auxiliar Administrativa tiene acceso total. El equipo operativo gestiona trámites y pagos. Luis Martínez accede únicamente a sus propias operaciones. La información sensible queda protegida sin limitar la productividad.',
   },
 ];
 
@@ -717,7 +717,7 @@ const GalcomexProposal = () => {
           {/* Resumen numérico */}
           <div className="rounded-xl p-5 sm:p-6 mb-6"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x" style={{ '--tw-divide-opacity': '0.08' } as React.CSSProperties}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center divide-y sm:divide-y-0 sm:divide-x" style={{ '--tw-divide-opacity': '0.08' } as React.CSSProperties}>
               <div className="py-3 sm:py-0">
                 <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-1">Implementación</p>
                 <p className="font-poppins font-black text-white text-[22px]">$4.000.000</p>
@@ -727,11 +727,6 @@ const GalcomexProposal = () => {
                 <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-1">Mensualidad</p>
                 <p className="font-poppins font-black text-[#00bfa5] text-[22px]">$450.000/mes</p>
                 <p className="font-lato text-white/35 text-[13px]">Contrato mínimo 12 meses</p>
-              </div>
-              <div className="py-3 sm:py-0">
-                <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-1">Total primer año</p>
-                <p className="font-poppins font-black text-white text-[22px]">$9.400.000</p>
-                <p className="font-lato text-white/35 text-[13px]">Implementación + 12 meses</p>
               </div>
             </div>
           </div>
@@ -879,7 +874,7 @@ const GalcomexProposal = () => {
               </div>
               <div className="flex flex-wrap justify-center gap-1.5 text-[13px] text-white/25 font-lato mt-2">
                 <span>Propuesta presentada a</span>
-                <span className="text-white/40 font-medium">Guillermo Grisales · María Grisales</span>
+                <span className="text-white/40 font-medium">Gerencia Galcomex</span>
               </div>
               <div className="flex flex-wrap justify-center gap-1.5 text-[13px] text-white/25 font-lato mt-1">
                 <span>Propuesta elaborada por</span>
