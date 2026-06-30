@@ -3,7 +3,7 @@ import LogoCarousel from '../components/LogoCarousel';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap,
   AlertCircle, Info, Calendar, MapPin,
-  Users, Shield, Bell, Lock,
+  Users, Shield, Lock,
   DollarSign, Eye, Activity, Package, FolderOpen,
 } from 'lucide-react';
 
@@ -86,11 +86,6 @@ const BENEFICIOS = [
     icon: Shield, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
     titulo: 'Control por roles: cada quien ve lo que necesita',
     desc: 'Camila tiene acceso total. El equipo operativo gestiona trámites y pagos. Luis Martínez accede únicamente a sus propias operaciones. La información sensible queda protegida sin limitar la productividad.',
-  },
-  {
-    icon: Bell, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
-    titulo: 'Alertas para actuar a tiempo',
-    desc: 'El sistema detecta trámites que llevan más de 3 días esperando ser facturados y los marca visualmente. Nunca más se olvida una operación lista para cerrar.',
   },
 ];
 
