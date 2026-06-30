@@ -224,6 +224,15 @@ const PROPOSALS: Proposal[] = [
     path: '/siar',
   },
   {
+    slug: 'siar-v2',
+    cliente: 'SIAR S.A.S. · V2 · Ecosistema Zoho',
+    sector: 'Gestión Documental · Solución Financiera · Zoho · Colombia',
+    fecha: 'Junio 2026',
+    monto: 'COP 6.500.000 impl. único',
+    estado: 'activa',
+    path: '/siar-v2',
+  },
+  {
     slug: 'galcomex',
     cliente: 'Galcomex',
     sector: 'Logística · Agencia Aduanera · Importaciones · Barranquilla',

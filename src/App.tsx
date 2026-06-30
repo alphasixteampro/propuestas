@@ -26,6 +26,7 @@ const ClinicaMagneticaProposal    = lazy(() => import('./pages/ClinicaMagneticaP
 const MotionMindsProposal         = lazy(() => import('./pages/MotionMindsProposal'));
 const VentureSportProposal        = lazy(() => import('./pages/VentureSportProposal'));
 const SiarProposal                = lazy(() => import('./pages/SiarProposal'));
+const SiarProposalV2              = lazy(() => import('./pages/SiarProposalV2'));
 const GalcomexProposal            = lazy(() => import('./pages/GalcomexProposal'));
 
 function Loader() {
@@ -73,6 +74,7 @@ export default function App() {
           <Route path="/motion-minds"         element={<MotionMindsProposal />} />
           <Route path="/venture-sport"        element={<VentureSportProposal />} />
           <Route path="/siar"                 element={<SiarProposal />} />
+          <Route path="/siar-v2"              element={<SiarProposalV2 />} />
           <Route path="/galcomex"             element={<GalcomexProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
