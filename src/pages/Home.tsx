@@ -223,6 +223,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/siar',
   },
+  {
+    slug: 'galcomex',
+    cliente: 'Galcomex',
+    sector: 'Logística · Agencia Aduanera · Importaciones · Barranquilla',
+    fecha: 'Junio 2026',
+    monto: 'COP 4.000.000 impl. + COP 450.000/mes',
+    estado: 'activa',
+    path: '/galcomex',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
