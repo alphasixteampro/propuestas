@@ -241,6 +241,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/galcomex',
   },
+  {
+    slug: 'dv-clinic-lab',
+    cliente: 'D.V. Clinic Lab',
+    sector: 'Laboratorio Clínico · IPS · Colombia',
+    fecha: 'Julio 2026',
+    monto: 'USD 200 impl. + USD 199/mes',
+    estado: 'activa',
+    path: '/dv-clinic-lab',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -422,7 +431,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -455,6 +464,9 @@ export default function Home() {
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'clinica-magnetica' ? (
                     <img src="/logo-clinica-magnetica.jpg" alt="Clínica Magnética" style={{ width: '90%', height: '90%', objectFit: 'contain', borderRadius: 6, padding: '2px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'dv-clinic-lab' ? (
+                    <img src="/logo-dv-clinic-lab.webp" alt="D.V. Clinic Lab" style={{ width: '90%', height: '90%', objectFit: 'contain', borderRadius: 6, padding: '2px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : (
                     <Building2 size={20} color="#1d70a2" />

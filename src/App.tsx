@@ -28,6 +28,7 @@ const VentureSportProposal        = lazy(() => import('./pages/VentureSportPropo
 const SiarProposal                = lazy(() => import('./pages/SiarProposal'));
 const SiarProposalV2              = lazy(() => import('./pages/SiarProposalV2'));
 const GalcomexProposal            = lazy(() => import('./pages/GalcomexProposal'));
+const DvClinicLabProposal         = lazy(() => import('./pages/DvClinicLabProposal'));
 
 function Loader() {
   return (
@@ -76,6 +77,7 @@ export default function App() {
           <Route path="/siar"                 element={<SiarProposal />} />
           <Route path="/siar-v2"              element={<SiarProposalV2 />} />
           <Route path="/galcomex"             element={<GalcomexProposal />} />
+          <Route path="/dv-clinic-lab"        element={<DvClinicLabProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
