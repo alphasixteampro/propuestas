@@ -87,7 +87,7 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 // ─── QUÉ CUBRE EL SERVICIO ───────────────────────────────────────────────────
 
 const COBERTURA = [
-  'Soporte sobre la plataforma Sixteam.pro y sobre los sistemas conectados de Calas y Nibec',
+  'Operación y soporte sobre Brevo y las demás plataformas que Calas y Nibec ya utilizan',
   'Ajustes y reentrenamiento de los asistentes de IA con información nueva o actualizada',
   'Ejecución de configuraciones adicionales: automatizaciones, informes, campos y flujos',
   'Adición de nuevas funcionalidades o integraciones según las necesidades de cada línea',
@@ -208,55 +208,73 @@ type Actividad = { text: string; tag?: string };
 const FASES = [
   {
     num: '01',
-    nombre: 'Diagnóstico técnico y datos',
-    duracion: 'Mes 1',
+    nombre: 'Mapear y revisar las configuraciones existentes en Brevo',
+    duracion: 'Punto de partida',
     icon: FileText,
     color: CALAS_COLOR,
     colorAlpha: 'rgba(214,59,87,.12)',
     colorBorder: 'rgba(214,59,87,.3)',
-    descripcion: 'Antes de construir cualquier flujo, mapeamos qué está encendido hoy en ambas cuentas y dejamos los datos listos para poder segmentar.',
+    descripcion: 'Antes de activar nuevas campañas, se analizarán las automatizaciones que ya están configuradas y activas en Brevo para evitar que se dupliquen o choquen con las nuevas.',
     actividades: [
-      { text: 'Sesión de arranque para alinear las prioridades técnicas del trimestre', tag: 'Trabajo en conjunto' },
-      { text: 'Mapeo de las automatizaciones y correos hoy activos, con el detalle de cuáles siguen encendidos' },
-      { text: 'Integración del e-commerce con la base de contactos para sincronizar compras y categorías' },
-      { text: 'Configuración de los campos de cliente: tipo, monto acumulado, categoría y frecuencia' },
-      { text: 'Montaje de la segmentación según los criterios que define el equipo' },
+      { text: 'Inventario de las automatizaciones activas en ambas cuentas de Brevo, con el detalle de cuáles siguen encendidas' },
+      { text: 'Revisión de los correos de encuesta de satisfacción y calificación de pedido' },
+      { text: 'Revisión de los flujos de seguimiento a cotizaciones y de avisos de entrega' },
+      { text: 'Identificación de duplicados y solapamientos con las secuencias que se van a montar' },
+      { text: 'Validación conjunta de qué se conserva, qué se ajusta y qué se apaga', tag: 'Trabajo en conjunto' },
     ] as Actividad[],
   },
   {
     num: '02',
-    nombre: 'Montaje de los flujos automatizados',
-    duracion: 'Mes 2',
+    nombre: 'Definición de las primeras secuencias',
+    duracion: 'Un mes de anticipación',
     icon: Workflow,
     color: '#00bfa5',
     colorAlpha: 'rgba(0,191,165,.10)',
     colorBorder: 'rgba(0,191,165,.3)',
-    descripcion: 'Construimos un mes de flujo por delante en lugar de armar el año completo de una sola vez, de modo que el trabajo se distribuye y cada cliente nuevo va entrando por el inicio de la secuencia.',
+    descripcion: 'En lugar de estructurar un plan para todo el año de inmediato, se trabajará con un mes de adelanto para mantener el contenido actualizado y atemporal.',
     actividades: [
-      { text: 'Flujo de bienvenida post-compra para cliente empresa y cliente persona, en ambas líneas' },
-      { text: 'Secuencia de recompra con disparadores por tiempo transcurrido desde la última compra' },
-      { text: 'Flujo de venta cruzada según la categoría de producto comprada' },
-      { text: 'Montaje de las plantillas en la plataforma con los contenidos que entrega el equipo', tag: 'Trabajo en conjunto' },
-      { text: 'Enlace directo a cotización por WhatsApp o landing dentro de cada plantilla' },
-      { text: 'Reglas de frecuencia y control de solapamiento con los envíos ya activos' },
+      { text: 'El foco de inicio es el correo de bienvenida, tanto para cliente persona como empresa en su primera compra' },
+      { text: 'El correo busca generar confianza compartiendo reseñas, testimonios y la capacidad de respuesta de la marca' },
+      { text: 'Montaje y automatización de la secuencia en Brevo con los contenidos que entrega el equipo', tag: 'Trabajo en conjunto' },
+      { text: 'Configuración del disparador de primera compra y de las condiciones de entrada' },
+      { text: 'Reglas de frecuencia para que la secuencia no choque con los correos ya activos' },
+      { text: 'Enlace directo a cotización por WhatsApp o landing dentro de la secuencia' },
     ] as Actividad[],
   },
   {
     num: '03',
-    nombre: 'Activación, audiencias y medición',
-    duracion: 'Mes 3 en adelante',
-    icon: Rocket,
+    nombre: 'Segmentación y programa de fidelización',
+    duracion: 'Por tipo de cliente',
+    icon: Users,
+    color: '#a855f7',
+    colorAlpha: 'rgba(168,85,247,.10)',
+    colorBorder: 'rgba(168,85,247,.3)',
+    descripcion: 'Se empezará a estructurar un programa de fidelización adaptado, dividiendo la comunicación según el tipo de cliente.',
+    actividades: [
+      { text: 'Configuración de la segmentación en Brevo cruzando tipo de cliente, monto de compra y frecuencia' },
+      { text: 'Rama B2C: los clientes persona reciben sugerencias enfocadas en el hogar o en pequeñas pymes' },
+      { text: 'Rama B2B: los clientes empresa reciben comunicación orientada a renovación de stock, sucursales o reventa' },
+      { text: 'Campos de cliente con reglas de actualización automática según su comportamiento de compra' },
+      { text: 'Secuencias de recompra con disparadores por tiempo transcurrido desde la última compra' },
+      { text: 'Flujo de venta cruzada según la categoría de producto comprada' },
+    ] as Actividad[],
+  },
+  {
+    num: '04',
+    nombre: 'Optimización y exclusión en pauta publicitaria',
+    duracion: 'Reducción de CAC',
+    icon: Megaphone,
     color: NIBEC_COLOR,
     colorAlpha: 'rgba(245,160,42,.10)',
     colorBorder: 'rgba(245,160,42,.3)',
-    descripcion: 'Con los flujos corriendo, el foco pasa a conectar el sistema con la pauta y a iterar sobre datos reales. Desde aquí el servicio entra en su ritmo natural de solicitudes mensuales.',
+    descripcion: 'Se configurarán audiencias de exclusión para que quienes ya compraron dejen de ver publicidad repetitiva, lo que reduce el costo de adquisición de clientes.',
     actividades: [
-      { text: 'Automatización de exclusión de compradores recientes en las audiencias de Meta' },
-      { text: 'Envío de eventos de conversión a Meta para mantener las audiencias sincronizadas' },
+      { text: 'Configuración de audiencias de exclusión de compradores dentro de las cuentas de Meta' },
+      { text: 'Automatización de la actualización de esas listas mediante la API de conversiones de Meta' },
+      { text: 'Sincronización de los eventos de conversión entre el e-commerce, Brevo y Meta' },
       { text: 'Panel de informes con aperturas, clics, cotizaciones generadas y recompras atribuidas' },
       { text: 'Ajuste de tiempos y criterios de entrada según el comportamiento observado' },
       { text: 'Capacitación al equipo sobre el uso y monitoreo de los flujos activos' },
-      { text: 'Montaje del siguiente tramo de flujo, siempre un paso por delante de la base' },
     ] as Actividad[],
   },
 ];
@@ -266,7 +284,7 @@ const SECCIONES = [
   { id: 'objetivo',   label: 'Objetivo' },
   { id: 'servicio',   label: 'Servicio' },
   { id: 'alcance',    label: 'Alcance' },
-  { id: 'arranque',   label: 'Arranque' },
+  { id: 'arranque',   label: 'Plan de trabajo' },
   { id: 'inversion',  label: 'Inversión' },
   { id: 'vigencia',   label: 'Vigencia' },
 ];
@@ -305,6 +323,8 @@ const CalasNibecProposal = () => {
   const [catalogoActivo, setCatalogoActivo] = useState<number | null>(null);
   const [showReporte, setShowReporte] = useState(false);
   const [showEjemplo, setShowEjemplo] = useState(false);
+  const [showComoFunciona, setShowComoFunciona] = useState(false);
+  const [showFueraAlcance, setShowFueraAlcance] = useState(false);
   const [showCostosVariables, setShowCostosVariables] = useState(false);
   const [showMetaTable, setShowMetaTable] = useState(false);
   const [showCalcIA, setShowCalcIA] = useState(false);
@@ -457,7 +477,7 @@ const CalasNibecProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo','2. Objetivo general','3. Sixteam Ops','4. Alcance del servicio','5. Ruta de arranque','6. Inversión','7. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo','2. Objetivo general','3. Sixteam Ops','4. Alcance del servicio','5. Plan de trabajo','6. Inversión','7. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -702,50 +722,110 @@ const CalasNibecProposal = () => {
             </div>
           </div>
 
-          {/* Qué no cubre el servicio */}
+          {/* Operamos sobre las plataformas del cliente */}
           <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
-            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: CALAS_COLOR }} />
+            style={{ background: 'rgba(245,160,42,.05)', border: '1px solid rgba(245,160,42,.2)' }}>
+            <Database className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: NIBEC_COLOR }} />
             <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/80 text-[16px] mb-1.5">Qué opera Sixteam y qué queda del lado de Calas y Nibec</p>
-              <p className="font-lato text-white/50 text-[15px] leading-relaxed mb-3">
-                Sixteam opera la tecnología y los sistemas, es decir construye, automatiza, integra y mantiene la infraestructura sobre la que corre la operación comercial. La estrategia comercial y el contenido siguen siendo del equipo de Calas y Nibec, de modo que estos puntos quedan fuera del servicio:
+              <p className="font-poppins font-semibold text-white/80 text-[17px] mb-1.5">Operamos sobre las plataformas que ya tienen</p>
+              <p className="font-lato text-white/50 text-[16px] leading-relaxed">
+                El servicio no obliga a cambiar de herramienta. Sixteam trabaja directamente sobre <strong className="text-white/75">Brevo</strong>, sobre el e-commerce, sobre las cuentas de Meta y sobre las demás plataformas que Calas y Nibec ya utilizan, aprovechando lo que está construido en lugar de empezar de cero. Si en algún momento el equipo requiere una funcionalidad que sus plataformas actuales no cubren, se evalúa en conjunto y se cotiza como proyecto de implementación aparte.
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5">
-                {FUERA_DE_ALCANCE.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[7px]" style={{ background: CALAS_COLOR }} />
-                    <span className="font-lato text-white/45 text-[14px] leading-snug">{item}</span>
-                  </li>
-                ))}
-              </ul>
             </div>
           </div>
 
           {/* Cómo funciona el consumo de créditos */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-4"
-            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2 flex items-center gap-2">
-              <Coins className="w-4 h-4 text-[#00bfa5]" /> Cómo funciona el consumo de créditos
-            </p>
-            <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-4">
-              Por cada solicitud que entra, Sixteam cotiza cuántos créditos consumirá y en cuánto tiempo estará lista. El equipo decide si aprueba antes de que se ejecute cualquier trabajo, así nunca hay sorpresas al cierre del mes. Toda la atención es personalizada, apoyada con inteligencia artificial y con el criterio humano de los expertos de Sixteam.
-            </p>
-            <div className="rounded-xl p-4 flex flex-col gap-2.5" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
-              <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Flujo de cada solicitud</p>
-              {[
-                { step: '01', text: 'El equipo envía la solicitud describiendo qué necesita, por ejemplo automatizar un correo de bienvenida para quien compra por primera vez en Nibec.' },
-                { step: '02', text: 'Sixteam analiza la solicitud y responde con la cotización: cuántos créditos consume y en cuánto tiempo queda lista.' },
-                { step: '03', text: 'El equipo aprueba y Sixteam ejecuta. Los créditos se descuentan del saldo del período, visible en todo momento.' },
-                { step: '04', text: 'Al cierre del mes se entrega el reporte con el desglose de créditos por solicitud y el saldo del período.' },
-              ].map((s) => (
-                <div key={s.step} className="flex items-start gap-3">
-                  <span className="font-poppins font-black text-[11px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
-                    style={{ background: 'rgba(0,191,165,.15)', color: '#00bfa5' }}>{s.step}</span>
-                  <p className="font-lato text-white/55 text-[15px] leading-relaxed">{s.text}</p>
+          <div className="rounded-xl overflow-hidden transition-all duration-300 mb-4"
+            style={{ border: showComoFunciona ? '1px solid rgba(0,191,165,.35)' : '1px solid rgba(255,255,255,.08)' }}>
+            <button onClick={() => setShowComoFunciona(v => !v)}
+              className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200"
+              style={{ background: showComoFunciona ? 'rgba(0,191,165,.06)' : 'rgba(255,255,255,.02)' }}>
+              <Coins className="w-4 h-4 flex-shrink-0" style={{ color: showComoFunciona ? '#00bfa5' : 'rgba(255,255,255,.35)' }} />
+              <div className="flex-1">
+                <span className="font-poppins font-bold text-[16px]" style={{ color: showComoFunciona ? '#fff' : 'rgba(255,255,255,.7)' }}>
+                  Cómo funciona el consumo de créditos
+                </span>
+                <span className="font-lato text-white/30 text-[13px] ml-3 hidden sm:inline">4 pasos por solicitud</span>
+              </div>
+              <ChevronRight className="w-4 h-4 transition-transform duration-300 flex-shrink-0"
+                style={{ color: showComoFunciona ? '#00bfa5' : 'rgba(255,255,255,.3)', transform: showComoFunciona ? 'rotate(90deg)' : undefined }} />
+            </button>
+
+            {showComoFunciona && (
+              <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                <div className="pt-4 space-y-4">
+                  <p className="font-lato text-white/50 text-[16px] leading-relaxed">
+                    Por cada solicitud que entra, Sixteam cotiza cuántos créditos consumirá y en cuánto tiempo estará lista. El equipo decide si aprueba antes de que se ejecute cualquier trabajo, así nunca hay sorpresas al cierre del mes. Toda la atención es personalizada, apoyada con inteligencia artificial y con el criterio humano de los expertos de Sixteam.
+                  </p>
+
+                  <div className="rounded-xl p-4 flex flex-col gap-2.5" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
+                    <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Flujo de cada solicitud</p>
+                    {[
+                      { step: '01', text: 'El equipo envía la solicitud describiendo qué necesita, por ejemplo automatizar un correo de bienvenida para quien compra por primera vez en Nibec.' },
+                      { step: '02', text: 'Sixteam analiza la solicitud y responde con la cotización: cuántos créditos consume y en cuánto tiempo queda lista.' },
+                      { step: '03', text: 'El equipo aprueba y Sixteam ejecuta. Los créditos se descuentan del saldo del período, visible en todo momento.' },
+                      { step: '04', text: 'Al cierre del mes se entrega el reporte con el desglose de créditos por solicitud y el saldo del período.' },
+                    ].map((s) => (
+                      <div key={s.step} className="flex items-start gap-3">
+                        <span className="font-poppins font-black text-[11px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
+                          style={{ background: 'rgba(0,191,165,.15)', color: '#00bfa5' }}>{s.step}</span>
+                        <p className="font-lato text-white/55 text-[15px] leading-relaxed">{s.text}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Ejemplo real de solicitud y respuesta — anidado */}
+                  <div className="rounded-xl overflow-hidden transition-all duration-300"
+                    style={{ border: showEjemplo ? `1px solid ${NIBEC_COLOR}55` : '1px solid rgba(255,255,255,.07)' }}>
+                    <button onClick={() => setShowEjemplo(v => !v)}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200"
+                      style={{ background: showEjemplo ? 'rgba(245,160,42,.06)' : 'transparent' }}>
+                      <MessageSquare className="w-3.5 h-3.5 flex-shrink-0" style={{ color: showEjemplo ? NIBEC_COLOR : 'rgba(255,255,255,.35)' }} />
+                      <div className="flex-1">
+                        <span className="font-lato text-[14px]" style={{ color: showEjemplo ? NIBEC_COLOR : 'rgba(255,255,255,.45)' }}>
+                          Ejemplo real de solicitud y respuesta
+                        </span>
+                        <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide align-middle"
+                          style={{ background: 'rgba(245,160,42,.12)', border: '1px solid rgba(245,160,42,.3)', color: NIBEC_COLOR }}>
+                          Referencial
+                        </span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
+                        style={{ color: showEjemplo ? NIBEC_COLOR : 'rgba(255,255,255,.25)', transform: showEjemplo ? 'rotate(90deg)' : undefined }} />
+                    </button>
+
+                    {showEjemplo && (
+                      <div className="px-4 pb-4 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                        <div className="pt-4 space-y-3">
+                          <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                            <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                              style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Fernando</span>
+                            <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
+                              "Queremos automatizar que a los clientes de Nibec que compraron estantería les llegue, a los quince días, la pieza de mobiliario de carga que ya tenemos armada, con enlace directo para cotizar por WhatsApp."
+                            </p>
+                          </div>
+                          <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(245,160,42,.06)', border: '1px solid rgba(245,160,42,.18)' }}>
+                            <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                              style={{ background: 'rgba(245,160,42,.20)', color: NIBEC_COLOR }}>Sixteam</span>
+                            <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
+                              "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en Brevo, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Son <strong className="text-white/75 not-italic">12 créditos</strong> y queda lista en 4 días hábiles. Te quedarían 148 créditos disponibles este mes. ¿Aprobamos?"
+                            </p>
+                          </div>
+                          <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                            <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                              style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Fernando</span>
+                            <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">"Sí, aprobado."</p>
+                          </div>
+                          <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1">
+                            Sixteam construye el flujo, lo prueba y lo deja corriendo. A partir de ahí, todo cliente de Nibec que compre estantería entra automáticamente en la secuencia sin intervención del equipo.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Ejemplo de reporte mensual de créditos */}
@@ -806,55 +886,6 @@ const CalasNibecProposal = () => {
             )}
           </div>
 
-          {/* Ejemplo real de solicitud y respuesta */}
-          <div className="rounded-xl overflow-hidden transition-all duration-300"
-            style={{ border: showEjemplo ? `1px solid ${NIBEC_COLOR}55` : '1px solid rgba(255,255,255,.08)' }}>
-            <button onClick={() => setShowEjemplo(v => !v)}
-              className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200"
-              style={{ background: showEjemplo ? 'rgba(245,160,42,.06)' : 'rgba(255,255,255,.02)' }}>
-              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: showEjemplo ? NIBEC_COLOR : 'rgba(255,255,255,.35)' }} />
-              <div className="flex-1">
-                <span className="font-poppins font-bold text-[16px]" style={{ color: showEjemplo ? '#fff' : 'rgba(255,255,255,.7)' }}>
-                  Ejemplo real de solicitud y respuesta
-                </span>
-                <span className="ml-3 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium uppercase tracking-wide align-middle"
-                  style={{ background: 'rgba(245,160,42,.12)', border: '1px solid rgba(245,160,42,.3)', color: NIBEC_COLOR }}>
-                  Referencial
-                </span>
-              </div>
-              <ChevronRight className="w-4 h-4 transition-transform duration-300 flex-shrink-0"
-                style={{ color: showEjemplo ? NIBEC_COLOR : 'rgba(255,255,255,.3)', transform: showEjemplo ? 'rotate(90deg)' : undefined }} />
-            </button>
-
-            {showEjemplo && (
-              <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                <div className="pt-4 space-y-3">
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Fernando</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                      "Queremos automatizar que a los clientes de Nibec que compraron estantería les llegue, a los quince días, la pieza de mobiliario de carga que ya tenemos armada, con enlace directo para cotizar por WhatsApp."
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(245,160,42,.06)', border: '1px solid rgba(245,160,42,.18)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(245,160,42,.20)', color: NIBEC_COLOR }}>Sixteam</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                      "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en la plataforma, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Son <strong className="text-white/75 not-italic">12 créditos</strong> y queda lista en 4 días hábiles. Te quedarían 148 créditos disponibles este mes. ¿Aprobamos?"
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Fernando</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">"Sí, aprobado."</p>
-                  </div>
-                  <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1">
-                    Sixteam construye el flujo, lo prueba y lo deja corriendo. A partir de ahí, todo cliente de Nibec que compre estantería entra automáticamente en la secuencia sin intervención del equipo.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
         </section>
 
         {/* ─ 04 ALCANCE ─ */}
@@ -905,61 +936,63 @@ const CalasNibecProposal = () => {
             })}
           </div>
 
-          {/* Plataforma Sixteam incluida */}
-          <div className="mt-6 rounded-xl p-5 sm:p-6 flex gap-3"
-            style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.22)' }}>
-            <Shield className="w-4 h-4 flex-shrink-0 mt-1 text-[#00bfa5]" />
-            <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/85 text-[19px] mb-2">Plataforma Sixteam incluido con Soporte y Operaciones</p>
-              <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-4">
-                Con el servicio de <strong className="text-white/75">Soporte y Operaciones de Sixteam</strong>, Calas y Nibec acceden a las funcionalidades de la <strong className="text-white/75">plataforma Sixteam.pro sin costo adicional de licencia</strong> mientras el plan esté activo. Las funcionalidades se habilitan bajo solicitud del equipo.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {[
-                  { icon: LayoutDashboard, titulo: 'CRM y pipelines', desc: 'Gestión de oportunidades comerciales por línea de negocio' },
-                  { icon: Inbox,           titulo: 'ChatCenter omnicanal', desc: 'WhatsApp, Instagram y Facebook en una sola bandeja' },
-                  { icon: Mail,            titulo: 'Email Marketing', desc: 'Campañas, flujos automatizados y segmentación de la base' },
-                  { icon: Database,        titulo: 'Base de datos de contactos', desc: 'Contactos unificados con campos personalizados' },
-                  { icon: Workflow,        titulo: 'Automatizaciones', desc: 'Flujos, disparadores y reglas sobre toda la operación' },
-                  { icon: BarChart3,       titulo: 'Informes y paneles', desc: 'Métricas de campañas, conversión y actividad comercial' },
-                ].map((f, i) => {
-                  const FIcon = f.icon;
-                  return (
-                    <div key={i} className="rounded-lg p-3 flex gap-2.5" style={{ background: 'rgba(2,8,20,.5)', border: '1px solid rgba(255,255,255,.06)' }}>
-                      <FIcon className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-poppins font-semibold text-white/80 text-[15px]">{f.titulo}</p>
-                        <p className="font-lato text-white/45 text-[13px] leading-snug">{f.desc}</p>
-                      </div>
-                    </div>
-                  );
-                })}
+          {/* Qué opera Sixteam y qué queda del lado del cliente */}
+          <div className="mt-6 rounded-xl overflow-hidden transition-all duration-300"
+            style={{ border: showFueraAlcance ? `1px solid ${CALAS_COLOR}55` : '1px solid rgba(255,255,255,.08)' }}>
+            <button onClick={() => setShowFueraAlcance(v => !v)}
+              className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200"
+              style={{ background: showFueraAlcance ? 'rgba(214,59,87,.06)' : 'rgba(255,255,255,.02)' }}>
+              <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: showFueraAlcance ? CALAS_COLOR : 'rgba(255,255,255,.35)' }} />
+              <div className="flex-1">
+                <span className="font-poppins font-bold text-[16px]" style={{ color: showFueraAlcance ? '#fff' : 'rgba(255,255,255,.7)' }}>
+                  Qué opera Sixteam y qué queda del lado de Calas y Nibec
+                </span>
+                <span className="font-lato text-white/30 text-[13px] ml-3 hidden sm:inline">Límites del servicio</span>
               </div>
+              <ChevronRight className="w-4 h-4 transition-transform duration-300 flex-shrink-0"
+                style={{ color: showFueraAlcance ? CALAS_COLOR : 'rgba(255,255,255,.3)', transform: showFueraAlcance ? 'rotate(90deg)' : undefined }} />
+            </button>
 
-              <div className="mt-3 rounded-lg p-3.5 flex gap-2.5" style={{ background: 'rgba(245,160,42,.07)', border: '1px solid rgba(245,160,42,.22)' }}>
-                <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: NIBEC_COLOR }} />
-                <p className="font-lato text-white/55 text-[14px] leading-relaxed">
-                  <strong className="text-white/75">Módulos adicionales a esta etapa inicial.</strong> La implementación, configuración, activación y capacitación de funcionalidades o módulos nuevos, como CRM, ChatCenter o Asistentes de IA, se cotizan aparte como proyecto de implementación. Una vez implementados, su soporte y sus ajustes posteriores sí quedan cubiertos por los créditos del servicio.
-                </p>
+            {showFueraAlcance && (
+              <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                <div className="pt-4 space-y-4">
+                  <p className="font-lato text-white/50 text-[16px] leading-relaxed">
+                    Sixteam opera la tecnología y los sistemas, es decir configura, automatiza, integra y mantiene la infraestructura sobre la que corre la operación comercial. La estrategia comercial y el contenido siguen siendo del equipo de Calas y Nibec, de modo que estos puntos quedan fuera del servicio:
+                  </p>
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5">
+                    {FUERA_DE_ALCANCE.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[7px]" style={{ background: CALAS_COLOR }} />
+                        <span className="font-lato text-white/50 text-[15px] leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="rounded-lg p-3.5 flex gap-2.5" style={{ background: 'rgba(245,160,42,.07)', border: '1px solid rgba(245,160,42,.22)' }}>
+                    <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: NIBEC_COLOR }} />
+                    <p className="font-lato text-white/55 text-[14px] leading-relaxed">
+                      <strong className="text-white/75">Módulos y plataformas nuevas.</strong> La implementación, configuración, activación y capacitación de funcionalidades que hoy no existen en las plataformas de Calas y Nibec, como un CRM, un ChatCenter o Asistentes de IA, se cotizan aparte como proyecto de implementación. Una vez implementados, su operación y sus ajustes posteriores sí quedan cubiertos por los créditos del servicio.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
 
         {/* ─ 05 ARRANQUE ─ */}
         <section id="arranque" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Ruta de arranque</TagLabel>
-          <SectionTitle>Los primeros 3 meses</SectionTitle>
+          <TagLabel>05 — Propuesta de Plan de Trabajo</TagLabel>
+          <SectionTitle>4 acciones clave para iniciar</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            El servicio no tiene cronograma cerrado, ya que el equipo decide mes a mes en qué invertir los créditos. Aun así, esta es la ruta que Sixteam recomienda para los primeros tres meses, orientada al freno principal: devolver al cliente ya convertido al embudo sin volver a pagar por él en pauta.
+            De acuerdo con lo conversado en la última reunión, estas son las acciones clave con las que se plantea arrancar. El servicio no tiene cronograma cerrado, ya que el equipo decide mes a mes en qué invertir los créditos, aunque este es el orden que Sixteam recomienda para atacar primero el freno principal: devolver al cliente ya convertido al embudo sin volver a pagar por él en pauta.
           </p>
 
           <div className="relative mb-10">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(214,59,87,.4), rgba(0,191,165,.4), rgba(245,160,42,.4))' }} />
+              style={{ background: 'linear-gradient(to bottom, rgba(214,59,87,.4), rgba(0,191,165,.4), rgba(168,85,247,.4), rgba(245,160,42,.4))' }} />
 
             <div className="space-y-3">
               {FASES.map((fase, i) => {
@@ -1043,7 +1076,7 @@ const CalasNibecProposal = () => {
           <SectionTitle>Plan Integral · Sixteam Ops</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Un único valor mensual anticipado que cubre el servicio para ambas líneas de negocio, con la plataforma Sixteam.pro incluida. No hay costo de implementación ni pago inicial, ya que el trabajo de arranque se ejecuta con los créditos del propio plan. Todos los valores están expresados en{' '}
+            Un único valor mensual anticipado que cubre el servicio para ambas líneas de negocio. No hay costo de implementación ni pago inicial, ya que Sixteam opera sobre las plataformas que Calas y Nibec ya tienen y el trabajo de arranque se ejecuta con los créditos del propio plan. Todos los valores están expresados en{' '}
             <strong className="text-white/75">dólares estadounidenses (USD)</strong>.
           </p>
 
@@ -1074,7 +1107,7 @@ const CalasNibecProposal = () => {
                   { label: 'Créditos mensuales incluidos', value: `${CREDITOS_MES}` },
                   { label: 'Solicitudes promedio al mes', value: `~${SOLICITUDES_MES}` },
                   { label: 'Líneas de negocio cubiertas', value: 'Calas y Nibec' },
-                  { label: 'Plataforma Sixteam.pro', value: 'Incluida' },
+                  { label: 'Plataformas sobre las que se opera', value: 'Brevo y las actuales' },
                   { label: 'Cotización en créditos antes de ejecutar', value: 'Siempre' },
                   { label: 'Reporte mensual de consumo', value: 'Incluido' },
                   { label: 'Canal dedicado de atención', value: 'SLA 4h hábiles' },
@@ -1089,14 +1122,14 @@ const CalasNibecProposal = () => {
             </div>
           </div>
 
-          {/* Plataforma Sixteam incluido con Soporte y Operaciones */}
+          {/* Qué no cubre el valor mensual */}
           <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
             style={{ background: 'rgba(245,160,42,.05)', border: '1px solid rgba(245,160,42,.2)' }}>
             <Shield className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: NIBEC_COLOR }} />
             <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">Plataforma Sixteam incluido con Soporte y Operaciones</p>
+              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">Qué queda fuera del valor mensual</p>
               <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-3">
-                El valor mensual del Plan Integral ya incluye el acceso a la <strong className="text-white/70">plataforma Sixteam.pro sin costo adicional de licencia</strong>. La implementación, configuración, activación y capacitación de funcionalidades o módulos adicionales a esta etapa inicial, como CRM, ChatCenter o Asistentes de IA, se cotizan aparte como proyecto de implementación. Existen además costos variables que cobran directamente los proveedores según consumo real, por lo que se trasladan sin margen adicional.
+                El plan cubre la operación sobre las plataformas actuales, de modo que <strong className="text-white/70">las licencias de Brevo y de las demás herramientas siguen a nombre de Calas y Nibec</strong>. La implementación de módulos que hoy no existen, como un CRM, un ChatCenter o Asistentes de IA, se cotiza aparte como proyecto. Existen además costos variables que cobran directamente los proveedores según consumo real, por lo que se trasladan sin margen adicional.
               </p>
 
               {/* Acordeón costos variables */}
@@ -1199,7 +1232,7 @@ const CalasNibecProposal = () => {
                         <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
                         <div className="flex-1">
                           <p className="font-lato text-white/55 text-[14px] leading-relaxed">
-                            <strong className="text-white/75">Envíos masivos de correo:</strong> el volumen de correos enviados por encima del cupo incluido en la plataforma tiene un costo por envío según el proveedor. Se dimensiona junto al equipo antes de lanzar cada campaña, de manera que el gasto quede aprobado previamente.{' '}
+                            <strong className="text-white/75">Envíos masivos de correo:</strong> el volumen de correos enviados por encima del plan contratado en Brevo tiene un costo por envío que cobra directamente la plataforma. Se dimensiona junto al equipo antes de lanzar cada campaña, de manera que el gasto quede aprobado previamente.{' '}
                             <span className="font-lato text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
                           </p>
                         </div>
@@ -1315,9 +1348,9 @@ const CalasNibecProposal = () => {
               { titulo: 'Créditos y su vigencia', desc: `El plan incluye ${CREDITOS_MES} créditos por período mensual, equivalentes en promedio a cerca de ${SOLICITUDES_MES} solicitudes entre ambas líneas. Los créditos no utilizados no son acumulables al período siguiente. Si una solicitud excede el saldo disponible, se cotiza el excedente aparte o se programa para el período siguiente, siempre con aprobación previa.`, icon: Coins },
               { titulo: 'Cotización previa de cada solicitud', desc: 'Ninguna solicitud se ejecuta sin aprobación. Sixteam informa antes cuántos créditos consume y en cuánto tiempo estará lista, de modo que el equipo mantiene el control del consumo durante todo el período.', icon: MessageSquare },
               { titulo: 'Alcance del servicio', desc: 'Sixteam opera la tecnología y los sistemas de marketing, ventas y servicio: automatización, sistematización, integración, soporte e incorporación de inteligencia artificial. No incluye la creación de contenido para marketing, la definición de la estrategia comercial, la gestión de redes sociales ni la administración de la inversión publicitaria.', icon: AlertCircle },
-              { titulo: 'Plataforma incluida', desc: 'La plataforma Sixteam.pro se incluye sin costo adicional de licencia mientras el servicio esté activo, y sus funcionalidades se habilitan bajo solicitud del equipo. Al finalizar el servicio, el acceso a la plataforma se cotiza de forma independiente.', icon: Shield },
-              { titulo: 'Módulos adicionales', desc: 'La implementación, configuración, activación y capacitación de funcionalidades o módulos adicionales a esta etapa inicial, como CRM, ChatCenter o Asistentes de IA, se cotizan aparte como proyecto de implementación. Una vez implementados, su soporte y sus ajustes posteriores quedan cubiertos por los créditos del servicio.', icon: LayoutDashboard },
-              { titulo: 'Costos variables de terceros', desc: 'Los mensajes plantilla de WhatsApp cobrados por Meta, los envíos masivos de correo por encima del cupo incluido, el consumo de IA por mensajes procesados y la inversión publicitaria los cobra directamente cada proveedor y se trasladan sin margen adicional, facturados mes vencido según consumo real.', icon: TrendingUp },
+              { titulo: 'Plataformas del cliente', desc: 'Sixteam opera sobre Brevo y sobre las demás plataformas que Calas y Nibec ya utilizan. Las licencias, planes y suscripciones de esas herramientas se mantienen a nombre del cliente y no forman parte del valor mensual del servicio.', icon: Shield },
+              { titulo: 'Módulos y plataformas nuevas', desc: 'La implementación, configuración, activación y capacitación de funcionalidades que hoy no existen en las plataformas del cliente, como un CRM, un ChatCenter o Asistentes de IA, se cotizan aparte como proyecto de implementación. Una vez implementados, su operación y sus ajustes posteriores quedan cubiertos por los créditos del servicio.', icon: LayoutDashboard },
+              { titulo: 'Costos variables de terceros', desc: 'Los mensajes plantilla de WhatsApp cobrados por Meta, los envíos de correo por encima del plan contratado en Brevo, el consumo de IA por mensajes procesados y la inversión publicitaria los cobra directamente cada proveedor y se trasladan sin margen adicional, facturados mes vencido según consumo real.', icon: TrendingUp },
               { titulo: 'Atención y tiempos de respuesta', desc: 'La atención se presta vía canal dedicado con un SLA de 4 horas en días hábiles para la primera respuesta. El tiempo de ejecución de cada solicitud se informa en su cotización, ya que depende de la complejidad.', icon: Headphones },
               { titulo: 'Permanencia mínima', desc: 'Aunque no existe cláusula de permanencia, Sixteam solicita establecer contractualmente un mínimo de 3 meses de prestación del servicio, como garantía de que el sistema alcance a construirse y a mostrar resultados. Este período puede cancelarse anticipadamente por fallas, errores o quejas del equipo de Calas y Nibec hacia Sixteam.', icon: Clock },
               { titulo: 'Inicio del servicio', desc: 'El servicio comienza desde la recepción del primer pago mensual y la entrega de accesos por parte de Calas y Nibec, específicamente las cuentas de correo marketing, el e-commerce, las cuentas de Meta y la base de clientes.', icon: Rocket },
