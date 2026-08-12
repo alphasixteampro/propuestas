@@ -1122,28 +1122,21 @@ const CalasNibecProposal = () => {
             </div>
           </div>
 
-          {/* Qué no cubre el valor mensual */}
-          <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
-            style={{ background: 'rgba(245,160,42,.05)', border: '1px solid rgba(245,160,42,.2)' }}>
-            <Shield className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: NIBEC_COLOR }} />
-            <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">Qué queda fuera del valor mensual</p>
-              <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-3">
-                El plan cubre la operación sobre las plataformas actuales, de modo que <strong className="text-white/70">las licencias de Brevo y de las demás herramientas siguen a nombre de Calas y Nibec</strong>. La implementación de módulos que hoy no existen, como un CRM, un ChatCenter o Asistentes de IA, se cotiza aparte como proyecto. Existen además costos variables que cobran directamente los proveedores según consumo real, por lo que se trasladan sin margen adicional.
-              </p>
-
-              {/* Acordeón costos variables */}
-              <div className="rounded-xl overflow-hidden transition-all duration-300"
-                style={{ border: showCostosVariables ? '1px solid rgba(245,158,11,.35)' : '1px solid rgba(255,255,255,.07)' }}>
+          {/* Acordeón costos variables */}
+          <div className="rounded-xl overflow-hidden transition-all duration-300 mb-4"
+            style={{ border: showCostosVariables ? '1px solid rgba(245,158,11,.35)' : '1px solid rgba(255,255,255,.08)' }}>
                 <button onClick={() => setShowCostosVariables(v => !v)}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200"
-                  style={{ background: showCostosVariables ? 'rgba(245,158,11,.06)' : 'transparent' }}>
-                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.35)' }} />
-                  <span className="font-lato text-[13px] flex-1" style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.4)' }}>
-                    Costos variables adicionales
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
-                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.25)', transform: showCostosVariables ? 'rotate(90deg)' : undefined }} />
+                  className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200"
+                  style={{ background: showCostosVariables ? 'rgba(245,158,11,.06)' : 'rgba(255,255,255,.02)' }}>
+                  <AlertCircle className="w-4 h-4 flex-shrink-0" style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.35)' }} />
+                  <div className="flex-1">
+                    <span className="font-poppins font-bold text-[16px]" style={{ color: showCostosVariables ? '#fff' : 'rgba(255,255,255,.7)' }}>
+                      Costos variables adicionales
+                    </span>
+                    <span className="font-lato text-white/30 text-[13px] ml-3 hidden sm:inline">Cobrados directamente por cada proveedor</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 transition-transform duration-300 flex-shrink-0"
+                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.3)', transform: showCostosVariables ? 'rotate(90deg)' : undefined }} />
                 </button>
 
                 {showCostosVariables && (
@@ -1315,8 +1308,6 @@ const CalasNibecProposal = () => {
                     </div>
                   </div>
                 )}
-              </div>
-            </div>
           </div>
 
           {/* Nota valor por crédito */}
