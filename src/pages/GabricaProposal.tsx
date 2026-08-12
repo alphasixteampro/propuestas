@@ -4,7 +4,7 @@ import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap, BarChart3,
   AlertCircle, TrendingUp, Calendar, Info, MapPin,
   MessageSquare, Users, LayoutDashboard, Rocket, Bot, Inbox, Shield,
-  Mail, Coins, Headphones, Database, Workflow, Sparkles,
+  Mail, Coins, Headphones, Database, Workflow,
   Boxes, GitMerge, Gauge, Layers, UserCog, Store, ArrowLeftRight, Timer,
 } from 'lucide-react';
 
@@ -140,90 +140,12 @@ const BANDAS = [
   },
 ];
 
-// ─── CASOS DE USO POR ÁREA ───────────────────────────────────────────────────
-
-type Caso = { area: string; titulo: string; desc: string; creditos: string; banda: string; tiempo: string };
-
-const CASOS: Caso[] = [
-  {
-    area: 'Ventas', titulo: 'Sincronización del maestro de clientes entre Dynamics 365 y HubSpot',
-    desc: 'La ficha del cliente deja de vivir en dos lugares. Lo que se crea o actualiza en el ERP aparece en el CRM y viceversa, con reglas claras sobre qué sistema manda en cada campo.',
-    creditos: '22 a 34', banda: 'Media', tiempo: '5 a 8 días hábiles',
-  },
-  {
-    area: 'Ventas', titulo: 'Cotización en campo conectada al CRM',
-    desc: 'El asesor genera la cotización desde el celular con el portafolio y las condiciones vigentes, queda registrada en la oportunidad y dispara el seguimiento automático sin volver a la oficina.',
-    creditos: '21 a 28', banda: 'Media', tiempo: '4 a 6 días hábiles',
-  },
-  {
-    area: 'Ventas', titulo: 'Alertas comerciales según el estado del pedido en el ERP',
-    desc: 'Cuando un pedido cambia de estado, se despacha o se represa en Dynamics 365, el asesor recibe la alerta en su bandeja del CRM con el contexto del cliente y la tarea ya creada.',
-    creditos: '14 a 20', banda: 'Simple', tiempo: '3 a 5 días hábiles',
-  },
-  {
-    area: 'Ventas', titulo: 'Reposición automatizada para pet shops y veterinarias',
-    desc: 'A partir del histórico de compra y del ciclo de consumo de cada producto, el sistema calcula cuándo toca reponer y le entrega al asesor la lista priorizada de cuentas por contactar esa semana.',
-    creditos: '24 a 32', banda: 'Media', tiempo: '5 a 7 días hábiles',
-  },
-  {
-    area: 'Marketing', titulo: 'Segmentación técnica de la base por canal y audiencia',
-    desc: 'Padre de mascota, veterinario, pet shop, empresa y segmento equino quedan diferenciados con criterios automáticos de clasificación, de modo que cada comunicación salga al público correcto.',
-    creditos: '12 a 18', banda: 'Simple', tiempo: '3 a 5 días hábiles',
-  },
-  {
-    area: 'Marketing', titulo: 'Flujos de correo con reglas de frecuencia y control de saturación',
-    desc: 'Montaje de las secuencias sobre HubSpot con los contenidos que entrega el equipo, más ventanas de descanso y control de solapamiento para que un mismo contacto no reciba tres correos el mismo día.',
-    creditos: '14 a 20', banda: 'Simple', tiempo: '4 a 6 días hábiles',
-  },
-  {
-    area: 'Marketing', titulo: 'Formularios y landings conectados a la base de datos',
-    desc: 'Registro a eventos, contenidos de la escuela de padres de mascota o solicitudes de contacto que entran directo al CRM con su origen trazado y su flujo de seguimiento activo.',
-    creditos: '8 a 14', banda: 'Simple', tiempo: '2 a 4 días hábiles',
-  },
-  {
-    area: 'Servicio', titulo: 'Enrutamiento automático de solicitudes al asesor de zona',
-    desc: 'Las solicitudes que entran por el sitio, el directorio de bienestar o los canales de contacto se clasifican y se asignan solas al responsable correcto, con SLA de respuesta y escalamiento configurado.',
-    creditos: '12 a 18', banda: 'Simple', tiempo: '3 a 5 días hábiles',
-  },
-  {
-    area: 'Servicio', titulo: 'Bandeja unificada de conversaciones con trazabilidad en el CRM',
-    desc: 'WhatsApp, correo y formularios llegan a un mismo punto de atención, cada conversación queda asociada al cliente y el histórico deja de depender del teléfono de quien la atendió.',
-    creditos: '26 a 38', banda: 'Media', tiempo: '4 a 7 días hábiles',
-  },
-  {
-    area: 'Servicio', titulo: 'Encuestas de satisfacción automatizadas después de la entrega',
-    desc: 'El disparo se hace desde el evento real de entrega registrado en el ERP, la respuesta vuelve al CRM y las calificaciones bajas abren caso de servicio de forma automática.',
-    creditos: '10 a 16', banda: 'Simple', tiempo: '3 a 5 días hábiles',
-  },
-  {
-    area: 'Operación', titulo: 'Paneles de ventas, cartera y rotación por canal y marca',
-    desc: 'Un solo tablero que cruza la información comercial del CRM con la operativa del ERP, actualizado de forma automática y disponible para dirección y para cada líder de área.',
-    creditos: '24 a 36', banda: 'Media', tiempo: '5 a 8 días hábiles',
-  },
-  {
-    area: 'Operación', titulo: 'Agente de IA sobre el portafolio para el equipo comercial',
-    desc: 'Un asistente entrenado con el catálogo de marcas, fichas técnicas y condiciones comerciales, que responde en segundos lo que hoy implica buscar en varios documentos o preguntarle a otra persona.',
-    creditos: '52 a 70', banda: 'Compleja', tiempo: '6 a 10 días hábiles',
-  },
-  {
-    area: 'Operación', titulo: 'Depuración y deduplicación de contactos y empresas',
-    desc: 'Reglas de normalización, detección de duplicados y unificación de registros, para que los informes dejen de contar dos veces al mismo cliente.',
-    creditos: '10 a 18', banda: 'Simple', tiempo: '3 a 6 días hábiles',
-  },
-  {
-    area: 'Operación', titulo: 'Automatización de aprobaciones y documentos internos',
-    desc: 'Solicitudes que hoy viajan por correo pasan a un flujo con responsable, tiempo de respuesta y registro, de modo que nadie tiene que preguntar en qué punto va cada trámite.',
-    creditos: '21 a 30', banda: 'Media', tiempo: '4 a 7 días hábiles',
-  },
-];
-
 const BANDA_STYLE: Record<string, { bg: string; border: string; color: string }> = {
   Simple:   { bg: 'rgba(0,191,165,.12)',  border: 'rgba(0,191,165,.3)',   color: '#00bfa5' },
   Media:    { bg: 'rgba(43,127,196,.14)', border: 'rgba(43,127,196,.32)', color: GABRICA },
   Compleja: { bg: 'rgba(168,85,247,.12)', border: 'rgba(168,85,247,.3)',  color: '#a855f7' },
 };
 
-const AREAS = ['Todas', 'Ventas', 'Marketing', 'Servicio', 'Operación'];
 
 const AREA_STYLE: Record<string, { bg: string; border: string; color: string }> = {
   Ventas:    { bg: 'rgba(255,122,89,.12)', border: 'rgba(255,122,89,.3)',  color: HUBSPOT },
@@ -236,23 +158,31 @@ const AREA_STYLE: Record<string, { bg: string; border: string; color: string }> 
 // ─── EJEMPLO DE REPORTE MENSUAL DE CRÉDITOS ──────────────────────────────────
 
 const REPORTE = [
-  { solicitud: 'Sincronización del maestro de clientes entre Dynamics 365 y HubSpot',        area: 'Ventas',    creditos: 28 },
-  { solicitud: 'Alertas comerciales automáticas según el estado del pedido en el ERP',       area: 'Ventas',    creditos: 18 },
-  { solicitud: 'Segmentación de la base por canal: persona, veterinario, pet shop y empresa',area: 'Marketing', creditos: 14 },
-  { solicitud: 'Enrutamiento de solicitudes entrantes al asesor de zona con SLA',            area: 'Servicio',  creditos: 14 },
-  { solicitud: 'Ajuste de flujos de correo y control de frecuencia por audiencia',           area: 'Marketing', creditos: 14 },
-  { solicitud: 'Encuesta de satisfacción disparada desde la entrega registrada en el ERP',   area: 'Servicio',  creditos: 12 },
-  { solicitud: 'Depuración y deduplicación de contactos y empresas en el CRM',               area: 'Operación', creditos: 12 },
-  { solicitud: 'Formularios y landing de registro conectados al CRM',                        area: 'Marketing', creditos: 10 },
-  { solicitud: 'Informe de cobertura de cuentas por asesor y por zona',                      area: 'Datos',     creditos: 10 },
-  { solicitud: 'Reglas de asignación y tiempos de respuesta para el equipo de servicio',     area: 'Servicio',  creditos: 8 },
-  { solicitud: 'Propiedades nuevas de cliente replicadas en ambos sistemas',                 area: 'Operación', creditos: 6 },
-  { solicitud: 'Ajuste de disparadores y condiciones de entrada de un flujo ya activo',      area: 'Marketing', creditos: 6 },
-  { solicitud: 'Soporte y resolución de incidencias sobre las integraciones activas',        area: 'Operación', creditos: 4 },
-  { solicitud: 'Capacitación al equipo comercial sobre los nuevos flujos del CRM',           area: 'Ventas',    creditos: 4 },
+  { solicitud: 'Integración bidireccional del maestro de clientes entre Dynamics 365 y HubSpot', area: 'Ventas',    banda: 'Compleja', creditos: 51 },
+  { solicitud: 'Automatización del ciclo de cotización de la fuerza de ventas en campo',         area: 'Ventas',    banda: 'Media',    creditos: 21 },
+  { solicitud: 'Panel de informes de ventas por canal, marca y zona',                            area: 'Datos',     banda: 'Media',    creditos: 21 },
+  { solicitud: 'Alertas comerciales automáticas según el estado del pedido en el ERP',           area: 'Ventas',    banda: 'Simple',   creditos: 8 },
+  { solicitud: 'Segmentación de la base por canal: persona, veterinario, pet shop y empresa',    area: 'Marketing', banda: 'Simple',   creditos: 7 },
+  { solicitud: 'Enrutamiento de solicitudes entrantes al asesor de zona con SLA',                area: 'Servicio',  banda: 'Simple',   creditos: 6 },
+  { solicitud: 'Depuración y deduplicación de contactos y empresas en el CRM',                   area: 'Operación', banda: 'Simple',   creditos: 6 },
+  { solicitud: 'Formulario de registro conectado al CRM con trazado de origen',                  area: 'Marketing', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Ajuste de disparadores y condiciones de entrada de un flujo ya activo',          area: 'Marketing', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Encuesta de satisfacción disparada desde la entrega registrada en el ERP',       area: 'Servicio',  banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Reglas de asignación y tiempos de respuesta para el equipo de servicio',         area: 'Servicio',  banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Propiedades nuevas de cliente replicadas en ambos sistemas',                     area: 'Operación', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Informe de cobertura de cuentas por asesor y por zona',                          area: 'Datos',     banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Soporte y resolución de incidencias sobre las integraciones activas',            area: 'Operación', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Capacitación al equipo comercial sobre los nuevos flujos del CRM',               area: 'Ventas',    banda: 'Simple',   creditos: 5 },
 ];
 
 const TOTAL_REPORTE = REPORTE.reduce((a, r) => a + r.creditos, 0);
+
+// Distribución del mes de ejemplo, para mostrarla como resumen sobre la tabla
+const DISTRIBUCION = ['Compleja', 'Media', 'Simple'].map(b => ({
+  banda: b,
+  cantidad: REPORTE.filter(r => r.banda === b).length,
+  creditos: REPORTE.filter(r => r.banda === b).reduce((a, r) => a + r.creditos, 0),
+}));
 
 // ─── CATÁLOGO DE ACTIVIDADES ─────────────────────────────────────────────────
 
@@ -402,7 +332,6 @@ const SECCIONES = [
   { id: 'resumen',    label: 'Resumen' },
   { id: 'objetivo',   label: 'Objetivo' },
   { id: 'servicio',   label: 'Servicio' },
-  { id: 'casos',      label: 'Casos de uso' },
   { id: 'alcance',    label: 'Alcance' },
   { id: 'arranque',   label: 'Arranque' },
   { id: 'inversion',  label: 'Inversión' },
@@ -488,8 +417,6 @@ const GabricaProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [faseActiva, setFaseActiva] = useState<number | null>(null);
   const [catalogoActivo, setCatalogoActivo] = useState<number | null>(null);
-  const [areaActiva, setAreaActiva] = useState('Todas');
-  const [casoAbierto, setCasoAbierto] = useState<number | null>(0);
   const [showEquipo, setShowEquipo] = useState(false);
   const [showReporte, setShowReporte] = useState(false);
   const [showEjemplo, setShowEjemplo] = useState(false);
@@ -497,8 +424,6 @@ const GabricaProposal = () => {
   const [showPlataforma, setShowPlataforma] = useState(false);
   const [showRepresenta, setShowRepresenta] = useState(false);
   const [terminoAbierto, setTerminoAbierto] = useState<number | null>(null);
-
-  const casosFiltrados = areaActiva === 'Todas' ? CASOS : CASOS.filter(c => c.area === areaActiva);
 
   useEffect(() => {
     const handler = () => {
@@ -517,7 +442,7 @@ const GabricaProposal = () => {
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
   const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
-  const s7 = useVisible(); const s8 = useVisible();
+  const s7 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -636,7 +561,7 @@ const GabricaProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo','2. Objetivo general','3. Sixteam Ops','4. Casos de uso','5. Alcance del servicio','6. Ruta de arranque','7. Inversión','8. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo','2. Objetivo general','3. Sixteam Ops','4. Alcance del servicio','5. Ruta de arranque','6. Inversión','7. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -1028,6 +953,23 @@ const GabricaProposal = () => {
 
             {showReporte && (
               <div className="border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+
+                {/* Resumen de la distribución del mes por complejidad */}
+                <div className="px-4 sm:px-5 py-4 grid grid-cols-3 gap-2"
+                  style={{ background: 'rgba(2,8,20,.5)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+                  {DISTRIBUCION.map((d) => {
+                    const bs = BANDA_STYLE[d.banda];
+                    return (
+                      <div key={d.banda} className="rounded-lg px-2 py-2.5 text-center"
+                        style={{ background: bs.bg, border: `1px solid ${bs.border}` }}>
+                        <p className="font-poppins font-black text-[20px] leading-none" style={{ color: bs.color }}>{d.cantidad}</p>
+                        <p className="font-poppins font-semibold text-white/70 text-[12px] mt-1 leading-tight">{d.banda}</p>
+                        <p className="font-lato text-white/35 text-[11px] mt-0.5">{d.creditos} créditos</p>
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <div className="hidden sm:grid px-5 py-2 font-lato text-white/20 text-[11px] uppercase tracking-wider"
                   style={{ gridTemplateColumns: '1fr 100px 80px', background: 'rgba(255,255,255,.015)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
                   <span>Solicitud atendida</span>
@@ -1037,15 +979,22 @@ const GabricaProposal = () => {
                 <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
                   {REPORTE.map((r, i) => {
                     const a = AREA_STYLE[r.area];
+                    const bs = BANDA_STYLE[r.banda];
                     return (
                       <div key={i} className="px-4 sm:px-5 py-3 grid items-center gap-2"
                         style={{ gridTemplateColumns: '1fr 100px 80px', background: i % 2 === 0 ? 'rgba(255,255,255,.012)' : 'transparent' }}>
-                        <span className="font-lato text-white/60 text-[14px] leading-snug">{r.solicitud}</span>
+                        <span className="font-lato text-white/60 text-[14px] leading-snug">
+                          {r.solicitud}
+                          <span className="ml-2 font-lato text-[11px] px-1.5 py-0.5 rounded whitespace-nowrap align-middle"
+                            style={{ background: bs.bg, color: bs.color }}>
+                            {r.banda}
+                          </span>
+                        </span>
                         <span className="justify-self-center font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap"
                           style={{ background: a.bg, border: `1px solid ${a.border}`, color: a.color }}>
                           {r.area}
                         </span>
-                        <span className="font-poppins font-bold text-white/75 text-[14px] text-right">{r.creditos}</span>
+                        <span className="font-poppins font-bold text-[14px] text-right" style={{ color: bs.color }}>{r.creditos}</span>
                       </div>
                     );
                   })}
@@ -1053,14 +1002,20 @@ const GabricaProposal = () => {
                 <div className="px-4 sm:px-5 py-4 grid items-center gap-2"
                   style={{ gridTemplateColumns: '1fr 100px 80px', background: 'rgba(0,191,165,.07)', borderTop: '1px solid rgba(0,191,165,.2)' }}>
                   <span className="font-poppins font-bold text-white text-[16px]">Total del mes</span>
-                  <span />
+                  <span className="justify-self-center font-lato text-white/35 text-[12px] whitespace-nowrap">{REPORTE.length} solicitudes</span>
                   <span className="font-poppins font-black text-[16px] text-right" style={{ color: '#00bfa5' }}>
                     {TOTAL_REPORTE} / {CREDITOS_MES}
                   </span>
                 </div>
-                <div className="px-4 sm:px-5 py-3" style={{ background: 'rgba(255,255,255,.02)', borderTop: '1px solid rgba(255,255,255,.05)' }}>
+                <div className="px-4 sm:px-5 py-3 space-y-2" style={{ background: 'rgba(255,255,255,.02)', borderTop: '1px solid rgba(255,255,255,.05)' }}>
                   <p className="font-lato text-white/30 text-[13px] leading-relaxed">
-                    Ejemplo referencial de un mes que agota los {CREDITOS_MES} créditos con {REPORTE.length} solicitudes, combinando una integración de complejidad media con requerimientos simples. Un mes que incluya una solicitud compleja, de 51 créditos o más, concentra el consumo en menos requerimientos. Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
+                    Este es un ejemplo puntual de cómo podrían comportarse {REPORTE.length} solicitudes en un mes: una compleja, dos medias y doce simples que juntas agotan los {CREDITOS_MES} créditos del período. No es la única forma en que puede repartirse el plan, ya que habrá meses en los que una sola solicitud compleja se lleve gran parte de los créditos y el número de requerimientos atendidos sea bastante menor.
+                  </p>
+                  <p className="font-lato text-white/30 text-[13px] leading-relaxed">
+                    También es un caso de referencia en cuanto a los valores: una solicitud parecida puede cotizarse distinto para otro cliente, o incluso para Gabrica en otro momento, porque el consumo depende del estado de la configuración, del volumen de datos y de las integraciones que toque. Cada solicitud se cotiza con su número exacto antes de ejecutarse.
+                  </p>
+                  <p className="font-lato text-white/30 text-[13px] leading-relaxed">
+                    Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
                   </p>
                 </div>
               </div>
@@ -1068,102 +1023,10 @@ const GabricaProposal = () => {
           </div>
         </section>
 
-        {/* ─ 04 CASOS DE USO ─ */}
-        <section id="casos" ref={s4.ref as React.RefObject<HTMLElement>}
+        {/* ─ 04 ALCANCE ─ */}
+        <section id="alcance" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Casos de uso</TagLabel>
-          <SectionTitle>En qué puede usar Gabrica a este equipo</SectionTitle>
-          <Rule />
-
-          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-            Estos son ejemplos concretos de solicitudes que Gabrica puede enviar con cargo a los créditos del Plan Integral, con su consumo estimado y su tiempo de entrega de referencia. Sirven para dimensionar qué cabe en un mes y cómo se comporta el consumo según la complejidad de cada requerimiento.
-          </p>
-
-          {/* Filtro por área */}
-          <div className="flex flex-wrap gap-2 mb-5 no-print">
-            {AREAS.map(a => {
-              const activo = areaActiva === a;
-              const st = AREA_STYLE[a];
-              return (
-                <button key={a} onClick={() => { setAreaActiva(a); setCasoAbierto(null); }}
-                  className="font-lato text-[14px] px-3.5 py-1.5 rounded-full transition-all duration-200"
-                  style={{
-                    background: activo ? (st ? st.bg : 'rgba(0,191,165,.14)') : 'rgba(255,255,255,.03)',
-                    border: `1px solid ${activo ? (st ? st.border : 'rgba(0,191,165,.32)') : 'rgba(255,255,255,.08)'}`,
-                    color: activo ? (st ? st.color : '#00bfa5') : 'rgba(255,255,255,.45)',
-                  }}>
-                  {a}
-                  <span className="ml-1.5 opacity-50">
-                    {a === 'Todas' ? CASOS.length : CASOS.filter(c => c.area === a).length}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="space-y-2.5">
-            {casosFiltrados.map((c, i) => {
-              const st = AREA_STYLE[c.area];
-              const abierto = casoAbierto === i;
-              return (
-                <div key={`${areaActiva}-${i}`} className="rounded-xl overflow-hidden transition-all duration-300"
-                  style={{ background: 'rgba(255,255,255,.03)', border: abierto ? `1px solid ${st.border}` : '1px solid rgba(255,255,255,.07)' }}>
-                  <button onClick={() => setCasoAbierto(abierto ? null : i)}
-                    className="w-full flex items-center gap-3 p-4 text-left">
-                    <span className="font-lato text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider flex-shrink-0 hidden sm:inline"
-                      style={{ background: st.bg, border: `1px solid ${st.border}`, color: st.color }}>
-                      {c.area}
-                    </span>
-                    <span className={`flex-1 font-poppins font-semibold text-[16px] leading-snug ${abierto ? 'text-white' : 'text-white/75'}`}>
-                      {c.titulo}
-                    </span>
-                    <span className="font-poppins font-bold text-[13px] flex-shrink-0 whitespace-nowrap" style={{ color: st.color }}>
-                      {c.creditos} <span className="font-lato font-normal text-white/30 text-[12px]">cr.</span>
-                    </span>
-                    <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ${abierto ? 'rotate-90' : ''}`}
-                      style={{ color: abierto ? st.color : 'rgba(255,255,255,.3)' }} />
-                  </button>
-                  {abierto && (
-                    <div className="px-4 pb-4 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                      <p className="font-lato text-white/60 text-[15px] leading-relaxed pt-3.5 mb-3">{c.desc}</p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg"
-                          style={{ background: st.bg, border: `1px solid ${st.border}`, color: st.color }}>
-                          <Coins className="w-3.5 h-3.5" /> {c.creditos} créditos
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg"
-                          style={{ background: BANDA_STYLE[c.banda].bg, border: `1px solid ${BANDA_STYLE[c.banda].border}`, color: BANDA_STYLE[c.banda].color }}>
-                          <Gauge className="w-3.5 h-3.5" /> Solicitud {c.banda.toLowerCase()}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg text-white/50"
-                          style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-                          <Clock className="w-3.5 h-3.5" /> {c.tiempo}
-                        </span>
-                        <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg text-white/50 sm:hidden"
-                          style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-                          <Layers className="w-3.5 h-3.5" /> {c.area}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-5 rounded-xl p-4 flex gap-3"
-            style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.2)' }}>
-            <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-            <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-              El consumo indicado es un rango de referencia, ya que la cifra final depende del estado actual de la configuración y del volumen de datos involucrado. Cada solicitud se cotiza con su número exacto antes de ejecutarse, así que Gabrica siempre aprueba conociendo el costo en créditos.
-            </p>
-          </div>
-        </section>
-
-        {/* ─ 05 ALCANCE ─ */}
-        <section id="alcance" ref={s5.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Alcance del servicio</TagLabel>
+          <TagLabel>04 — Alcance del servicio</TagLabel>
           <SectionTitle>Qué se puede solicitar</SectionTitle>
           <Rule />
 
@@ -1229,10 +1092,10 @@ const GabricaProposal = () => {
           </div>
         </section>
 
-        {/* ─ 06 ARRANQUE ─ */}
-        <section id="arranque" ref={s6.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Ruta de arranque</TagLabel>
+        {/* ─ 05 ARRANQUE ─ */}
+        <section id="arranque" ref={s5.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>05 — Ruta de arranque</TagLabel>
           <SectionTitle>Los primeros 3 meses</SectionTitle>
           <Rule />
 
@@ -1319,10 +1182,10 @@ const GabricaProposal = () => {
           </div>
         </section>
 
-        {/* ─ 07 INVERSIÓN ─ */}
-        <section id="inversion" ref={s7.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Propuesta de inversión</TagLabel>
+        {/* ─ 06 INVERSIÓN ─ */}
+        <section id="inversion" ref={s6.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>06 — Propuesta de inversión</TagLabel>
           <SectionTitle>Plan Integral · Sixteam Ops</SectionTitle>
           <Rule />
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
@@ -1457,10 +1320,10 @@ const GabricaProposal = () => {
           <LogoCarousel />
         </div>
 
-        {/* ─ 08 VIGENCIA ─ */}
-        <section id="vigencia" ref={s8.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s8.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>08 — Vigencia y términos</TagLabel>
+        {/* ─ 07 VIGENCIA ─ */}
+        <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>07 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
