@@ -250,6 +250,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/dv-clinic-lab',
   },
+  {
+    slug: 'calas-nibec',
+    cliente: 'Calas · Nibec',
+    sector: 'Mobiliario y Equipamiento Industrial · Sixteam Ops · Chile',
+    fecha: 'Agosto 2026',
+    monto: 'USD 499/mes · 160 créditos',
+    estado: 'activa',
+    path: '/calas-nibec',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

@@ -5,7 +5,7 @@ interface LogoSliderProps {
   logos?: { src: string; alt: string }[];
 }
 
-const defaultLogos = [
+export const defaultLogos = [
   { src: '/Logo cebra.png', alt: 'Logo cebra' },
   { src: '/Logo dance.png', alt: 'Logo dance' },
   { src: '/Logo Mizar.png', alt: 'Logo Mizar' },
