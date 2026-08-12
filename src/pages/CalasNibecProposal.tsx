@@ -231,50 +231,86 @@ const FASES = [
     color: '#00bfa5',
     colorAlpha: 'rgba(0,191,165,.10)',
     colorBorder: 'rgba(0,191,165,.3)',
-    descripcion: 'En lugar de estructurar un plan para todo el año de inmediato, se trabajará con un mes de adelanto para mantener el contenido actualizado y atemporal.',
+    descripcion: 'En lugar de estructurar un plan para todo el año de inmediato, se arranca con las primeras secuencias trabajando con un mes de adelanto.',
     actividades: [
       { text: 'El foco de inicio es el correo de bienvenida, tanto para cliente persona como empresa en su primera compra' },
       { text: 'El correo busca generar confianza compartiendo reseñas, testimonios y la capacidad de respuesta de la marca' },
-      { text: 'Montaje y automatización de la secuencia en Brevo con los contenidos que entrega el equipo', tag: 'Trabajo en conjunto' },
-      { text: 'Configuración del disparador de primera compra y de las condiciones de entrada' },
-      { text: 'Reglas de frecuencia para que la secuencia no choque con los correos ya activos' },
-      { text: 'Enlace directo a cotización por WhatsApp o landing dentro de la secuencia' },
+      { text: 'Configuración del disparador de primera compra y de las condiciones de entrada a la secuencia' },
+      { text: 'Montaje de la pieza de bienvenida en Brevo con el material que entrega el equipo', tag: 'Trabajo en conjunto' },
+      { text: 'Control de solapamiento para que la secuencia no choque con la notificación de pedido recibido' },
+      { text: 'Pruebas de extremo a extremo antes de activarla sobre la base real' },
     ] as Actividad[],
   },
   {
     num: '03',
-    nombre: 'Segmentación y programa de fidelización',
+    nombre: 'Programa de fidelización segmentado, B2B frente a B2C',
     duracion: 'Por tipo de cliente',
     icon: Users,
     color: '#a855f7',
     colorAlpha: 'rgba(168,85,247,.10)',
     colorBorder: 'rgba(168,85,247,.3)',
-    descripcion: 'Se empezará a estructurar un programa de fidelización adaptado, dividiendo la comunicación según el tipo de cliente.',
+    descripcion: 'Se estructurará una comunicación diferenciada según el tipo de cliente, ya que sus problemas y sus frecuencias de compra son distintos.',
     actividades: [
       { text: 'Configuración de la segmentación en Brevo cruzando tipo de cliente, monto de compra y frecuencia' },
-      { text: 'Rama B2C: los clientes persona reciben sugerencias enfocadas en el hogar o en pequeñas pymes' },
-      { text: 'Rama B2B: los clientes empresa reciben comunicación orientada a renovación de stock, sucursales o reventa' },
-      { text: 'Campos de cliente con reglas de actualización automática según su comportamiento de compra' },
-      { text: 'Secuencias de recompra con disparadores por tiempo transcurrido desde la última compra' },
-      { text: 'Flujo de venta cruzada según la categoría de producto comprada' },
+      { text: 'Rama B2C: soluciones para el hogar o para pequeñas pymes, con sugerencia cruzada de productos complementarios' },
+      { text: 'Ejemplo B2C: quien compró un estante recibe a los pocos días la información de pallets y mobiliario de carga disponibles' },
+      { text: 'Rama B2B: comunicación orientada a la apertura de nuevas sucursales y a la atención de revendedores' },
+      { text: 'Rama B2B: recordatorios de renovación de stock por fatiga de materiales o desgaste del producto' },
+      { text: 'Campos de cliente con reglas de actualización automática según el comportamiento de compra' },
     ] as Actividad[],
   },
   {
     num: '04',
-    nombre: 'Optimización y exclusión en pauta publicitaria',
-    duracion: 'Reducción de CAC',
-    icon: Megaphone,
+    nombre: 'Flujos basados en el tiempo y reactivación',
+    duracion: 'Recompra e inactividad',
+    icon: Repeat,
+    color: '#60a5fa',
+    colorAlpha: 'rgba(96,165,250,.10)',
+    colorBorder: 'rgba(96,165,250,.3)',
+    descripcion: 'Se automatizarán correos que salen de manera sistemática tras la compra inicial y que reactivan al cliente cuando lleva tiempo sin volver.',
+    actividades: [
+      { text: 'Disparador post-compra que entrega un descuento del 5% para la siguiente compra a los pocos días' },
+      { text: 'Flujo de reactivación a los tres meses de inactividad, del tipo "no te hemos visto por aquí", con un nuevo incentivo' },
+      { text: 'Ajuste de las ventanas de tiempo de cada envío según la frecuencia real de recompra observada' },
+      { text: 'Reglas de salida del flujo cuando el cliente vuelve a comprar, para no seguir enviando incentivos innecesarios' },
+      { text: 'Registro del incentivo entregado en el perfil del contacto para evitar que se acumulen descuentos' },
+      { text: 'Pruebas de cada disparador antes de activarlo sobre la base real' },
+    ] as Actividad[],
+  },
+  {
+    num: '05',
+    nombre: 'Contenido de valor y cotización directa',
+    duracion: 'Equilibrio anti-spam',
+    icon: Mail,
     color: NIBEC_COLOR,
     colorAlpha: 'rgba(245,160,42,.10)',
     colorBorder: 'rgba(245,160,42,.3)',
-    descripcion: 'Se configurarán audiencias de exclusión para que quienes ya compraron dejen de ver publicidad repetitiva, lo que reduce el costo de adquisición de clientes.',
+    descripcion: 'Para evitar saturar la base con correos meramente comerciales, se intercalarán las promociones con contenido de valor y de posicionamiento de marca.',
     actividades: [
-      { text: 'Configuración de audiencias de exclusión de compradores dentro de las cuentas de Meta' },
-      { text: 'Automatización de la actualización de esas listas mediante la API de conversiones de Meta' },
+      { text: 'Configuración de la cadencia que alterna piezas comerciales con piezas de valor dentro de cada flujo' },
+      { text: 'Reglas de frecuencia y ventanas de descanso para que la base no perciba los envíos como spam' },
+      { text: 'Montaje en Brevo de las piezas que entrega el equipo, tanto comerciales como de posicionamiento', tag: 'Trabajo en conjunto' },
+      { text: 'Llamados a la acción directos para cotizar por landing page o por WhatsApp dentro de cada pieza' },
+      { text: 'Trazabilidad de qué pieza originó cada cotización, dado que la mayoría de las ventas se cierran por esa vía' },
+      { text: 'Seguimiento de aperturas y clics por tipo de pieza para ajustar la proporción entre valor y promoción' },
+    ] as Actividad[],
+  },
+  {
+    num: '06',
+    nombre: 'Automatización de audiencias de exclusión vía API',
+    duracion: 'Reducción de CAC',
+    icon: Megaphone,
+    color: '#34d399',
+    colorAlpha: 'rgba(52,211,153,.10)',
+    colorBorder: 'rgba(52,211,153,.3)',
+    descripcion: 'Una vez definidas las audiencias de clientes que ya compraron, el siguiente paso técnico es conectar la API de conversiones de Meta para que dejen de ver publicidad repetitiva.',
+    actividades: [
+      { text: 'Definición y carga de las audiencias de clientes que ya compraron dentro de las cuentas de Meta' },
+      { text: 'Conexión de la API de conversiones para añadir o eliminar compradores de esas listas de forma automática' },
       { text: 'Sincronización de los eventos de conversión entre el e-commerce, Brevo y Meta' },
+      { text: 'Exclusión de compradores recientes de las campañas de captación, para dejar de pujar por quien ya es cliente' },
       { text: 'Panel de informes con aperturas, clics, cotizaciones generadas y recompras atribuidas' },
-      { text: 'Ajuste de tiempos y criterios de entrada según el comportamiento observado' },
-      { text: 'Capacitación al equipo sobre el uso y monitoreo de los flujos activos' },
+      { text: 'Capacitación al equipo sobre el uso y monitoreo de los flujos y audiencias activas' },
     ] as Actividad[],
   },
 ];
@@ -983,7 +1019,7 @@ const CalasNibecProposal = () => {
         <section id="arranque" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>05 — Propuesta de Plan de Trabajo</TagLabel>
-          <SectionTitle>4 acciones clave para iniciar</SectionTitle>
+          <SectionTitle>{FASES.length} acciones clave para iniciar</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
@@ -992,7 +1028,7 @@ const CalasNibecProposal = () => {
 
           <div className="relative mb-10">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(214,59,87,.4), rgba(0,191,165,.4), rgba(168,85,247,.4), rgba(245,160,42,.4))' }} />
+              style={{ background: 'linear-gradient(to bottom, rgba(214,59,87,.4), rgba(0,191,165,.4), rgba(168,85,247,.4), rgba(96,165,250,.4), rgba(245,160,42,.4), rgba(52,211,153,.4))' }} />
 
             <div className="space-y-3">
               {FASES.map((fase, i) => {
@@ -1063,9 +1099,12 @@ const CalasNibecProposal = () => {
           <div className="rounded-xl p-4 flex gap-3"
             style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.2)' }}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-            <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-              Sixteam trabaja siempre con un tramo de flujo por delante. Eso distribuye el consumo de créditos a lo largo del año y permite ajustar cada tramo con el comportamiento observado en el anterior, en lugar de construir todo de golpe.
-            </p>
+            <div>
+              <p className="font-poppins font-semibold text-white/75 text-[16px] mb-1">Desarrollo atemporal, mes a mes</p>
+              <p className="font-lato text-white/55 text-[15px] leading-relaxed">
+                Una vez arrancadas estas acciones, el trabajo continúa de manera constante con un mes de anticipación. El material se diseña de forma atemporal, sin depender de precios específicos ni de fechas concretas, para que los flujos sigan activos y funcionando automáticamente durante meses. Eso además distribuye el consumo de créditos a lo largo del año y permite ajustar cada tramo con el comportamiento observado en el anterior.
+              </p>
+            </div>
           </div>
         </section>
 
