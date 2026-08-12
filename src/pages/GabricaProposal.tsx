@@ -123,82 +123,105 @@ const VELOCIDAD = [
   { tarea: 'Corrección de una integración que dejó de sincronizar',   antes: 'Días',     ahora: 'Horas' },
 ];
 
+// ─── BANDAS DE COMPLEJIDAD DEL CRÉDITO ───────────────────────────────────────
+
+const BANDAS = [
+  {
+    rango: '5 a 20', tipo: 'Solicitud simple',
+    ej: 'Un campo o propiedad nueva, el ajuste de un flujo ya activo, un informe estándar, una capacitación puntual o el soporte de una incidencia',
+  },
+  {
+    rango: '21 a 50', tipo: 'Solicitud media',
+    ej: 'Una automatización de seguimiento comercial, una segmentación de la base, un formulario conectado al CRM o un panel de informes nuevo',
+  },
+  {
+    rango: '51 o más', tipo: 'Solicitud compleja',
+    ej: 'Una integración bidireccional entre Dynamics 365 y HubSpot, un agente de IA en producción o la migración de un módulo completo',
+  },
+];
+
 // ─── CASOS DE USO POR ÁREA ───────────────────────────────────────────────────
 
-type Caso = { area: string; titulo: string; desc: string; creditos: string; tiempo: string };
+type Caso = { area: string; titulo: string; desc: string; creditos: string; banda: string; tiempo: string };
 
 const CASOS: Caso[] = [
   {
     area: 'Ventas', titulo: 'Sincronización del maestro de clientes entre Dynamics 365 y HubSpot',
     desc: 'La ficha del cliente deja de vivir en dos lugares. Lo que se crea o actualiza en el ERP aparece en el CRM y viceversa, con reglas claras sobre qué sistema manda en cada campo.',
-    creditos: '20 a 24', tiempo: '5 a 8 días hábiles',
+    creditos: '22 a 34', banda: 'Media', tiempo: '5 a 8 días hábiles',
   },
   {
     area: 'Ventas', titulo: 'Cotización en campo conectada al CRM',
     desc: 'El asesor genera la cotización desde el celular con el portafolio y las condiciones vigentes, queda registrada en la oportunidad y dispara el seguimiento automático sin volver a la oficina.',
-    creditos: '14 a 18', tiempo: '4 a 6 días hábiles',
+    creditos: '21 a 28', banda: 'Media', tiempo: '4 a 6 días hábiles',
   },
   {
     area: 'Ventas', titulo: 'Alertas comerciales según el estado del pedido en el ERP',
     desc: 'Cuando un pedido cambia de estado, se despacha o se represa en Dynamics 365, el asesor recibe la alerta en su bandeja del CRM con el contexto del cliente y la tarea ya creada.',
-    creditos: '12 a 16', tiempo: '3 a 5 días hábiles',
+    creditos: '14 a 20', banda: 'Simple', tiempo: '3 a 5 días hábiles',
   },
   {
     area: 'Ventas', titulo: 'Reposición automatizada para pet shops y veterinarias',
     desc: 'A partir del histórico de compra y del ciclo de consumo de cada producto, el sistema calcula cuándo toca reponer y le entrega al asesor la lista priorizada de cuentas por contactar esa semana.',
-    creditos: '16 a 20', tiempo: '5 a 7 días hábiles',
+    creditos: '24 a 32', banda: 'Media', tiempo: '5 a 7 días hábiles',
   },
   {
     area: 'Marketing', titulo: 'Segmentación técnica de la base por canal y audiencia',
     desc: 'Padre de mascota, veterinario, pet shop, empresa y segmento equino quedan diferenciados con criterios automáticos de clasificación, de modo que cada comunicación salga al público correcto.',
-    creditos: '10 a 14', tiempo: '3 a 5 días hábiles',
+    creditos: '12 a 18', banda: 'Simple', tiempo: '3 a 5 días hábiles',
   },
   {
     area: 'Marketing', titulo: 'Flujos de correo con reglas de frecuencia y control de saturación',
     desc: 'Montaje de las secuencias sobre HubSpot con los contenidos que entrega el equipo, más ventanas de descanso y control de solapamiento para que un mismo contacto no reciba tres correos el mismo día.',
-    creditos: '10 a 16', tiempo: '4 a 6 días hábiles',
+    creditos: '14 a 20', banda: 'Simple', tiempo: '4 a 6 días hábiles',
   },
   {
     area: 'Marketing', titulo: 'Formularios y landings conectados a la base de datos',
     desc: 'Registro a eventos, contenidos de la escuela de padres de mascota o solicitudes de contacto que entran directo al CRM con su origen trazado y su flujo de seguimiento activo.',
-    creditos: '6 a 10', tiempo: '2 a 4 días hábiles',
+    creditos: '8 a 14', banda: 'Simple', tiempo: '2 a 4 días hábiles',
   },
   {
     area: 'Servicio', titulo: 'Enrutamiento automático de solicitudes al asesor de zona',
     desc: 'Las solicitudes que entran por el sitio, el directorio de bienestar o los canales de contacto se clasifican y se asignan solas al responsable correcto, con SLA de respuesta y escalamiento configurado.',
-    creditos: '10 a 14', tiempo: '3 a 5 días hábiles',
+    creditos: '12 a 18', banda: 'Simple', tiempo: '3 a 5 días hábiles',
   },
   {
     area: 'Servicio', titulo: 'Bandeja unificada de conversaciones con trazabilidad en el CRM',
     desc: 'WhatsApp, correo y formularios llegan a un mismo punto de atención, cada conversación queda asociada al cliente y el histórico deja de depender del teléfono de quien la atendió.',
-    creditos: '14 a 18', tiempo: '4 a 7 días hábiles',
+    creditos: '26 a 38', banda: 'Media', tiempo: '4 a 7 días hábiles',
   },
   {
     area: 'Servicio', titulo: 'Encuestas de satisfacción automatizadas después de la entrega',
     desc: 'El disparo se hace desde el evento real de entrega registrado en el ERP, la respuesta vuelve al CRM y las calificaciones bajas abren caso de servicio de forma automática.',
-    creditos: '8 a 12', tiempo: '3 a 5 días hábiles',
+    creditos: '10 a 16', banda: 'Simple', tiempo: '3 a 5 días hábiles',
   },
   {
     area: 'Operación', titulo: 'Paneles de ventas, cartera y rotación por canal y marca',
     desc: 'Un solo tablero que cruza la información comercial del CRM con la operativa del ERP, actualizado de forma automática y disponible para dirección y para cada líder de área.',
-    creditos: '14 a 20', tiempo: '5 a 8 días hábiles',
+    creditos: '24 a 36', banda: 'Media', tiempo: '5 a 8 días hábiles',
   },
   {
     area: 'Operación', titulo: 'Agente de IA sobre el portafolio para el equipo comercial',
     desc: 'Un asistente entrenado con el catálogo de marcas, fichas técnicas y condiciones comerciales, que responde en segundos lo que hoy implica buscar en varios documentos o preguntarle a otra persona.',
-    creditos: '16 a 22', tiempo: '6 a 10 días hábiles',
+    creditos: '52 a 70', banda: 'Compleja', tiempo: '6 a 10 días hábiles',
   },
   {
     area: 'Operación', titulo: 'Depuración y deduplicación de contactos y empresas',
     desc: 'Reglas de normalización, detección de duplicados y unificación de registros, para que los informes dejen de contar dos veces al mismo cliente.',
-    creditos: '8 a 14', tiempo: '3 a 6 días hábiles',
+    creditos: '10 a 18', banda: 'Simple', tiempo: '3 a 6 días hábiles',
   },
   {
     area: 'Operación', titulo: 'Automatización de aprobaciones y documentos internos',
     desc: 'Solicitudes que hoy viajan por correo pasan a un flujo con responsable, tiempo de respuesta y registro, de modo que nadie tiene que preguntar en qué punto va cada trámite.',
-    creditos: '12 a 18', tiempo: '4 a 7 días hábiles',
+    creditos: '21 a 30', banda: 'Media', tiempo: '4 a 7 días hábiles',
   },
 ];
+
+const BANDA_STYLE: Record<string, { bg: string; border: string; color: string }> = {
+  Simple:   { bg: 'rgba(0,191,165,.12)',  border: 'rgba(0,191,165,.3)',   color: '#00bfa5' },
+  Media:    { bg: 'rgba(43,127,196,.14)', border: 'rgba(43,127,196,.32)', color: GABRICA },
+  Compleja: { bg: 'rgba(168,85,247,.12)', border: 'rgba(168,85,247,.3)',  color: '#a855f7' },
+};
 
 const AREAS = ['Todas', 'Ventas', 'Marketing', 'Servicio', 'Operación'];
 
@@ -213,20 +236,20 @@ const AREA_STYLE: Record<string, { bg: string; border: string; color: string }> 
 // ─── EJEMPLO DE REPORTE MENSUAL DE CRÉDITOS ──────────────────────────────────
 
 const REPORTE = [
-  { solicitud: 'Sincronización del maestro de clientes entre Dynamics 365 y HubSpot',        area: 'Ventas',    creditos: 22 },
-  { solicitud: 'Agente de IA sobre el portafolio de marcas para el equipo comercial',        area: 'Operación', creditos: 16 },
-  { solicitud: 'Panel de informes de ventas por canal, marca y zona',                        area: 'Datos',     creditos: 16 },
-  { solicitud: 'Alertas comerciales automáticas según el estado del pedido en el ERP',       area: 'Ventas',    creditos: 14 },
-  { solicitud: 'Flujo de reposición para pet shops y veterinarias según ciclo de consumo',   area: 'Ventas',    creditos: 14 },
-  { solicitud: 'Automatización del ciclo de cotización de la fuerza de ventas en campo',     area: 'Ventas',    creditos: 12 },
-  { solicitud: 'Segmentación de la base por canal: persona, veterinario, pet shop y empresa',area: 'Marketing', creditos: 12 },
-  { solicitud: 'Enrutamiento de solicitudes entrantes al asesor de zona con SLA',            area: 'Servicio',  creditos: 10 },
-  { solicitud: 'Depuración y deduplicación de contactos y empresas en el CRM',               area: 'Operación', creditos: 10 },
-  { solicitud: 'Formularios y landing de registro conectados al CRM',                        area: 'Marketing', creditos: 8 },
+  { solicitud: 'Sincronización del maestro de clientes entre Dynamics 365 y HubSpot',        area: 'Ventas',    creditos: 28 },
+  { solicitud: 'Alertas comerciales automáticas según el estado del pedido en el ERP',       area: 'Ventas',    creditos: 18 },
+  { solicitud: 'Segmentación de la base por canal: persona, veterinario, pet shop y empresa',area: 'Marketing', creditos: 14 },
+  { solicitud: 'Enrutamiento de solicitudes entrantes al asesor de zona con SLA',            area: 'Servicio',  creditos: 14 },
+  { solicitud: 'Ajuste de flujos de correo y control de frecuencia por audiencia',           area: 'Marketing', creditos: 14 },
+  { solicitud: 'Encuesta de satisfacción disparada desde la entrega registrada en el ERP',   area: 'Servicio',  creditos: 12 },
+  { solicitud: 'Depuración y deduplicación de contactos y empresas en el CRM',               area: 'Operación', creditos: 12 },
+  { solicitud: 'Formularios y landing de registro conectados al CRM',                        area: 'Marketing', creditos: 10 },
+  { solicitud: 'Informe de cobertura de cuentas por asesor y por zona',                      area: 'Datos',     creditos: 10 },
   { solicitud: 'Reglas de asignación y tiempos de respuesta para el equipo de servicio',     area: 'Servicio',  creditos: 8 },
-  { solicitud: 'Ajuste de flujos de correo y control de frecuencia por audiencia',           area: 'Marketing', creditos: 6 },
-  { solicitud: 'Soporte y resolución de incidencias sobre las integraciones activas',        area: 'Operación', creditos: 6 },
-  { solicitud: 'Capacitación al equipo comercial sobre los nuevos flujos del CRM',           area: 'Ventas',    creditos: 6 },
+  { solicitud: 'Propiedades nuevas de cliente replicadas en ambos sistemas',                 area: 'Operación', creditos: 6 },
+  { solicitud: 'Ajuste de disparadores y condiciones de entrada de un flujo ya activo',      area: 'Marketing', creditos: 6 },
+  { solicitud: 'Soporte y resolución de incidencias sobre las integraciones activas',        area: 'Operación', creditos: 4 },
+  { solicitud: 'Capacitación al equipo comercial sobre los nuevos flujos del CRM',           area: 'Ventas',    creditos: 4 },
 ];
 
 const TOTAL_REPORTE = REPORTE.reduce((a, r) => a + r.creditos, 0);
@@ -422,6 +445,43 @@ const MicrosoftMark = ({ size = 14 }: { size?: number }) => (
   </svg>
 );
 
+// Acordeón reutilizable, usado en los bloques que el cliente abre solo si le interesa el detalle
+type AccordionProps = {
+  icon: React.ElementType;
+  titulo: string;
+  meta?: string;
+  color?: string;
+  fondo?: string;
+  open: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+};
+
+const Accordion = ({ icon: Icon, titulo, meta, color = '#00bfa5', fondo, open, onToggle, children }: AccordionProps) => (
+  <div className="rounded-xl overflow-hidden transition-all duration-300"
+    style={{ background: fondo ?? 'rgba(255,255,255,.03)', border: open ? `1px solid ${color}55` : '1px solid rgba(255,255,255,.08)' }}>
+    <button onClick={onToggle} className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200">
+      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+        style={{ background: open ? `${color}22` : 'rgba(255,255,255,.05)' }}>
+        <Icon className="w-4 h-4" style={{ color: open ? color : 'rgba(255,255,255,.35)' }} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <span className="font-poppins font-bold text-[16px] sm:text-[17px]" style={{ color: open ? '#fff' : 'rgba(255,255,255,.72)' }}>
+          {titulo}
+        </span>
+        {meta && <span className="font-lato text-white/30 text-[13px] ml-3 hidden sm:inline">{meta}</span>}
+      </div>
+      <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ${open ? 'rotate-90' : ''}`}
+        style={{ color: open ? color : 'rgba(255,255,255,.3)' }} />
+    </button>
+    {open && (
+      <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+        <div className="pt-4">{children}</div>
+      </div>
+    )}
+  </div>
+);
+
 // ─── COMPONENTE ──────────────────────────────────────────────────────────────
 
 const GabricaProposal = () => {
@@ -430,14 +490,13 @@ const GabricaProposal = () => {
   const [catalogoActivo, setCatalogoActivo] = useState<number | null>(null);
   const [areaActiva, setAreaActiva] = useState('Todas');
   const [casoAbierto, setCasoAbierto] = useState<number | null>(0);
+  const [showEquipo, setShowEquipo] = useState(false);
   const [showReporte, setShowReporte] = useState(false);
   const [showEjemplo, setShowEjemplo] = useState(false);
-  const [showCostosVariables, setShowCostosVariables] = useState(false);
-  const [showCalcIA, setShowCalcIA] = useState(false);
-  const [mensajesConv, setMensajesConv] = useState(6);
-  const [convsMes, setConvsMes] = useState(150);
-
-  const consumoIAUSD = (0.02 * mensajesConv * convsMes).toFixed(2);
+  const [showFrontera, setShowFrontera] = useState(false);
+  const [showPlataforma, setShowPlataforma] = useState(false);
+  const [showRepresenta, setShowRepresenta] = useState(false);
+  const [terminoAbierto, setTerminoAbierto] = useState<number | null>(null);
 
   const casosFiltrados = areaActiva === 'Todas' ? CASOS : CASOS.filter(c => c.area === areaActiva);
 
@@ -852,50 +911,31 @@ const GabricaProposal = () => {
           </div>
 
           {/* Equipo equivalente de 6 especialistas */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-4"
-            style={{ background: 'rgba(43,127,196,.06)', border: '1px solid rgba(43,127,196,.24)' }}>
-            <p className="font-poppins font-semibold text-white/85 text-[19px] mb-2 flex items-center gap-2">
-              <UserCog className="w-4 h-4" style={{ color: GABRICA }} /> La capacidad de {ESPECIALISTAS} especialistas, sin {ESPECIALISTAS} contrataciones
-            </p>
-            <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-5">
-              Construir esta misma capacidad de forma interna implicaría abrir varias vacantes, buscar perfiles escasos en el mercado y sostenerlos aunque la carga varíe mes a mes. Con Sixteam Ops, Gabrica dispone de estos {ESPECIALISTAS} perfiles bajo un solo plan mensual, y cada solicitud llega al perfil que corresponde.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {EQUIPO.map((e, i) => {
-                const EIcon = e.icon;
-                return (
-                  <div key={i} className="rounded-lg p-3.5 flex gap-3" style={{ background: 'rgba(2,8,20,.55)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${e.color}1f` }}>
-                      <EIcon className="w-4 h-4" style={{ color: e.color }} />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-poppins font-semibold text-white/85 text-[15px] leading-snug">{e.rol}</p>
-                      <p className="font-lato text-white/45 text-[13px] leading-snug mt-0.5">{e.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Qué opera Sixteam y qué queda del lado de Gabrica */}
-          <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
-            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: HUBSPOT }} />
-            <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/80 text-[16px] mb-1.5">Qué opera Sixteam y qué queda del lado de Gabrica</p>
-              <p className="font-lato text-white/50 text-[15px] leading-relaxed mb-3">
-                Sixteam opera la tecnología y los sistemas de información, es decir configura, automatiza, integra y mantiene la infraestructura sobre la que corre la operación. La estrategia del negocio y el contenido siguen siendo de Gabrica, de modo que estos puntos quedan fuera del servicio:
+          <div className="mb-4">
+            <Accordion icon={UserCog} color={GABRICA} fondo="rgba(43,127,196,.06)"
+              titulo={`La capacidad de ${ESPECIALISTAS} especialistas, sin ${ESPECIALISTAS} contrataciones`}
+              meta={`${EQUIPO.length} perfiles`}
+              open={showEquipo} onToggle={() => setShowEquipo(v => !v)}>
+              <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-5">
+                Construir esta misma capacidad de forma interna implicaría abrir varias vacantes, buscar perfiles escasos en el mercado y sostenerlos aunque la carga varíe mes a mes. Con Sixteam Ops, Gabrica dispone de estos {ESPECIALISTAS} perfiles bajo un solo plan mensual, y cada solicitud llega al perfil que corresponde.
               </p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1.5">
-                {FUERA_DE_ALCANCE.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[7px]" style={{ background: HUBSPOT }} />
-                    <span className="font-lato text-white/45 text-[14px] leading-snug">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {EQUIPO.map((e, i) => {
+                  const EIcon = e.icon;
+                  return (
+                    <div key={i} className="rounded-lg p-3.5 flex gap-3" style={{ background: 'rgba(2,8,20,.55)', border: '1px solid rgba(255,255,255,.06)' }}>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${e.color}1f` }}>
+                        <EIcon className="w-4 h-4" style={{ color: e.color }} />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-poppins font-semibold text-white/85 text-[15px] leading-snug">{e.rol}</p>
+                        <p className="font-lato text-white/45 text-[13px] leading-snug mt-0.5">{e.desc}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </Accordion>
           </div>
 
           {/* Cómo funciona el consumo de créditos */}
@@ -909,27 +949,26 @@ const GabricaProposal = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-4">
-              {[
-                { rango: '4 a 8', tipo: 'Solicitud simple',  ej: 'Un campo nuevo, un ajuste de flujo, una capacitación puntual, soporte de una incidencia' },
-                { rango: '10 a 16', tipo: 'Solicitud media',  ej: 'Un informe, una automatización de seguimiento, un formulario conectado, una segmentación' },
-                { rango: '18 a 24', tipo: 'Solicitud compleja', ej: 'Una integración entre sistemas, un agente de IA, un panel que cruza ERP y CRM' },
-              ].map((c, i) => (
-                <div key={i} className="rounded-xl p-4" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <p className="font-poppins font-black text-[22px] leading-none mb-1" style={{ color: '#00bfa5' }}>{c.rango}</p>
-                  <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-2">créditos</p>
-                  <p className="font-poppins font-semibold text-white/80 text-[14px] mb-1">{c.tipo}</p>
-                  <p className="font-lato text-white/45 text-[13px] leading-snug">{c.ej}</p>
-                </div>
-              ))}
+              {BANDAS.map((c, i) => {
+                const bs = [BANDA_STYLE.Simple, BANDA_STYLE.Media, BANDA_STYLE.Compleja][i];
+                return (
+                  <div key={i} className="rounded-xl p-4" style={{ background: 'rgba(2,8,20,.6)', border: `1px solid ${bs.border}` }}>
+                    <p className="font-poppins font-black text-[22px] leading-none mb-1" style={{ color: bs.color }}>{c.rango}</p>
+                    <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-2">créditos</p>
+                    <p className="font-poppins font-semibold text-white/80 text-[14px] mb-1">{c.tipo}</p>
+                    <p className="font-lato text-white/45 text-[13px] leading-snug">{c.ej}</p>
+                  </div>
+                );
+              })}
             </div>
 
-            <div className="rounded-xl p-4 flex flex-col gap-2.5" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
+            <div className="rounded-xl p-4 flex flex-col gap-2.5 mb-4" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
               <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Flujo de cada solicitud</p>
               {[
                 { step: '01', text: 'El equipo de Gabrica envía la solicitud describiendo qué necesita, por ejemplo que el asesor reciba una alerta en HubSpot cuando el pedido cambia de estado en Dynamics 365.' },
                 { step: '02', text: 'Sixteam analiza la solicitud y responde con la cotización: cuántos créditos consume y en cuánto tiempo queda lista.' },
                 { step: '03', text: 'Gabrica aprueba y Sixteam ejecuta. Los créditos se descuentan del saldo del período, visible en todo momento.' },
-                { step: '04', text: 'Al cierre del mes se entrega el reporte con el desglose de créditos por solicitud y el saldo del período.' },
+                { step: '04', text: 'Al cierre de cada mes Gabrica recibe el reporte de créditos consumidos por solicitud, con el detalle de qué se atendió y el saldo del período.' },
               ].map((s) => (
                 <div key={s.step} className="flex items-start gap-3">
                   <span className="font-poppins font-black text-[11px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
@@ -938,6 +977,36 @@ const GabricaProposal = () => {
                 </div>
               ))}
             </div>
+
+            {/* Ejemplo de solicitud y respuesta, incrustado en el flujo de créditos */}
+            <Accordion icon={MessageSquare} color={GABRICA} fondo="rgba(2,8,20,.6)"
+              titulo="Ejemplo de solicitud y respuesta" meta="Referencial"
+              open={showEjemplo} onToggle={() => setShowEjemplo(v => !v)}>
+              <div className="space-y-3">
+                <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                    style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Gabrica</span>
+                  <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
+                    "Necesitamos que cuando un pedido cambie de estado en Dynamics, el asesor lo vea en HubSpot sin tener que entrar al ERP, y que si el pedido lleva más de dos días represado se le cree la tarea de contactar al cliente."
+                  </p>
+                </div>
+                <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(43,127,196,.07)', border: '1px solid rgba(43,127,196,.2)' }}>
+                  <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                    style={{ background: 'rgba(43,127,196,.22)', color: GABRICA }}>Sixteam</span>
+                  <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
+                    "Recibido. La solicitud incluye la conexión vía API con Dynamics 365, el mapeo de estados de pedido hacia propiedades de HubSpot, la automatización de la alerta al asesor dueño de la cuenta y la regla de creación de tarea a las 48 horas. Queda como <strong className="text-white/75 not-italic">solicitud simple, 18 créditos</strong>, lista en 4 días hábiles. Quedarían 142 créditos disponibles este mes. ¿Aprobamos?"
+                  </p>
+                </div>
+                <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                    style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Gabrica</span>
+                  <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">"Aprobado."</p>
+                </div>
+                <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1">
+                  Sixteam construye la integración, la prueba con datos reales, la documenta y la deja monitoreada. A partir de ahí el asesor ve el estado del pedido sin salir del CRM, y nadie tiene que preguntar por WhatsApp en qué va un despacho.
+                </p>
+              </div>
+            </Accordion>
           </div>
 
           {/* Ejemplo de reporte mensual de créditos */}
@@ -991,57 +1060,7 @@ const GabricaProposal = () => {
                 </div>
                 <div className="px-4 sm:px-5 py-3" style={{ background: 'rgba(255,255,255,.02)', borderTop: '1px solid rgba(255,255,255,.05)' }}>
                   <p className="font-lato text-white/30 text-[13px] leading-relaxed">
-                    Ejemplo referencial de un mes con solicitudes de alta complejidad que agota los {CREDITOS_MES} créditos. Los meses con solicitudes más livianas permiten atender un mayor número de requerimientos. Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Ejemplo real de solicitud y respuesta */}
-          <div className="rounded-xl overflow-hidden transition-all duration-300"
-            style={{ border: showEjemplo ? `1px solid ${GABRICA}55` : '1px solid rgba(255,255,255,.08)' }}>
-            <button onClick={() => setShowEjemplo(v => !v)}
-              className="w-full flex items-center gap-3 px-4 sm:px-5 py-4 text-left transition-all duration-200"
-              style={{ background: showEjemplo ? 'rgba(43,127,196,.07)' : 'rgba(255,255,255,.02)' }}>
-              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: showEjemplo ? GABRICA : 'rgba(255,255,255,.35)' }} />
-              <div className="flex-1">
-                <span className="font-poppins font-bold text-[16px]" style={{ color: showEjemplo ? '#fff' : 'rgba(255,255,255,.7)' }}>
-                  Ejemplo de solicitud y respuesta
-                </span>
-                <span className="ml-3 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium uppercase tracking-wide align-middle"
-                  style={{ background: 'rgba(43,127,196,.14)', border: '1px solid rgba(43,127,196,.32)', color: GABRICA }}>
-                  Referencial
-                </span>
-              </div>
-              <ChevronRight className="w-4 h-4 transition-transform duration-300 flex-shrink-0"
-                style={{ color: showEjemplo ? GABRICA : 'rgba(255,255,255,.3)', transform: showEjemplo ? 'rotate(90deg)' : undefined }} />
-            </button>
-
-            {showEjemplo && (
-              <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                <div className="pt-4 space-y-3">
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Gabrica</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                      "Necesitamos que cuando un pedido cambie de estado en Dynamics, el asesor lo vea en HubSpot sin tener que entrar al ERP, y que si el pedido lleva más de dos días represado se le cree la tarea de contactar al cliente."
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(43,127,196,.07)', border: '1px solid rgba(43,127,196,.2)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(43,127,196,.22)', color: GABRICA }}>Sixteam</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                      "Recibido. La solicitud incluye la conexión vía API con Dynamics 365, el mapeo de estados de pedido hacia propiedades de HubSpot, la automatización de la alerta al asesor dueño de la cuenta y la regla de creación de tarea a las 48 horas. Son <strong className="text-white/75 not-italic">14 créditos</strong> y queda lista en 4 días hábiles. Quedarían 146 créditos disponibles este mes. ¿Aprobamos?"
-                    </p>
-                  </div>
-                  <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-                    <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
-                      style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Gabrica</span>
-                    <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">"Aprobado."</p>
-                  </div>
-                  <p className="font-lato text-white/35 text-[13px] leading-relaxed pt-1">
-                    Sixteam construye la integración, la prueba con datos reales, la documenta y la deja monitoreada. A partir de ahí el asesor ve el estado del pedido sin salir del CRM, y nadie tiene que preguntar por WhatsApp en qué va un despacho.
+                    Ejemplo referencial de un mes que agota los {CREDITOS_MES} créditos con {REPORTE.length} solicitudes, combinando una integración de complejidad media con requerimientos simples. Un mes que incluya una solicitud compleja, de 51 créditos o más, concentra el consumo en menos requerimientos. Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
                   </p>
                 </div>
               </div>
@@ -1111,6 +1130,10 @@ const GabricaProposal = () => {
                         <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg"
                           style={{ background: st.bg, border: `1px solid ${st.border}`, color: st.color }}>
                           <Coins className="w-3.5 h-3.5" /> {c.creditos} créditos
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg"
+                          style={{ background: BANDA_STYLE[c.banda].bg, border: `1px solid ${BANDA_STYLE[c.banda].border}`, color: BANDA_STYLE[c.banda].color }}>
+                          <Gauge className="w-3.5 h-3.5" /> Solicitud {c.banda.toLowerCase()}
                         </span>
                         <span className="inline-flex items-center gap-1.5 font-lato text-[13px] px-2.5 py-1 rounded-lg text-white/50"
                           style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
@@ -1185,44 +1208,24 @@ const GabricaProposal = () => {
             })}
           </div>
 
-          {/* Plataforma Sixteam incluida */}
-          <div className="mt-6 rounded-xl p-5 sm:p-6 flex gap-3"
-            style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.22)' }}>
-            <Shield className="w-4 h-4 flex-shrink-0 mt-1 text-[#00bfa5]" />
-            <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/85 text-[19px] mb-2">Plataforma Sixteam.pro incluida con el servicio</p>
+          {/* Frontera de responsabilidades, al cierre del alcance */}
+          <div className="mt-6">
+            <Accordion icon={AlertCircle} color={HUBSPOT}
+              titulo="Qué opera Sixteam y qué queda del lado de Gabrica"
+              meta={`${FUERA_DE_ALCANCE.length} puntos fuera del servicio`}
+              open={showFrontera} onToggle={() => setShowFrontera(v => !v)}>
               <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-4">
-                Además de operar Dynamics 365 y HubSpot, con el servicio de <strong className="text-white/75">Soporte y Operaciones</strong> Gabrica accede a las funcionalidades de la <strong className="text-white/75">plataforma Sixteam.pro sin costo adicional de licencia</strong> mientras el plan esté activo. Sirven como complemento para cubrir lo que el stack actual no resuelve, y se habilitan bajo solicitud del equipo.
+                Sixteam opera la tecnología y los sistemas de información, es decir configura, automatiza, integra y mantiene la infraestructura sobre la que corre la operación. La estrategia del negocio y el contenido siguen siendo de Gabrica, de modo que estos puntos quedan fuera del servicio:
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {[
-                  { icon: Inbox,           titulo: 'ChatCenter omnicanal', desc: 'WhatsApp, Instagram y Facebook en una sola bandeja' },
-                  { icon: Mail,            titulo: 'Email Marketing', desc: 'Campañas, flujos automatizados y segmentación de la base' },
-                  { icon: Bot,             titulo: 'Asistentes de IA', desc: 'Agentes conversacionales entrenados con información de Gabrica' },
-                  { icon: Workflow,        titulo: 'Automatizaciones', desc: 'Flujos, disparadores y reglas sobre la operación' },
-                  { icon: LayoutDashboard, titulo: 'CRM y pipelines', desc: 'Gestión de oportunidades comerciales complementaria' },
-                  { icon: BarChart3,       titulo: 'Informes y paneles', desc: 'Métricas de campañas, conversión y actividad comercial' },
-                ].map((f, i) => {
-                  const FIcon = f.icon;
-                  return (
-                    <div key={i} className="rounded-lg p-3 flex gap-2.5" style={{ background: 'rgba(2,8,20,.5)', border: '1px solid rgba(255,255,255,.06)' }}>
-                      <FIcon className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                      <div>
-                        <p className="font-poppins font-semibold text-white/80 text-[15px]">{f.titulo}</p>
-                        <p className="font-lato text-white/45 text-[13px] leading-snug">{f.desc}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-3 rounded-lg p-3.5 flex gap-2.5" style={{ background: 'rgba(43,127,196,.08)', border: '1px solid rgba(43,127,196,.24)' }}>
-                <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GABRICA }} />
-                <p className="font-lato text-white/55 text-[14px] leading-relaxed">
-                  <strong className="text-white/75">Licenciamiento de terceros aparte.</strong> Las licencias de Microsoft Dynamics 365, HubSpot y demás plataformas contratadas por Gabrica se mantienen a nombre de Gabrica y no forman parte de este plan. Sixteam opera sobre ellas con los accesos que el equipo habilite.
-                </p>
-              </div>
-            </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+                {FUERA_DE_ALCANCE.map((item, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-[8px]" style={{ background: HUBSPOT }} />
+                    <span className="font-lato text-white/50 text-[15px] leading-snug">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
           </div>
         </section>
 
@@ -1370,189 +1373,83 @@ const GabricaProposal = () => {
           </div>
 
           {/* Comparativo con salario mínimo */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-4"
-            style={{ background: 'rgba(43,127,196,.06)', border: '1px solid rgba(43,127,196,.24)' }}>
-            <p className="font-poppins font-semibold text-white/85 text-[19px] mb-2 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" style={{ color: GABRICA }} /> Qué representa esta inversión
-            </p>
-            <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-5">
-              El Plan Integral cuesta menos que un salario mínimo mensual en Colombia para 2026, que quedó en ${SMMLV_2026} COP. Por debajo de lo que vale una sola contratación de entrada, Gabrica dispone de la capacidad operativa equivalente a {ESPECIALISTAS} especialistas trabajando como el equipo de tecnología que siempre ha necesitado, sin nómina, sin prestaciones, sin proceso de selección y sin el riesgo de que ese conocimiento se vaya con una renuncia.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {[
-                { valor: `$${PLAN_COP}`, label: 'Plan Integral mensual', sub: 'COP + IVA · 160 créditos', destacado: true },
-                { valor: `$${SMMLV_2026}`, label: 'Salario mínimo 2026', sub: 'Antes de prestaciones y aportes', destacado: false },
-                { valor: `${ESPECIALISTAS}`, label: 'Especialistas a disposición', sub: 'Bajo un solo plan mensual', destacado: false },
-              ].map((c, i) => (
-                <div key={i} className="rounded-xl p-4 text-center"
-                  style={{
-                    background: c.destacado ? 'rgba(0,191,165,.08)' : 'rgba(2,8,20,.55)',
-                    border: `1px solid ${c.destacado ? 'rgba(0,191,165,.28)' : 'rgba(255,255,255,.07)'}`,
-                  }}>
-                  <p className="font-poppins font-black leading-none mb-1.5"
-                    style={{ fontSize: 'clamp(1.15rem, 3vw, 1.5rem)', color: c.destacado ? '#00bfa5' : 'rgba(255,255,255,.8)' }}>
-                    {c.valor}
-                  </p>
-                  <p className="font-poppins font-semibold text-white/70 text-[13px]">{c.label}</p>
-                  <p className="font-lato text-white/35 text-[12px] mt-0.5 leading-snug">{c.sub}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Costos variables */}
-          <div className="rounded-xl p-4 sm:p-5 mb-4 flex gap-3"
-            style={{ background: 'rgba(255,122,89,.05)', border: '1px solid rgba(255,122,89,.2)' }}>
-            <Shield className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: HUBSPOT }} />
-            <div className="flex-1 min-w-0">
-              <p className="font-poppins font-semibold text-white/80 text-[18px] mb-2">Qué queda fuera del valor mensual</p>
-              <p className="font-lato text-white/50 text-[16px] leading-relaxed mb-3">
-                El valor del Plan Integral cubre el trabajo del equipo de Sixteam y el acceso a la plataforma Sixteam.pro. Existen además costos que cobran directamente los proveedores según consumo real, por lo que se trasladan sin margen adicional.
+          <div className="mb-4">
+            <Accordion icon={TrendingUp} color={GABRICA} fondo="rgba(43,127,196,.06)"
+              titulo="Qué representa esta inversión"
+              meta="Menos de un salario mínimo mensual"
+              open={showRepresenta} onToggle={() => setShowRepresenta(v => !v)}>
+              <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-5">
+                El Plan Integral cuesta menos que un salario mínimo mensual en Colombia para 2026, que quedó en ${SMMLV_2026} COP. Por debajo de lo que vale una sola contratación de entrada, Gabrica dispone de la capacidad operativa equivalente a {ESPECIALISTAS} especialistas trabajando como el equipo de tecnología que siempre ha necesitado, sin nómina, sin prestaciones, sin proceso de selección y sin el riesgo de que ese conocimiento se vaya con una renuncia.
               </p>
-
-              <div className="rounded-xl overflow-hidden transition-all duration-300"
-                style={{ border: showCostosVariables ? '1px solid rgba(245,158,11,.35)' : '1px solid rgba(255,255,255,.07)' }}>
-                <button onClick={() => setShowCostosVariables(v => !v)}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-200"
-                  style={{ background: showCostosVariables ? 'rgba(245,158,11,.06)' : 'transparent' }}>
-                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.35)' }} />
-                  <span className="font-lato text-[13px] flex-1" style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.4)' }}>
-                    Costos variables y de terceros
-                  </span>
-                  <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
-                    style={{ color: showCostosVariables ? '#f59e0b' : 'rgba(255,255,255,.25)', transform: showCostosVariables ? 'rotate(90deg)' : undefined }} />
-                </button>
-
-                {showCostosVariables && (
-                  <div className="px-4 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                    <div className="pt-4 space-y-4">
-
-                      {/* Licenciamiento */}
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                        <p className="font-lato text-white/55 text-[14px] leading-relaxed flex-1">
-                          <strong className="text-white/75">Licenciamiento de Dynamics 365, HubSpot y otras plataformas:</strong> se mantiene a nombre de Gabrica y lo factura cada proveedor de forma directa. Sixteam opera sobre las licencias existentes y, si un requerimiento exige un módulo o nivel de licencia que hoy no está contratado, lo informa antes de ejecutar.
-                        </p>
-                      </div>
-
-                      {/* WhatsApp Meta */}
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                        <div className="flex-1">
-                          <p className="font-lato text-white/55 text-[14px] leading-relaxed mb-2">
-                            <strong className="text-white/75">Mensajes plantilla de WhatsApp (Meta):</strong> cada mensaje enviado fuera de la ventana de servicio de 24 horas, como recordatorios, campañas o seguimientos, tiene un costo directo de Meta, por lo que{' '}
-                            <strong className="text-white/75">no es un cobro de Sixteam.pro</strong>. La tarifa varía según el tipo de plantilla.{' '}
-                            <span className="font-lato text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
-                          </p>
-                          <div className="flex flex-wrap gap-2">
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
-                              style={{ background: 'rgba(43,127,196,.08)', border: '1px solid rgba(43,127,196,.25)' }}>
-                              <span className="font-poppins font-semibold text-white/90 text-[13px]">🇨🇴 Colombia</span>
-                              <span className="font-lato text-white/45 text-[12px]">Marketing</span>
-                              <span className="font-poppins font-bold text-[13px]" style={{ color: GABRICA }}>USD 0.0131</span>
-                              <span className="font-lato text-white/30 text-[11px]">|</span>
-                              <span className="font-lato text-white/45 text-[12px]">Utility</span>
-                              <span className="font-poppins font-bold text-[13px]" style={{ color: GABRICA }}>USD 0.0008</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-lg"
-                              style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-                              <span className="font-lato text-white/40 text-[12px]">Service (atención entrante)</span>
-                              <span className="font-poppins font-bold text-[#00bfa5] text-[13px]">FREE</span>
-                            </div>
-                          </div>
-                          <p className="font-lato text-white/25 text-[11px] mt-2">
-                            Fuente: Meta for Developers · WhatsApp Business Platform Pricing · Valores por número destinatario
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Email masivo */}
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                        <p className="font-lato text-white/55 text-[14px] leading-relaxed flex-1">
-                          <strong className="text-white/75">Envíos masivos de correo:</strong> el volumen enviado por encima del cupo incluido en la plataforma tiene un costo por envío según el proveedor. Se dimensiona junto al equipo antes de lanzar cada campaña, de manera que el gasto quede aprobado previamente.{' '}
-                          <span className="font-lato text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
-                        </p>
-                      </div>
-
-                      {/* Consumo IA */}
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-2 bg-[#f59e0b]" />
-                        <div className="flex-1">
-                          <p className="font-lato text-white/55 text-[14px] leading-relaxed mb-3">
-                            <strong className="text-white/75">Consumo de IA en producción:</strong> si se activa un agente conversacional de cara al cliente, el costo varía según el volumen de mensajes que procesa y se factura mes vencido sobre el consumo efectivo. El uso de IA que hace el propio equipo de Sixteam para resolver las solicitudes ya está incluido en el plan.{' '}
-                            <span className="font-lato text-[12px] px-1.5 py-0.5 rounded" style={{ background: 'rgba(245,158,11,.12)', color: '#f59e0b' }}>Facturado mes vencido · según consumo real</span>
-                          </p>
-
-                          {/* Calculadora IA */}
-                          <div className="rounded-xl overflow-hidden transition-all duration-300"
-                            style={{ border: showCalcIA ? '1px solid rgba(43,127,196,.35)' : '1px solid rgba(255,255,255,.07)' }}>
-                            <button onClick={() => setShowCalcIA(v => !v)}
-                              className="w-full flex items-center gap-2.5 px-4 py-3 text-left"
-                              style={{ background: showCalcIA ? 'rgba(43,127,196,.07)' : 'transparent' }}>
-                              <span className="font-lato text-[13px] flex-1" style={{ color: 'rgba(43,127,196,.9)' }}>
-                                + Calcular consumo mensual por uso de IA
-                              </span>
-                              <ChevronRight className="w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0"
-                                style={{ color: 'rgba(43,127,196,.7)', transform: showCalcIA ? 'rotate(90deg)' : undefined }} />
-                            </button>
-                            {showCalcIA && (
-                              <div className="px-4 pb-4 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                                <div className="pt-3 space-y-3">
-                                  <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg"
-                                    style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
-                                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: GABRICA }} />
-                                    <span className="font-lato text-white/50 text-[13px]">Valor IA por mensaje</span>
-                                    <span className="font-poppins font-black ml-auto text-[13px]" style={{ color: GABRICA }}>USD 0.02</span>
-                                  </div>
-                                  <div>
-                                    <div className="flex justify-between mb-1">
-                                      <span className="font-lato text-white/35 text-[11px]">Mensajes promedio por conversación</span>
-                                      <span className="font-poppins font-bold text-white text-[12px]">{mensajesConv}</span>
-                                    </div>
-                                    <input type="range" min={2} max={20} step={1}
-                                      value={mensajesConv} onChange={e => setMensajesConv(Number(e.target.value))} className="w-full" />
-                                  </div>
-                                  <div>
-                                    <div className="flex justify-between mb-1">
-                                      <span className="font-lato text-white/35 text-[11px]">Conversaciones promedio por mes</span>
-                                      <span className="font-poppins font-bold text-white text-[12px]">{convsMes}</span>
-                                    </div>
-                                    <input type="range" min={50} max={1000} step={25}
-                                      value={convsMes} onChange={e => setConvsMes(Number(e.target.value))} className="w-full" />
-                                  </div>
-                                  <div className="flex justify-between items-center pt-2 border-t" style={{ borderColor: 'rgba(43,127,196,.2)' }}>
-                                    <div>
-                                      <span className="font-lato text-white/40 text-[11px]">Consumo estimado</span>
-                                      <p className="font-lato text-white/25 text-[10px] mt-0.5">USD 0.02 × {mensajesConv} msg × {convsMes} conv</p>
-                                    </div>
-                                    <span className="font-poppins font-bold text-[14px]" style={{ color: GABRICA }}>≈ USD {consumoIAUSD}/mes</span>
-                                  </div>
-                                  <p className="font-lato text-white/25 text-[10px] leading-relaxed">
-                                    Estimación referencial. El consumo real varía según el volumen de conversaciones gestionadas por el agente de IA.
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                {[
+                  { valor: `$${PLAN_COP}`, label: 'Plan Integral mensual', sub: `COP + IVA · ${CREDITOS_MES} créditos`, destacado: true },
+                  { valor: `$${SMMLV_2026}`, label: 'Salario mínimo 2026', sub: 'Antes de prestaciones y aportes', destacado: false },
+                  { valor: `${ESPECIALISTAS}`, label: 'Especialistas a disposición', sub: 'Bajo un solo plan mensual', destacado: false },
+                ].map((c, i) => (
+                  <div key={i} className="rounded-xl p-4 text-center"
+                    style={{
+                      background: c.destacado ? 'rgba(0,191,165,.08)' : 'rgba(2,8,20,.55)',
+                      border: `1px solid ${c.destacado ? 'rgba(0,191,165,.28)' : 'rgba(255,255,255,.07)'}`,
+                    }}>
+                    <p className="font-poppins font-black leading-none mb-1.5"
+                      style={{ fontSize: 'clamp(1.15rem, 3vw, 1.5rem)', color: c.destacado ? '#00bfa5' : 'rgba(255,255,255,.8)' }}>
+                      {c.valor}
+                    </p>
+                    <p className="font-poppins font-semibold text-white/70 text-[13px]">{c.label}</p>
+                    <p className="font-lato text-white/35 text-[12px] mt-0.5 leading-snug">{c.sub}</p>
                   </div>
-                )}
+                ))}
               </div>
-            </div>
+            </Accordion>
           </div>
 
           {/* Nota de cierre de inversión */}
-          <div className="rounded-xl p-4 flex gap-3"
+          <div className="rounded-xl p-4 flex gap-3 mb-4"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
             <Zap className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
             <p className="font-lato text-white/55 text-[15px] leading-relaxed">
               El crédito hace que la relación sea flexible: un mes puede irse completo en una integración grande y el siguiente en quince ajustes pequeños. Gabrica define la prioridad de cada período y el valor mensual se mantiene fijo, de modo que la mejora continua deja de depender de aprobar un proyecto nuevo cada vez.
             </p>
           </div>
+
+          {/* Plataforma Sixteam.pro incluida en el valor mensual */}
+          <Accordion icon={Shield} color="#00bfa5" fondo="rgba(0,191,165,.05)"
+            titulo="Plataforma Sixteam.pro incluida con el servicio"
+            meta="Sin costo adicional de licencia"
+            open={showPlataforma} onToggle={() => setShowPlataforma(v => !v)}>
+            <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-4">
+              Además de operar Dynamics 365 y HubSpot, con el servicio de <strong className="text-white/75">Soporte y Operaciones</strong> Gabrica accede a las funcionalidades de la <strong className="text-white/75">plataforma Sixteam.pro sin costo adicional de licencia</strong> mientras el plan esté activo. Sirven como complemento para cubrir lo que el stack actual no resuelve, y se habilitan bajo solicitud del equipo.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {[
+                { icon: Inbox,           titulo: 'ChatCenter omnicanal', desc: 'WhatsApp, Instagram y Facebook en una sola bandeja' },
+                { icon: Mail,            titulo: 'Email Marketing', desc: 'Campañas, flujos automatizados y segmentación de la base' },
+                { icon: Bot,             titulo: 'Asistentes de IA', desc: 'Agentes conversacionales entrenados con información de Gabrica' },
+                { icon: Workflow,        titulo: 'Automatizaciones', desc: 'Flujos, disparadores y reglas sobre la operación' },
+                { icon: LayoutDashboard, titulo: 'CRM y pipelines', desc: 'Gestión de oportunidades comerciales complementaria' },
+                { icon: BarChart3,       titulo: 'Informes y paneles', desc: 'Métricas de campañas, conversión y actividad comercial' },
+              ].map((f, i) => {
+                const FIcon = f.icon;
+                return (
+                  <div key={i} className="rounded-lg p-3 flex gap-2.5" style={{ background: 'rgba(2,8,20,.5)', border: '1px solid rgba(255,255,255,.06)' }}>
+                    <FIcon className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-poppins font-semibold text-white/80 text-[15px]">{f.titulo}</p>
+                      <p className="font-lato text-white/45 text-[13px] leading-snug">{f.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-3 rounded-lg p-3.5 flex gap-2.5" style={{ background: 'rgba(43,127,196,.08)', border: '1px solid rgba(43,127,196,.24)' }}>
+              <Info className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: GABRICA }} />
+              <p className="font-lato text-white/55 text-[14px] leading-relaxed">
+                <strong className="text-white/75">Licenciamiento de terceros aparte.</strong> Las licencias de Microsoft Dynamics 365, HubSpot y demás plataformas contratadas por Gabrica se mantienen a nombre de Gabrica y no forman parte de este plan. Sixteam opera sobre ellas con los accesos que el equipo habilite.
+              </p>
+            </div>
+          </Accordion>
         </section>
 
         {/* ── LOGOS ── */}
@@ -1583,19 +1480,13 @@ const GabricaProposal = () => {
               { titulo: 'Permanencia mínima', desc: 'Aunque no existe cláusula de permanencia, Sixteam solicita establecer contractualmente un mínimo de 3 meses de prestación del servicio, como garantía de que el trabajo de integración alcance a construirse y a mostrar resultados. Este período puede cancelarse anticipadamente por fallas, errores o quejas del equipo de Gabrica hacia Sixteam.', icon: Clock },
               { titulo: 'Inicio del servicio', desc: 'El servicio comienza desde la recepción del primer pago mensual y la entrega de accesos por parte de Gabrica, específicamente los ambientes de Microsoft Dynamics 365 y HubSpot, y los sistemas conectados que se definan en el levantamiento del mes 1.', icon: Rocket },
               { titulo: 'Vigencia de la propuesta', desc: 'Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión (Agosto 2026). Pasado este plazo, los valores podrán ser revisados según condiciones del mercado.', icon: Calendar },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="rounded-xl p-4 sm:p-5 flex gap-4"
-                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <Icon className="w-4 h-4 text-[#00bfa5] flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-poppins font-semibold text-white/80 text-[16px] mb-1">{item.titulo}</p>
-                    <p className="font-lato text-white/50 text-[16px] leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
+            ].map((item, i) => (
+              <Accordion key={i} icon={item.icon} titulo={item.titulo}
+                open={terminoAbierto === i}
+                onToggle={() => setTerminoAbierto(terminoAbierto === i ? null : i)}>
+                <p className="font-lato text-white/55 text-[16px] leading-relaxed">{item.desc}</p>
+              </Accordion>
+            ))}
           </div>
 
           {/* Footer */}
