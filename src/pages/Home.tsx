@@ -259,6 +259,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/calas-nibec',
   },
+  {
+    slug: 'gabrica',
+    cliente: 'Gabrica',
+    sector: 'Industria Pet · Dynamics 365 + HubSpot · Sixteam Ops · Colombia',
+    fecha: 'Agosto 2026',
+    monto: 'COP 1.740.000/mes + IVA · 160 créditos',
+    estado: 'activa',
+    path: '/gabrica',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
