@@ -268,6 +268,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/gabrica',
   },
+  {
+    slug: 'mizar-plataforma',
+    cliente: 'Mizar Diseño y Construcción · Ictinos',
+    sector: 'Construcción · Plataforma de requisiciones y pagos de obra',
+    fecha: 'Agosto 2026',
+    monto: 'COP 4.000.000 impl. + COP 250.000/mes',
+    estado: 'activa',
+    path: '/mizar-plataforma',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -461,6 +470,9 @@ export default function Home() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
                       <Building2 size={24} color="#c9a443" />
                     </div>
+                  ) : p.slug === 'mizar-plataforma' ? (
+                    <img src="/mizar-logo.png" alt="Mizar" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'anato' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(232,84,10,.1)', borderRadius: 12 }}>
                       <Plane size={24} color="#e8540a" />

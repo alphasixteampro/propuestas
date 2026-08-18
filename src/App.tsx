@@ -31,6 +31,7 @@ const GalcomexProposal            = lazy(() => import('./pages/GalcomexProposal'
 const DvClinicLabProposal         = lazy(() => import('./pages/DvClinicLabProposal'));
 const CalasNibecProposal          = lazy(() => import('./pages/CalasNibecProposal'));
 const GabricaProposal             = lazy(() => import('./pages/GabricaProposal'));
+const MizarPlataformaProposal     = lazy(() => import('./pages/MizarPlataformaProposal'));
 
 function Loader() {
   return (
@@ -82,6 +83,7 @@ export default function App() {
           <Route path="/dv-clinic-lab"        element={<DvClinicLabProposal />} />
           <Route path="/calas-nibec"          element={<CalasNibecProposal />} />
           <Route path="/gabrica"              element={<GabricaProposal />} />
+          <Route path="/mizar-plataforma"     element={<MizarPlataformaProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
