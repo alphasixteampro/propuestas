@@ -269,6 +269,15 @@ const PROPOSALS: Proposal[] = [
     path: '/gabrica',
   },
   {
+    slug: 'mizar-plataforma-comparativo',
+    cliente: 'Mizar Diseño y Construcción · Ictinos · Comparativa',
+    sector: 'Construcción · Requisiciones y pagos de obra · Básico frente a Completo',
+    fecha: 'Agosto 2026',
+    monto: 'COP 3.500.000 o 5.000.000 impl. + 250.000 o 350.000/mes',
+    estado: 'activa',
+    path: '/mizar-plataforma',
+  },
+  {
     slug: 'mizar-plataforma-v1',
     cliente: 'Mizar Diseño y Construcción · Ictinos · V1 Básico',
     sector: 'Construcción · Requisiciones y pagos de obra · 6 módulos · 6 semanas',
@@ -488,7 +497,7 @@ export default function Home() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
                       <Building2 size={24} color="#c9a443" />
                     </div>
-                  ) : p.slug === 'mizar-plataforma' || p.slug === 'mizar-plataforma-v1' ? (
+                  ) : p.slug.startsWith('mizar-plataforma') ? (
                     <img src="/mizar-logo.png" alt="Mizar" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'anato' ? (
