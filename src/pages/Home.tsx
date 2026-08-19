@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Lock } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Lock, GraduationCap } from 'lucide-react';
 
 const PASSWORD = 'sixteam2026';
 const SESSION_KEY = 'st_proposals_auth';
@@ -269,13 +269,31 @@ const PROPOSALS: Proposal[] = [
     path: '/gabrica',
   },
   {
-    slug: 'mizar-plataforma',
-    cliente: 'Mizar Diseño y Construcción · Ictinos',
-    sector: 'Construcción · Plataforma de requisiciones y pagos de obra',
+    slug: 'mizar-plataforma-v1',
+    cliente: 'Mizar Diseño y Construcción · Ictinos · V1 Básico',
+    sector: 'Construcción · Requisiciones y pagos de obra · 6 módulos · 6 semanas',
     fecha: 'Agosto 2026',
-    monto: 'COP 4.000.000 impl. + COP 250.000/mes',
+    monto: 'COP 3.500.000 impl. + COP 250.000/mes',
     estado: 'activa',
-    path: '/mizar-plataforma',
+    path: '/mizar-plataforma-v1',
+  },
+  {
+    slug: 'mizar-plataforma',
+    cliente: 'Mizar Diseño y Construcción · Ictinos · V2 Completo',
+    sector: 'Construcción · Requisiciones, WhatsApp y OC por proveedor · 9 módulos · 8 semanas',
+    fecha: 'Agosto 2026',
+    monto: 'COP 5.000.000 impl. + COP 350.000/mes',
+    estado: 'activa',
+    path: '/mizar-plataforma-v2',
+  },
+  {
+    slug: 'magaly-rosero',
+    cliente: 'Magaly Rosero',
+    sector: 'Formación empresarial · Empleado IA · Propulsor Compensar · Colombia',
+    fecha: 'Agosto 2026',
+    monto: 'COP 1.750.905 impl. + COP 650.000/mes',
+    estado: 'activa',
+    path: '/magaly-rosero',
   },
 ];
 
@@ -470,7 +488,7 @@ export default function Home() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(201,164,67,.1)', borderRadius: 12 }}>
                       <Building2 size={24} color="#c9a443" />
                     </div>
-                  ) : p.slug === 'mizar-plataforma' ? (
+                  ) : p.slug === 'mizar-plataforma' || p.slug === 'mizar-plataforma-v1' ? (
                     <img src="/mizar-logo.png" alt="Mizar" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'anato' ? (
@@ -498,6 +516,10 @@ export default function Home() {
                   ) : p.slug === 'dv-clinic-lab' ? (
                     <img src="/logo-dv-clinic-lab.webp" alt="D.V. Clinic Lab" style={{ width: '90%', height: '90%', objectFit: 'contain', borderRadius: 6, padding: '2px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'magaly-rosero' ? (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(155,126,245,.12)', borderRadius: 12 }}>
+                      <GraduationCap size={24} color="#9b7ef5" />
+                    </div>
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
                   )}

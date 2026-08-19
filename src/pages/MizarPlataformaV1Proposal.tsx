@@ -3,9 +3,9 @@ import LogoCarousel from '../components/LogoCarousel';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap,
   AlertCircle, Info, Calendar, MapPin,
-  Users, Shield, Lock, XCircle, Bot, BellRing, MessageSquare,
+  Users, Shield, Lock, XCircle,
   ClipboardList, Split, HardHat, FileSpreadsheet, Stamp, Settings,
-  Workflow, Download, Layers,
+  Workflow, Download, Layers, Bot, BellRing,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ const META = {
   sector: 'Diseño y construcción · Desarrollo de proyectos',
   fecha: 'Agosto 2026',
   lugar: 'Colombia',
-  objetivo: 'Plataforma de Requisiciones y Pagos de Obra: sistema a la medida que digitaliza el ciclo completo, desde la solicitud levantada por WhatsApp o portal hasta el gasto organizado por obra y listo para Contabilidad, con órdenes de compra partidas por proveedor.',
+  objetivo: 'Plataforma de Requisiciones y Pagos de Obra: sistema a la medida que digitaliza el ciclo completo, desde la solicitud hasta el gasto organizado por obra y listo para Contabilidad, evitando transcripciones manuales.',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -54,9 +54,9 @@ const DOLORES = [
     icon: Stamp, tint: 'blue',
   },
   {
-    titulo: 'Una requisición con varios proveedores se resuelve improvisando',
-    desc: 'Cuando los ítems de una requisición se compran a proveedores distintos, no existe un documento por proveedor ni un estado que diga si esa compra se cumplió o quedó pendiente. Lo que no se compró se pierde de vista.',
-    icon: Split, tint: 'purple',
+    titulo: 'Lo aprobado no deja un documento de compra',
+    desc: 'Una vez alguien autoriza, no queda una orden numerada que respalde esa decisión, que se pueda enviar al proveedor y consultar después. La compra se ejecuta sobre la conversación, no sobre un documento.',
+    icon: FileText, tint: 'purple',
   },
 ];
 
@@ -66,17 +66,7 @@ const BENEFICIOS = [
   {
     icon: ClipboardList, color: MIZAR_GOLD, colorAlpha: 'rgba(201,164,67,.08)', colorBorder: 'rgba(201,164,67,.22)',
     titulo: 'Se destraba el cuello de botella de la transcripción',
-    desc: 'La requisición nace estructurada, cargada por quien la solicita. Daniel pasa de digitar a decidir, y ese es el ahorro de tiempo más directo del proyecto, ya que convierte horas de digitación en horas de negociación con proveedores.',
-  },
-  {
-    icon: Split, color: '#a78bfa', colorAlpha: 'rgba(167,139,250,.08)', colorBorder: 'rgba(167,139,250,.22)',
-    titulo: 'Órdenes de compra que se parten solas por proveedor',
-    desc: 'Al aprobar, la plataforma agrupa los ítems por proveedor y genera una Orden de Compra para cada uno, con su consecutivo y su estado de cumplimiento. Es exactamente lo que se pidió en la reunión del 12 de agosto.',
-  },
-  {
-    icon: MessageSquare, color: '#25D366', colorAlpha: 'rgba(37,211,102,.08)', colorBorder: 'rgba(37,211,102,.22)',
-    titulo: 'La requisición se levanta donde el equipo ya está',
-    desc: 'Nadie tiene que cambiar de hábito ni aprender una herramienta nueva. Desde WhatsApp se abre un formulario estructurado dentro del mismo chat, y lo que se envía llega completo y ordenado a la bandeja de revisión.',
+    desc: 'La requisición nace estructurada en el portal, cargada por quien la solicita. Daniel pasa de digitar a decidir, y ese es el ahorro de tiempo más directo del proyecto, ya que convierte horas de digitación en horas de negociación con proveedores.',
   },
   {
     icon: Workflow, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
@@ -84,22 +74,22 @@ const BENEFICIOS = [
     desc: 'La etiqueta define quién autoriza: Nelson ve materiales, Claudia ve nómina y Juliana ve las demás. Se recupera el tiempo que hoy se pierde persiguiendo firmas y se acortan los días que una compra pasa esperando autorización.',
   },
   {
+    icon: FileText, color: '#f59e0b', colorAlpha: 'rgba(245,158,11,.08)', colorBorder: 'rgba(245,158,11,.22)',
+    titulo: 'Cada aprobación genera su Orden de Compra',
+    desc: 'Al aprobar, la plataforma emite sola una Orden de Compra con su consecutivo, sus ítems y su valor total, imprimible para enviar al proveedor. La decisión deja de vivir en un chat y pasa a tener un documento que la respalda.',
+  },
+  {
     icon: FileSpreadsheet, color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.08)', colorBorder: 'rgba(0,191,165,.22)',
     titulo: 'El Excel de gastos por obra se arma solo',
     desc: 'Al aprobar, el gasto entra solo a su obra, con la misma cabecera del archivo actual y con algo que ese archivo no tiene: subtotal por tipo de gasto. Se elimina una segunda digitación completa por cada gasto aprobado.',
   },
   {
-    icon: Stamp, color: '#f59e0b', colorAlpha: 'rgba(245,158,11,.08)', colorBorder: 'rgba(245,158,11,.22)',
+    icon: Stamp, color: '#a78bfa', colorAlpha: 'rgba(167,139,250,.08)', colorBorder: 'rgba(167,139,250,.22)',
     titulo: 'Trazabilidad completa de cada peso',
     desc: 'Quién solicitó, quién revisó, quién aprobó, en qué fecha y con qué soporte adjunto. Toda la historia de una compra queda registrada y consultable, reemplazando las casillas de firma en papel del formato actual.',
   },
   {
-    icon: Settings, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
-    titulo: 'Mizar administra su propia plataforma',
-    desc: 'Dar de alta un proveedor con su Cámara de Comercio y su RUT, abrir una obra nueva o crear una etiqueta deja de depender de una solicitud a Sixteam. El equipo lo hace por su cuenta, en el momento en que lo necesita.',
-  },
-  {
-    icon: Download, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
+    icon: Download, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
     titulo: 'Contabilidad descarga y carga, sin volver a digitar',
     desc: 'Contabilidad filtra por obra y periodo y descarga todo lo aprobado, listo para subir a Helisa. El cierre de cada periodo deja de ser un ejercicio de reconstruir información y pasa a ser una descarga.',
   },
@@ -138,7 +128,7 @@ const MODULOS: { num: string; nombre: string; icon: React.ElementType; color: st
     items: [
       'Bandeja única con todas las requisiciones que esperan revisión, ordenadas por antigüedad y monto',
       'Etiquetado de la requisición: materiales de obra, cuenta de cobro, nómina u otras',
-      'Asignación de proveedor a nivel de ítem, ya que una misma requisición puede repartirse entre varios',
+      'Asignación de proveedor a nivel de ítem, que queda registrada en la requisición',
       'Campos de control reservados para Revisión: talla, valor cotizado, valor presupuestado y proveedor',
       'Ajuste de cantidades y valores antes de liberar la requisición hacia el aprobador',
       'Liberación a aprobación con un clic, que enruta automáticamente según la etiqueta asignada',
@@ -170,15 +160,15 @@ const MODULOS: { num: string; nombre: string; icon: React.ElementType; color: st
     color: '#f59e0b',
     colorAlpha: 'rgba(245,158,11,.10)',
     colorBorder: 'rgba(245,158,11,.28)',
-    descripcion: 'Al aprobar, la plataforma emite sola la Orden de Compra, con su consecutivo y su estado. El documento que hoy no existe y que respalda cada decisión.',
+    descripcion: 'Al aprobar, la plataforma emite sola la Orden de Compra de esa requisición. Una requisición, una orden: el documento que hoy no existe.',
     items: [
       'Generación automática de la Orden de Compra en el momento de aprobar, sin intervención manual',
-      'Consecutivo propio de orden, independiente del consecutivo de requisición',
-      'Ítems, cantidades, valores y total de la orden tomados directamente de lo aprobado',
-      'Estado de cumplimiento de cada orden: cumplida, no cumplida o no necesario',
+      'Una orden por requisición, con su consecutivo propio, sus ítems y su valor total',
+      'Los proveedores asignados en revisión quedan registrados como dato dentro de la orden',
+      'Estado de cumplimiento de la orden: cumplida, no cumplida o no necesario',
+      'Listado de órdenes de compra con filtro por obra, estado y fecha',
       'Trazabilidad hacia atrás: desde cualquier orden se llega a la requisición que la originó',
       'Vista imprimible de la orden para enviarla al proveedor',
-      'Historial de cambios de estado de la orden, con fecha y responsable',
     ],
   },
   {
@@ -213,62 +203,8 @@ const MODULOS: { num: string; nombre: string; icon: React.ElementType; color: st
       'Catálogo de las diecisiete obras activas, con su empresa asociada, Mizar o Ictinos',
       'Catálogo de etiquetas con su aprobador asignado, que es la regla de enrutamiento del sistema',
       'Alta de proveedores con nombre y NIT o RUT, suficiente para operar desde el primer día',
-      'Creación y desactivación de usuarios sin depender de una solicitud a soporte',
+      'Los catálogos de obras, etiquetas y proveedores los carga Sixteam a solicitud de Mizar, como parte del servicio mensual',
       'Registro de actividad para saber quién hizo cada cambio en la configuración',
-    ],
-  },
-  {
-    num: '07',
-    nombre: 'División en Órdenes de Compra por proveedor',
-    icon: Split,
-    color: '#a78bfa',
-    colorAlpha: 'rgba(167,139,250,.10)',
-    colorBorder: 'rgba(167,139,250,.28)',
-    descripcion: 'El corazón del sistema. Si los ítems de una requisición van a proveedores distintos, se generan varias Órdenes de Compra independientes, una por cada uno.',
-    items: [
-      'Agrupación automática de los ítems por proveedor en el momento de aprobar',
-      'Una Orden de Compra independiente por cada proveedor presente en la requisición',
-      'Cada orden lleva su consecutivo propio, su proveedor, sus ítems y su valor total',
-      'Estado de cumplimiento por orden: cumplida, no cumplida o no necesario',
-      'Panel de órdenes de compra con filtro por estado, proveedor y obra',
-      'Lo que no se compró queda visible en lugar de perderse, marcado con su motivo',
-      'Vista consolidada de todas las órdenes originadas por una misma requisición',
-    ],
-  },
-  {
-    num: '08',
-    nombre: 'Captura por WhatsApp Flow',
-    icon: MessageSquare,
-    color: '#25D366',
-    colorAlpha: 'rgba(37,211,102,.10)',
-    colorBorder: 'rgba(37,211,102,.28)',
-    descripcion: 'La requisición se levanta desde el canal donde el equipo ya trabaja, con un formulario estructurado dentro del mismo chat.',
-    items: [
-      'Línea de WhatsApp dedicada para Mizar, con verificación de negocio ante Meta gestionada por Sixteam',
-      'Formulario estructurado que se abre dentro del chat, sin salir de WhatsApp ni instalar nada',
-      'Los mismos campos del CC2-02: obra, etiqueta, ítems, cantidades y valores',
-      'Adjuntar la foto de la cotización o la factura directamente desde el celular',
-      'La requisición enviada por WhatsApp llega a la misma bandeja de revisión que las del portal',
-      'Confirmación automática en el chat con el consecutivo asignado a la requisición',
-      'Portal y WhatsApp conviven: cada quien usa el canal que le resulte natural',
-    ],
-  },
-  {
-    num: '09',
-    nombre: 'Autoservicio total y reportes ejecutivos',
-    icon: BellRing,
-    color: '#38bdf8',
-    colorAlpha: 'rgba(56,189,248,.10)',
-    colorBorder: 'rgba(56,189,248,.28)',
-    descripcion: 'Mizar deja de depender de Sixteam para operar su propio catálogo, y la gerencia obtiene la lectura consolidada de lo que está pasando.',
-    items: [
-      'Alta de proveedores por parte de Mizar, con carga de Cámara de Comercio, RUT y certificados',
-      'Creación y edición de obras y centros de costo sin solicitarlo a Sixteam',
-      'Creación y edición de etiquetas, con su aprobador asignado, administradas por Mizar',
-      'Reportes por periodo y por tipo de gasto, con comparación entre obras',
-      'Vista de flujo de trabajo: cuántas requisiciones hay en cada estado y desde cuándo',
-      'Notificaciones automáticas cuando una requisición queda esperando una aprobación',
-      'Aviso a quien solicitó cuando su requisición es aprobada o denegada',
     ],
   },
 ];
@@ -289,7 +225,6 @@ const FASES = [
       'Carga de las diecisiete obras activas, sus empresas y el catálogo de etiquetas',
       'Formulario de requisición operativo para los dos tipos, compra y pago',
       'Ítems múltiples, cálculo de diferencia y adjunto de soportes funcionando',
-      'Arranque en paralelo del trámite de verificación de negocio ante Meta',
     ],
     entregable: 'Portal en línea con captura de requisiciones lista para probar con datos reales',
   },
@@ -325,26 +260,34 @@ const FASES = [
     ],
     entregable: 'Plataforma en producción, con el equipo capacitado y operando',
   },
+];
+
+// ─── NO INCLUIDO, AMPLIABLE MÁS ADELANTE ─────────────────────────────────────
+
+const AMPLIABLE = [
   {
-    num: '04',
-    semanas: 'Semanas 7 y 8',
-    titulo: 'División por proveedor, WhatsApp y autoservicio',
-    color: '#25D366',
-    colorAlpha: 'rgba(37,211,102,.10)',
-    colorBorder: 'rgba(37,211,102,.28)',
-    desc: 'La fase que completa el sistema: las órdenes se parten por proveedor, la captura entra por WhatsApp y Mizar toma el control de sus catálogos.',
-    hitos: [
-      'División automática de la requisición en una Orden de Compra por cada proveedor',
-      'Panel de órdenes con filtro por proveedor, estado y obra, y control de lo no comprado',
-      'Activación del número de WhatsApp y publicación del Flow conectado a la bandeja de revisión',
-      'Autoservicio de proveedores, obras y etiquetas entregado a Mizar',
-      'Reportes por periodo y tipo de gasto, más las notificaciones automáticas',
-    ],
-    entregable: 'Sistema completo operando, con los nueve módulos entregados y el equipo capacitado',
+    titulo: 'División de una requisición en varias Órdenes de Compra',
+    desc: 'Cuando los ítems de una requisición se compran a proveedores distintos, esta versión genera una sola orden con los proveedores registrados dentro. Partir esa requisición en una orden independiente por cada proveedor se cotiza como ampliación.',
+    icon: Split, tint: 'purple',
+  },
+  {
+    titulo: 'Captura por WhatsApp',
+    desc: 'La línea dedicada con formulario estructurado dentro del chat no forma parte de este alcance. Requiere verificación de negocio ante Meta, que no es inmediata, y genera tarifas por conversación facturadas aparte.',
+    icon: Clock, tint: 'amber',
+  },
+  {
+    titulo: 'Autoservicio de proveedores, obras y etiquetas',
+    desc: 'En este alcance los catálogos los carga Sixteam a solicitud de Mizar, dentro del servicio mensual. Que Mizar los administre por su cuenta, con carga de Cámara de Comercio, RUT y certificados, se cotiza como ampliación.',
+    icon: Settings, tint: 'blue',
+  },
+  {
+    titulo: 'Reportes ejecutivos y notificaciones automáticas',
+    desc: 'La plataforma entrega la consulta y la exportación de gastos por obra y periodo. Los reportes de gerencia por tipo de gasto y los avisos automáticos cuando algo espera aprobación quedan por fuera de esta versión.',
+    icon: BellRing, tint: 'teal',
   },
 ];
 
-// ─── FUERA DE ALCANCE ────────────────────────────────────────────────────────
+// ─── FUERA DEL PROYECTO ──────────────────────────────────────────────────────
 
 const FUERA = [
   {
@@ -379,27 +322,17 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Forma de pago del desarrollo',
-    desc: 'Dos cuotas iguales de $2.500.000 COP: la primera al iniciar el proyecto y la segunda contra la entrega de la plataforma en producción.',
+    desc: 'Dos cuotas iguales de $1.750.000 COP: la primera al iniciar el proyecto y la segunda contra la entrega de la plataforma en producción.',
     icon: FileText,
   },
   {
     titulo: 'Pago mensual y contrato anual',
-    desc: 'Los $350.000 COP se pagan mes a mes de forma anticipada, y se componen de $250.000 de uso y soporte de la plataforma más $100.000 del canal de WhatsApp. El contrato anual de uso tiene una vigencia mínima de 12 meses desde que Mizar comienza a usar la plataforma, y al vencer puede renovarse o ajustarse de mutuo acuerdo.',
+    desc: 'Los $250.000 COP se pagan mes a mes de forma anticipada. El contrato anual de uso de la plataforma tiene una vigencia mínima de 12 meses desde que Mizar comienza a usarla, y al vencer puede renovarse o ajustarse de mutuo acuerdo.',
     icon: Clock,
   },
   {
-    titulo: 'Tarifas de conversación de Meta',
-    desc: 'Las tarifas que Meta cobra por conversación en WhatsApp no están incluidas en los $350.000 mensuales y las asume Mizar al costo, sin margen de Sixteam. El consumo depende del volumen de requisiciones que se levanten por ese canal.',
-    icon: MessageSquare,
-  },
-  {
-    titulo: 'Verificación del número ante Meta',
-    desc: 'La activación de la línea de WhatsApp exige una verificación de negocio ante Meta, cuyo tiempo de respuesta no depende de Sixteam. El trámite arranca en la primera semana del proyecto, en paralelo al desarrollo, para que no atrase la fase 4. Requiere documentos de la compañía que Mizar debe suministrar.',
-    icon: Shield,
-  },
-  {
     titulo: 'Duración del desarrollo',
-    desc: '8 semanas desde el inicio del proyecto, en cuatro fases con un entregable revisable al cierre de cada una.',
+    desc: '6 semanas desde el inicio del proyecto, en tres fases con un entregable revisable al cierre de cada una.',
     icon: Calendar,
   },
   {
@@ -415,7 +348,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   {
     titulo: 'Propiedad y confidencialidad',
     desc: 'Mizar es propietario de todos sus datos operativos y financieros cargados en la plataforma. Sixteam mantiene la confidencialidad total de esa información, tanto durante la vigencia del contrato como después de su terminación.',
-    icon: Lock,
+    icon: Shield,
   },
   {
     titulo: 'Responsable del proyecto',
@@ -469,7 +402,7 @@ const Rule = () => (
 
 // ─── COMPONENTE ──────────────────────────────────────────────────────────────
 
-const MizarPlataformaProposal = () => {
+const MizarPlataformaV1Proposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [moduloActivo, setModuloActivo] = useState<number | null>(null);
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
@@ -731,7 +664,7 @@ const MizarPlataformaProposal = () => {
               Sixteam propone una <strong className="text-white/90 font-semibold">plataforma desarrollada a la medida</strong>, construida sobre los formatos de Mizar y sobre la lógica que su equipo ya aplica todos los días. No es un software genérico al que haya que adaptarse, sino su proceso actual convertido en sistema, con una diferencia clave: la información se captura una sola vez y avanza sola hasta el cierre contable.
             </p>
             <p>
-              El resultado son <strong className="text-white/90 font-semibold">nueve módulos en ocho semanas</strong>: la requisición entra por WhatsApp o por el portal, se revisa, se aprueba, se parte en una orden de compra por cada proveedor y aterriza como gasto en la obra que corresponde, listo para que Contabilidad lo descargue. Y Mizar administra su propio catálogo de obras, etiquetas y proveedores, sin depender de nadie.
+              El resultado son <strong className="text-white/90 font-semibold">seis módulos en seis semanas</strong>, que cubren el ciclo entero: la requisición se levanta en el portal, se revisa, se aprueba, genera su orden de compra y aterriza como gasto en la obra que corresponde, listo para que Contabilidad lo descargue.
             </p>
           </div>
 
@@ -797,10 +730,10 @@ const MizarPlataformaProposal = () => {
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
               {[
-                { n: '1', t: 'Requisición',      s: 'Por WhatsApp o por el portal',      c: '#25D366',  bg: 'rgba(37,211,102,.08)',  bd: 'rgba(37,211,102,.22)' },
+                { n: '1', t: 'Requisición',      s: 'La solicita quien la necesita',     c: MIZAR_GOLD, bg: 'rgba(201,164,67,.08)', bd: 'rgba(201,164,67,.22)' },
                 { n: '2', t: 'Revisión',         s: 'Se etiqueta y se asigna proveedor', c: '#38bdf8',  bg: 'rgba(56,189,248,.08)',  bd: 'rgba(56,189,248,.22)' },
                 { n: '3', t: 'Aprobación',       s: 'Enrutada según la etiqueta',        c: '#a78bfa',  bg: 'rgba(167,139,250,.08)', bd: 'rgba(167,139,250,.22)' },
-                { n: '4', t: 'Órdenes de compra', s: 'Una por cada proveedor',           c: '#f59e0b',  bg: 'rgba(245,158,11,.08)',  bd: 'rgba(245,158,11,.22)' },
+                { n: '4', t: 'Orden de compra',  s: 'Se emite sola al aprobar',          c: '#f59e0b',  bg: 'rgba(245,158,11,.08)',  bd: 'rgba(245,158,11,.22)' },
                 { n: '5', t: 'Gasto por obra',   s: 'Listo para Contabilidad',           c: '#00bfa5',  bg: 'rgba(0,191,165,.08)',   bd: 'rgba(0,191,165,.22)' },
               ].map((step, i) => (
                 <div key={i} className="rounded-xl p-3.5" style={{ background: step.bg, border: `1px solid ${step.bd}` }}>
@@ -814,7 +747,7 @@ const MizarPlataformaProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
-              El paso 4 es el que hoy no existe, y es el corazón del sistema.
+              Los pasos 4 y 5 son los que hoy se resuelven a mano, o simplemente no existen.
             </p>
           </div>
 
@@ -822,7 +755,7 @@ const MizarPlataformaProposal = () => {
             {[
               { label: 'Transcripción manual', value: 'Eliminada',   sub: 'La requisición nace estructurada' },
               { label: 'Tiempo del equipo',    value: 'Liberado',    sub: 'De digitar a comprar y decidir' },
-              { label: 'Órdenes de compra',    value: 'Automáticas', sub: 'Partidas por proveedor al aprobar' },
+              { label: 'Orden de compra',      value: 'Automática',  sub: 'Se emite sola al aprobar' },
               { label: 'Gastos por obra',      value: 'Al día',      sub: 'Se registran solos al aprobar' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
@@ -841,7 +774,7 @@ const MizarPlataformaProposal = () => {
               <p className="font-poppins font-semibold text-white/80 text-[18px]">Una plataforma escalable, no una herramienta de un solo uso</p>
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              La plataforma se construye sobre una base que crece con la operación. Absorbe sin rediseño las obras que se sumen a las diecisiete actuales, y más adelante puede expandirse a otras áreas de solución de la compañía, incluidos procesos que hoy también viven en Excel. Lo que se invierte ahora es el cimiento de lo que venga después.
+              La plataforma se construye sobre una base que crece con la operación. Absorbe sin rediseño las obras que se sumen a las diecisiete actuales, y más adelante puede expandirse a otras áreas de solución de la compañía, desde el canal de WhatsApp y los reportes de gerencia hasta procesos de otras áreas que hoy también viven en Excel. Lo que se invierte ahora es el cimiento de lo que venga después.
             </p>
           </div>
         </section>
@@ -850,16 +783,16 @@ const MizarPlataformaProposal = () => {
         <section id="incluye" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>03 · Qué incluye la plataforma</TagLabel>
-          <SectionTitle>9 módulos · Desarrollo a la medida</SectionTitle>
+          <SectionTitle>6 módulos · Desarrollo a la medida</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Nueve módulos que cubren el ciclo completo, desde la solicitud levantada en WhatsApp hasta la entrega a Contabilidad. Cada uno se construye sobre los formatos y las reglas que Mizar ya usa.
+            Seis módulos que cubren el ciclo completo, desde la solicitud hasta la entrega a Contabilidad. Cada uno se construye sobre los formatos y las reglas que Mizar ya usa.
           </p>
 
           <div className="relative">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(201,164,67,.4), rgba(56,189,248,.4), rgba(167,139,250,.4), rgba(245,158,11,.4), rgba(0,191,165,.4), rgba(52,211,153,.4), rgba(167,139,250,.4), rgba(37,211,102,.4), rgba(56,189,248,.4))' }} />
+              style={{ background: 'linear-gradient(to bottom, rgba(201,164,67,.4), rgba(56,189,248,.4), rgba(167,139,250,.4), rgba(245,158,11,.4), rgba(0,191,165,.4), rgba(52,211,153,.4))' }} />
 
             <div className="space-y-3">
               {MODULOS.map((mod, i) => {
@@ -922,11 +855,11 @@ const MizarPlataformaProposal = () => {
         <section id="plan" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>04 · Plan de trabajo</TagLabel>
-          <SectionTitle>8 semanas hasta producción</SectionTitle>
+          <SectionTitle>6 semanas hasta producción</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Cuatro fases de dos semanas, cada una con un entregable revisable. Mizar no espera hasta el final para ver resultados, ya que al cierre de cada fase hay algo funcionando que su equipo puede probar. De hecho, al terminar la fase 3 la plataforma ya está en producción, y la fase 4 suma sobre algo que ya opera.
+            Tres fases de dos semanas, cada una con un entregable revisable. Mizar no espera hasta el final para ver resultados, ya que al cierre de cada fase hay algo funcionando que su equipo puede probar.
           </p>
 
           <div className="space-y-4">
@@ -971,14 +904,6 @@ const MizarPlataformaProposal = () => {
           </div>
 
           <div className="mt-6 rounded-xl p-4 flex gap-3"
-            style={{ background: 'rgba(37,211,102,.05)', border: '1px solid rgba(37,211,102,.22)' }}>
-            <MessageSquare className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#25D366' }} />
-            <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              La <strong className="text-white/80">verificación de negocio ante Meta</strong> arranca en la semana 1, en paralelo al desarrollo, precisamente para que su tiempo de respuesta no atrase la fase 4. Requiere documentos de la compañía que Mizar debe suministrar al inicio del proyecto.
-            </p>
-          </div>
-
-          <div className="mt-4 rounded-xl p-4 flex gap-3"
             style={{ background: 'rgba(56,189,248,.05)', border: '1px solid rgba(56,189,248,.20)' }}>
             <Users className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#38bdf8]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
@@ -995,9 +920,31 @@ const MizarPlataformaProposal = () => {
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Todo lo descrito en los nueve módulos entra en esta inversión. Lo siguiente queda fuera de forma deliberada, tal como se acordó en la reunión del 12 de agosto.
+            Todo lo descrito en los seis módulos entra en esta inversión. Lo siguiente queda fuera de forma deliberada, tal como se acordó en la reunión del 12 de agosto.
           </p>
 
+          <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <Layers className="w-4 h-4" style={{ color: MIZAR_GOLD }} /> No incluido, ampliable más adelante
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            {AMPLIABLE.map((f, i) => {
+              const Icon = f.icon; const t = TINT[f.tint];
+              return (
+                <div key={i} className="rounded-xl p-4 flex gap-3"
+                  style={{ background: t.bg, border: `1px solid ${t.border}` }}>
+                  <Icon className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: t.text }} />
+                  <div>
+                    <p className="font-poppins font-semibold text-white/90 text-[17px] mb-1">{f.titulo}</p>
+                    <p className="font-lato text-white/50 text-[15px] leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <XCircle className="w-4 h-4 text-[#f87171]" /> Fuera del proyecto
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
             {FUERA.map((f, i) => {
               const Icon = f.icon; const t = TINT[f.tint];
@@ -1017,10 +964,10 @@ const MizarPlataformaProposal = () => {
           <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
             <div className="flex items-center gap-2 mb-2">
               <Layers className="w-5 h-5 text-[#00bfa5]" />
-              <p className="font-poppins font-semibold text-white/80 text-[18px]">Un alcance cerrado, sin sorpresas</p>
+              <p className="font-poppins font-semibold text-white/80 text-[18px]">Crecimiento posterior, sin reprocesos</p>
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Esta propuesta cubre el ciclo entero de requisición y pago de obra: captura por dos canales, revisión, aprobación, órdenes de compra por proveedor, gasto por obra, salida contable, autoservicio y reportes. Lo listado arriba queda por fuera de forma explícita para que no haya ambigüedad sobre qué se entrega. Si más adelante Mizar decide abordar alguno de esos frentes, se cotiza por separado y se suma sobre lo ya construido, sin rehacer nada.
+              Nada de lo entregado se descarta ni se rehace al ampliar el alcance. La plataforma se construye sobre una base pensada para crecer, de modo que cualquiera de las ampliaciones listadas arriba se suma después sobre lo ya construido y se cotiza cuando Mizar decida abordarla.
             </p>
           </div>
         </section>
@@ -1033,7 +980,7 @@ const MizarPlataformaProposal = () => {
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            La propuesta tiene dos componentes: el desarrollo de la plataforma, que se paga una sola vez, y el servicio mensual que mantiene la herramienta en línea, soportada, respaldada y con el canal de WhatsApp activo. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong>
+            La propuesta tiene dos componentes: el desarrollo de la plataforma, que se paga una sola vez, y el servicio mensual que mantiene la herramienta en línea, soportada y respaldada. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -1053,14 +1000,13 @@ const MizarPlataformaProposal = () => {
                   </span>
                 </div>
                 <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: '2.4rem' }}>
-                  $5.000.000
+                  $3.500.000
                 </p>
                 <p className="font-lato text-white/35 text-[15px] mb-5">COP · Valor único de construcción</p>
                 <ul className="space-y-2">
                   {[
-                    'Diseño y desarrollo de los nueve módulos descritos en esta propuesta',
+                    'Diseño y desarrollo de los seis módulos descritos en esta propuesta',
                     'Configuración inicial con las 17 obras, etiquetas, aprobadores y usuarios de Mizar',
-                    'Gestión del trámite de verificación de negocio ante Meta y publicación del Flow',
                     'Capacitación por rol: solicitantes, revisión, aprobación y contabilidad',
                     'Puesta en marcha y acompañamiento durante la primera semana de uso',
                     'Período de garantía correctiva de 30 días desde la entrega',
@@ -1082,23 +1028,23 @@ const MizarPlataformaProposal = () => {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,191,165,.18)' }}>
                     <Shield className="w-4 h-4 text-[#00bfa5]" />
                   </div>
-                  <span className="font-poppins font-bold text-white/70 text-[15px]">Uso, soporte y WhatsApp</span>
+                  <span className="font-poppins font-bold text-white/70 text-[15px]">Uso y soporte</span>
                   <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider ml-auto"
                     style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
                     Mensual
                   </span>
                 </div>
                 <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: '2.4rem' }}>
-                  $350.000
+                  $250.000
                 </p>
-                <p className="font-lato text-white/35 text-[15px] mb-5">COP mensuales · $250.000 plataforma + $100.000 WhatsApp</p>
+                <p className="font-lato text-white/35 text-[15px] mb-5">COP mensuales · Pago anticipado cada mes</p>
                 <ul className="space-y-2">
                   {[
                     'Contrato anual de uso de la plataforma, con vigencia mínima de 12 meses',
                     'Alojamiento en la nube, con respaldo de la información',
-                    'Mantenimiento del canal de WhatsApp y del Flow de captura',
                     'Atención a inconvenientes o errores detectados en la plataforma',
                     'SLA de respuesta máximo de 4 horas ante cualquier incidencia',
+                    'Carga de nuevas obras, etiquetas, proveedores y usuarios cuando se necesiten',
                     'Actualizaciones de seguridad y estabilidad de la plataforma',
                   ].map((p, j) => (
                     <li key={j} className="flex items-start gap-2.5">
@@ -1120,8 +1066,8 @@ const MizarPlataformaProposal = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                { pct: '50%', momento: 'Al iniciar el proyecto', desc: 'Con la aceptación de la propuesta y la firma del contrato arranca el desarrollo, contando desde ahí las ocho semanas del cronograma.', valor: '$2.500.000' },
-                { pct: '50%', momento: 'Al entregar la herramienta', desc: 'El saldo se paga contra la entrega de la plataforma en producción, con el equipo capacitado y operando.', valor: '$2.500.000' },
+                { pct: '50%', momento: 'Al iniciar el proyecto', desc: 'Con la aceptación de la propuesta y la firma del contrato arranca el desarrollo, contando desde ahí las seis semanas del cronograma.', valor: '$1.750.000' },
+                { pct: '50%', momento: 'Al entregar la herramienta', desc: 'El saldo se paga contra la entrega de la plataforma en producción, con el equipo capacitado y operando.', valor: '$1.750.000' },
               ].map((pago, i) => (
                 <div key={i} className="rounded-xl p-4"
                   style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
@@ -1135,15 +1081,7 @@ const MizarPlataformaProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
-              Los $350.000 COP se pagan mes a mes de forma anticipada. Lo que tiene vigencia mínima de 12 meses es el contrato anual de uso de la plataforma, que empieza a contar desde que Mizar comienza a usarla.
-            </p>
-          </div>
-
-          <div className="rounded-xl p-4 flex gap-3 mb-4"
-            style={{ background: 'rgba(37,211,102,.05)', border: '1px solid rgba(37,211,102,.22)' }}>
-            <MessageSquare className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#25D366' }} />
-            <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Las <strong className="text-white/80">tarifas que Meta cobra por conversación</strong> en WhatsApp no están incluidas en los $350.000 mensuales y las asume Mizar al costo, sin margen de Sixteam. El consumo depende del volumen de requisiciones que se levanten por ese canal.
+              Los $250.000 COP se pagan mes a mes de forma anticipada. Lo que tiene vigencia mínima de 12 meses es el contrato anual de uso de la plataforma, que empieza a contar desde que Mizar comienza a usarla.
             </p>
           </div>
 
@@ -1257,4 +1195,4 @@ const MizarPlataformaProposal = () => {
   );
 };
 
-export default MizarPlataformaProposal;
+export default MizarPlataformaV1Proposal;
