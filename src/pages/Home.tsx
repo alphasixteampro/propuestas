@@ -304,6 +304,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/magaly-rosero',
   },
+  {
+    slug: 'vr-turbolub',
+    cliente: 'VR Turbolub',
+    sector: 'Comercio · Aceites y lubricantes · Bucaramanga',
+    fecha: 'Agosto 2026',
+    monto: 'COP 2.000.000 impl. + COP 700.000/mes',
+    estado: 'activa',
+    path: '/vr-turbolub',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
