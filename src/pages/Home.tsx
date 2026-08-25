@@ -313,6 +313,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/vr-turbolub',
   },
+  {
+    slug: 'demiles-group',
+    cliente: 'Demiles Group',
+    sector: 'Inmobiliaria · Cartagena, Barranquilla y Vía al Mar',
+    fecha: 'Agosto 2026',
+    monto: 'COP 2.000.000 impl. + desde COP 850.000/mes',
+    estado: 'activa',
+    path: '/demiles-group',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
