@@ -237,7 +237,7 @@ const ClientLogo = ({ className = '', textSize = '18px' }: { className?: string;
     );
   }
   return (
-    <img src="/demiles-logo.png" alt="Demiles Group"
+    <img src="/demiles-logo.webp" alt="Demiles Group"
       className={`object-contain ${className}`}
       onError={() => setFailed(true)} />
   );
@@ -250,6 +250,7 @@ const DemilesGroupProposal = () => {
   const [faseActiva, setFaseActiva] = useState<number | null>(null);
   const [compActivo, setCompActivo] = useState<number | null>(null);
   const [showCostosVariables, setShowCostosVariables] = useState(false);
+  const [showComoUsar, setShowComoUsar] = useState(false);
   const [showMetaTable, setShowMetaTable] = useState(false);
   const [showCalcIA, setShowCalcIA] = useState(false);
   const [mensajesConv, setMensajesConv] = useState(6);
@@ -769,6 +770,103 @@ const DemilesGroupProposal = () => {
             </ul>
           </div>
 
+          {/* ── CÓMO SE USAN LOS CRÉDITOS DE SIXTEAM OPS ── */}
+          <div className="rounded-xl overflow-hidden transition-all duration-300 mb-4"
+            style={{ background: 'rgba(255,255,255,.03)', border: showComoUsar ? '1px solid rgba(0,191,165,.35)' : '1px solid rgba(255,255,255,.08)' }}>
+            <button onClick={() => setShowComoUsar(v => !v)}
+              className="w-full flex items-center gap-3 px-5 py-4 text-left">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                style={{ background: showComoUsar ? 'rgba(0,191,165,.15)' : 'rgba(255,255,255,.05)' }}>
+                <Coins className="w-4 h-4" style={{ color: showComoUsar ? '#00bfa5' : 'rgba(255,255,255,.35)' }} />
+              </div>
+              <div className="flex-1">
+                <p className={`font-poppins font-bold text-[16px] ${showComoUsar ? 'text-white' : 'text-white/65'}`}>
+                  Cómo se usan los créditos de Sixteam Ops
+                </p>
+                <p className="font-lato text-white/35 text-[13px] mt-0.5">Proceso de solicitud · ejemplo · qué se puede pedir</p>
+              </div>
+              <ChevronRight className="w-4 h-4 flex-shrink-0 transition-transform duration-300"
+                style={{ color: showComoUsar ? '#00bfa5' : 'rgba(255,255,255,.3)', transform: showComoUsar ? 'rotate(90deg)' : undefined }} />
+            </button>
+
+            {showComoUsar && (
+              <div className="px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                <div className="pt-4 space-y-5">
+
+                  {/* Flujo de la solicitud */}
+                  <div>
+                    <p className="font-lato text-white/55 text-[15px] leading-relaxed mb-3">
+                      Cada mes, el equipo de Demiles Group puede pedirle al equipo de Sixteam ajustes y mejoras sobre la plataforma. Cada solicitud se cotiza en créditos antes de ejecutarse, así siempre se sabe cuánto consume y en cuánto tiempo queda lista.
+                    </p>
+                    <div className="rounded-xl p-4 flex flex-col gap-2.5" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
+                      {[
+                        { step: '01', text: 'Un asesor o Ana Milena envía la solicitud describiendo qué necesita, por ejemplo un campo nuevo o un recordatorio automático.' },
+                        { step: '02', text: 'Sixteam responde con la cotización: cuántos créditos consume y en cuánto tiempo queda lista.' },
+                        { step: '03', text: 'Demiles Group aprueba y Sixteam ejecuta. Los créditos se descuentan del saldo del mes.' },
+                        { step: '04', text: 'Al cierre del mes queda el detalle de qué se atendió y cuántos créditos quedaron disponibles.' },
+                      ].map((s) => (
+                        <div key={s.step} className="flex items-start gap-3">
+                          <span className="font-poppins font-black text-[11px] px-1.5 py-0.5 rounded flex-shrink-0 mt-0.5"
+                            style={{ background: 'rgba(0,191,165,.15)', color: '#00bfa5' }}>{s.step}</span>
+                          <p className="font-lato text-white/55 text-[14px] leading-relaxed">{s.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Ejemplo de solicitud y respuesta */}
+                  <div>
+                    <p className="font-poppins font-semibold text-white/70 text-[13px] uppercase tracking-wider mb-2.5">Ejemplo de solicitud</p>
+                    <div className="space-y-2.5">
+                      <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                        <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                          style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Demiles</span>
+                        <p className="font-lato text-white/55 text-[14px] leading-relaxed italic">
+                          "Queremos que el asistente pregunte por el interés en financiación a cada lead nuevo y que ese dato quede guardado en la ficha."
+                        </p>
+                      </div>
+                      <div className="rounded-lg p-3 flex gap-3" style={{ background: DG_BG, border: `1px solid ${DG_BORDER}` }}>
+                        <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                          style={{ background: 'rgba(212,160,60,.22)', color: DG }}>Sixteam</span>
+                        <p className="font-lato text-white/55 text-[14px] leading-relaxed italic">
+                          "Recibido. Incluye el campo personalizado de interés en financiación, el ajuste del guion del asistente y el guardado automático en el lead. Queda como <strong className="text-white/75 not-italic">solicitud simple, 6 créditos</strong>, lista en 2 días hábiles. Quedarían 54 créditos disponibles este mes. ¿Aprobamos?"
+                        </p>
+                      </div>
+                      <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                        <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
+                          style={{ background: 'rgba(255,255,255,.08)', color: 'rgba(255,255,255,.5)' }}>Demiles</span>
+                        <p className="font-lato text-white/55 text-[14px] leading-relaxed italic">"Aprobado."</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Posibles solicitudes */}
+                  <div>
+                    <p className="font-poppins font-semibold text-white/70 text-[13px] uppercase tracking-wider mb-2.5">Algunas solicitudes que se podrían hacer</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {[
+                        'Campo nuevo para registrar presupuesto o tipo de inmueble de interés',
+                        'Informe comparativo de gestión entre los 12 asesores',
+                        'Recordatorio automático cuando un lead lleva más de 24 horas sin respuesta',
+                        'Reentrenamiento del asistente al incorporar un sexto proyecto',
+                        'Segmentación de leads por zona: Cartagena norte, Barú, Barranquilla, Baranoa',
+                        'Plantilla de WhatsApp para reactivar leads que no cerraron',
+                        'Ajuste o nueva etapa en el pipeline de ventas',
+                        'Panel de informes con el estado de cada oportunidad por proyecto',
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-2 rounded-lg p-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                          <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5] flex-shrink-0 mt-0.5" />
+                          <span className="font-lato text-white/55 text-[13.5px] leading-snug">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* ── COSTOS ADICIONALES ── */}
           <div className="rounded-xl overflow-hidden transition-all duration-300 mb-4"
             style={{ background: 'rgba(255,255,255,.03)', border: showCostosVariables ? '1px solid rgba(96,165,250,.35)' : '1px solid rgba(255,255,255,.08)' }}>
@@ -932,22 +1030,6 @@ const DemilesGroupProposal = () => {
             )}
           </div>
 
-          {/* Resumen */}
-          <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-            <p className="font-lato text-white/35 text-[13px] uppercase tracking-widest mb-4">Resumen de inversión</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="rounded-xl p-4" style={{ background: DG_BG, border: `1px solid ${DG_BORDER}` }}>
-                <p className="font-lato text-[12px] uppercase tracking-wider mb-1" style={{ color: DG }}>Pago único</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">COP {IMPLEMENTACION_COP}</p>
-                <p className="font-lato text-white/35 text-[12px] mt-0.5">50% para iniciar · 50% al entregar</p>
-              </div>
-              <div className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.07)', border: '1px solid rgba(0,191,165,.2)' }}>
-                <p className="font-lato text-[12px] uppercase tracking-wider mb-1 text-[#00bfa5]/80">Mensual</p>
-                <p className="font-poppins font-black text-white text-[1.2rem]">desde COP {PLAN_MES_COP}<span className="font-lato font-normal text-white/35 text-[0.85rem]">/mes</span></p>
-                <p className="font-lato text-white/35 text-[12px] mt-0.5">Plan Esencial + costos variables</p>
-              </div>
-            </div>
-          </div>
         </section>
 
         {/* ── LOGOS ── */}
