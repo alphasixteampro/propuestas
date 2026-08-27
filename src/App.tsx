@@ -37,6 +37,7 @@ const MizarPlataformaComparativoProposal = lazy(() => import('./pages/MizarPlata
 const MagalyRoseroProposal        = lazy(() => import('./pages/MagalyRoseroProposal'));
 const VrTurbolubProposal          = lazy(() => import('./pages/VrTurbolubProposal'));
 const DemilesGroupProposal        = lazy(() => import('./pages/DemilesGroupProposal'));
+const GlobalRealtyProposal        = lazy(() => import('./pages/GlobalRealtyProposal'));
 
 function Loader() {
   return (
@@ -94,6 +95,7 @@ export default function App() {
           <Route path="/magaly-rosero"        element={<MagalyRoseroProposal />} />
           <Route path="/vr-turbolub"          element={<VrTurbolubProposal />} />
           <Route path="/demiles-group"        element={<DemilesGroupProposal />} />
+          <Route path="/global-realty"        element={<GlobalRealtyProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

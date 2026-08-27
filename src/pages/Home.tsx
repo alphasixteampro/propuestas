@@ -322,6 +322,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/demiles-group',
   },
+  {
+    slug: 'global-realty',
+    cliente: 'Global Realty',
+    sector: 'Inmobiliaria · Panamá',
+    fecha: 'Agosto 2026',
+    monto: 'USD 250 o 350/mes · impl. USD 700 (gratis 3 meses)',
+    estado: 'activa',
+    path: '/global-realty',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -546,6 +555,10 @@ export default function Home() {
                   ) : p.slug === 'magaly-rosero' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(155,126,245,.12)', borderRadius: 12 }}>
                       <GraduationCap size={24} color="#9b7ef5" />
+                    </div>
+                  ) : p.slug === 'global-realty' ? (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(224,151,60,.12)', borderRadius: 12 }}>
+                      <Building2 size={24} color="#e0973c" />
                     </div>
                   ) : (
                     <Building2 size={20} color="#1d70a2" />
