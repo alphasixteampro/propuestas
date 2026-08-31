@@ -117,6 +117,18 @@ const FLUJO = [
 
 const CATALOGO = [
   {
+    categoria: 'Activación de módulos de la plataforma',
+    icon: Layers,
+    color: '#34d399',
+    items: [
+      'Puesta en marcha de módulos que la plataforma Sixteam ya incluye y que Stunet hoy no está usando',
+      'Configuración inicial del módulo según la operación: campos, reglas, permisos y usuarios',
+      'Conexión del módulo activado con el CRM, el ChatCenter y los flujos que ya están corriendo',
+      'Capacitación al equipo sobre el módulo que se habilita',
+      'Reactivación de funcionalidades que quedaron montadas en la implementación y dejaron de usarse',
+    ],
+  },
+  {
     categoria: 'Marketing y pauta digital',
     icon: Megaphone,
     color: '#38bdf8',
@@ -206,8 +218,8 @@ const FUERA = [
     icon: Megaphone, tint: 'amber',
   },
   {
-    titulo: 'Módulos y plataformas que hoy no existen',
-    desc: 'Implementar una funcionalidad nueva que aún no está montada se cotiza aparte como proyecto. Una vez implementada, su operación y sus ajustes posteriores sí quedan cubiertos por los créditos.',
+    titulo: 'Desarrollos a la medida y plataformas de terceros',
+    desc: 'Construir una funcionalidad que la plataforma Sixteam no contempla, o implementar una herramienta externa nueva, se cotiza aparte como proyecto. Esto no aplica a los módulos que la plataforma ya trae: activarlos sí entra por créditos, como se explica arriba.',
     icon: Layers, tint: 'blue',
   },
   {
@@ -239,6 +251,11 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
     titulo: 'Créditos incluidos y su vigencia',
     desc: `La cuota incluye ${CREDITOS_MES} créditos por período mensual, equivalentes en promedio a cerca de ${SOLICITUDES_MES} solicitudes estándar. Los créditos tienen vigencia únicamente dentro del período en que se otorgan: se reinician al inicio de cada mes y los no utilizados no son acumulables, transferibles ni canjeables. Terminado el período, el saldo restante se pierde.`,
     icon: Coins,
+  },
+  {
+    titulo: 'Activación de módulos de la plataforma',
+    desc: 'Habilitar, configurar y capacitar al equipo sobre módulos que la plataforma Sixteam ya incluye y que Stunet hoy no utiliza se tramita como una solicitud más y se paga con los créditos del plan, sin cotización de proyecto aparte. Se cotizan por separado únicamente los desarrollos a la medida que la plataforma no contempla y la implementación de herramientas de terceros.',
+    icon: Layers,
   },
   {
     titulo: 'Consumo adicional a la bolsa incluida',
@@ -736,9 +753,17 @@ const StunetOpsProposal = () => {
           <SectionTitle>Todo lo que se puede solicitar con créditos</SectionTitle>
           <Rule />
 
-          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
+          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
             Esta es la referencia de lo que Stunet puede pedir con cargo a los créditos del plan. No es una lista cerrada: si el equipo necesita algo que no aparece aquí, se plantea la solicitud y Sixteam evalúa cómo resolverla y cuántos créditos consume.
           </p>
+
+          <div className="rounded-xl p-4 flex gap-3 mb-8"
+            style={{ background: 'rgba(52,211,153,.06)', border: '1px solid rgba(52,211,153,.22)' }}>
+            <Layers className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#34d399]" />
+            <p className="font-lato text-white/60 text-[16px] leading-relaxed">
+              <strong className="text-white/85">Activar módulos de la plataforma cuenta como solicitud.</strong> La plataforma Sixteam incluye módulos que Stunet hoy no está aprovechando. Habilitarlos, configurarlos y capacitar al equipo entra por los créditos del plan, sin cotización de proyecto aparte. Es una de las formas más rentables de usar la bolsa mensual, ya que exprime capacidad que Stunet ya tiene disponible.
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
             {CATALOGO.map((cat, i) => {
