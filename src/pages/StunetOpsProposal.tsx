@@ -14,7 +14,7 @@ const META = {
   tagline: 'Educación internacional · Programas digitales',
   fecha: 'Agosto 2026',
   lugar: 'Colombia · México · Latinoamérica',
-  objetivo: 'El empalme natural del proyecto de implementación que está cerrando: un plan mensual de créditos para que las herramientas ya montadas se usen bien y el equipo de Stunet siga radicando solicitudes de forma flexible, sin volver a un contrato fijo.',
+  objetivo: 'El empalme natural del proyecto de implementación que está cerrando: una cuota mensual fija que asegura la disponibilidad del equipo y de la plataforma, con una bolsa de 60 créditos para que las herramientas ya montadas se usen bien y el equipo de Stunet siga radicando solicitudes.',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -58,8 +58,8 @@ const SITUACION = [
     icon: TrendingDown, tint: 'amber',
   },
   {
-    titulo: 'Servicios contratados que hoy no se están usando',
-    desc: 'Sin volumen de leads ni de casos entrantes, la pauta y el soporte de operaciones se siguen pagando aunque la operación no los demande. Ese es el punto que Stunet planteó en la reunión y el que esta propuesta resuelve.',
+    titulo: 'Un contrato dimensionado para otro volumen',
+    desc: 'Sin el volumen de leads y de casos entrantes que había cuando se firmó, el esquema actual quedó grande frente a la operación de hoy. Ese es el punto que Stunet planteó en la reunión, y esta propuesta lo atiende bajando de forma importante la base mensual.',
     icon: AlertCircle, tint: 'blue',
   },
   {
@@ -74,8 +74,8 @@ const SITUACION = [
 const CAMBIOS = [
   {
     icon: RefreshCw, color: STUNET_GOLD, colorAlpha: 'rgba(255,230,40,.07)', colorBorder: 'rgba(255,230,40,.22)',
-    titulo: 'De contrato fijo a consumo variable',
-    desc: 'El esquema actual se cotizó para una operación con volumen. El nuevo se cotiza para la operación real: un valor base bajo, y si un mes no hay mucho que hacer, no hay mucho que pagar. Si al siguiente aparece la campaña de México, ahí está el equipo.',
+    titulo: 'Una base mucho más liviana que el contrato actual',
+    desc: 'El esquema vigente se cotizó para una operación con volumen. El nuevo parte de una cuota mensual fija bastante menor, dimensionada para la operación real de hoy. Es un costo estable y previsible que Stunet puede sostener mientras la línea digital toma vuelo.',
   },
   {
     icon: Coins, color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.08)', colorBorder: 'rgba(0,191,165,.22)',
@@ -231,9 +231,19 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
     icon: CheckCircle,
   },
   {
-    titulo: 'Créditos y su vigencia',
-    desc: `El plan incluye ${CREDITOS_MES} créditos por período mensual, equivalentes en promedio a cerca de ${SOLICITUDES_MES} solicitudes estándar. Los créditos no utilizados no son acumulables al período siguiente. Si una solicitud excede el saldo disponible, los créditos adicionales se cobran al mismo valor unitario del plan, sin recargo, y se aprueban antes de ejecutarse o se programan para el período siguiente.`,
+    titulo: 'Cuota mensual fija por disponibilidad',
+    desc: 'El valor mensual es fijo y se causa completo en cada período, se radiquen solicitudes o no. No es un anticipo contra consumo: retribuye la disponibilidad del equipo de Sixteam, el uso de la plataforma y el acompañamiento continuo. Un mes sin solicitudes no genera descuento, saldo a favor ni suspensión del cobro.',
+    icon: Shield,
+  },
+  {
+    titulo: 'Créditos incluidos y su vigencia',
+    desc: `La cuota incluye ${CREDITOS_MES} créditos por período mensual, equivalentes en promedio a cerca de ${SOLICITUDES_MES} solicitudes estándar. Los créditos tienen vigencia únicamente dentro del período en que se otorgan: se reinician al inicio de cada mes y los no utilizados no son acumulables, transferibles ni canjeables. Terminado el período, el saldo restante se pierde.`,
     icon: Coins,
+  },
+  {
+    titulo: 'Consumo adicional a la bolsa incluida',
+    desc: `Agotados los ${CREDITOS_MES} créditos del período, toda solicitud posterior genera un consumo adicional que se factura aparte, al mismo valor unitario definido en la sección de inversión y sin recargo por excederse. Cada excedente se cotiza y requiere aprobación de Stunet antes de ejecutarse; si Stunet prefiere, la solicitud se programa para el período siguiente y consume la bolsa de ese mes.`,
+    icon: Layers,
   },
   {
     titulo: 'Cotización previa de cada solicitud',
@@ -247,7 +257,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Pago y período',
-    desc: 'Pago anticipado al inicio de cada período mensual, por el valor definido en la sección de propuesta de inversión. La facturación se realiza en pesos colombianos.',
+    desc: 'Pago anticipado al inicio de cada período mensual, por el valor definido en la sección de propuesta de inversión. La facturación se realiza en pesos colombianos. El consumo adicional del período, si lo hubo, se factura al cierre junto con el reporte de créditos.',
     icon: FileText,
   },
   {
@@ -256,8 +266,8 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
     icon: LayoutDashboard,
   },
   {
-    titulo: 'Continuidad y flexibilidad',
-    desc: 'El plan se renueva mes a mes. Si la operación de Stunet vuelve a tomar volumen, el plan se amplía sumando créditos; si un período requiere menos, el valor base se mantiene en el mínimo y no se pierde el acompañamiento.',
+    titulo: 'Continuidad y crecimiento del plan',
+    desc: 'El plan se renueva mes a mes y no exige permanencia mínima. Si la operación de Stunet vuelve a tomar volumen, la bolsa mensual puede ampliarse a un tramo mayor de créditos, ajustando la cuota de común acuerdo. La cuota vigente se mantiene mientras el plan siga activo.',
     icon: RefreshCw,
   },
   {
@@ -549,20 +559,20 @@ const StunetOpsProposal = () => {
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Lo que sigue</p>
-                <p className="font-lato text-white/60 text-[18px]">Uso y operación, que por naturaleza son variables</p>
+                <p className="font-lato text-white/60 text-[18px]">Adopción, uso y operación continua</p>
               </div>
             </div>
           </div>
 
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
             <p>
-              En la reunión del 28 de agosto Stunet compartió con total transparencia lo que está atravesando la industria de educación internacional y el giro que decidió dar su operación. Esta propuesta responde a eso y solo a eso: <strong className="text-white/90 font-semibold">ajustar la forma de trabajar juntos a la realidad actual del negocio</strong>, sin frenar lo que ya está construido y sin seguir pagando por capacidad que hoy no se usa.
+              En la reunión del 28 de agosto Stunet compartió con total transparencia lo que está atravesando la industria de educación internacional y el giro que decidió dar su operación. Esta propuesta responde a eso y solo a eso: <strong className="text-white/90 font-semibold">redimensionar el acompañamiento a la realidad actual del negocio</strong>, bajando de forma importante el costo mensual sin frenar lo que ya está construido.
             </p>
             <p>
               Es importante precisar el lugar que ocupa este documento. <strong className="text-white/90 font-semibold">El proyecto de implementación es un servicio aparte, ya contratado y hoy en su fase de cierre.</strong> Esta cotización no lo repite ni lo reemplaza: es el <strong className="text-white/90 font-semibold">empalme hacia ese proyecto</strong>, la etapa que arranca cuando la implementación termina y las herramientas quedan entregadas. Su propósito es que esas herramientas se usen bien y que el equipo de Stunet pueda seguir radicando solicitudes sin quedarse sin contraparte técnica.
             </p>
             <p>
-              El planteamiento de fondo es sencillo. La fase pesada, la de construir, ya pasó y está en pie. Lo que queda de aquí en adelante es uso y operación, y eso depende del volumen que tenga la empresa cada mes. Por eso deja de tener sentido un valor fijo pensado para otro escenario y empieza a tenerlo un <strong className="text-white/90 font-semibold">esquema variable de créditos</strong>: se paga una base baja por tener al equipo disponible y se consume únicamente lo que la operación pida.
+              El planteamiento de fondo es sencillo. La fase pesada, la de construir, ya pasó y está en pie. Lo que queda de aquí en adelante es uso y operación. Por eso deja de tener sentido un valor dimensionado para otro escenario y empieza a tenerlo una <strong className="text-white/90 font-semibold">cuota mensual fija mucho más liviana</strong>, que asegura la disponibilidad del equipo y de la plataforma y trae incluida una bolsa de {CREDITOS_MES} créditos. Lo que cambia frente al contrato actual no es la naturaleza del compromiso, que sigue siendo mensual, sino su tamaño.
             </p>
           </div>
 
@@ -601,7 +611,7 @@ const StunetOpsProposal = () => {
               style={{ background: 'radial-gradient(circle, rgba(255,230,40,.06), transparent 70%)', transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 mb-4" style={{ color: STUNET_GOLD }} />
             <p className="font-poppins font-semibold text-white/85 text-xl sm:text-[23px] leading-relaxed">
-              Sixteam Ops es la evolución del soporte de operaciones. En lugar de comprar un paquete de horas que se pierde si no se usa, Stunet cuenta con un <strong className="text-white font-black">plan mensual de créditos</strong> que se consumen solicitud por solicitud, con cotización previa y aprobación antes de ejecutar. Si un mes hay poco por hacer, el costo se queda en la base. <strong className="text-white font-black">Si al siguiente aparece algo, ahí está el equipo completo.</strong>
+              Sixteam Ops es la evolución del soporte de operaciones. Stunet paga una <strong className="text-white font-black">cuota mensual fija</strong> que asegura la disponibilidad del equipo y de la plataforma, y que trae incluida una bolsa de {CREDITOS_MES} créditos para consumir en solicitudes. La cuota se paga completa cada mes, se usen o no los créditos, porque lo que sostiene es la capacidad de respuesta. <strong className="text-white font-black">Si la operación pide más de lo que cubre la bolsa, ese consumo adicional se factura aparte.</strong>
             </p>
           </div>
 
@@ -619,6 +629,44 @@ const StunetOpsProposal = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Cómo se compone el cobro */}
+          <div className="rounded-2xl p-5 sm:p-6 mb-6" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+            <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-5 flex items-center gap-2">
+              <Coins className="w-4 h-4 text-[#00bfa5]" /> Cómo se compone el cobro
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {[
+                {
+                  n: '1', t: 'Cuota mensual fija', c: STUNET_GOLD,
+                  bg: 'rgba(255,230,40,.07)', bd: 'rgba(255,230,40,.22)',
+                  d: 'Se paga completa todos los meses, se radiquen solicitudes o no. Es lo que asegura que el equipo y la plataforma estén disponibles cuando Stunet los necesite.',
+                },
+                {
+                  n: '2', t: `Bolsa de ${CREDITOS_MES} créditos`, c: '#00bfa5',
+                  bg: 'rgba(0,191,165,.07)', bd: 'rgba(0,191,165,.22)',
+                  d: `Vienen incluidos en la cuota y alcanzan en promedio para cerca de ${SOLICITUDES_MES} solicitudes estándar al mes. Se reinician cada período y no se acumulan.`,
+                },
+                {
+                  n: '3', t: 'Consumo adicional', c: '#38bdf8',
+                  bg: 'rgba(56,189,248,.07)', bd: 'rgba(56,189,248,.22)',
+                  d: 'Si la operación pide más de lo que cubre la bolsa, los créditos extra se cotizan, se aprueban y se facturan aparte al mismo valor unitario del plan.',
+                },
+              ].map((b, i) => (
+                <div key={i} className="rounded-xl p-4" style={{ background: b.bg, border: `1px solid ${b.bd}` }}>
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center mb-2"
+                    style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${b.bd}` }}>
+                    <span className="font-poppins font-black text-[12px]" style={{ color: b.c }}>{b.n}</span>
+                  </div>
+                  <p className="font-poppins font-bold text-white/85 text-[15px] leading-tight mb-1.5">{b.t}</p>
+                  <p className="font-lato text-white/50 text-[14px] leading-snug">{b.d}</p>
+                </div>
+              ))}
+            </div>
+            <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
+              La cuota no es un anticipo contra consumo ni un saldo a favor: retribuye la disponibilidad del equipo, el uso de la plataforma y el acompañamiento continuo, con los {CREDITOS_MES} créditos incluidos como parte del paquete.
+            </p>
           </div>
 
           {/* Flujo de una solicitud */}
@@ -828,7 +876,7 @@ const StunetOpsProposal = () => {
                 <span className="font-poppins font-bold text-white/70 text-[15px]">Sixteam Ops · Plan Stunet</span>
                 <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider ml-auto"
                   style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
-                  Mensual
+                  Cuota fija mensual
                 </span>
               </div>
 
@@ -850,6 +898,7 @@ const StunetOpsProposal = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-6">
                 {[
+                  `Disponibilidad garantizada del equipo de Sixteam durante todo el período, con solicitudes o sin ellas`,
                   `${CREDITOS_MES} créditos mensuales para solicitudes de marketing, CRM, servicio e inteligencia artificial`,
                   'Uso de la plataforma incluido: CRM, ChatCenter y chatbot, sin licencia aparte',
                   'Reunión uno a uno de seguimiento y priorización con el equipo de Sixteam',
@@ -889,7 +938,7 @@ const StunetOpsProposal = () => {
               <p className="font-poppins font-semibold text-white/80 text-[18px]">Si un mes se agotan los {CREDITOS_MES} créditos</p>
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed mb-4">
-              Las solicitudes adicionales se cobran <strong className="text-white/80">al mismo valor de crédito de este plan, ${CREDITO_COP} COP por crédito</strong>, sin recargo por excederse. No hay una tarifa distinta ni un tramo más caro: un crédito cuesta lo mismo sea el número diez o el número ochenta del mes. Cada excedente se cotiza y se aprueba antes de ejecutarse, o se programa para el período siguiente si Stunet prefiere. El valor base del plan no cambia.
+              Agotada la bolsa del período, las solicitudes que sigan generan un <strong className="text-white/80">consumo adicional que se factura aparte</strong>, al mismo valor de crédito de este plan, <strong className="text-white/80">${CREDITO_COP} COP por crédito</strong>, y sin recargo por excederse. No hay una tarifa distinta ni un tramo más caro: un crédito cuesta lo mismo sea el número diez o el número ochenta del mes. Cada excedente se cotiza y se aprueba antes de ejecutarse, o se programa para el período siguiente si Stunet prefiere. La cuota fija mensual no cambia por ello.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
@@ -912,7 +961,7 @@ const StunetOpsProposal = () => {
             style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              El valor se factura en pesos colombianos. La referencia en dólares se calcula con la TRM de ${TRM} del {TRM_FECHA} y se incluye solo como equivalencia. Los créditos no utilizados no son acumulables al período siguiente. La inversión publicitaria en Meta y Google, las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan aparte según su uso real.
+              La cuota mensual es fija y se causa completa en cada período, se radiquen solicitudes o no, ya que retribuye la disponibilidad del equipo y de la plataforma. Los {CREDITOS_MES} créditos incluidos se reinician cada mes y los no utilizados no son acumulables ni transferibles al período siguiente. El valor se factura en pesos colombianos; la referencia en dólares se calcula con la TRM de ${TRM} del {TRM_FECHA} y se incluye solo como equivalencia. La inversión publicitaria en Meta y Google, las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan aparte según su uso real.
             </p>
           </div>
         </section>
