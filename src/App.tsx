@@ -38,6 +38,7 @@ const MagalyRoseroProposal        = lazy(() => import('./pages/MagalyRoseroPropo
 const VrTurbolubProposal          = lazy(() => import('./pages/VrTurbolubProposal'));
 const DemilesGroupProposal        = lazy(() => import('./pages/DemilesGroupProposal'));
 const GlobalRealtyProposal        = lazy(() => import('./pages/GlobalRealtyProposal'));
+const StunetOpsProposal           = lazy(() => import('./pages/StunetOpsProposal'));
 
 function Loader() {
   return (
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/vr-turbolub"          element={<VrTurbolubProposal />} />
           <Route path="/demiles-group"        element={<DemilesGroupProposal />} />
           <Route path="/global-realty"        element={<GlobalRealtyProposal />} />
+          <Route path="/stunet-ops"           element={<StunetOpsProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

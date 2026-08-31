@@ -331,6 +331,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/global-realty',
   },
+  {
+    slug: 'stunet-ops',
+    cliente: 'Stunet Education Agency · Sixteam Ops',
+    sector: 'Educación internacional · Programas digitales · Empalme post-implementación',
+    fecha: 'Agosto 2026',
+    monto: 'COP 960.000/mes · 60 créditos',
+    estado: 'activa',
+    path: '/stunet-ops',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
