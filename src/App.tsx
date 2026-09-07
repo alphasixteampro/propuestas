@@ -39,6 +39,7 @@ const VrTurbolubProposal          = lazy(() => import('./pages/VrTurbolubProposa
 const DemilesGroupProposal        = lazy(() => import('./pages/DemilesGroupProposal'));
 const GlobalRealtyProposal        = lazy(() => import('./pages/GlobalRealtyProposal'));
 const StunetOpsProposal           = lazy(() => import('./pages/StunetOpsProposal'));
+const SensorialParkProposal       = lazy(() => import('./pages/SensorialParkProposal'));
 
 function Loader() {
   return (
@@ -98,6 +99,7 @@ export default function App() {
           <Route path="/demiles-group"        element={<DemilesGroupProposal />} />
           <Route path="/global-realty"        element={<GlobalRealtyProposal />} />
           <Route path="/stunet-ops"           element={<StunetOpsProposal />} />
+          <Route path="/sensorial-park"       element={<SensorialParkProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

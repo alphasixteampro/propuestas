@@ -340,6 +340,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/stunet-ops',
   },
+  {
+    slug: 'sensorial-park',
+    cliente: 'Sensorial Park',
+    sector: 'Parque sensorial infantil · Purranque, Chile',
+    fecha: 'Septiembre 2026',
+    monto: 'USD 499 impl. + USD 299/mes (CRM incluido)',
+    estado: 'activa',
+    path: '/sensorial-park',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
