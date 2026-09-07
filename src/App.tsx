@@ -30,6 +30,7 @@ const SiarProposalV2              = lazy(() => import('./pages/SiarProposalV2'))
 const GalcomexProposal            = lazy(() => import('./pages/GalcomexProposal'));
 const DvClinicLabProposal         = lazy(() => import('./pages/DvClinicLabProposal'));
 const CalasNibecProposal          = lazy(() => import('./pages/CalasNibecProposal'));
+const NibecProposal                = lazy(() => import('./pages/NibecProposal'));
 const GabricaProposal             = lazy(() => import('./pages/GabricaProposal'));
 const MizarPlataformaProposal     = lazy(() => import('./pages/MizarPlataformaProposal'));
 const MizarPlataformaV1Proposal   = lazy(() => import('./pages/MizarPlataformaV1Proposal'));
@@ -90,6 +91,7 @@ export default function App() {
           <Route path="/galcomex"             element={<GalcomexProposal />} />
           <Route path="/dv-clinic-lab"        element={<DvClinicLabProposal />} />
           <Route path="/calas-nibec"          element={<CalasNibecProposal />} />
+          <Route path="/nibec"                element={<NibecProposal />} />
           <Route path="/gabrica"              element={<GabricaProposal />} />
           <Route path="/mizar-plataforma"     element={<MizarPlataformaComparativoProposal />} />
           <Route path="/mizar-plataforma-v1"  element={<MizarPlataformaV1Proposal />} />

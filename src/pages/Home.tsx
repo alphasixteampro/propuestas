@@ -260,6 +260,15 @@ const PROPOSALS: Proposal[] = [
     path: '/calas-nibec',
   },
   {
+    slug: 'nibec',
+    cliente: 'Nibec',
+    sector: 'Equipamiento industrial · Sixteam Ops · Chile',
+    fecha: 'Septiembre 2026',
+    monto: 'USD 299/mes · 60 créditos',
+    estado: 'activa',
+    path: '/nibec',
+  },
+  {
     slug: 'gabrica',
     cliente: 'Gabrica',
     sector: 'Industria Pet · Dynamics 365 + HubSpot · Sixteam Ops · Colombia',
@@ -530,7 +539,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -574,6 +583,9 @@ export default function Home() {
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(155,126,245,.12)', borderRadius: 12 }}>
                       <GraduationCap size={24} color="#9b7ef5" />
                     </div>
+                  ) : p.slug === 'nibec' ? (
+                    <img src="/Logo nibec.png" alt="Nibec" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'global-realty' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(224,151,60,.12)', borderRadius: 12 }}>
                       <Building2 size={24} color="#e0973c" />
