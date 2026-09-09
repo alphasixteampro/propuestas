@@ -4,7 +4,7 @@ import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap, BarChart3,
   AlertCircle, TrendingUp, Calendar, Info, MapPin,
   MessageSquare, Users, LayoutDashboard, Rocket, Bot, Inbox, Shield,
-  Repeat, Megaphone, Mail, Coins, Headphones, Database, Workflow, Sparkles,
+  Repeat, Megaphone, Mail, Coins, Headphones, Database, Sparkles,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -231,109 +231,84 @@ type Actividad = { text: string; tag?: string };
 const FASES = [
   {
     num: '01',
-    nombre: 'Mapear y revisar las configuraciones existentes en Brevo',
-    duracion: 'Punto de partida',
-    icon: FileText,
-    color: '#1d70a2',
-    colorAlpha: 'rgba(29,112,162,.12)',
-    colorBorder: 'rgba(29,112,162,.3)',
-    descripcion: 'Antes de activar nuevas campañas, se analizarán las automatizaciones que ya están configuradas y activas en Brevo para evitar que se dupliquen o choquen con las nuevas.',
+    nombre: 'Automatizaciones por WhatsApp: atención directa con la vendedora',
+    duracion: 'Prioridad 1',
+    icon: MessageSquare,
+    color: NIBEC_COLOR,
+    colorAlpha: 'rgba(245,160,42,.10)',
+    colorBorder: 'rgba(245,160,42,.3)',
+    descripcion: 'La gestión de cotizaciones se automatiza por WhatsApp para aprovechar la relación directa que la vendedora ya tiene con los clientes, sin perder ese trato cercano.',
     actividades: [
-      { text: 'Inventario de las automatizaciones activas en la cuenta de Brevo de Nibec, con el detalle de cuáles siguen encendidas' },
-      { text: 'Revisión de los correos de encuesta de satisfacción y calificación de pedido' },
-      { text: 'Revisión de los flujos de seguimiento a cotizaciones y de avisos de entrega' },
-      { text: 'Identificación de duplicados y solapamientos con las secuencias que se van a montar' },
-      { text: 'Validación conjunta de qué se conserva, qué se ajusta y qué se apaga', tag: 'Trabajo en conjunto' },
+      { text: 'Seguimiento a cotizaciones: mensaje automático por WhatsApp a los 10 días de emitida la cotización si el cliente no ha respondido' },
+      { text: 'Rescate de cotizaciones: 5% de descuento para clientes nuevos que no concretaron la compra y no tienen otro descuento ya aplicado' },
+      { text: 'Mensajes postventa: notificación al marcar una venta como ganada, con 5% de descuento para la siguiente compra y el canal directo con la vendedora abierto' },
+      { text: 'Recompra predictiva: mensajes a los 30, 60 y 90 días orientados a la recompra de categorías complementarias, como estanterías, lockers o ventiladores' },
+      { text: 'Reactivación de clientes con más de 3 meses de inactividad, con mensajes de tono cercano firmados por la vendedora, por ejemplo "Soy Lis, si necesitas algo este mes, escríbeme"', tag: 'Trabajo en conjunto' },
     ] as Actividad[],
   },
   {
     num: '02',
-    nombre: 'Definición de las primeras secuencias',
-    duracion: 'Un mes de anticipación',
-    icon: Workflow,
-    color: '#00bfa5',
-    colorAlpha: 'rgba(0,191,165,.10)',
-    colorBorder: 'rgba(0,191,165,.3)',
-    descripcion: 'En lugar de estructurar un plan para todo el año de inmediato, se arranca con las primeras secuencias trabajando con un mes de adelanto.',
+    nombre: 'Recuperación de cotizaciones perdidas y leads',
+    duracion: 'Prioridad 2',
+    icon: Repeat,
+    color: '#1d70a2',
+    colorAlpha: 'rgba(29,112,162,.12)',
+    colorBorder: 'rgba(29,112,162,.3)',
+    descripcion: 'Cada cotización y cada lead que hoy se marca como perdido vuelve a intentarse de forma automática, en lugar de quedar cerrado de forma definitiva en el CRM.',
     actividades: [
-      { text: 'El foco de inicio es el correo de bienvenida, tanto para cliente persona como empresa en su primera compra' },
-      { text: 'El correo busca generar confianza compartiendo reseñas, testimonios y la capacidad de respuesta de la marca' },
-      { text: 'Configuración del disparador de primera compra y de las condiciones de entrada a la secuencia' },
-      { text: 'Montaje de la pieza de bienvenida en Brevo con el material que entrega el equipo', tag: 'Trabajo en conjunto' },
-      { text: 'Control de solapamiento para que la secuencia no choque con la notificación de pedido recibido' },
-      { text: 'Pruebas de extremo a extremo antes de activarla sobre la base real' },
+      { text: 'Identificación de las cotizaciones y leads marcados como perdidos dentro del CRM' },
+      { text: 'Flujo de contacto automático a los 30, 60 y 90 días para reabrir la conversación comercial' },
+      { text: 'Mensajes orientados a resolver la objeción u ofrecer una alternativa antes de insistir con la compra' },
+      { text: 'Reingreso del lead al pipeline comercial cuando responde, con notificación directa a la vendedora' },
+      { text: 'Seguimiento de cuántas cotizaciones perdidas se reconvierten en ventas ganadas' },
     ] as Actividad[],
   },
   {
     num: '03',
-    nombre: 'Programa de fidelización segmentado, B2B frente a B2C',
-    duracion: 'Por tipo de cliente',
-    icon: Users,
-    color: '#a855f7',
-    colorAlpha: 'rgba(168,85,247,.10)',
-    colorBorder: 'rgba(168,85,247,.3)',
-    descripcion: 'Se estructurará una comunicación diferenciada según el tipo de cliente, ya que sus problemas y sus frecuencias de compra son distintos.',
+    nombre: 'Automatización de e-commerce: email marketing',
+    duracion: 'Prioridad 3',
+    icon: Mail,
+    color: '#00bfa5',
+    colorAlpha: 'rgba(0,191,165,.10)',
+    colorBorder: 'rgba(0,191,165,.3)',
+    descripcion: 'El e-commerce suma su propio canal de retorno: correos de bienvenida y de venta cruzada que recomiendan lo que el cliente todavía no ha comprado.',
     actividades: [
-      { text: 'Configuración de la segmentación en Brevo cruzando tipo de cliente, monto de compra y frecuencia' },
-      { text: 'Rama B2C: soluciones para el hogar o para pequeñas pymes, con sugerencia cruzada de productos complementarios' },
-      { text: 'Ejemplo B2C: quien compró un estante recibe a los pocos días la información de pallets y mobiliario de carga disponibles' },
-      { text: 'Rama B2B: comunicación orientada a la apertura de nuevas sucursales y a la atención de revendedores' },
-      { text: 'Rama B2B: recordatorios de renovación de stock por fatiga de materiales o desgaste del producto' },
-      { text: 'Campos de cliente con reglas de actualización automática según el comportamiento de compra' },
+      { text: 'Correo de bienvenida con descuento para quien compra por primera vez en el e-commerce' },
+      { text: 'Secuencia de venta cruzada que recomienda categorías que el cliente todavía no ha comprado' },
+      { text: 'Segmentación de la base según el historial de compra para que la recomendación sea relevante' },
+      { text: 'Configuración del seguimiento de aperturas, clics y conversiones de cada envío' },
     ] as Actividad[],
   },
   {
     num: '04',
-    nombre: 'Flujos basados en el tiempo y reactivación',
-    duracion: 'Recompra e inactividad',
-    icon: Repeat,
-    color: '#60a5fa',
-    colorAlpha: 'rgba(96,165,250,.10)',
-    colorBorder: 'rgba(96,165,250,.3)',
-    descripcion: 'Se automatizarán correos que salen de manera sistemática tras la compra inicial y que reactivan al cliente cuando lleva tiempo sin volver.',
+    nombre: 'Programa de fidelización VIP',
+    duracion: 'Prioridad 4',
+    icon: Sparkles,
+    color: '#a855f7',
+    colorAlpha: 'rgba(168,85,247,.10)',
+    colorBorder: 'rgba(168,85,247,.3)',
+    descripcion: 'Los clientes de mayor valor reciben un trato diferenciado, con beneficios exclusivos que refuerzan la relación en lugar de tratarlos igual que al resto de la base.',
     actividades: [
-      { text: 'Disparador post-compra que entrega un descuento del 5% para la siguiente compra a los pocos días' },
-      { text: 'Flujo de reactivación a los tres meses de inactividad, del tipo "no te hemos visto por aquí", con un nuevo incentivo' },
-      { text: 'Ajuste de las ventanas de tiempo de cada envío según la frecuencia real de recompra observada' },
-      { text: 'Reglas de salida del flujo cuando el cliente vuelve a comprar, para no seguir enviando incentivos innecesarios' },
-      { text: 'Registro del incentivo entregado en el perfil del contacto para evitar que se acumulen descuentos' },
-      { text: 'Pruebas de cada disparador antes de activarlo sobre la base real' },
+      { text: 'Definición del umbral de cliente VIP: compras acumuladas superiores a $5.000.000 CLP' },
+      { text: 'Identificación automática de los clientes que alcanzan ese umbral dentro de la base' },
+      { text: 'Estructuración de beneficios exclusivos para ese segmento, con el contenido que define el equipo', tag: 'Trabajo en conjunto' },
+      { text: 'Comunicación diferenciada para el segmento VIP, separada del resto de la base' },
     ] as Actividad[],
   },
   {
     num: '05',
-    nombre: 'Contenido de valor y cotización directa',
-    duracion: 'Equilibrio anti-spam',
-    icon: Mail,
-    color: NIBEC_COLOR,
-    colorAlpha: 'rgba(245,160,42,.10)',
-    colorBorder: 'rgba(245,160,42,.3)',
-    descripcion: 'Para evitar saturar la base con correos meramente comerciales, se intercalarán las promociones con contenido de valor y de posicionamiento de marca.',
+    nombre: 'Diagnóstico y reestructuración en Brevo',
+    duracion: 'Prioridad 5',
+    icon: Database,
+    color: '#60a5fa',
+    colorAlpha: 'rgba(96,165,250,.10)',
+    colorBorder: 'rgba(96,165,250,.3)',
+    descripcion: 'Antes de sumar más automatizaciones, se corrige la falla que separa las conversaciones de WhatsApp de las oportunidades comerciales en Brevo, para que el historial de cada cliente quede completo.',
     actividades: [
-      { text: 'Configuración de la cadencia que alterna piezas comerciales con piezas de valor dentro de cada flujo' },
-      { text: 'Reglas de frecuencia y ventanas de descanso para que la base no perciba los envíos como spam' },
-      { text: 'Montaje en Brevo de las piezas que entrega el equipo, tanto comerciales como de posicionamiento', tag: 'Trabajo en conjunto' },
-      { text: 'Llamados a la acción directos para cotizar por landing page o por WhatsApp dentro de cada pieza' },
-      { text: 'Trazabilidad de qué pieza originó cada cotización, dado que la mayoría de las ventas se cierran por esa vía' },
-      { text: 'Seguimiento de aperturas y clics por tipo de pieza para ajustar la proporción entre valor y promoción' },
-    ] as Actividad[],
-  },
-  {
-    num: '06',
-    nombre: 'Automatización de audiencias de exclusión vía API',
-    duracion: 'Reducción de CAC',
-    icon: Megaphone,
-    color: '#34d399',
-    colorAlpha: 'rgba(52,211,153,.10)',
-    colorBorder: 'rgba(52,211,153,.3)',
-    descripcion: 'Una vez definidas las audiencias de clientes que ya compraron, el siguiente paso técnico es conectar la API de conversiones de Meta para que dejen de ver publicidad repetitiva.',
-    actividades: [
-      { text: 'Definición y carga de las audiencias de clientes que ya compraron dentro de las cuentas de Meta' },
-      { text: 'Conexión de la API de conversiones para añadir o eliminar compradores de esas listas de forma automática' },
-      { text: 'Sincronización de los eventos de conversión entre el e-commerce, Brevo y Meta' },
-      { text: 'Exclusión de compradores recientes de las campañas de captación, para dejar de pujar por quien ya es cliente' },
-      { text: 'Panel de informes con aperturas, clics, cotizaciones generadas y recompras atribuidas' },
-      { text: 'Capacitación al equipo sobre el uso y monitoreo de los flujos y audiencias activas' },
+      { text: 'Revisión de la configuración actual de Brevo entre WhatsApp y el CRM de oportunidades' },
+      { text: 'Corrección de la falla que crea las conversaciones de WhatsApp separadas de la oportunidad comercial' },
+      { text: 'Vinculación de cada conversación con su oportunidad para tener el historial real de la interacción' },
+      { text: 'Validación de que el resto de las automatizaciones del período, como seguimiento, rescate, recompra y reactivación, queden registradas sobre esa misma oportunidad' },
     ] as Actividad[],
   },
 ];
@@ -1057,12 +1032,12 @@ const NibecProposal = () => {
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            De acuerdo con lo conversado en la última reunión, estas son las acciones clave con las que se plantea arrancar. El servicio no tiene cronograma cerrado, ya que el equipo decide mes a mes en qué invertir los créditos, aunque este es el orden que Sixteam recomienda para atacar primero el freno principal: devolver al cliente ya convertido al embudo sin volver a pagar por él en pauta.
+            En la última reunión con Fernando Coronado se definieron y priorizaron estas {FASES.length} acciones, con las que se van a trabajar los próximos 3 meses del servicio. El servicio no tiene cronograma cerrado, ya que el equipo decide mes a mes en qué invertir los créditos, aunque este es el orden de prioridad que se acordó en esa reunión.
           </p>
 
           <div className="relative mb-10">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(29,112,162,.4), rgba(0,191,165,.4), rgba(168,85,247,.4), rgba(96,165,250,.4), rgba(245,160,42,.4), rgba(52,211,153,.4))' }} />
+              style={{ background: 'linear-gradient(to bottom, rgba(245,160,42,.4), rgba(29,112,162,.4), rgba(0,191,165,.4), rgba(168,85,247,.4), rgba(96,165,250,.4))' }} />
 
             <div className="space-y-3">
               {FASES.map((fase, i) => {
@@ -1134,9 +1109,9 @@ const NibecProposal = () => {
             style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.2)' }}>
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
             <div>
-              <p className="font-poppins font-semibold text-white/75 text-[16px] mb-1">Desarrollo atemporal, mes a mes</p>
+              <p className="font-poppins font-semibold text-white/75 text-[16px] mb-1">Desarrollo mes a mes, sobre estas 5 prioridades</p>
               <p className="font-lato text-white/55 text-[15px] leading-relaxed">
-                Una vez arrancadas estas acciones, el trabajo continúa de manera constante con un mes de anticipación. El material se diseña de forma atemporal, sin depender de precios específicos ni de fechas concretas, para que los flujos sigan activos y funcionando automáticamente durante meses. Eso además distribuye el consumo de créditos a lo largo del año y permite ajustar cada tramo con el comportamiento observado en el anterior.
+                Estas {FASES.length} acciones se reparten a lo largo de los 3 meses de trabajo, aunque no como fases cerradas y secuenciales: el equipo decide mes a mes en qué avanzar según el consumo de créditos disponible. El material se diseña de forma atemporal, sin depender de fechas concretas, para que los flujos sigan activos y funcionando automáticamente una vez montados. Al cierre de los 3 meses se revisa el resultado de cada frente y se define el siguiente tramo de trabajo.
               </p>
             </div>
           </div>
