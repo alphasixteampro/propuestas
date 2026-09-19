@@ -41,6 +41,8 @@ const DemilesGroupProposal        = lazy(() => import('./pages/DemilesGroupPropo
 const GlobalRealtyProposal        = lazy(() => import('./pages/GlobalRealtyProposal'));
 const StunetOpsProposal           = lazy(() => import('./pages/StunetOpsProposal'));
 const SensorialParkProposal       = lazy(() => import('./pages/SensorialParkProposal'));
+const ConnectyTransformacionProposal = lazy(() => import('./pages/ConnectyTransformacionProposal'));
+const ConnectyMapeoProcesosProposal = lazy(() => import('./pages/ConnectyMapeoProcesosProposal'));
 
 function Loader() {
   return (
@@ -102,6 +104,8 @@ export default function App() {
           <Route path="/global-realty"        element={<GlobalRealtyProposal />} />
           <Route path="/stunet-ops"           element={<StunetOpsProposal />} />
           <Route path="/sensorial-park"       element={<SensorialParkProposal />} />
+          <Route path="/conecty-transformacion" element={<ConnectyTransformacionProposal />} />
+          <Route path="/conecty-mapeo-procesos" element={<ConnectyMapeoProcesosProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

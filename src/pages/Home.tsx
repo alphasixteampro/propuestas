@@ -358,6 +358,24 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/sensorial-park',
   },
+  {
+    slug: 'conecty-transformacion',
+    cliente: 'Conecty · Transformación',
+    sector: 'Consultoría en transformación digital · Mapeo de procesos con IA',
+    fecha: 'Septiembre 2026',
+    monto: 'COP 14.900.000 · 4 olas',
+    estado: 'borrador',
+    path: '/conecty-transformacion',
+  },
+  {
+    slug: 'conecty-mapeo-procesos',
+    cliente: 'Conecty · Mapeo de Procesos',
+    sector: 'Respuesta formal a solicitud de mapeo · 45 procesos, 2 frentes',
+    fecha: 'Septiembre 2026',
+    monto: 'COP 19.700.000 · Frente A y B por separado',
+    estado: 'activa',
+    path: '/conecty-mapeo-procesos',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -539,11 +557,11 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
-                  {p.slug === 'conecty' ? (
+                  {p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? (
                     <img src="/logo-webp_180x_2x-removebg-preview.png" alt="Conecty" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                   ) : p.slug === 'stunet' ? (
                     <img src="/stunet-logo.png" alt="Stunet" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
