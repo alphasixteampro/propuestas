@@ -16,7 +16,7 @@ const META = {
   tagline: 'Conectando al Viajero',
   fecha: 'Septiembre 2026',
   lugar: 'Colombia',
-  duracion: '8 semanas estimadas',
+  duracion: '12 semanas estimadas',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -114,28 +114,28 @@ const CAPAS = [
 ];
 
 const MODALIDAD = [
-  { rol: Bot, nombre: 'Agente Sixteam asistido por IA', color: '#a78bfa',
-    items: ['Arma una encuesta a la medida de cada rol, con la documentación ya recogida', 'Detecta contradicciones entre respuestas y documentos', 'Prepara el primer borrador de cada entregable'] },
   { rol: Users, nombre: 'Consultor Sixteam', color: '#00bfa5',
     items: ['Conduce las mesas de trabajo con los líderes de área', 'Valida en entrevista lo que dicen las encuestas y la documentación', 'Revisa la calidad de cada entregable'] },
+  { rol: Bot, nombre: 'Agente Sixteam asistido por IA', color: '#a78bfa',
+    items: ['Apoya al consultor en la ejecución de la encuesta a la medida para cada rol, con la documentación ya recogida', 'Detecta contradicciones entre respuestas y documentos'] },
 ];
 
 // ─── PLAN DE TRABAJO ─────────────────────────────────────────────────────────
 
-const SEMANAS = 8;
+const SEMANAS = 12;
 
 const ETAPAS = [
-  { num: '1', nombre: 'Mesas de trabajo con líderes', inicio: 1, fin: 1, color: '#a78bfa', frentes: 'A y B',
+  { num: '1', nombre: 'Mesas de trabajo con líderes', inicio: 1, fin: 2, color: '#a78bfa', frentes: 'A y B',
     desc: 'Arrancamos con los líderes de cada área para entender la operación, recoger la documentación existente y acordar prioridades. No toma más de 5 horas en total.' },
-  { num: '2', nombre: 'Encuestas personalizadas por rol', inicio: 2, fin: 3, color: '#a78bfa', frentes: 'A y B',
+  { num: '2', nombre: 'Encuestas personalizadas por rol', inicio: 2, fin: 5, color: '#a78bfa', frentes: 'A y B',
     desc: 'Con lo recogido, cada colaborador recibe una encuesta hecha para su rol. Muestra qué hace cada persona dentro de cada proceso y cada flujo, con las actividades tal como ocurren hoy en la práctica.' },
-  { num: '3', nombre: 'Entrevistas de validación', inicio: 3, fin: 4, color: '#a78bfa', frentes: 'A y B',
+  { num: '3', nombre: 'Entrevistas de validación', inicio: 4, fin: 7, color: '#a78bfa', frentes: 'A y B',
     desc: 'Sesiones virtuales o presenciales con roles específicos para confirmar lo que dicen las encuestas y revisar la documentación que aporte al análisis.' },
-  { num: '4A', nombre: 'Entregables del Frente A', inicio: 4, fin: 6, color: CONECTY_BLUE, frentes: 'A',
-    desc: 'Diagrama, documento y filas del Excel de cada proceso, en Baseline y Target. Va primero porque el canal unificado entra en operación en noviembre.' },
-  { num: '4B', nombre: 'Entregables de los Frentes B y C', inicio: 5, fin: 8, color: '#00bfa5', frentes: 'B y C',
+  { num: '4A', nombre: 'Entregables del Frente A', inicio: 8, fin: 10, color: CONECTY_BLUE, frentes: 'A',
+    desc: 'Diagrama, documento y filas del Excel de cada proceso, en Baseline y Target. Se entrega primero porque el canal unificado entra en operación en noviembre.' },
+  { num: '4B', nombre: 'Entregables de los Frentes B y C', inicio: 8, fin: 11, color: '#00bfa5', frentes: 'B y C',
     desc: 'Los procesos del núcleo administrativo y, junto con ellos, la especificación de la activación automática (Frente C).' },
-  { num: '5', nombre: 'Validación y cierre', inicio: 8, fin: 8, color: '#34d399', frentes: 'A, B y C',
+  { num: '5', nombre: 'Validación y cierre', inicio: 12, fin: 12, color: '#34d399', frentes: 'A, B y C',
     desc: 'Revisión final con el responsable de cada frente y entrega del modelo de datos, las interfaces y las iniciativas de diseño.' },
 ];
 
