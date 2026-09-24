@@ -305,6 +305,15 @@ const PROPOSALS: Proposal[] = [
     path: '/mizar-plataforma-v2',
   },
   {
+    slug: 'mizar-plataforma-cartera',
+    cliente: 'Mizar Diseño y Construcción · Mi Lote · Cartera',
+    sector: 'Construcción · Cartera, recaudo y socios · 9 funcionalidades · 10 semanas · con demo',
+    fecha: 'Septiembre 2026',
+    monto: 'COP 6.000.000 impl. + COP 150.000/mes',
+    estado: 'borrador',
+    path: '/mizar-cartera',
+  },
+  {
     slug: 'magaly-rosero',
     cliente: 'Magaly Rosero',
     sector: 'Formación empresarial · Empleado IA · Propulsor Compensar · Colombia',

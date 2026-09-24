@@ -43,6 +43,8 @@ const StunetOpsProposal           = lazy(() => import('./pages/StunetOpsProposal
 const SensorialParkProposal       = lazy(() => import('./pages/SensorialParkProposal'));
 const ConnectyTransformacionProposal = lazy(() => import('./pages/ConnectyTransformacionProposal'));
 const ConnectyMapeoProcesosProposal = lazy(() => import('./pages/ConnectyMapeoProcesosProposal'));
+const MizarCarteraProposal       = lazy(() => import('./pages/MizarCarteraProposal'));
+const MizarCarteraDemo           = lazy(() => import('./pages/MizarCarteraDemo'));
 
 function Loader() {
   return (
@@ -106,6 +108,8 @@ export default function App() {
           <Route path="/sensorial-park"       element={<SensorialParkProposal />} />
           <Route path="/conecty-transformacion" element={<ConnectyTransformacionProposal />} />
           <Route path="/conecty-mapeo-procesos" element={<ConnectyMapeoProcesosProposal />} />
+          <Route path="/mizar-cartera"        element={<MizarCarteraProposal />} />
+          <Route path="/mizar-cartera/demo"   element={<MizarCarteraDemo />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
