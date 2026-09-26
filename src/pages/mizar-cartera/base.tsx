@@ -89,7 +89,8 @@ export function repartir(total: number, participantes: { nombre: string; pct: nu
 // ─────────────────────────────────────────────────────────────────────────
 // TIPOS
 export type Sede = 'Bucaramanga' | 'Cúcuta';
-export type Medio = 'Transferencia' | 'Efectivo' | 'Consignación' | 'Link de pago' | 'Cruce de cartera';
+export type Medio = 'Transferencia' | 'Efectivo' | 'Consignación' | 'Link de pago' | 'Cruce de cartera'
+  | 'Cheque de gerencia' | 'Descuento de nómina' | 'Pago en especie';
 export type Seccion = 'inicio' | 'ventas' | 'planes' | 'estado-cuenta' | 'por-verificar' | 'morosos' | 'carteras'
   | 'bancos' | 'contabilidad' | 'socios' | 'informes' | 'recompensas' | 'configuracion';
 
@@ -109,9 +110,33 @@ export function enFiltroEmpresa(sede: Sede, filtro: FiltroEmpresa): boolean { re
 
 export interface SocioPeriodo { desde: string; hasta: string | null; participantes: { nombre: string; pct: number }[]; }
 
+// Cada proyecto pertenece a una sociedad titular (formatos reales del 25-sep: Mizar, Palmoc,
+// Hacienda Pedregal, Ictinos…). Las sociedades se agrupan en dos operaciones: Bucaramanga y Cúcuta.
 export interface Proyecto {
   id: string; nombre: string; sede: Sede; conMora: boolean; alerta3Cuotas: boolean;
   cuentaDefault: string; socios: SocioPeriodo[]; sociedad: string; prefijo: string;
+  comisionPct: number; participacionRecaudoPct?: number;
+}
+
+// Dónde puede entrar el dinero. Las cuentas bancarias son de una sociedad; el efectivo y las
+// cuentas personales quedan «por trasladar» hasta consignarse en la cuenta de la sociedad (R25).
+export type TipoLugar = 'banco' | 'efectivo' | 'personal';
+export interface LugarRecaudo { nombre: string; tipo: TipoLugar; sociedad?: string; empresaId: EmpresaId | null; banco?: string; }
+export const LUGARES_RECAUDO: LugarRecaudo[] = [
+  { nombre: 'Bancolombia Mizar', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Mizar Diseño y Construcción', empresaId: 'mizar' },
+  { nombre: 'Bancolombia Palmoc', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Palmoc', empresaId: 'mizar' },
+  { nombre: 'Bancolombia Hacienda Pedregal', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Hacienda Pedregal', empresaId: 'mizar' },
+  { nombre: 'Cuenta Ictinos', tipo: 'banco', banco: 'Banco de Bogotá', sociedad: 'Ictinos Inmobiliaria', empresaId: 'cucuta' },
+  { nombre: 'Cuenta Miraflor', tipo: 'banco', banco: 'Davivienda', sociedad: 'Asociación de Vivienda Miraflor', empresaId: 'cucuta' },
+  { nombre: 'Efectivo · caja de tesorería', tipo: 'efectivo', empresaId: null },
+  { nombre: 'Efectivo · gerencia', tipo: 'efectivo', empresaId: null },
+  { nombre: 'Cuenta personal · colaboradora de ventas', tipo: 'personal', empresaId: null },
+];
+export function lugarPorNombre(nombre: string): LugarRecaudo | undefined { return LUGARES_RECAUDO.find(l => l.nombre === nombre); }
+// Un pago recibido en efectivo o en una cuenta personal sigue «por trasladar» hasta que se consigna.
+export function porTrasladar(p: { cuenta: string; trasladado?: unknown; administracionAnterior?: boolean }): boolean {
+  const lugar = lugarPorNombre(p.cuenta);
+  return !!lugar && lugar.tipo !== 'banco' && !p.trasladado && !p.administracionAnterior;
 }
 
 export interface CuotaPlan { numero: number; vence: string; capitalProg: number; interesProg: number; etiqueta?: string; reestructurada?: boolean; }
@@ -126,6 +151,9 @@ export interface Pago {
   soporte?: boolean; administracionAnterior?: boolean;
   origen?: OrigenPago; registradoPor?: string; confirmadoPor?: string;
   planAntes?: CuotaPlan[]; anulado?: { motivo: string; por: string };
+  // Quién pagó cuando no es el titular («encargado de pagos») y, si entró en efectivo o a una cuenta
+  // personal, cuándo se consignó en la cuenta de la sociedad.
+  pagadoPor?: string; trasladado?: { fecha: string; cuentaDestino: string; por: string };
 }
 
 export interface ClienteRaw {
@@ -137,15 +165,20 @@ export interface ClienteRaw {
   abonoMonto?: number; abonoModo?: 'plazo' | 'cuota'; abonoFecha?: string;
   administracionAnteriorHasta?: number;
   numeroContrato?: string; autorizaWhatsapp?: boolean; fechaPromesa?: string;
+  // Lote como en los formatos de Cúcuta: tipo, manzana, número, área y si incluye urbanismo.
+  lote?: { tipo: 'Medianero' | 'Esquinero' | 'Comercial' | 'Intermedio'; manzana: string; numero: string; area: number; urbanismo: boolean };
+  bonoDescuento?: number;
 }
 
 export interface Acuerdo {
   fecha: string; cuotas: number; valorCuota: number; consolidado: number; descuentoMora: number; autorizadoPor: string;
 }
 
+export interface Devolucion { fecha: string; valor: number; motivo: string; por: string; orden: string; }
+
 export interface Cliente {
   raw: ClienteRaw; plan: CuotaPlan[]; pagos: Pago[];
-  estado?: 'vigente' | 'recuperado'; acuerdo?: Acuerdo;
+  estado?: 'vigente' | 'recuperado' | 'desistido'; acuerdo?: Acuerdo; devoluciones?: Devolucion[];
 }
 
 export interface CuotaEstado extends CuotaPlan {
@@ -178,32 +211,32 @@ export function vigentes(pagos: Pago[]): Pago[] { return pagos.filter(p => !p.an
 export const PROYECTOS: Proyecto[] = [
   {
     id: 'villa-plaza', nombre: 'Villa Plaza Real', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
-    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'VP',
+    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'VP', comisionPct: 3,
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 60 }, { nombre: 'Inversionista Villa Plaza', pct: 40 }] }],
   },
   {
     id: 'montana', nombre: 'Miradores de la Montaña', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
-    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'MM',
+    cuentaDefault: 'Bancolombia Hacienda Pedregal', sociedad: 'Hacienda Pedregal', prefijo: 'MM', comisionPct: 18,
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 100 }] }],
   },
   {
     id: 'laureles', nombre: 'Laureles Campestre T3', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
-    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'LC',
+    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'LC', comisionPct: 3,
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 100 }] }],
   },
   {
     id: 'cantalta', nombre: 'Miradores de Cantalta', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
-    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'MC',
+    cuentaDefault: 'Bancolombia Palmoc', sociedad: 'Palmoc', prefijo: 'MC', comisionPct: 20,
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 50 }, { nombre: 'Socio Cantalta', pct: 50 }] }],
   },
   {
     id: 'miraflor', nombre: 'Miraflor (Mi Lote)', sede: 'Cúcuta', conMora: false, alerta3Cuotas: true,
-    cuentaDefault: 'Cuenta Miraflor', sociedad: 'Asociación de Vivienda Miraflor', prefijo: 'MF',
+    cuentaDefault: 'Cuenta Miraflor', sociedad: 'Asociación de Vivienda Miraflor', prefijo: 'MF', comisionPct: 1, participacionRecaudoPct: 50,
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Ictinos', pct: 100 }] }],
   },
   {
     id: 'miravista', nombre: 'Miravista (Mi Lote)', sede: 'Cúcuta', conMora: false, alerta3Cuotas: true,
-    cuentaDefault: 'Cuenta Ictinos', sociedad: 'Ictinos Inmobiliaria', prefijo: 'MV',
+    cuentaDefault: 'Cuenta Ictinos', sociedad: 'Ictinos Inmobiliaria', prefijo: 'MV', comisionPct: 1,
     socios: [
       { desde: '2023-01-01', hasta: '2025-06-04', participantes: [{ nombre: 'Socio A', pct: 33.34 }, { nombre: 'Socio B', pct: 33.33 }, { nombre: 'Socio C', pct: 33.33 }] },
       { desde: '2025-06-05', hasta: null, participantes: [{ nombre: 'Socio A', pct: 50 }, { nombre: 'Socio B', pct: 50 }] },
@@ -212,6 +245,15 @@ export const PROYECTOS: Proyecto[] = [
 ];
 
 export function proyectoPorId(id: string): Proyecto { return PROYECTOS.find(p => p.id === id)!; }
+
+// Sociedades titulares, con su operación y sus proyectos (se derivan de los proyectos).
+export interface Sociedad { nombre: string; empresaId: EmpresaId; proyectos: string[]; }
+export const SOCIEDADES: Sociedad[] = PROYECTOS.reduce<Sociedad[]>((lista, p) => {
+  const existente = lista.find(s => s.nombre === p.sociedad);
+  if (existente) existente.proyectos.push(p.nombre);
+  else lista.push({ nombre: p.sociedad, empresaId: EMPRESAS.find(e => e.sede === p.sede)!.id, proyectos: [p.nombre] });
+  return lista;
+}, []);
 export type Tono = 'green' | 'red' | 'amber' | 'blue' | 'purple' | 'muted' | 'navy';
 export const TONOS: Record<Tono, { bg: string; fg: string }> = {
   green: { bg: C.greenSoft, fg: C.green }, red: { bg: C.redSoft, fg: C.red },

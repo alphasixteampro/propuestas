@@ -323,7 +323,7 @@ export function SeccionCarteras(props: {
   const filasEdades = useMemo(() => {
     const porProyecto = new Map<string, Tramos>();
     for (const c of props.clientes) {
-      if (c.estado === 'recuperado') continue;
+      if (c.estado === 'recuperado' || c.estado === 'desistido') continue;
       const d = props.resumenes.get(c.raw.id);
       if (!d) continue;
       const t = tramosDeCliente(d.cuotas, d.resumen);

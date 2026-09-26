@@ -5,7 +5,7 @@
 import React, { useMemo, useState } from 'react';
 import { Download, Send } from 'lucide-react';
 import {
-  C, MESES_CORTOS, money, fechaLarga, finDeMes, Chip, Tarjeta, BotonSecundario, Campo, estiloInput,
+  C, MESES_CORTOS, money, fechaLarga, finDeMes, porTrasladar, Chip, Tarjeta, BotonSecundario, Campo, estiloInput,
   GraficoBarras, Seccion,
   Cliente, Pago, CuotaEstado, ResumenCliente, Proyecto, Persona, FiltroEmpresa,
   PROYECTOS, proyectoPorId, empresaPorId, vigentes,
@@ -104,14 +104,22 @@ function etiquetaOrigen(origen: Pago['origen']): string {
 // I1: RECAUDO POR FECHA DE PAGO
 // ─────────────────────────────────────────────────────────────────────────
 
-type Agrupador = 'Proyecto' | 'Cuenta' | 'Medio de pago' | 'Día';
+type Agrupador = 'Proyecto' | 'Cuenta' | 'Medio de pago' | 'Día' | 'Sociedad' | 'Lugar de recaudo';
 
 interface GrupoRecaudo { clave: string; etiqueta: string; n: number; capital: number; interes: number; mora: number; total: number; }
+
+function claveDeAgrupador(fila: FilaPago, agrupador: Agrupador): string {
+  if (agrupador === 'Proyecto') return fila.proyecto.nombre;
+  if (agrupador === 'Sociedad') return fila.proyecto.sociedad;
+  if (agrupador === 'Cuenta' || agrupador === 'Lugar de recaudo') return fila.pago.cuenta;
+  if (agrupador === 'Medio de pago') return fila.pago.medio;
+  return fila.pago.fecha;
+}
 
 function agruparRecaudo(filas: FilaPago[], agrupador: Agrupador): GrupoRecaudo[] {
   const mapa = new Map<string, GrupoRecaudo>();
   for (const fila of filas) {
-    const clave = agrupador === 'Proyecto' ? fila.proyecto.nombre : agrupador === 'Cuenta' ? fila.pago.cuenta : agrupador === 'Medio de pago' ? fila.pago.medio : fila.pago.fecha;
+    const clave = claveDeAgrupador(fila, agrupador);
     const etiqueta = agrupador === 'Día' ? fechaLarga(clave) : clave;
     const t = totalesAplicados(fila.pago);
     const actual = mapa.get(clave) ?? { clave, etiqueta, n: 0, capital: 0, interes: 0, mora: 0, total: 0 };
@@ -276,18 +284,13 @@ function ventasFrenteRecaudo(clientes: Cliente[], resumenes: Map<string, { cuota
   }).filter(f => f.contratos > 0);
 }
 
-// Regla fija de comisión (a validar con el contador): Cantalta 20 %, resto de Bucaramanga 3 %, Cúcuta 5 %.
-function pctComision(proyecto: Proyecto): number {
-  if (proyecto.id === 'cantalta') return 20;
-  return proyecto.sede === 'Bucaramanga' ? 3 : 5;
-}
-
 interface FilaComision { proyecto: Proyecto; pct: number; causado: number; pagado: number; pendiente: number; }
 
+// El % de comisión ya no es una regla fija: cada proyecto trae el suyo (proyecto.comisionPct).
 function comisionesPorProyecto(clientes: Cliente[], proyectos: Proyecto[]): FilaComision[] {
   return proyectos.map(proyecto => {
     const vendido = clientes.filter(c => c.raw.proyectoId === proyecto.id).reduce((s, c) => s + c.raw.valorVenta, 0);
-    const pct = pctComision(proyecto);
+    const pct = proyecto.comisionPct;
     const causado = vendido * pct / 100;
     const pagado = causado * 0.6;
     return { proyecto, pct, causado, pagado, pendiente: causado - pagado };
@@ -367,7 +370,7 @@ export function SeccionInformes(props: {
 
   const filasPagoRango = useMemo(() => pagosDeClientes(clientesFiltrados).filter(f => enRango(f.pago.fecha, desde, hasta)), [clientesFiltrados, desde, hasta]);
 
-  const usaFechas = informeAbierto === 'I1' || informeAbierto === 'I2' || informeAbierto === 'I3';
+  const usaFechas = informeAbierto === 'I1' || informeAbierto === 'I2' || informeAbierto === 'I3' || informeAbierto === 'I12';
   const usaMes = informeAbierto === 'I5';
   const usaAgrupador = informeAbierto === 'I1';
 
@@ -431,6 +434,7 @@ export function SeccionInformes(props: {
               <select id="informe-agrupador" value={agrupador} onChange={e => setAgrupador(e.target.value as Agrupador)} style={{ ...estiloInput, width: 'auto' }}>
                 <option value="Proyecto">Proyecto</option><option value="Cuenta">Cuenta</option>
                 <option value="Medio de pago">Medio de pago</option><option value="Día">Día</option>
+                <option value="Sociedad">Sociedad</option><option value="Lugar de recaudo">Lugar de recaudo</option>
               </select>
             </Campo>
           )}
@@ -470,15 +474,23 @@ export function SeccionInformes(props: {
             </div>
             <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Detalle de pagos</p>
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 700 }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 780 }}>
                 <thead><tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
-                  <th style={celda}>Fecha</th><th style={celda}>Recibo</th><th style={celda}>Cliente</th><th style={celda}>Valor</th><th style={celda}>Medio</th><th style={celda}>Cuenta</th>
+                  <th style={celda}>Fecha</th><th style={celda}>Recibo</th><th style={celda}>Cliente</th><th style={celda}>Valor</th>
+                  <th style={celda}>Medio</th><th style={celda}>Cuenta</th><th style={celda}>Pagó</th>
                 </tr></thead>
                 <tbody>
                   {detalle.map((f, i) => (
                     <tr key={`${f.pago.recibo}-${i}`} style={{ borderBottom: `1px solid ${C.line}` }}>
                       <td style={celda}>{fechaLarga(f.pago.fecha)}</td><td style={celda}>{f.pago.recibo}</td><td style={celda}>{f.cliente.raw.nombre}</td>
-                      <td style={celda}>{money(f.pago.valor)}</td><td style={celda}>{f.pago.medio}</td><td style={celda}>{f.pago.cuenta}</td>
+                      <td style={celda}>{money(f.pago.valor)}</td><td style={celda}>{f.pago.medio}</td>
+                      <td style={{ ...celda, whiteSpace: 'normal' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                          <span>{f.pago.cuenta}</span>
+                          {porTrasladar(f.pago) && <Chip tono="amber" texto="Por trasladar" />}
+                        </div>
+                      </td>
+                      <td style={celda}>{f.pago.pagadoPor ?? 'Titular'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -674,7 +686,7 @@ export function SeccionInformes(props: {
         return (
           <Tarjeta>
             <p style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>I12 · Comisiones</p>
-            <p style={{ fontSize: 13, color: C.muted, margin: '0 0 14px' }}>Regla fija de la demo: Miradores de Cantalta 20 %, resto de Bucaramanga 3 %, Cúcuta 5 % del valor de venta. El pagado asume el 60 % ya desembolsado.</p>
+            <p style={{ fontSize: 13, color: C.muted, margin: '0 0 14px' }}>El % de comisión es el que tiene configurado cada proyecto sobre el valor de venta. El pagado asume el 60 % ya desembolsado.</p>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 620 }}>
                 <thead><tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
@@ -691,6 +703,16 @@ export function SeccionInformes(props: {
                 </tbody>
               </table>
             </div>
+            {filas.filter(f => f.proyecto.participacionRecaudoPct).map(f => {
+              const pct = f.proyecto.participacionRecaudoPct ?? 0;
+              const recaudado = filasPagoRango.filter(fp => fp.proyecto.id === f.proyecto.id).reduce((s, fp) => s + fp.pago.valor, 0);
+              const valorParticipacion = recaudado * pct / 100;
+              return (
+                <p key={f.proyecto.id} style={{ fontSize: 12, color: C.muted, margin: '10px 0 0' }}>
+                  {f.proyecto.nombre}: además, el formato de Cúcuta separa el {pct} % de todo lo recaudado como "comisión" de quien administra la cartera ({money(valorParticipacion)} en el periodo). Está por confirmar (P35).
+                </p>
+              );
+            })}
           </Tarjeta>
         );
       })()}

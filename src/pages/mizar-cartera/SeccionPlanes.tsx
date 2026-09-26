@@ -1,6 +1,6 @@
 // Sección «Planes de pago»: plantillas por proyecto y simulador comercial con amortización
 // francesa para el saldo financiado (PRD 12D).
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Download } from 'lucide-react';
 import {
   HOY, C, money, fechaLarga, diffDays, sumarMeses, Persona, Seccion, FiltroEmpresa,
@@ -56,6 +56,73 @@ const PLANTILLAS: Plantilla[] = [
     gruposCuotas: [{ cantidad: 43, valor: 500000 }], totalCuotas: 43, valorFijo: 22000000,
   },
 ];
+
+// ─────────────────────────────────────────────────────────────────────────
+// LISTA DE PRECIOS DE LOTES (CÚCUTA) — tomada del formato de precios real
+// ─────────────────────────────────────────────────────────────────────────
+
+type TipoLoteCucuta = 'Medianero' | 'Esquinero' | 'Comercial';
+const TARIFA_M2_COMERCIAL_MIRAFLOR = 342857;
+const EXTRA_URBANISMO_COMERCIAL_MIRAFLOR = 26000000;
+
+interface FilaPrecioLote { proyectoId: string; proyectoNombre: string; tipo: TipoLoteCucuta; area: string; sinUrbanismo: string; conUrbanismo: string; }
+
+const PRECIOS_LOTES_CUCUTA: FilaPrecioLote[] = [
+  { proyectoId: 'miraflor', proyectoNombre: 'Miraflor', tipo: 'Medianero', area: '70 m²', sinUrbanismo: money(18000000), conUrbanismo: money(44000000) },
+  { proyectoId: 'miraflor', proyectoNombre: 'Miraflor', tipo: 'Esquinero', area: '70 m²', sinUrbanismo: money(20000000), conUrbanismo: money(46000000) },
+  {
+    proyectoId: 'miraflor', proyectoNombre: 'Miraflor', tipo: 'Comercial', area: 'Desde 70 m²',
+    sinUrbanismo: `${money(TARIFA_M2_COMERCIAL_MIRAFLOR)} por m² (${money(24000000)} a 70 m²)`,
+    conUrbanismo: `+ ${money(EXTRA_URBANISMO_COMERCIAL_MIRAFLOR)} (${money(50000000)} a 70 m²)`,
+  },
+  { proyectoId: 'miravista', proyectoNombre: 'Miravista', tipo: 'Medianero', area: '70 m²', sinUrbanismo: money(30000000), conUrbanismo: '—' },
+  { proyectoId: 'miravista', proyectoNombre: 'Miravista', tipo: 'Esquinero', area: '70 m²', sinUrbanismo: money(35000000), conUrbanismo: '—' },
+];
+
+// El valor de lista de un lote de Cúcuta, según el tipo, el área (solo importa en Comercial) y si
+// incluye urbanismo. Viene del formato de precios de Cúcuta; solo gerencia lo actualiza.
+function precioListaLote(proyectoId: string, tipo: TipoLoteCucuta, area: number, conUrbanismo: boolean): number {
+  if (proyectoId === 'miraflor') {
+    if (tipo === 'Medianero') return conUrbanismo ? 44000000 : 18000000;
+    if (tipo === 'Esquinero') return conUrbanismo ? 46000000 : 20000000;
+    const sinUrbanismo = Math.round(area * TARIFA_M2_COMERCIAL_MIRAFLOR);
+    return conUrbanismo ? sinUrbanismo + EXTRA_URBANISMO_COMERCIAL_MIRAFLOR : sinUrbanismo;
+  }
+  return tipo === 'Esquinero' ? 35000000 : 30000000;
+}
+
+function TarjetaListaPreciosLotes() {
+  return (
+    <Tarjeta>
+      <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Lista de precios de lotes (Cúcuta)</p>
+      <p style={{ fontSize: 13, color: C.muted, margin: '0 0 12px' }}>Valores tomados del formato de precios de Cúcuta.</p>
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 640 }}>
+          <thead>
+            <tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
+              <th style={celda}>Proyecto</th><th style={celda}>Tipo de lote</th><th style={celda}>Área</th>
+              <th style={celda}>Sin urbanismo (plazo hasta 48 meses)</th><th style={celda}>Con urbanismo (plazo hasta 72 meses)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {PRECIOS_LOTES_CUCUTA.map((f, i) => (
+              <tr key={i} style={{ borderBottom: `1px solid ${C.line}` }}>
+                <td style={{ ...celda, fontWeight: 600 }}>{f.proyectoNombre}</td>
+                <td style={celda}>{f.tipo}</td>
+                <td style={celda}>{f.area}</td>
+                <td style={{ ...celda, whiteSpace: 'normal' }}>{f.sinUrbanismo}</td>
+                <td style={{ ...celda, whiteSpace: 'normal' }}>{f.conUrbanismo}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style={{ fontSize: 12, color: C.muted, margin: '10px 0 0' }}>
+        Valores tomados del formato de precios de Cúcuta; la lista la actualiza gerencia y un bono de descuento lo autoriza gerencia o el responsable de sede.
+      </p>
+    </Tarjeta>
+  );
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // TASA: CONVERSIÓN MENSUAL ↔ EA
@@ -126,22 +193,25 @@ function generarPlanApartamento(
   return { filas, cuotaTipica };
 }
 
-function generarPlanLoteFijo(p: PlantillaLote, valor: number, fechaFirma: string, dia: number): { filas: FilaPlan[]; cuotaTipica: number } {
+// Plan de un lote (Miraflor o Miravista): separación de la plantilla + cuotas mensuales iguales
+// redondeadas a miles de pesos, calculadas sobre el valor neto (valor de lista − bono); la última
+// cuota absorbe la diferencia de redondeo.
+function generarPlanLote(p: PlantillaLote, valorNeto: number, fechaFirma: string, dia: number, plazoMeses: number): { filas: FilaPlan[]; cuotaTipica: number } {
   const filas: FilaPlan[] = [];
   let numero = 1;
   filas.push({ numero: numero++, fecha: fechaFirma, concepto: 'Separación', capital: p.separacion, interes: 0 });
-  let k = 0;
-  for (const grupo of p.gruposCuotas) {
-    for (let j = 0; j < grupo.cantidad; j++) {
-      k++;
-      const fecha = sumarMeses(fechaFirma, k, dia);
-      filas.push({ numero: numero++, fecha, concepto: `Cuota ${k}/${p.totalCuotas}`, capital: grupo.valor, interes: 0 });
-    }
+  const n = Math.max(1, plazoMeses);
+  const montoCuotas = Math.max(0, valorNeto - p.separacion);
+  const cuotaBase = Math.round(montoCuotas / n / 1000) * 1000;
+  for (let k = 1; k <= n; k++) {
+    const fecha = sumarMeses(fechaFirma, k, dia);
+    const capital = k === n ? montoCuotas - cuotaBase * (n - 1) : cuotaBase;
+    filas.push({ numero: numero++, fecha, concepto: `Cuota ${k}/${n}`, capital, interes: 0 });
   }
   const sumaCapital = filas.reduce((s, f) => s + f.capital, 0);
-  const diferencia = valor - sumaCapital;
+  const diferencia = valorNeto - sumaCapital;
   if (diferencia !== 0 && filas.length > 0) filas[filas.length - 1].capital += diferencia;
-  return { filas, cuotaTipica: p.gruposCuotas[0]?.valor ?? 0 };
+  return { filas, cuotaTipica: cuotaBase };
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -195,7 +265,7 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
     const valorRef = pl.tipo === 'lote-fijo' ? pl.valorFijo : 180000000;
     const calculo = pl.tipo === 'apartamento'
       ? generarPlanApartamento(pl, valorRef, HOY, 5, pl.inicialPct, pl.inicialCuotasDefault, pl.primasDefault, pl.saldoCuotasDefault ?? 36, pl.tasaMensualDefault ?? 1)
-      : generarPlanLoteFijo(pl, valorRef, HOY, 5);
+      : generarPlanLote(pl, valorRef, HOY, 5, 48);
     const totalPagar = calculo.filas.reduce((s, f) => s + f.capital + f.interes, 0);
     const ultimaFila = calculo.filas[calculo.filas.length - 1];
     const meses = Math.max(1, Math.round(diffDays(HOY, ultimaFila ? ultimaFila.fecha : HOY) / 30));
@@ -203,7 +273,10 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
   }), [plantillasVisibles]);
 
   const [proyectoId, setProyectoId] = useState(primeraPlantilla.proyectoId);
-  const [valorTexto, setValorTexto] = useState(String(primeraPlantilla.tipo === 'lote-fijo' ? primeraPlantilla.valorFijo : 180000000));
+  const [valorTexto, setValorTexto] = useState(() => (
+    primeraPlantilla.tipo === 'lote-fijo' ? String(precioListaLote(primeraPlantilla.proyectoId, 'Medianero', 70, false)) : String(180000000)
+  ));
+  const [valorManual, setValorManual] = useState(false);
   const [fechaFirma, setFechaFirma] = useState(HOY);
   const [diaCorte, setDiaCorte] = useState(5);
   const [pctInicial, setPctInicial] = useState(primeraPlantilla.tipo === 'apartamento' ? primeraPlantilla.inicialPct : 30);
@@ -214,33 +287,66 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
   const [tasaUnidad, setTasaUnidad] = useState<'mensual' | 'ea'>('mensual');
   const [verTodo, setVerTodo] = useState(false);
 
+  // Controles propios de un lote de Cúcuta: tipo, área (solo Comercial), con urbanismo (solo
+  // Miraflor), bono de descuento y plazo (hasta 48 meses sin urbanismo, 72 con urbanismo).
+  const [tipoLote, setTipoLote] = useState<TipoLoteCucuta>('Medianero');
+  const [areaLote, setAreaLote] = useState(70);
+  const [conUrbanismoLote, setConUrbanismoLote] = useState(false);
+  const [bonoDescuento, setBonoDescuento] = useState(0);
+  const [plazoLote, setPlazoLote] = useState(48);
+
   const proyectoIdEfectivo = plantillasVisibles.some(p => p.proyectoId === proyectoId) ? proyectoId : (plantillasVisibles[0]?.proyectoId ?? '');
   const plantilla = plantillasVisibles.find(p => p.proyectoId === proyectoIdEfectivo);
   const valor = Number(valorTexto.replace(/\D/g, '')) || 0;
   const tasaMensualPct = tasaUnidad === 'mensual' ? tasaValor : mensualDesdeEA(tasaValor);
 
+  const esLote = plantilla?.tipo === 'lote-fijo';
+  const conUrbanismoAplica = esLote && proyectoIdEfectivo === 'miraflor';
+  const conUrbanismoEfectivo = conUrbanismoAplica && conUrbanismoLote;
+  const plazoMaxLote = conUrbanismoEfectivo ? 72 : 48;
+  const valorListaLote = esLote ? precioListaLote(proyectoIdEfectivo, tipoLote, areaLote, conUrbanismoEfectivo) : 0;
+  const valorNeto = esLote ? valor - bonoDescuento : valor;
+
+  // El valor del inmueble sale de la lista mientras el usuario no lo cambie a mano.
+  useEffect(() => {
+    if (esLote && !valorManual) setValorTexto(String(valorListaLote));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [esLote, valorManual, valorListaLote]);
+
   const plan = useMemo(() => {
-    if (!plantilla || valor <= 0) return { filas: [] as FilaPlan[], cuotaTipica: 0 };
-    return plantilla.tipo === 'apartamento'
-      ? generarPlanApartamento(plantilla, valor, fechaFirma, diaCorte, pctInicial, cuotasInicial, conPrimas, cuotasSaldo, tasaMensualPct)
-      : generarPlanLoteFijo(plantilla, valor, fechaFirma, diaCorte);
-  }, [plantilla, valor, fechaFirma, diaCorte, pctInicial, cuotasInicial, conPrimas, cuotasSaldo, tasaMensualPct]);
+    if (!plantilla) return { filas: [] as FilaPlan[], cuotaTipica: 0 };
+    if (plantilla.tipo === 'apartamento') {
+      if (valor <= 0) return { filas: [] as FilaPlan[], cuotaTipica: 0 };
+      return generarPlanApartamento(plantilla, valor, fechaFirma, diaCorte, pctInicial, cuotasInicial, conPrimas, cuotasSaldo, tasaMensualPct);
+    }
+    if (valorNeto <= 0) return { filas: [] as FilaPlan[], cuotaTipica: 0 };
+    return generarPlanLote(plantilla, valorNeto, fechaFirma, diaCorte, plazoLote);
+  }, [plantilla, valor, valorNeto, fechaFirma, diaCorte, pctInicial, cuotasInicial, conPrimas, cuotasSaldo, tasaMensualPct, plazoLote]);
 
   function cambiarProyecto(id: string) {
     const pl = plantillasVisibles.find(p => p.proyectoId === id);
     if (!pl) return;
     setProyectoId(id);
-    setValorTexto(String(pl.tipo === 'lote-fijo' ? pl.valorFijo : 180000000));
     setFechaFirma(HOY);
     setDiaCorte(5);
     setVerTodo(false);
     if (pl.tipo === 'apartamento') {
+      setValorTexto(String(180000000));
+      setValorManual(false);
       setPctInicial(pl.inicialPct);
       setCuotasInicial(pl.inicialCuotasDefault);
       setConPrimas(pl.primasDefault);
       setCuotasSaldo(pl.saldoCuotasDefault ?? 36);
       setTasaValor(pl.tasaMensualDefault ?? 1);
       setTasaUnidad('mensual');
+    } else {
+      setTipoLote('Medianero');
+      setAreaLote(70);
+      setConUrbanismoLote(false);
+      setBonoDescuento(0);
+      setPlazoLote(48);
+      setValorManual(false);
+      setValorTexto(String(precioListaLote(pl.proyectoId, 'Medianero', 70, false)));
     }
   }
 
@@ -254,7 +360,8 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
   }
 
   const sumaCapitalFinal = plan.filas.reduce((s, f) => s + f.capital, 0);
-  const cuadra = Math.abs(sumaCapitalFinal - valor) < 1;
+  const valorReferenciaCuadre = esLote ? valorNeto : valor;
+  const cuadra = Math.abs(sumaCapitalFinal - valorReferenciaCuadre) < 1;
   const totalAPagar = plan.filas.reduce((s, f) => s + f.capital + f.interes, 0);
   const totalIntereses = plan.filas.reduce((s, f) => s + f.interes, 0);
   const ultimaFecha = plan.filas.length > 0 ? plan.filas[plan.filas.length - 1].fecha : fechaFirma;
@@ -274,6 +381,8 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
           <TarjetaPlantilla key={pl.proyectoId} plantilla={pl} onSimular={() => cambiarProyecto(pl.proyectoId)} />
         ))}
       </div>
+
+      {(props.empresa === 'cucuta' || props.empresa === 'grupo') && <TarjetaListaPreciosLotes />}
 
       <Tarjeta>
         <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Comparativo rápido</p>
@@ -323,7 +432,7 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
             </select>
           </Campo>
           <Campo id="p-valor" label="Valor del inmueble">
-            <input id="p-valor" inputMode="numeric" value={valor ? valor.toLocaleString('es-CO') : ''} onChange={e => setValorTexto(e.target.value)} style={estiloInput} placeholder="$ 0" />
+            <input id="p-valor" inputMode="numeric" value={valor ? valor.toLocaleString('es-CO') : ''} onChange={e => { setValorTexto(e.target.value); setValorManual(true); }} style={estiloInput} placeholder="$ 0" />
           </Campo>
           <Campo id="p-firma" label="Fecha de firma">
             <input id="p-firma" type="date" value={fechaFirma} onChange={e => setFechaFirma(e.target.value || fechaFirma)} style={estiloInput} />
@@ -348,6 +457,29 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
                   <input id="p-cuotas-saldo" type="number" min={1} max={120} value={cuotasSaldo} onChange={e => setCuotasSaldo(Math.max(1, Math.min(120, Number(e.target.value) || 1)))} style={estiloInput} />
                 </Campo>
               )}
+            </>
+          )}
+
+          {plantilla.tipo === 'lote-fijo' && (
+            <>
+              <Campo id="p-tipo-lote" label="Tipo de lote">
+                <select id="p-tipo-lote" value={tipoLote} onChange={e => setTipoLote(e.target.value as TipoLoteCucuta)} style={estiloInput}>
+                  <option value="Medianero">Medianero</option>
+                  <option value="Esquinero">Esquinero</option>
+                  {proyectoIdEfectivo === 'miraflor' && <option value="Comercial">Comercial</option>}
+                </select>
+              </Campo>
+              {tipoLote === 'Comercial' && (
+                <Campo id="p-area-lote" label="Área (m²)">
+                  <input id="p-area-lote" type="number" min={1} value={areaLote} onChange={e => setAreaLote(Math.max(1, Number(e.target.value) || 70))} style={estiloInput} />
+                </Campo>
+              )}
+              <Campo id="p-bono" label="Bono de descuento">
+                <input id="p-bono" inputMode="numeric" type="number" min={0} step={100000} value={bonoDescuento || ''} onChange={e => setBonoDescuento(Math.max(0, Number(e.target.value) || 0))} style={estiloInput} placeholder="$ 0" />
+              </Campo>
+              <Campo id="p-plazo-lote" label="Plazo (meses)">
+                <input id="p-plazo-lote" type="number" min={1} max={plazoMaxLote} value={plazoLote} onChange={e => setPlazoLote(Math.max(1, Math.min(plazoMaxLote, Number(e.target.value) || 1)))} style={estiloInput} />
+              </Campo>
             </>
           )}
         </div>
@@ -384,11 +516,29 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
         )}
 
         {plantilla.tipo === 'lote-fijo' && (
-          <p style={{ fontSize: 13, color: C.muted, margin: '0 0 16px' }}>Plan de cuota fija sin interés: {plantilla.totalCuotas} cuotas después de la separación.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 16 }}>
+            {conUrbanismoAplica && (
+              <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, cursor: 'pointer', minHeight: 36 }}>
+                <input type="checkbox" checked={conUrbanismoLote} onChange={e => { setConUrbanismoLote(e.target.checked); setPlazoLote(e.target.checked ? 72 : 48); }} />
+                Incluye urbanismo (sube el valor de lista y el plazo máximo a 72 meses)
+              </label>
+            )}
+            <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>
+              Plan de cuota fija sin interés: separación de {money(plantilla.separacion)} y {plazoLote} cuotas mensuales iguales sobre el valor neto (redondeadas a miles de pesos).
+            </p>
+          </div>
         )}
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10, marginBottom: 16 }}>
-          <EstadisticaMini titulo="Valor" valor={money(valor)} />
+          {esLote ? (
+            <>
+              <EstadisticaMini titulo="Valor de lista" valor={money(valor)} />
+              <EstadisticaMini titulo="Bono" valor={money(bonoDescuento)} />
+              <EstadisticaMini titulo="Valor neto" valor={money(valorNeto)} />
+            </>
+          ) : (
+            <EstadisticaMini titulo="Valor" valor={money(valor)} />
+          )}
           <EstadisticaMini titulo="Total a pagar" valor={money(totalAPagar)} />
           <EstadisticaMini titulo="Intereses" valor={money(totalIntereses)} />
           <EstadisticaMini titulo="Cuota mensual típica" valor={money(plan.cuotaTipica)} />

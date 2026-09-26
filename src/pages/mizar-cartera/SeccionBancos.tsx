@@ -4,8 +4,9 @@
 import React, { useMemo, useState } from 'react';
 import { ArrowRightLeft, Loader2 } from 'lucide-react';
 import {
-  C, HOY, money, fechaLarga, vigentes, Cliente, Persona, FiltroEmpresa, EmpresaId,
-  empresaPorId, Chip, Tarjeta, BotonPrimario, BotonSecundario, Modal, Campo, estiloInput, Tono, TONOS,
+  C, HOY, money, fechaLarga, diffDays, plural, vigentes, Cliente, Persona, FiltroEmpresa, EmpresaId,
+  empresaPorId, proyectoPorId, porTrasladar, Chip, Tarjeta, BotonPrimario, BotonSecundario,
+  Modal, Campo, estiloInput, Tono, TONOS,
 } from './base';
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -19,6 +20,8 @@ interface CuentaBancaria {
 
 const CUENTAS: CuentaBancaria[] = [
   { id: 'bancolombia-mizar', cuenta: 'Bancolombia Mizar', banco: 'Bancolombia', ultimos4: '4821', titular: 'Mizar Diseño y Construcción S.A.S.', empresaId: 'mizar', saldoInicial: 271300000, deTercero: false },
+  { id: 'bancolombia-palmoc', cuenta: 'Bancolombia Palmoc', banco: 'Bancolombia', ultimos4: '3307', titular: 'Palmoc', empresaId: 'mizar', saldoInicial: 58400000, deTercero: false },
+  { id: 'bancolombia-pedregal', cuenta: 'Bancolombia Hacienda Pedregal', banco: 'Bancolombia', ultimos4: '6612', titular: 'Hacienda Pedregal', empresaId: 'mizar', saldoInicial: 41900000, deTercero: false },
   { id: 'cuenta-ictinos', cuenta: 'Cuenta Ictinos', banco: 'Banco de Bogotá', ultimos4: '7734', titular: 'Ictinos Inmobiliaria', empresaId: 'cucuta', saldoInicial: 38900000, deTercero: false },
   { id: 'cuenta-miraflor', cuenta: 'Cuenta Miraflor', banco: 'Davivienda', ultimos4: '1190', titular: 'Asociación de Vivienda Miraflor', empresaId: 'cucuta', saldoInicial: 2450000, deTercero: true },
 ];
@@ -32,6 +35,12 @@ const SALIDAS_FIJAS: Record<string, { fecha: string; concepto: string; valor: nu
     { fecha: '2026-09-10', concepto: 'Nómina administrativa quincena 1', valor: 11500000 },
     { fecha: '2026-09-18', concepto: 'OC-0157 · Concretos del Oriente · Villa Plaza', valor: 38750000 },
     { fecha: '2026-09-19', concepto: 'Caja menor Bucaramanga (reembolso)', valor: 1200000 },
+  ],
+  'Bancolombia Palmoc': [
+    { fecha: '2026-09-09', concepto: 'Horas de maquinaria · Cantalta', valor: 3200000 },
+  ],
+  'Bancolombia Hacienda Pedregal': [
+    { fecha: '2026-09-12', concepto: 'Postes y mano de obra · Montaña', valor: 4850000 },
   ],
   'Cuenta Ictinos': [
     { fecha: '2026-09-08', concepto: 'Mantenimiento de lotes Miravista', valor: 1000000 },
@@ -50,6 +59,12 @@ const PARTIDAS_SIN_REGISTRO: Record<string, { fecha: string; concepto: string; v
   'Bancolombia Mizar': [
     { fecha: '2026-09-21', concepto: 'Consignación sin referencia', valor: 1450000 },
     { fecha: '2026-09-22', concepto: 'Comisión y 4x1000', valor: -52380 },
+  ],
+  'Bancolombia Palmoc': [
+    { fecha: '2026-09-17', concepto: 'Consignación sin referencia', valor: 700000 },
+  ],
+  'Bancolombia Hacienda Pedregal': [
+    { fecha: '2026-09-22', concepto: 'Comisión y 4x1000', valor: -18400 },
   ],
   'Cuenta Ictinos': [
     { fecha: '2026-09-11', concepto: 'Transferencia sin referencia', valor: 500000 },
@@ -72,12 +87,25 @@ interface LineaExtracto { fecha: string; concepto: string; valor: number; cruce:
 interface ResultadoCruce { lineas: LineaExtracto[]; conciliadas: number; sinRegistro: number; reportesVistos: number; reportesNoAparecen: ReportePendiente[]; }
 
 // Movimientos generados solos: pagos vigentes que cayeron en esa cuenta en septiembre, más las
-// salidas fijas, el ingreso de rendimientos (si aplica) y los traslados entre cuentas.
+// salidas fijas, el ingreso de rendimientos (si aplica) y los traslados entre cuentas. Un pago
+// consignado entra a la cuenta destino en la fecha de la consignación, no a donde se recibió; un
+// pago que sigue «por trasladar» (efectivo o cuenta personal, sin consignar) no entra a ningún banco.
 function movimientosDePagos(clientes: Cliente[], cuentaNombre: string): MovimientoCuenta[] {
   const movs: MovimientoCuenta[] = [];
   for (const c of clientes) {
     for (const p of vigentes(c.pagos)) {
-      if (p.administracionAnterior || p.cuenta !== cuentaNombre || !p.fecha.startsWith('2026-09')) continue;
+      if (p.administracionAnterior) continue;
+      if (p.trasladado) {
+        if (p.trasladado.cuentaDestino !== cuentaNombre || !p.trasladado.fecha.startsWith('2026-09')) continue;
+        movs.push({
+          id: `pago-${p.recibo}-traslado`, fecha: p.trasladado.fecha,
+          concepto: `Consignación de efectivo · recibo ${p.recibo}`,
+          tercero: c.raw.nombre, entrada: p.valor, salida: 0,
+        });
+        continue;
+      }
+      if (porTrasladar(p)) continue;
+      if (p.cuenta !== cuentaNombre || !p.fecha.startsWith('2026-09')) continue;
       movs.push({
         id: `pago-${p.recibo}`, fecha: p.fecha,
         concepto: `Recibo ${p.recibo} · contrato ${c.raw.numeroContrato ?? c.raw.id}`,
@@ -139,7 +167,7 @@ function TarjetaCuenta({ cuenta, saldo, seleccionada, onClick }: { cuenta: Cuent
         </div>
         {cuenta.deTercero && <Chip tono="amber" texto="Cuenta de tercero" />}
       </div>
-      <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>{cuenta.titular}</p>
+      <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>Sociedad: {cuenta.titular}</p>
       <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>{empresaPorId(cuenta.empresaId).corto}</p>
       <p style={{ fontSize: 20, fontWeight: 700, color: C.ink, margin: '6px 0 0', fontVariantNumeric: 'tabular-nums' }}>{money(saldo)}</p>
       <p style={{ fontSize: 11, color: C.muted, margin: 0 }}>Saldo a hoy</p>
@@ -392,6 +420,82 @@ function PanelConciliacion({
   );
 }
 
+// Pagos recibidos en efectivo o en una cuenta personal que todavía no se han consignado en la
+// cuenta de la sociedad: quedan «por trasladar» hasta que tesorería registra la consignación.
+interface PagoPorTrasladar {
+  clienteId: string; clienteNombre: string; recibo: string; valor: number; fecha: string;
+  cuentaOrigen: string; sociedad: string; cuentaDestino: string; dias: number;
+}
+
+function pagosPorTrasladar(clientes: Cliente[]): PagoPorTrasladar[] {
+  const filas: PagoPorTrasladar[] = [];
+  for (const c of clientes) {
+    for (const p of vigentes(c.pagos)) {
+      if (!porTrasladar(p)) continue;
+      const proyecto = proyectoPorId(c.raw.proyectoId);
+      filas.push({
+        clienteId: c.raw.id, clienteNombre: c.raw.nombre, recibo: p.recibo, valor: p.valor, fecha: p.fecha,
+        cuentaOrigen: p.cuenta, sociedad: proyecto.sociedad, cuentaDestino: proyecto.cuentaDefault,
+        dias: diffDays(p.fecha, HOY),
+      });
+    }
+  }
+  return filas.sort((a, b) => b.dias - a.dias);
+}
+
+// Tarjeta que le muestra a tesorería lo que sigue en efectivo o en una cuenta personal, sin
+// consignar todavía en la cuenta de la sociedad, y desde cuándo lleva esperando.
+function TarjetaDineroPorTrasladar({ filas, puedeGestionar, onTrasladar }: {
+  filas: PagoPorTrasladar[]; puedeGestionar: boolean;
+  onTrasladar: (clienteId: string, recibo: string, cuentaDestino: string) => void;
+}) {
+  const total = filas.reduce((s, f) => s + f.valor, 0);
+  const maxDias = filas.reduce((m, f) => Math.max(m, f.dias), 0);
+  return (
+    <Tarjeta>
+      <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Dinero por trasladar</p>
+      <p style={{ fontSize: 12, color: C.muted, margin: '0 0 12px' }}>Pagos recibidos en efectivo o en una cuenta personal que todavía no están en la cuenta de la sociedad.</p>
+      {filas.length === 0 ? (
+        <p style={{ fontSize: 13, color: C.green, margin: 0, fontWeight: 600 }}>No hay dinero pendiente por consignar.</p>
+      ) : (
+        <>
+          <p style={{ fontSize: 13, color: C.ink, margin: '0 0 12px' }}>
+            {plural(filas.length, 'pago', 'pagos')} por {money(total)} {filas.length === 1 ? 'espera' : 'esperan'} consignación; {filas.length === 1 ? 'lleva' : 'el más antiguo lleva'} {plural(maxDias, 'día', 'días')}.
+          </p>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 860 }}>
+              <thead>
+                <tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
+                  <th style={celda}>Fecha</th><th style={celda}>Cliente</th><th style={celda}>Recibo</th><th style={celda}>Valor</th>
+                  <th style={celda}>Dónde se recibió</th><th style={celda}>Sociedad y cuenta destino</th><th style={celda}>Días</th><th style={celda}>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filas.map(f => (
+                  <tr key={`${f.clienteId}-${f.recibo}`} style={{ borderBottom: `1px solid ${C.line}` }}>
+                    <td style={celda}>{fechaLarga(f.fecha)}</td>
+                    <td style={{ ...celda, whiteSpace: 'normal' }}>{f.clienteNombre}</td>
+                    <td style={celda}>{f.recibo}</td>
+                    <td style={{ ...celda, fontWeight: 600 }}>{money(f.valor)}</td>
+                    <td style={{ ...celda, whiteSpace: 'normal' }}>{f.cuentaOrigen}</td>
+                    <td style={{ ...celda, whiteSpace: 'normal' }}>{f.sociedad} · {f.cuentaDestino}</td>
+                    <td style={{ ...celda, color: f.dias > 3 ? C.red : C.ink, fontWeight: f.dias > 3 ? 700 : 400 }}>{f.dias}</td>
+                    <td style={celda}>
+                      {puedeGestionar
+                        ? <BotonSecundario onClick={() => onTrasladar(f.clienteId, f.recibo, f.cuentaDestino)}>Registrar consignación</BotonSecundario>
+                        : <span style={{ fontSize: 12, color: C.muted }}>Lo registra tesorería</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </Tarjeta>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // COMPONENTE PRINCIPAL
 // ─────────────────────────────────────────────────────────────────────────
@@ -400,9 +504,12 @@ export function SeccionBancos(props: {
   clientes: Cliente[]; empresa: FiltroEmpresa; persona: Persona;
   reportesPendientes: { id: string; clienteNombre: string; valor: number; referencia: string; cuenta: string; fecha: string }[];
   onMarcarVistos: (ids: string[]) => void; onToast: (m: string) => void;
+  onTrasladar: (clienteId: string, recibo: string, cuentaDestino: string) => void;
 }) {
-  const { clientes, empresa, persona, reportesPendientes, onMarcarVistos, onToast } = props;
+  const { clientes, empresa, persona, reportesPendientes, onMarcarVistos, onToast, onTrasladar } = props;
   const puedeGestionar = persona.rol === 'tesoreria' || persona.rol === 'gerencia' || persona.rol === 'contabilidad';
+  const puedeTrasladar = persona.rol === 'tesoreria' || persona.rol === 'gerencia' || persona.rol === 'sede';
+  const pendientesTraslado = useMemo(() => pagosPorTrasladar(clientes), [clientes]);
 
   const cuentasVisibles = useMemo(() => CUENTAS.filter(c => empresa === 'grupo' || c.empresaId === empresa), [empresa]);
 
@@ -476,6 +583,8 @@ export function SeccionBancos(props: {
       <p style={{ fontSize: 14, color: C.muted, margin: 0, maxWidth: 720 }}>
         En Colombia no hay conexión directa con los bancos: tesorería descarga el extracto y el sistema lo cruza con lo registrado.
       </p>
+
+      <TarjetaDineroPorTrasladar filas={pendientesTraslado} puedeGestionar={puedeTrasladar} onTrasladar={onTrasladar} />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         {cuentasVisibles.map(cuenta => (

@@ -10,6 +10,7 @@ import {
 import {
   HOY, C, MESES_CORTOS, fmtCOP, money, fechaLarga, diffDays, sumarMeses, finDeMes, fechaAntes, fechaDespues, FESTIVOS, esDiaHabil, siguienteHabil, tasaDiaria, repartir, Sede, Medio, Seccion, SocioPeriodo, Proyecto, CuotaPlan, Aplicacion, OrigenPago, Pago, ClienteRaw, Acuerdo, Cliente, CuotaEstado, ResumenCliente, Reglas, REGLAS_INICIALES, tasaDiariaAplicada, Rol, Persona, vigentes, PROYECTOS, proyectoPorId, Tono, TONOS, Chip, chipDeCuota, chipDeEstadoGeneral, Campo, estiloInput, Modal, TarjetaKpi, BotonPrimario, BotonSecundario, Tarjeta, MiniaturaComprobante, GraficoBarras, Toast, plural, EstadisticaMini,
   FiltroEmpresa, EmpresaId, EMPRESAS, empresaDeSede, empresaPorId, enFiltroEmpresa,
+  LUGARES_RECAUDO, lugarPorNombre, porTrasladar, SOCIEDADES, Devolucion,
 } from './mizar-cartera/base';
 import { SeccionBancos } from './mizar-cartera/SeccionBancos';
 import { SeccionContabilidad } from './mizar-cartera/SeccionContabilidad';
@@ -39,10 +40,14 @@ const SECCIONES_POR_ROL: Record<Rol, Seccion[]> = {
   contabilidad: ['inicio', 'estado-cuenta', 'carteras', 'bancos', 'contabilidad', 'socios', 'informes'],
 };
 
+// Un contrato recuperado o desistido ya no cobra cuotas ni entra a morosos.
+function contratoCerrado(c: Cliente): boolean { return c.estado === 'recuperado' || c.estado === 'desistido'; }
+
 // Cada cuenta receptora pertenece a una empresa (PRD 12A y 12C).
-const EMPRESA_DE_CUENTA: Record<string, EmpresaId> = {
-  'Bancolombia Mizar': 'mizar', 'Cuenta Ictinos': 'cucuta', 'Cuenta Miraflor': 'cucuta',
-};
+// Empresa (operación) dueña de cada cuenta bancaria; el efectivo y las cuentas personales no tienen.
+const EMPRESA_DE_CUENTA: Record<string, EmpresaId> = Object.fromEntries(
+  LUGARES_RECAUDO.filter(l => l.tipo === 'banco' && l.empresaId).map(l => [l.nombre, l.empresaId as EmpresaId]),
+);
 
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -261,7 +266,7 @@ function construirAcuerdo(cliente: Cliente, cuotas: CuotaEstado[], nCuotas: numb
 function estadoBono(referido: Cliente, cuotas: CuotaEstado[]): { estado: 'pendiente' | 'causado' | 'anulado'; pagadas: number } {
   const primeras = [...cuotas].filter(c => !c.etiqueta).sort((a, b) => a.numero - b.numero).slice(0, 3);
   const pagadas = primeras.filter(c => c.estado === 'pagada').length;
-  if (referido.estado === 'recuperado') return { estado: 'anulado', pagadas };
+  if (contratoCerrado(referido)) return { estado: 'anulado', pagadas };
   if (pagadas >= 3) return { estado: 'causado', pagadas };
   if (cuotas.filter(c => c.estado === 'vencida' || c.estado === 'parcial').length >= 2) return { estado: 'anulado', pagadas };
   return { estado: 'pendiente', pagadas };
@@ -356,13 +361,17 @@ const CLIENTES_RAW: ClienteRaw[] = [
   { id: 'ca2', nombre: 'Natalia Rueda Pabón', cedula: '37456789', telefono: '+57 3078901234', proyectoId: 'cantalta', inmueble: 'Lote M3-15',
     valorVenta: 55000000, cuotaInicial: 16500000, plazoMeses: 36, primeraCuota: '2025-12-05', diaCorte: 5, cuotasCompletas: 9 },
   { id: 'mf1', nombre: 'Andrea Milena Castellanos', cedula: '60123456', telefono: '+57 3089012345', proyectoId: 'miraflor', inmueble: 'Lote M1-05 esquinero',
-    valorVenta: 22700000, cuotaInicial: 1200000, plazoMeses: 43, primeraCuota: '2026-08-05', diaCorte: 5, cuotasCompletas: 2, cuotaFijaCucuta: 500000, referidoDeId: 'mv2' },
+    valorVenta: 22700000, cuotaInicial: 1200000, plazoMeses: 43, primeraCuota: '2026-08-05', diaCorte: 5, cuotasCompletas: 2, cuotaFijaCucuta: 500000, referidoDeId: 'mv2',
+    lote: { tipo: 'Esquinero', manzana: '1', numero: '05', area: 70, urbanismo: false }, bonoDescuento: 1000000 },
   { id: 'mf2', nombre: 'Julián David Peña', cedula: '88234567', telefono: '+57 3090123456', proyectoId: 'miraflor', inmueble: 'Lote M2-19',
-    valorVenta: 20700000, cuotaInicial: 1000000, plazoMeses: 40, primeraCuota: '2026-02-05', diaCorte: 5, cuotasCompletas: 6, cuotaFijaCucuta: 500000 },
+    valorVenta: 20700000, cuotaInicial: 1000000, plazoMeses: 40, primeraCuota: '2026-02-05', diaCorte: 5, cuotasCompletas: 6, cuotaFijaCucuta: 500000,
+    lote: { tipo: 'Medianero', manzana: '2', numero: '19', area: 70, urbanismo: false } },
   { id: 'mv1', nombre: 'Sandra Milena Ortiz', cedula: '60345678', telefono: '+57 3101234567', proyectoId: 'miravista', inmueble: 'Lote L3-22',
-    valorVenta: 22500000, cuotaInicial: 1000000, plazoMeses: 43, primeraCuota: '2026-01-05', diaCorte: 5, cuotasCompletas: 6, cuotaFijaCucuta: 500000 },
+    valorVenta: 22500000, cuotaInicial: 1000000, plazoMeses: 43, primeraCuota: '2026-01-05', diaCorte: 5, cuotasCompletas: 6, cuotaFijaCucuta: 500000,
+    lote: { tipo: 'Esquinero', manzana: '3', numero: '22', area: 70, urbanismo: false } },
   { id: 'mv2', nombre: 'Édgar Iván Gómez', cedula: '88456789', telefono: '+57 3112345678', proyectoId: 'miravista', inmueble: 'Lote L1-09',
-    valorVenta: 22700000, cuotaInicial: 1200000, plazoMeses: 43, primeraCuota: '2024-10-05', diaCorte: 5, cuotasCompletas: 24, cuotaFijaCucuta: 500000, administracionAnteriorHasta: 9 },
+    valorVenta: 22700000, cuotaInicial: 1200000, plazoMeses: 43, primeraCuota: '2024-10-05', diaCorte: 5, cuotasCompletas: 24, cuotaFijaCucuta: 500000, administracionAnteriorHasta: 9,
+    lote: { tipo: 'Medianero', manzana: '1', numero: '09', area: 70, urbanismo: false } },
 ];
 
 function construirClienteInicial(raw: ClienteRaw, proyecto: Proyecto, nuevaReferencia: () => string, nuevoRecibo: () => string): Cliente {
@@ -425,7 +434,26 @@ function construirTodosLosClientes(): Cliente[] {
   });
 }
 
-const CLIENTES_INICIALES: Cliente[] = construirTodosLosClientes();
+// Casos que aparecen en los formatos reales de Mizar (25-sep): dinero recibido en efectivo o en una
+// cuenta personal que aún no se consigna, un pago hecho por un tercero, un pago de un proyecto de
+// Palmoc que entró a la cuenta de Mizar y efectivo que ya se consignó.
+function ajustarConFormatosReales(clientes: Cliente[]): Cliente[] {
+  const cambiar = (id: string, cambio: (c: Cliente) => Cliente) => { const i = clientes.findIndex(c => c.raw.id === id); if (i >= 0) clientes[i] = cambio(clientes[i]); };
+  const ultimoDelMes = (c: Cliente) => [...c.pagos].reverse().find(p => p.fecha.startsWith('2026-09') && !p.administracionAnterior);
+  cambiar('vp1', c => { const p = ultimoDelMes(c); return p ? { ...c, pagos: c.pagos.map(x => (x === p ? { ...x, medio: 'Transferencia', cuenta: 'Cuenta personal · colaboradora de ventas' } : x)) } : c; });
+  cambiar('la2', c => { const p = ultimoDelMes(c); return p ? { ...c, pagos: c.pagos.map(x => (x === p ? { ...x, medio: 'Efectivo', cuenta: 'Efectivo · caja de tesorería' } : x)) } : c; });
+  cambiar('vp2', c => ({ ...c, pagos: c.pagos.map((x, i, arr) => (i === arr.length - 1 ? { ...x, pagadoPor: 'Hermano del titular, desde el exterior (encargado de pagos)' } : x)) }));
+  cambiar('ca1', c => { const p = ultimoDelMes(c); return p ? { ...c, pagos: c.pagos.map(x => (x === p ? { ...x, cuenta: 'Bancolombia Mizar' } : x)) } : c; });
+  cambiar('mo2', c => ({
+    ...c,
+    pagos: c.pagos.map((x, i, arr) => (i === arr.length - 1
+      ? { ...x, medio: 'Efectivo', cuenta: 'Efectivo · gerencia', trasladado: { fecha: fechaDespues(x.fecha, 2), cuentaDestino: 'Bancolombia Hacienda Pedregal', por: 'Óscar Daniel' } }
+      : x)),
+  }));
+  return clientes;
+}
+
+const CLIENTES_INICIALES: Cliente[] = ajustarConFormatosReales(construirTodosLosClientes());
 const RECIBO_INICIAL_NUEVOS = 118;
 
 function clientePorIdEn(clientes: Cliente[], id: string): Cliente | undefined { return clientes.find(c => c.raw.id === id); }
@@ -462,6 +490,8 @@ const REPORTES_INICIALES: ReporteWhatsApp[] = (() => {
     { id: 'rep-4', clienteId: 'la1', fecha: '2026-09-23', hora: '09:10', valor: valorCuota('la1', 10), banco: 'Bancolombia', referencia: 'BC109983', estado: 'pendiente',
       origen: 'oficina', medio: 'Transferencia', cuenta: cuenta('la1'), registradoPor: 'Jennifer' },
     // Pagó un lote de Cúcuta en la cuenta de Mizar: es un movimiento entre empresas (PRD 12A).
+    { id: 'rep-6', clienteId: 'ca1', fecha: '2026-09-22', hora: '11:05', valor: valorCuota('ca1', 9), banco: 'Bancolombia', referencia: 'BC109995', estado: 'pendiente',
+      origen: 'whatsapp', medio: 'Transferencia', cuenta: 'Bancolombia Mizar' },
     { id: 'rep-5', clienteId: 'mv1', fecha: '2026-09-22', hora: '16:20', valor: valorCuota('mv1', 7), banco: 'Bancolombia', referencia: 'BC109990', estado: 'pendiente',
       origen: 'whatsapp', medio: 'Transferencia', cuenta: 'Bancolombia Mizar' },
   ];
@@ -563,7 +593,7 @@ function TelefonoFlow({ clientes, onEnviar, onPagarLink }: {
   onEnviar: (d: { clienteId: string; valor: number; fecha: string; cuenta: string; referencia: string }) => void;
   onPagarLink: (d: { clienteId: string; valor: number; metodo: string }) => string;
 }) {
-  const candidatos = clientes.filter(c => c.estado !== 'recuperado');
+  const candidatos = clientes.filter(c => !contratoCerrado(c));
   const [clienteId, setClienteId] = useState(candidatos.find(c => c.raw.id === 'mf1')?.raw.id ?? candidatos[0]?.raw.id ?? '');
   // 0 menú · 1-3 formulario de reporte · 4 reporte enviado · 5 pasarela (link de pago) · 6 pago aprobado por la pasarela
   const [paso, setPaso] = useState<0 | 1 | 2 | 3 | 4 | 5 | 6>(0);
@@ -719,8 +749,10 @@ function TelefonoFlow({ clientes, onEnviar, onPagarLink }: {
 
 interface DatosPago {
   valor: number; fecha: string; medio: Medio; cuenta: string; referencia: string;
-  excedente: 'adelantar' | 'abono'; modoAbono: 'plazo' | 'cuota';
+  excedente: 'adelantar' | 'abono'; modoAbono: 'plazo' | 'cuota'; pagadoPor?: string;
 }
+
+const MEDIOS_OFICINA: Medio[] = ['Transferencia', 'Consignación', 'Efectivo', 'Cheque de gerencia', 'Descuento de nómina', 'Pago en especie'];
 
 function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, siguienteRecibo, persona, onCerrar, onConfirmar }: {
   cliente: Cliente; proyecto: Proyecto; referenciasUsadas: Set<string>; reglas: Reglas; siguienteRecibo: number; persona: Persona;
@@ -732,6 +764,8 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
   const [cuenta, setCuenta] = useState(proyecto.cuentaDefault);
   const [referencia, setReferencia] = useState('');
   const [adjuntar, setAdjuntar] = useState(true);
+  const [otroPagador, setOtroPagador] = useState(false);
+  const [pagadoPor, setPagadoPor] = useState('');
   const [excedente, setExcedente] = useState<'adelantar' | 'abono'>(reglas.excedente);
   const [modoAbono, setModoAbono] = useState<'plazo' | 'cuota'>('plazo');
 
@@ -761,10 +795,20 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
 
   const referenciaLimpia = referencia.trim();
   const referenciaRepetida = referenciaLimpia.length > 0 && referenciasUsadas.has(referenciaLimpia);
-  const necesitaReferencia = medio !== 'Efectivo';
-  const puedeConfirmar = valor > 0 && (!necesitaReferencia || referenciaLimpia.length > 0) && !referenciaRepetida;
-  const vaATesoreria = persona.rol === 'cartera' && medio !== 'Efectivo' && reglas.exigeVerificacion;
-  const cuentas = medio === 'Efectivo' ? ['Caja oficina'] : [proyecto.cuentaDefault];
+  const necesitaReferencia = medio === 'Transferencia' || medio === 'Consignación' || medio === 'Cheque de gerencia';
+  const puedeConfirmar = valor > 0 && (!necesitaReferencia || referenciaLimpia.length > 0) && !referenciaRepetida && (!otroPagador || pagadoPor.trim().length > 0);
+  const lugar = lugarPorNombre(cuenta);
+  const quedaPorTrasladar = !!lugar && lugar.tipo !== 'banco';
+  // Las transferencias las confirma tesorería; el efectivo y los medios internos quedan confirmados al registrarse.
+  const vaATesoreria = persona.rol === 'cartera' && necesitaReferencia && !quedaPorTrasladar && reglas.exigeVerificacion;
+  const empresaProyecto = empresaDeSede(proyecto.sede).id;
+  // La cuenta de la sociedad del proyecto va primero; luego las demás de la misma operación, el efectivo y las cuentas personales.
+  const cuentas = medio === 'Efectivo'
+    ? LUGARES_RECAUDO.filter(l => l.tipo === 'efectivo').map(l => l.nombre)
+    : medio === 'Descuento de nómina' ? ['Descuento de nómina']
+    : medio === 'Pago en especie' ? ['Bien recibido en pago']
+    : [proyecto.cuentaDefault, ...LUGARES_RECAUDO.filter(l => l.nombre !== proyecto.cuentaDefault && (l.tipo === 'personal' || (l.tipo === 'banco' && l.empresaId === empresaProyecto))).map(l => l.nombre)];
+  const otraSociedad = lugar && lugar.tipo === 'banco' && lugar.sociedad !== proyecto.sociedad ? lugar.sociedad : null;
 
   return (
     <Modal titulo="Registrar pago" subtitulo={`${cliente.raw.nombre} · ${cliente.raw.inmueble} · contrato ${cliente.raw.numeroContrato}`} onCerrar={onCerrar}>
@@ -778,11 +822,14 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
         <Campo id="medio-pago" label="Medio">
-          <select id="medio-pago" value={medio} onChange={e => { const m = e.target.value as Medio; setMedio(m); setCuenta(m === 'Efectivo' ? 'Caja oficina' : proyecto.cuentaDefault); }} style={estiloInput}>
-            <option>Transferencia</option><option>Efectivo</option><option>Consignación</option>
+          <select id="medio-pago" value={medio} onChange={e => {
+            const m = e.target.value as Medio; setMedio(m);
+            setCuenta(m === 'Efectivo' ? 'Efectivo · caja de tesorería' : m === 'Descuento de nómina' ? 'Descuento de nómina' : m === 'Pago en especie' ? 'Bien recibido en pago' : proyecto.cuentaDefault);
+          }} style={estiloInput}>
+            {MEDIOS_OFICINA.map(m => <option key={m}>{m}</option>)}
           </select>
         </Campo>
-        <Campo id="cuenta-pago" label="Cuenta donde entró">
+        <Campo id="cuenta-pago" label="Dónde entró el dinero">
           <select id="cuenta-pago" value={cuenta} onChange={e => setCuenta(e.target.value)} style={estiloInput}>
             {cuentas.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -794,6 +841,29 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
             <input id="referencia-pago" value={referencia} onChange={e => setReferencia(e.target.value)} placeholder="Ej. BC102345" style={{ ...estiloInput, borderColor: referenciaRepetida ? C.red : C.lineStrong }} />
           </Campo>
           {referenciaRepetida && <p style={{ color: C.red, fontSize: 13, marginTop: 6, fontWeight: 600 }}>Esta referencia ya se usó en un recibo anterior: el sistema no deja registrarla dos veces.</p>}
+        </div>
+      )}
+      {quedaPorTrasladar && (
+        <p style={{ fontSize: 13, color: C.amber, background: C.amberSoft, borderRadius: 8, padding: '10px 12px', margin: '0 0 12px' }}>
+          Este dinero queda «por trasladar» hasta que se consigne en {proyecto.cuentaDefault} ({proyecto.sociedad}). Tesorería lo ve en Bancos.
+        </p>
+      )}
+      {otraSociedad && (
+        <p style={{ fontSize: 13, color: C.blue, background: C.blueSoft, borderRadius: 8, padding: '10px 12px', margin: '0 0 12px' }}>
+          La cuenta es de {otraSociedad} y el proyecto es de {proyecto.sociedad}: queda como cuenta entre sociedades.
+        </p>
+      )}
+      {medio === 'Pago en especie' && (
+        <p style={{ fontSize: 13, color: C.muted, margin: '0 0 12px' }}>Adjunta el avalúo o el documento del bien (por ejemplo, un vehículo). Lo aprueba gerencia.</p>
+      )}
+      <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: C.ink, marginBottom: 8, cursor: 'pointer', minHeight: 40 }}>
+        <input type="checkbox" checked={otroPagador} onChange={e => setOtroPagador(e.target.checked)} /> Lo pagó otra persona a nombre del cliente (encargado de pagos)
+      </label>
+      {otroPagador && (
+        <div style={{ marginBottom: 12 }}>
+          <Campo id="pagado-por" label="Nombre de quien pagó">
+            <input id="pagado-por" value={pagadoPor} onChange={e => setPagadoPor(e.target.value)} placeholder="Ej. familiar en el exterior" style={estiloInput} />
+          </Campo>
         </div>
       )}
       <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: C.ink, marginBottom: 16, cursor: 'pointer', minHeight: 40 }}>
@@ -850,7 +920,7 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
       )}
       <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
         <BotonSecundario onClick={onCerrar}>Cancelar</BotonSecundario>
-        <BotonPrimario disabled={!puedeConfirmar} onClick={() => onConfirmar({ valor, fecha, medio, cuenta, referencia: referenciaLimpia || `EFE-${fecha.replace(/-/g, '')}-${siguienteRecibo}`, excedente, modoAbono }, vaATesoreria)}>
+        <BotonPrimario disabled={!puedeConfirmar} onClick={() => onConfirmar({ valor, fecha, medio, cuenta, referencia: referenciaLimpia || `EFE-${fecha.replace(/-/g, '')}-${siguienteRecibo}`, excedente, modoAbono, pagadoPor: otroPagador ? pagadoPor.trim() : undefined }, vaATesoreria)}>
           {vaATesoreria ? 'Enviar a tesorería' : `Confirmar pago · RC-${String(siguienteRecibo).padStart(6, '0')}`}
         </BotonPrimario>
       </div>
@@ -906,7 +976,8 @@ function ModalRecibo({ pago, cliente, proyecto, onCerrar, onToast }: { pago: Pag
             <div style={{ color: C.muted }}>{fechaLarga(pago.fecha)}</div>
           </div>
         </div>
-        <p style={{ margin: '0 0 6px' }}><strong>Recibimos de:</strong> {cliente.raw.nombre} · CC {cliente.raw.cedula}</p>
+        <p style={{ margin: '0 0 6px' }}><strong>Recibimos de:</strong> {pago.pagadoPor ? `${pago.pagadoPor}, a nombre de ${cliente.raw.nombre}` : cliente.raw.nombre} · CC {cliente.raw.cedula}</p>
+        {porTrasladar(pago) && <p style={{ margin: '0 0 6px', color: C.amber }}><strong>Por trasladar:</strong> recibido en {pago.cuenta}; falta consignarlo en {proyecto.cuentaDefault}.</p>}
         <p style={{ margin: '0 0 6px' }}><strong>Contrato:</strong> {cliente.raw.numeroContrato} · {proyecto.nombre} · {cliente.raw.inmueble}</p>
         <p style={{ margin: '0 0 6px' }}><strong>La suma de:</strong> {money(pago.valor)} ({numeroALetras(pago.valor)})</p>
         <p style={{ margin: '0 0 6px' }}><strong>Medio:</strong> {pago.medio} · {pago.cuenta} · Ref. {pago.referencia}</p>
@@ -1026,6 +1097,40 @@ function ModalAcuerdo({ cliente, cuotas, persona, onCerrar, onConfirmar }: {
 }
 
 interface Gestion { fecha: string; tipo: string; resultado: string; compromiso?: { fecha: string; valor: number }; por: string; }
+
+// Devolución (formatos reales: 16 devoluciones por $152 millones, varias por desistimiento).
+const MOTIVOS_DEVOLUCION = ['Desistimiento del cliente', 'Pago doble', 'Sobrante a favor del cliente', 'Otro'];
+
+function ModalDevolucion({ cliente, pagadoTotal, onCerrar, onConfirmar }: {
+  cliente: Cliente; pagadoTotal: number; onCerrar: () => void;
+  onConfirmar: (d: { valor: number; motivo: string; desiste: boolean }) => void;
+}) {
+  const [motivo, setMotivo] = useState(MOTIVOS_DEVOLUCION[0]);
+  const [valorTexto, setValorTexto] = useState('');
+  const valor = Number(valorTexto.replace(/\D/g, '')) || 0;
+  const desiste = motivo === 'Desistimiento del cliente';
+  const valido = valor > 0 && valor <= pagadoTotal;
+  return (
+    <Modal titulo="Registrar devolución" subtitulo={`${cliente.raw.nombre} · contrato ${cliente.raw.numeroContrato}`} onCerrar={onCerrar}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 12 }}>
+        <Campo id="dev-motivo" label="Motivo">
+          <select id="dev-motivo" value={motivo} onChange={e => setMotivo(e.target.value)} style={estiloInput}>
+            {MOTIVOS_DEVOLUCION.map(m => <option key={m}>{m}</option>)}
+          </select>
+        </Campo>
+        <Campo id="dev-valor" label="Valor a devolver" ayuda={`Pagado hasta hoy: ${money(pagadoTotal)}`}>
+          <input id="dev-valor" inputMode="numeric" value={valor ? valor.toLocaleString('es-CO') : ''} onChange={e => setValorTexto(e.target.value)} placeholder="$ 0" style={{ ...estiloInput, fontVariantNumeric: 'tabular-nums' }} />
+        </Campo>
+      </div>
+      {desiste && <p style={{ fontSize: 13, color: C.amber, background: C.amberSoft, borderRadius: 8, padding: '10px 12px', margin: '0 0 12px' }}>El contrato queda desistido y el inmueble vuelve a estar disponible, con este historial guardado. Lo que se retiene lo dice el contrato.</p>}
+      <p style={{ fontSize: 13, color: C.muted, margin: '0 0 16px' }}>La devolución se paga con una orden de pago en Compras, con el centro de costo del proyecto, y queda en el estado de cuenta.</p>
+      <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+        <BotonSecundario onClick={onCerrar}>Cancelar</BotonSecundario>
+        <BotonPrimario disabled={!valido} onClick={() => onConfirmar({ valor, motivo, desiste })}>Aprobar devolución</BotonPrimario>
+      </div>
+    </Modal>
+  );
+}
 
 function ModalGestion({ cliente, onCerrar, onGuardar }: { cliente: Cliente; onCerrar: () => void; onGuardar: (g: Omit<Gestion, 'fecha' | 'por'>) => void }) {
   const [tipo, setTipo] = useState('Llamada');
@@ -1222,18 +1327,21 @@ function SelectorPersona({ persona, onCambiar, empresa, onEmpresa }: { persona: 
 // ─────────────────────────────────────────────────────────────────────────
 
 
-function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa }: {
+function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarResumen, sociedades }: {
   kpis: { programadoSep: number; recaudadoSep: number; valorVencidoTotal: number; clientesEnMora: number; clientesAlerta3: number; reportesPendientes: number; sinIdentificar: number; cumplimientoSep: number };
   barras: { mes: string; programado: number; recaudado: number }[];
   onIrA: (s: Seccion) => void;
   alcance: string;
   porEmpresa: { nombre: string; programado: number; recaudado: number; vencido: number }[] | null;
+  porTrasladarResumen: { n: number; total: number; masAntiguo: number };
+  sociedades: { nombre: string; proyectos: string[] }[];
 }) {
   const pctRecaudo = kpis.programadoSep > 0 ? Math.round((kpis.recaudadoSep / kpis.programadoSep) * 100) : 0;
   const pendientes: { texto: string; seccion: Seccion }[] = [];
   if (kpis.reportesPendientes > 0) pendientes.push({ texto: `${plural(kpis.reportesPendientes, 'pago reportado', 'pagos reportados')} por WhatsApp ${kpis.reportesPendientes === 1 ? 'espera' : 'esperan'} verificación`, seccion: 'por-verificar' });
   if (kpis.clientesAlerta3 > 0) pendientes.push({ texto: `${plural(kpis.clientesAlerta3, 'cliente de Cúcuta llegó', 'clientes de Cúcuta llegaron')} a 3 cuotas vencidas`, seccion: 'morosos' });
   pendientes.push({ texto: '12 recordatorios salen mañana a las 8:00 a. m.', seccion: 'morosos' });
+  if (porTrasladarResumen.n > 0) pendientes.push({ texto: `${plural(porTrasladarResumen.n, 'pago', 'pagos')} por ${money(porTrasladarResumen.total)} en efectivo o cuenta personal sin consignar (el más antiguo, ${porTrasladarResumen.masAntiguo} días)`, seccion: 'bancos' });
   pendientes.push({ texto: 'Falta cargar el extracto de septiembre para conciliar', seccion: 'bancos' });
   pendientes.push({ texto: 'Hay clientes con racha de 6 cuotas a tiempo esperando su beneficio', seccion: 'recompensas' });
   if (kpis.sinIdentificar > 0) pendientes.push({ texto: `${plural(kpis.sinIdentificar, 'consignación llegó', 'consignaciones llegaron')} al banco sin cliente asignado`, seccion: 'por-verificar' });
@@ -1247,6 +1355,17 @@ function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa }: {
         <TarjetaKpi icono={ClipboardCheck} titulo="Pagos por verificar" valor={String(kpis.reportesPendientes)} sub={`+ ${plural(kpis.sinIdentificar, 'por identificar', 'por identificar')} · ver`} tono="amber" onClick={() => onIrA('por-verificar')} />
       </div>
       <p style={{ fontSize: 12, color: C.muted, margin: '-8px 0 0' }}>Programado y recaudado son de toda la operación de {alcance}; la demo trae 12 clientes de muestra y cada pago que registres suma al recaudo. Recaudo total = recaudado ÷ programado; cumplimiento = de las cuotas que vencían en el mes, cuánto se pagó.</p>
+      <Tarjeta style={{ padding: 16 }}>
+        <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Sociedades titulares</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {sociedades.map(so => (
+            <span key={so.nombre} style={{ background: C.surfaceStrong, color: C.navy, borderRadius: 10, padding: '6px 10px', fontSize: 13, lineHeight: 1.4 }}>
+              <strong>{so.nombre}</strong> · {so.proyectos.join(', ')}
+            </span>
+          ))}
+        </div>
+        <p style={{ fontSize: 12, color: C.muted, margin: '8px 0 0' }}>Cada proyecto pertenece a una sociedad; los pagos que entran a la cuenta de otra sociedad quedan como cuenta entre sociedades.</p>
+      </Tarjeta>
       {porEmpresa && (
         <Tarjeta>
           <p style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Las dos empresas, por separado</p>
@@ -1473,7 +1592,7 @@ function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer }:
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{money(c.raw.valorVenta)}</td>
                     <td style={{ padding: '8px 6px' }}>{c.raw.plazoMeses} cuotas{c.acuerdo ? ' · con acuerdo' : ''}</td>
                     <td style={{ padding: '8px 6px' }}>
-                      {c.estado === 'recuperado' ? <Chip tono="muted" texto="Lote recuperado" /> : r && <Chip tono={chipDeEstadoGeneral(r.estadoGeneral)} texto={textoEstadoGeneral(r.estadoGeneral, reglas)} />}
+                      {contratoCerrado(c) ? <Chip tono="muted" texto={c.estado === 'desistido' ? 'Desistido' : 'Lote recuperado'} /> : r && <Chip tono={chipDeEstadoGeneral(r.estadoGeneral)} texto={textoEstadoGeneral(r.estadoGeneral, reglas)} />}
                     </td>
                     <td style={{ padding: '8px 6px' }}><BotonSecundario onClick={() => onVer(c.raw.id)}>Ver estado de cuenta</BotonSecundario></td>
                   </tr>
@@ -1493,12 +1612,13 @@ function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer }:
 
 const MOTIVOS_ANULACION = ['Valor digitado mal', 'Pago registrado dos veces', 'Pago del cliente equivocado', 'El banco lo rechazó'];
 
-function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clienteId, setClienteId, reglas, persona, onAbrirModal, onToast, onAnular, onVerRecibo, onVerPDF }: {
+function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clienteId, setClienteId, reglas, persona, onAbrirModal, onToast, onAnular, onVerRecibo, onVerPDF, onDevolucion }: {
   clientes: Cliente[]; resumenes: Map<string, { cuotas: CuotaEstado[]; resumen: ResumenCliente }>;
   busqueda: string; setBusqueda: (s: string) => void; clienteId: string; setClienteId: (id: string) => void;
   reglas: Reglas; persona: Persona;
   onAbrirModal: () => void; onToast: (m: string) => void; onAnular: (clienteId: string, motivo: string) => void;
   onVerRecibo: (pago: Pago) => void; onVerPDF: (fecha: string, cuotas: CuotaEstado[], resumen: ResumenCliente) => void;
+  onDevolucion: () => void;
 }) {
   const [mostrarTodas, setMostrarTodas] = useState(false);
   const [fechaCorte, setFechaCorte] = useState(HOY);
@@ -1572,8 +1692,8 @@ function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clien
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <h2 style={{ fontSize: 19, fontWeight: 700, color: C.ink, margin: 0 }}>{cliente.raw.nombre}</h2>
-                {cliente.estado === 'recuperado'
-                  ? <Chip tono="muted" texto="LOTE RECUPERADO" />
+                {contratoCerrado(cliente)
+                  ? <Chip tono="muted" texto={cliente.estado === 'desistido' ? 'DESISTIDO' : 'LOTE RECUPERADO'} />
                   : <Chip tono={chipDeEstadoGeneral(datos.resumen.estadoGeneral)} texto={textoEstadoGeneral(datos.resumen.estadoGeneral, reglas)} />}
                 {cliente.raw.soloMizar && <Chip tono="purple" texto="Solo Mizar" />}
               </div>
@@ -1584,11 +1704,18 @@ function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clien
                 Valor {money(cliente.raw.valorVenta)} · {cliente.raw.plazoMeses} cuotas · corte el {cliente.raw.diaCorte === 31 ? 'último día' : cliente.raw.diaCorte} de cada mes · acreedor {proyecto.sociedad}
                 {proyecto.conMora ? ` · mora ${Math.min(reglas.tasaEA, reglas.usuraEA)} % EA sobre capital` : ' · sin interés de mora'}
               </p>
+              {cliente.raw.lote && (
+                <p style={{ fontSize: 13, color: C.muted, margin: '4px 0 0' }}>
+                  Lote {cliente.raw.lote.tipo.toLowerCase()} · manzana {cliente.raw.lote.manzana} · lote {cliente.raw.lote.numero} · {cliente.raw.lote.area} m² · {cliente.raw.lote.urbanismo ? 'con urbanismo' : 'sin urbanismo'}
+                  {cliente.raw.bonoDescuento ? ` · bono de descuento ${money(cliente.raw.bonoDescuento)} (valor neto ${money(cliente.raw.valorVenta - cliente.raw.bonoDescuento)})` : ''}
+                </p>
+              )}
               {referidoPor && <p style={{ fontSize: 13, color: C.purple, margin: '4px 0 0' }}>Referido por {referidoPor.raw.nombre} ({proyectoPorId(referidoPor.raw.proyectoId).nombre})</p>}
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-              {cliente.estado !== 'recuperado' && <BotonPrimario onClick={onAbrirModal}>Registrar pago</BotonPrimario>}
+              {!contratoCerrado(cliente) && <BotonPrimario onClick={onAbrirModal}>Registrar pago</BotonPrimario>}
               <BotonSecundario onClick={() => onVerPDF(fechaCorte, datos.cuotas, datos.resumen)}><FileText size={15} />Ver PDF</BotonSecundario>
+              {(persona.rol === 'gerencia' || persona.rol === 'sede') && <BotonSecundario onClick={onDevolucion}><Undo2 size={15} />Devolución</BotonSecundario>}
               <BotonSecundario onClick={() => onToast(cliente.raw.autorizaWhatsapp ? `En la plataforma real esto lo envía por WhatsApp al ${cliente.raw.telefono}` : 'Este cliente no autorizó WhatsApp: se envía por correo.')}><Send size={15} />Enviar</BotonSecundario>
             </div>
           </div>
@@ -1604,6 +1731,12 @@ function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clien
           {cliente.estado === 'recuperado' && (
             <div style={{ background: C.surfaceStrong, border: `1px solid ${C.lineStrong}`, borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 13, color: C.ink }}>
               <strong>Lote recuperado:</strong> la devolución se paga con una orden de pago en Compras y el inmueble quedó disponible para la venta, con este historial guardado.
+            </div>
+          )}
+          {(cliente.devoluciones ?? []).length > 0 && (
+            <div style={{ background: C.amberSoft, border: `1px solid ${C.amber}`, borderRadius: 8, padding: 12, marginBottom: 16, fontSize: 13, color: C.amber }}>
+              <strong>Devoluciones:</strong>{' '}
+              {(cliente.devoluciones ?? []).map(d => `${fechaLarga(d.fecha)} · ${money(d.valor)} · ${d.motivo} · orden de pago ${d.orden} (${d.por})`).join(' — ')}
             </div>
           )}
           {cliente.acuerdo && (
@@ -1674,11 +1807,11 @@ function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clien
             )}
           </div>
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 680 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 820 }}>
               <thead>
                 <tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
                   <th style={{ padding: '8px 6px' }}>Recibo</th><th style={{ padding: '8px 6px' }}>Fecha</th><th style={{ padding: '8px 6px' }}>Valor</th>
-                  <th style={{ padding: '8px 6px' }}>Aplicado a</th><th style={{ padding: '8px 6px' }}>Medio</th><th style={{ padding: '8px 6px' }}>Cuenta</th><th style={{ padding: '8px 6px' }}>Soporte</th>
+                  <th style={{ padding: '8px 6px' }}>Aplicado a</th><th style={{ padding: '8px 6px' }}>Medio</th><th style={{ padding: '8px 6px' }}>Dónde entró</th><th style={{ padding: '8px 6px' }}>Pagó</th><th style={{ padding: '8px 6px' }}>Soporte</th>
                 </tr>
               </thead>
               <tbody>
@@ -1693,7 +1826,12 @@ function SeccionEstadoCuenta({ clientes, resumenes, busqueda, setBusqueda, clien
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{money(p.valor)}</td>
                     <td style={{ padding: '8px 6px', color: C.muted }}>{p.anulado ? `Anulado: ${p.anulado.motivo} (${p.anulado.por})` : aplicadoATexto(p)}</td>
                     <td style={{ padding: '8px 6px' }}>{p.medio}</td>
-                    <td style={{ padding: '8px 6px' }}>{p.cuenta}</td>
+                    <td style={{ padding: '8px 6px' }}>
+                      {p.cuenta}
+                      {porTrasladar(p) && <div style={{ marginTop: 4 }}><Chip tono="amber" texto="Por trasladar" /></div>}
+                      {p.trasladado && <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>Consignado el {fechaLarga(p.trasladado.fecha)} en {p.trasladado.cuentaDestino}</div>}
+                    </td>
+                    <td style={{ padding: '8px 6px' }}>{p.pagadoPor ?? 'Titular'}</td>
                     <td style={{ padding: '8px 6px' }}>{p.soporte ? <Paperclip size={15} color={C.muted} aria-label="Con soporte" /> : '—'}</td>
                   </tr>
                 ))}
@@ -1786,7 +1924,13 @@ function semaforoDe(r: ReporteWhatsApp, cliente: Cliente, visto: boolean): { col
   if (empresaCuenta && empresaCuenta !== empresaCliente.id) {
     return { color: 'rojo', motivo: `El dinero entró a una cuenta de ${empresaPorId(empresaCuenta).corto}, no de ${empresaCliente.corto}: se trata como movimiento entre empresas` };
   }
+  const lugar = lugarPorNombre(r.cuenta);
+  const proyecto = proyectoPorId(cliente.raw.proyectoId);
   if (r.alerta) return { color: 'amarillo', motivo: r.alerta.mensaje };
+  // Misma operación, otra sociedad: pasa todos los meses (formatos reales); se confirma y queda como cuenta entre sociedades.
+  if (lugar?.tipo === 'banco' && lugar.sociedad !== proyecto.sociedad) {
+    return { color: 'amarillo', motivo: `Entró a la cuenta de ${lugar.sociedad} y el proyecto es de ${proyecto.sociedad}: al confirmarlo queda como cuenta entre sociedades` };
+  }
   if (!visto) return { color: 'amarillo', motivo: 'Todo coincide; falta verlo en el extracto (cárgalo en Bancos)' };
   return { color: 'verde', motivo: 'Todo coincide y ya aparece en el extracto del banco' };
 }
@@ -1886,7 +2030,7 @@ function FilaSinIdentificar({ item, clientes, puedeAsignar, onAsignar }: { item:
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <select value={seleccion} onChange={e => setSeleccion(e.target.value)} aria-label="Cliente" style={{ border: `1px solid ${C.lineStrong}`, borderRadius: 8, padding: '0 10px', fontSize: 13, minHeight: 40 }}>
             <option value="">Selecciona un cliente...</option>
-            {clientes.filter(c => c.estado !== 'recuperado').map(c => <option key={c.raw.id} value={c.raw.id}>{c.raw.nombre}</option>)}
+            {clientes.filter(c => !contratoCerrado(c)).map(c => <option key={c.raw.id} value={c.raw.id}>{c.raw.nombre}</option>)}
           </select>
           <BotonPrimario disabled={!seleccion} onClick={() => onAsignar(seleccion)}>Asignar a cliente</BotonPrimario>
         </div>
@@ -1902,6 +2046,8 @@ function FilaSinIdentificar({ item, clientes, puedeAsignar, onAsignar }: { item:
 interface FilaMoroso {
   cliente: Cliente; proyecto: Proyecto; resumen: ResumenCliente; diasAtraso: number;
   accion: string; accionTono: Tono; segmento: 'buen pagador' | 'atrasado';
+  // Como en el formato de Cúcuta: de las últimas 3 cuotas vencidas, cuántas no se pagaron.
+  incumplidas3: number;
 }
 
 interface FilaBono { referido: Cliente; referente: Cliente; estado: 'pendiente' | 'causado' | 'anulado'; pagadas: number; }
@@ -1929,7 +2075,7 @@ function SeccionMorosos({ lista, filtroSede, setFiltroSede, persona, reglas, ges
             <thead>
               <tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
                 <th style={{ padding: '8px 6px' }}>Cliente</th><th style={{ padding: '8px 6px' }}>Proyecto</th>
-                <th style={{ padding: '8px 6px' }}>Cuotas vencidas</th><th style={{ padding: '8px 6px' }}>Días</th>
+                <th style={{ padding: '8px 6px' }}>Cuotas vencidas</th><th style={{ padding: '8px 6px' }}>Últimas 3</th><th style={{ padding: '8px 6px' }}>Días</th>
                 <th style={{ padding: '8px 6px' }}>Vencido</th><th style={{ padding: '8px 6px' }}>Mora</th>
                 <th style={{ padding: '8px 6px' }}>Próxima acción</th><th style={{ padding: '8px 6px' }}>Última gestión</th><th style={{ padding: '8px 6px' }} />
               </tr>
@@ -1947,6 +2093,7 @@ function SeccionMorosos({ lista, filtroSede, setFiltroSede, persona, reglas, ges
                     <td style={{ padding: '8px 6px', fontWeight: 600 }}>{item.cliente.raw.nombre}<div style={{ fontWeight: 400, fontSize: 12, color: C.muted }}>{item.segmento === 'buen pagador' ? 'Buen pagador: solo mensajes' : 'Atrasado: se le llama'}</div></td>
                     <td style={{ padding: '8px 6px' }}>{item.proyecto.nombre}</td>
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{item.resumen.cuotasVencidas}</td>
+                    <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums', color: item.incumplidas3 >= 3 ? C.red : item.incumplidas3 === 2 ? C.amber : C.ink, fontWeight: 600 }} title="De las últimas 3 cuotas vencidas, cuántas no se pagaron">{item.incumplidas3}/3</td>
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{item.diasAtraso}</td>
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{money(item.resumen.valorVencido)}</td>
                     <td style={{ padding: '8px 6px', fontVariantNumeric: 'tabular-nums' }}>{item.proyecto.conMora ? money(item.resumen.moraAHoy) : 'No aplica'}</td>
@@ -1973,7 +2120,7 @@ function SeccionMorosos({ lista, filtroSede, setFiltroSede, persona, reglas, ges
                 );
               })}
               {lista.length === 0 && (
-                <tr><td colSpan={9} style={{ padding: 16, textAlign: 'center', color: C.muted }}>No hay clientes en mora con este filtro.</td></tr>
+                <tr><td colSpan={10} style={{ padding: 16, textAlign: 'center', color: C.muted }}>No hay clientes en mora con este filtro.</td></tr>
               )}
             </tbody>
           </table>
@@ -2044,6 +2191,24 @@ function InterruptorRecordatorio({ label, checked, onChange, disabled }: { label
 // SECCIÓN: SOCIOS Y FLUJO (F7 y F8 del PRD)
 // ─────────────────────────────────────────────────────────────────────────
 
+// Acumulados por proyecto como los muestra el informe de Cantalta (valores de ejemplo).
+const ACUMULADO_PROYECTO: Record<string, { vendido: number; recogido: number; comisionesPagadas: number }> = {
+  'villa-plaza': { vendido: 2_140_000_000, recogido: 1_032_000_000, comisionesPagadas: 58_000_000 },
+  'montana': { vendido: 1_720_000_000, recogido: 888_000_000, comisionesPagadas: 262_000_000 },
+  'laureles': { vendido: 1_310_000_000, recogido: 128_000_000, comisionesPagadas: 21_000_000 },
+  'cantalta': { vendido: 1_730_000_000, recogido: 1_282_000_000, comisionesPagadas: 346_000_000 },
+  'miraflor': { vendido: 1_010_000_000, recogido: 154_000_000, comisionesPagadas: 10_100_000 },
+  'miravista': { vendido: 1_247_500_000, recogido: 154_050_100, comisionesPagadas: 12_475_000 },
+};
+// Gastos de otro proyecto pagados por este (en el formato: «gastos de La Mesa pagados por Cantalta»).
+const GASTOS_CRUZADOS: Record<string, { proyecto: string; valor: number }[]> = {
+  cantalta: [{ proyecto: 'Miradores de la Montaña (La Mesa)', valor: 1_250_000 }, { proyecto: 'Miravista', valor: 480_000 }],
+};
+// Reparto de periodos anteriores, del 15 al 14 como en el formato.
+const REPARTOS_ANTERIORES: Record<string, { periodo: string; porSocio: number }[]> = {
+  cantalta: [{ periodo: '15 jun – 14 jul 2026', porSocio: 2_310_000 }, { periodo: '15 jul – 14 ago 2026', porSocio: 2_480_500 }],
+};
+
 function SeccionSocios({ tab, setTab, proyectoId, setProyectoId, clientes, resumenes, recaudadoSep, persona, onToast }: {
   tab: 'informe' | 'flujo'; setTab: (t: 'informe' | 'flujo') => void;
   proyectoId: string; setProyectoId: (id: string) => void;
@@ -2105,6 +2270,30 @@ function SeccionSocios({ tab, setTab, proyectoId, setProyectoId, clientes, resum
             <EstadisticaMini titulo="Comisiones de venta" valor={money(finanzas.comisiones)} />
             <EstadisticaMini titulo="Queda para repartir" valor={money(utilidad)} tono={C.green} />
           </div>
+          {(() => {
+            const acum = ACUMULADO_PROYECTO[proyecto.id];
+            const cruzados = GASTOS_CRUZADOS[proyecto.id] ?? [];
+            return acum ? (
+              <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
+                <p style={{ fontSize: 13, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Acumulado del proyecto (como el resumen de Cantalta)</p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 10 }}>
+                  <EstadisticaMini titulo="Valor de lo vendido" valor={money(acum.vendido)} />
+                  <EstadisticaMini titulo="Total recogido" valor={money(acum.recogido)} />
+                  <EstadisticaMini titulo="Saldo por cobrar" valor={money(acum.vendido - acum.recogido)} />
+                  <EstadisticaMini titulo="Comisiones pagadas" valor={money(acum.comisionesPagadas)} />
+                </div>
+                <p style={{ fontSize: 12, color: C.muted, margin: '8px 0 0' }}>
+                  Comisión de venta de este proyecto: {proyecto.comisionPct} % del valor vendido (sale de los formatos; se configura por proyecto).
+                  {proyecto.participacionRecaudoPct ? ` Además, el formato de Cúcuta separa el ${proyecto.participacionRecaudoPct} % de lo recaudado para quien administra la cartera: está por confirmar (P35).` : ''}
+                </p>
+                {cruzados.length > 0 && (
+                  <p style={{ fontSize: 12, color: C.blue, margin: '6px 0 0' }}>
+                    Este proyecto pagó gastos de otros: {cruzados.map(g => `${g.proyecto} ${money(g.valor)}`).join(' · ')}. No se restan aquí: quedan como cuenta por cobrar a esos proyectos.
+                  </p>
+                )}
+              </div>
+            ) : null;
+          })()}
           <p style={{ fontSize: 12, color: C.muted, margin: '0 0 16px' }}>Los gastos salen solos del módulo de Compras y de la caja (centro de costo del proyecto). Los pagos de la administración anterior no cuentan aquí.</p>
 
           <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Le corresponde a cada socio</p>
@@ -2119,6 +2308,11 @@ function SeccionSocios({ tab, setTab, proyectoId, setProyectoId, clientes, resum
               </tbody>
             </table>
           </div>
+          {(REPARTOS_ANTERIORES[proyecto.id] ?? []).length > 0 && (
+            <p style={{ fontSize: 12, color: C.muted, margin: '0 0 8px' }}>
+              Repartos anteriores por socio: {(REPARTOS_ANTERIORES[proyecto.id] ?? []).map(r => `${r.periodo}: ${money(r.porSocio)}`).join(' · ')}.
+            </p>
+          )}
           <p style={{ fontSize: 12, color: C.muted, margin: '0 0 12px' }}>El reparto redondea al peso y el peso que sobra va al mayor residuo: las partes siempre suman el total, sin fórmulas escritas a mano.</p>
           {soloMizarEnPeriodo > 0 && (
             <p style={{ fontSize: 13, color: C.purple, marginBottom: 16 }}>No incluye {money(soloMizarEnPeriodo)} de clientes marcados «solo Mizar»: ese dinero va completo a Mizar.</p>
@@ -2153,7 +2347,7 @@ function SeccionSocios({ tab, setTab, proyectoId, setProyectoId, clientes, resum
                     <tr key={c.raw.id} style={{ borderBottom: `1px solid ${C.line}` }}>
                       <td style={celda}>{c.raw.inmueble}</td><td style={celda}>{c.raw.nombre}{c.raw.soloMizar ? ' · solo Mizar' : ''}</td><td style={celda}>{money(c.raw.valorVenta)}</td>
                       <td style={celda}>{money(antes)}</td><td style={celda}>{money(enPeriodo)}</td><td style={celda}>{r ? money(r.saldoCapital) : '—'}</td>
-                      <td style={celda}>{c.estado === 'recuperado' ? 'Lote recuperado' : r?.estadoGeneral === 'AL DÍA' ? 'Pagando al día' : 'En mora'}</td>
+                      <td style={celda}>{c.estado === 'recuperado' ? 'Lote recuperado' : c.estado === 'desistido' ? 'Desistido' : r?.estadoGeneral === 'AL DÍA' ? 'Pagando al día' : 'En mora'}</td>
                     </tr>
                   );
                 })}
@@ -2348,6 +2542,7 @@ export default function MizarCarteraDemo() {
   const [modalPDF, setModalPDF] = useState<{ fecha: string; cuotas: CuotaEstado[]; resumen: ResumenCliente } | null>(null);
   const [modalAcuerdo, setModalAcuerdo] = useState<string | null>(null);
   const [modalGestion, setModalGestion] = useState<string | null>(null);
+  const [modalDevolucion, setModalDevolucion] = useState<string | null>(null);
   const [modalDecision, setModalDecision] = useState<string | null>(null);
   const [gestiones, setGestiones] = useState<Map<string, Gestion[]>>(new Map());
   const [decisiones, setDecisiones] = useState<Map<string, { decision: Decision; motivo: string; por: string }>>(new Map());
@@ -2416,7 +2611,7 @@ export default function MizarCarteraDemo() {
   const kpisInicio = useMemo(() => {
     let valorVencidoTotal = 0, clientesEnMora = 0, clientesAlerta3 = 0;
     for (const c of clientesVisibles) {
-      if (c.estado === 'recuperado') continue;
+      if (contratoCerrado(c)) continue;
       const resumen = resumenes.get(c.raw.id)!.resumen;
       if (resumen.cuotasVencidas > 0) { valorVencidoTotal += resumen.valorVencido + resumen.moraAHoy; clientesEnMora++; }
       if (resumen.estadoGeneral === 'ALERTA') clientesAlerta3++;
@@ -2435,7 +2630,7 @@ export default function MizarCarteraDemo() {
     if (empresa !== 'grupo') return null;
     return EMPRESAS.map(e => {
       const deEmpresa = (c: Cliente) => proyectoPorId(c.raw.proyectoId).sede === e.sede;
-      const vencido = clientes.filter(deEmpresa).filter(c => c.estado !== 'recuperado')
+      const vencido = clientes.filter(deEmpresa).filter(c => !contratoCerrado(c))
         .reduce((s, c) => { const r = resumenes.get(c.raw.id)!.resumen; return s + (r.cuotasVencidas > 0 ? r.valorVencido + r.moraAHoy : 0); }, 0);
       return {
         nombre: e.nombre,
@@ -2463,7 +2658,7 @@ export default function MizarCarteraDemo() {
 
   const listaMorosos = useMemo((): FilaMoroso[] => {
     const filas = clientesVisibles.map((c): FilaMoroso | null => {
-      if (c.estado === 'recuperado') return null;
+      if (contratoCerrado(c)) return null;
       const proyecto = proyectoPorId(c.raw.proyectoId);
       const datos = resumenes.get(c.raw.id)!;
       if (datos.resumen.cuotasVencidas === 0) return null;
@@ -2475,7 +2670,9 @@ export default function MizarCarteraDemo() {
       else if (proyecto.sede === 'Bucaramanga' && datos.resumen.cuotasVencidas >= 3) { accion = 'Proponer acuerdo de pago'; accionTono = 'amber'; }
       else if (segmento === 'atrasado') { accion = 'Llamada de cobro'; accionTono = 'blue'; }
       else { accion = 'Recordatorio por WhatsApp'; accionTono = 'blue'; }
-      return { cliente: c, proyecto, resumen: datos.resumen, diasAtraso, accion, accionTono, segmento };
+      const ultimas3 = datos.cuotas.filter(cu => cu.vence < HOY && cu.estado !== 'reestructurada').slice(-3);
+      const incumplidas3 = ultimas3.filter(cu => cu.estado !== 'pagada').length;
+      return { cliente: c, proyecto, resumen: datos.resumen, diasAtraso, accion, accionTono, segmento, incumplidas3 };
     }).filter((x): x is FilaMoroso => x !== null);
     return filas.filter(x => filtroSedeMorosos === 'Todas' || x.proyecto.sede === filtroSedeMorosos)
       .sort((a, b) => b.resumen.valorVencido - a.resumen.valorVencido);
@@ -2505,7 +2702,7 @@ export default function MizarCarteraDemo() {
 
   // Registra un pago confirmado: lo aplica con el motor, emite el recibo y dice cómo queda el cliente.
   function registrarPagoEnCliente(clienteId: string, valor: number, fecha: string, medio: Medio, cuenta: string, referencia: string,
-    excedente: 'adelantar' | 'abono', modoAbono: 'plazo' | 'cuota', meta: { origen: OrigenPago; registradoPor: string; confirmadoPor: string; recibo?: string }): { recibo: string; quedaDebiendo: number } {
+    excedente: 'adelantar' | 'abono', modoAbono: 'plazo' | 'cuota', meta: { origen: OrigenPago; registradoPor: string; confirmadoPor: string; recibo?: string; pagadoPor?: string }): { recibo: string; quedaDebiendo: number } {
     const recibo = meta.recibo ?? `RC-${String(siguienteRecibo).padStart(6, '0')}`;
     const c = clientePorIdEn(clientes, clienteId);
     if (!c) return { recibo, quedaDebiendo: 0 };
@@ -2559,7 +2756,7 @@ export default function MizarCarteraDemo() {
       return;
     }
     const { recibo, quedaDebiendo } = registrarPagoEnCliente(c.raw.id, datos.valor, datos.fecha, datos.medio, datos.cuenta, datos.referencia, datos.excedente, datos.modoAbono,
-      { origen: 'oficina', registradoPor: persona.nombre, confirmadoPor: persona.nombre });
+      { origen: 'oficina', registradoPor: persona.nombre, confirmadoPor: persona.nombre, pagadoPor: datos.pagadoPor });
     mostrarToast(avisoDePago('Pago registrado', recibo, quedaDebiendo));
   }
 
@@ -2650,6 +2847,22 @@ export default function MizarCarteraDemo() {
     }
   }
 
+  function registrarDevolucion(clienteId: string, d: { valor: number; motivo: string; desiste: boolean }) {
+    setModalDevolucion(null);
+    const orden = `OP-DEV-${String(Date.now()).slice(-4)}`;
+    actualizarCliente(clienteId, x => ({
+      ...x, estado: d.desiste ? 'desistido' : x.estado,
+      devoluciones: [...(x.devoluciones ?? []), { fecha: HOY, valor: d.valor, motivo: d.motivo, por: persona.nombre, orden }],
+    }));
+    mostrarToast(`Devolución aprobada: se creó la orden de pago ${orden} en Compras por ${money(d.valor)}${d.desiste ? ' y el lote quedó disponible' : ''}.`);
+  }
+
+  // Tesorería registra que el efectivo o lo recibido en una cuenta personal ya se consignó (R25).
+  function trasladar(clienteId: string, recibo: string, cuentaDestino: string) {
+    actualizarCliente(clienteId, x => ({ ...x, pagos: x.pagos.map(p => (p.recibo === recibo ? { ...p, trasladado: { fecha: HOY, cuentaDestino, por: persona.nombre } } : p)) }));
+    mostrarToast(`Consignación registrada: el recibo ${recibo} ya está en ${cuentaDestino}.`);
+  }
+
   function aprobarBono(id: string) {
     setBonosAprobados(prev => new Set(prev).add(id));
     mostrarToast('Bono aprobado: se creó la orden de pago en Compras, con el centro de costo del proyecto.');
@@ -2697,6 +2910,12 @@ export default function MizarCarteraDemo() {
     return { recibo };
   }
 
+  const porTrasladarResumen = useMemo(() => {
+    const lista = clientesVisibles.flatMap(c => vigentes(c.pagos).filter(p => porTrasladar(p)));
+    return { n: lista.length, total: lista.reduce((s, p) => s + p.valor, 0), masAntiguo: lista.reduce((m, p) => Math.max(m, diffDays(p.fecha, HOY)), 0) };
+  }, [clientesVisibles]);
+  const sociedadesVisibles = SOCIEDADES.filter(so => empresa === 'grupo' || so.empresaId === empresa);
+
   const reportesVisibles = reportes.filter(r => { const c = clientePorIdEn(clientes, r.clienteId); return !!c && enSede(c); });
 
   const clienteModal = clientePorIdEn(clientes, clienteSeleccionadoId);
@@ -2714,7 +2933,7 @@ export default function MizarCarteraDemo() {
       <main className="pt-[116px] lg:pt-[64px] lg:ml-[240px]" style={{ maxWidth: 1180 }}>
         <div className="pb-10 px-3 sm:px-6">
           <SelectorPersona persona={persona} onCambiar={cambiarPersona} empresa={empresa} onEmpresa={elegirEmpresa} />
-          {seccionVisible === 'inicio' && <SeccionInicio kpis={kpisInicio} barras={barrasMeses} onIrA={irA} alcance={alcanceTexto} porEmpresa={porEmpresa} />}
+          {seccionVisible === 'inicio' && <SeccionInicio kpis={kpisInicio} barras={barrasMeses} onIrA={irA} alcance={alcanceTexto} porEmpresa={porEmpresa} porTrasladarResumen={porTrasladarResumen} sociedades={sociedadesVisibles} />}
           {seccionVisible === 'planes' && <SeccionPlanes empresa={empresa} persona={persona} onIrA={irA} onToast={mostrarToast} />}
           {seccionVisible === 'ventas' && (
             <SeccionVentas clientes={clientesVisibles} resumenes={resumenes} persona={persona} reglas={reglas} onCrear={crearContrato}
@@ -2725,7 +2944,8 @@ export default function MizarCarteraDemo() {
               clienteId={clienteSeleccionadoId} setClienteId={setClienteSeleccionadoId} reglas={reglas} persona={persona}
               onAbrirModal={() => setModalPagoAbierto(true)} onToast={mostrarToast} onAnular={anularUltimo}
               onVerRecibo={pago => setModalRecibo({ clienteId: clienteSeleccionadoId, pago })}
-              onVerPDF={(fecha, cuotas, resumen) => setModalPDF({ fecha, cuotas, resumen })} />
+              onVerPDF={(fecha, cuotas, resumen) => setModalPDF({ fecha, cuotas, resumen })}
+              onDevolucion={() => setModalDevolucion(clienteSeleccionadoId)} />
           )}
           {seccionVisible === 'por-verificar' && (
             <SeccionPorVerificar clientes={clientesVisibles} reportes={reportesVisibles}
@@ -2749,7 +2969,7 @@ export default function MizarCarteraDemo() {
               onCruce={aplicarCruce} onIrA={irA} onToast={mostrarToast} />
           )}
           {seccionVisible === 'bancos' && (
-            <SeccionBancos clientes={clientesVisibles} empresa={empresa} persona={persona} onToast={mostrarToast} onMarcarVistos={marcarVistos}
+            <SeccionBancos clientes={clientesVisibles} empresa={empresa} persona={persona} onToast={mostrarToast} onMarcarVistos={marcarVistos} onTrasladar={trasladar}
               reportesPendientes={reportesVisibles.filter(r => r.estado === 'pendiente' && r.alerta?.tipo !== 'referencia-repetida')
                 .map(r => ({ id: r.id, clienteNombre: clientePorIdEn(clientes, r.clienteId)?.raw.nombre ?? '', valor: r.valor, referencia: r.referencia, cuenta: r.cuenta, fecha: r.fecha }))} />
           )}
@@ -2776,6 +2996,11 @@ export default function MizarCarteraDemo() {
         const c = clienteDe(modalAcuerdo);
         const d = resumenes.get(modalAcuerdo);
         return c && d ? <ModalAcuerdo cliente={c} cuotas={d.cuotas} persona={persona} onCerrar={() => setModalAcuerdo(null)} onConfirmar={(n, pct, primera, ok) => aprobarAcuerdo(c.raw.id, n, pct, primera, ok)} /> : null;
+      })()}
+      {modalDevolucion && (() => {
+        const c = clienteDe(modalDevolucion);
+        const d = resumenes.get(modalDevolucion);
+        return c && d ? <ModalDevolucion cliente={c} pagadoTotal={d.resumen.totalPagado} onCerrar={() => setModalDevolucion(null)} onConfirmar={dev => registrarDevolucion(c.raw.id, dev)} /> : null;
       })()}
       {modalGestion && (() => {
         const c = clienteDe(modalGestion);

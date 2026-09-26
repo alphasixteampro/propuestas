@@ -3,8 +3,8 @@
 // estado de resultados, plan de cuentas (PUC) y cierre del periodo. Todo es por empresa.
 import React, { useMemo, useState } from 'react';
 import {
-  C, HOY, money, fechaLarga, vigentes, Cliente, Persona, FiltroEmpresa, EmpresaId,
-  EMPRESAS, empresaPorId, proyectoPorId, empresaDeSede, Chip, Tarjeta, BotonPrimario, BotonSecundario,
+  C, HOY, money, fechaLarga, vigentes, lugarPorNombre, Cliente, Pago, Persona, FiltroEmpresa, EmpresaId,
+  EMPRESAS, SOCIEDADES, empresaPorId, proyectoPorId, empresaDeSede, Chip, Tarjeta, BotonPrimario, BotonSecundario,
   Modal, Campo, estiloInput, Tono,
 } from './base';
 
@@ -23,9 +23,12 @@ const PUC: CuentaPUC[] = [
   { codigo: '130510', nombre: 'Intereses por cobrar', naturaleza: 'Débito', tipo: 'Activo' },
   { codigo: '133005', nombre: 'Anticipos a contratistas', naturaleza: 'Débito', tipo: 'Activo' },
   { codigo: '136005', nombre: 'Cuentas por cobrar a empresas del grupo', naturaleza: 'Débito', tipo: 'Activo' },
+  { codigo: '136505', nombre: 'Cuentas por cobrar a trabajadores', naturaleza: 'Débito', tipo: 'Activo' },
   { codigo: '143505', nombre: 'Inmuebles para la venta', naturaleza: 'Débito', tipo: 'Activo' },
+  { codigo: '143595', nombre: 'Bienes recibidos en pago', naturaleza: 'Débito', tipo: 'Activo' },
   { codigo: '220505', nombre: 'Proveedores', naturaleza: 'Crédito', tipo: 'Pasivo' },
   { codigo: '233595', nombre: 'Otras cuentas por pagar', naturaleza: 'Crédito', tipo: 'Pasivo' },
+  { codigo: '250505', nombre: 'Salarios por pagar', naturaleza: 'Crédito', tipo: 'Pasivo' },
   { codigo: '280505', nombre: 'Anticipos de clientes', naturaleza: 'Crédito', tipo: 'Pasivo' },
   { codigo: '310505', nombre: 'Capital social', naturaleza: 'Crédito', tipo: 'Patrimonio' },
   { codigo: '360505', nombre: 'Utilidad del ejercicio', naturaleza: 'Crédito', tipo: 'Patrimonio' },
@@ -87,12 +90,25 @@ function linea(codigo: string, debito: number, credito: number): LineaComprobant
   return { codigo, nombre: cuentaPUC(codigo).nombre, debito, credito };
 }
 
+// La cuenta débito del recibo depende de dónde entró la plata y con qué medio se pagó: caja si fue
+// efectivo, cuenta por cobrar a un trabajador si quedó en una cuenta personal, bienes recibidos en
+// pago o salarios por pagar según el medio, cruce de cartera contra proveedores, o bancos en el resto.
+function cuentaDebitoDePago(p: Pago): string {
+  const lugar = lugarPorNombre(p.cuenta);
+  if (lugar?.tipo === 'efectivo') return '110505';
+  if (lugar?.tipo === 'personal') return '136505';
+  if (p.medio === 'Pago en especie') return '143595';
+  if (p.medio === 'Descuento de nómina') return '250505';
+  if (p.medio === 'Cruce de cartera') return '220505';
+  return '111005';
+}
+
 function comprobantesDePagos(clientes: Cliente[]): Comprobante[] {
   const comprobantes: Comprobante[] = [];
   for (const c of clientes) {
     for (const p of vigentes(c.pagos)) {
       if (p.administracionAnterior || !p.fecha.startsWith('2026-09')) continue;
-      const cuentaDebito = p.medio === 'Efectivo' ? '110505' : p.medio === 'Cruce de cartera' ? '220505' : '111005';
+      const cuentaDebito = cuentaDebitoDePago(p);
       const capital = p.aplicaciones.reduce((s, a) => s + a.capital, 0);
       const interes = p.aplicaciones.reduce((s, a) => s + a.interes, 0);
       const mora = p.aplicaciones.reduce((s, a) => s + a.mora, 0);
@@ -103,6 +119,14 @@ function comprobantesDePagos(clientes: Cliente[]): Comprobante[] {
       if (p.abono) lineas.push(linea('130505', 0, p.abono.monto));
       if (p.saldoFavor) lineas.push(linea('280505', 0, p.saldoFavor));
       comprobantes.push({ numero: p.recibo, fecha: p.fecha, tipo: 'Recibo de caja', tercero: c.raw.nombre, origen: 'Cartera', lineas });
+
+      // Si el pago se consignó, el dinero pasa de caja o de la cuenta del trabajador a bancos.
+      if (p.trasladado && p.trasladado.fecha.startsWith('2026-09')) {
+        comprobantes.push({
+          numero: `CT-${p.recibo}`, fecha: p.trasladado.fecha, tipo: 'Nota', tercero: c.raw.nombre, origen: 'Bancos',
+          lineas: [linea('111005', p.valor, 0), linea(cuentaDebito, 0, p.valor)],
+        });
+      }
     }
   }
   return comprobantes.sort((a, b) => a.fecha.localeCompare(b.fecha));
@@ -350,7 +374,13 @@ export function SeccionContabilidad(props: { clientes: Cliente[]; empresa: Filtr
 
       {tab === 'comprobantes' && (
         <Tarjeta>
-          <p style={{ fontSize: 13, color: C.muted, margin: '0 0 14px' }}>Cada pago, orden de compra o traslado genera su comprobante con las reglas que valida el contador. Nadie los digita.</p>
+          <p style={{ fontSize: 13, color: C.muted, margin: '0 0 6px' }}>Cada pago, orden de compra o traslado genera su comprobante con las reglas que valida el contador. Nadie los digita.</p>
+          <p style={{ fontSize: 13, color: C.muted, margin: '0 0 8px' }}>
+            Cada proyecto pertenece a una sociedad; aquí se ve la operación completa. En producción, cada sociedad lleva su propia contabilidad (pregunta P34).
+          </p>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 14 }}>
+            {SOCIEDADES.filter(s => s.empresaId === empresaId).map(s => <Chip key={s.nombre} tono="navy" texto={s.nombre} />)}
+          </div>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 760 }}>
               <thead>
