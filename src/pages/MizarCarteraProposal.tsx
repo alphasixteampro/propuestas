@@ -1144,7 +1144,7 @@ const MizarCarteraProposal = () => {
             <div className="px-6 sm:px-8 py-3.5 flex items-center gap-2 border-t" style={{ borderColor: 'rgba(255,255,255,.06)', background: 'rgba(255,255,255,.02)' }}>
               <Monitor className="w-4 h-4 text-white/35 flex-shrink-0" />
               <p className="font-lato text-white/40 text-[14px]">
-                Funciona en computador y celular. Los nombres, cédulas y valores son ficticios; los proyectos son los de Mizar.
+                Funciona en computador y celular. Los nombres, cédulas y valores son ficticios; los proyectos son los de Mizar. La tasa de mora de la demo es solo un ejemplo: en el sistema real la mora arranca apagada hasta que Mizar firme la tasa.
               </p>
             </div>
           </div>
