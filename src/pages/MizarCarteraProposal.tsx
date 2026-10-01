@@ -9,17 +9,18 @@ import {
   Wallet, Receipt, Calculator, FileSearch, TriangleAlert, TrendingUp,
   Landmark, HandCoins, Scale, Gamepad2, UserPlus, Puzzle, ArrowRight,
   MousePointerClick, Monitor, Search, ShieldCheck,
+  Building2, BookOpen, GraduationCap,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
 
 const META = {
   cliente: 'Mizar Diseño y Construcción · Mi Lote',
-  tagline: 'Cartera, recaudo y socios',
-  sector: 'Diseño y construcción · Venta de inmuebles y lotes a cuotas',
-  fecha: 'Septiembre 2026',
+  tagline: 'Sistema financiero de ingresos: cartera, recaudo, contabilidad y socios',
+  sector: 'Diseño y construcción · Venta de inmuebles y lotes a cuotas · Dos empresas',
+  fecha: 'Octubre 2026',
   lugar: 'Bucaramanga y Cúcuta',
-  objetivo: 'Módulo de Cartera y Recaudo: la pieza que completa la Plataforma Mizar. Compras ya controla el dinero que sale; cartera controla el que entra, desde la promesa de compraventa hasta el estado de cuenta, la mora, el reparto entre socios y el flujo de caja del grupo.',
+  objetivo: 'Sistema financiero de ingresos para dos empresas, Mizar (Bucaramanga) y Mi Lote (Cúcuta), y para las sociedades dueñas de cada proyecto. Compras ya controla el dinero que sale; este sistema controla el que entra, desde la promesa de compraventa hasta el estado de cuenta, la mora, los bancos, la contabilidad, el reparto entre socios y el flujo de caja del grupo.',
   proponente: 'Sixteam Innovación y Estrategia Digital S.A.S.',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
@@ -45,7 +46,7 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
 const DOLORES = [
   {
     titulo: 'Cada pago se digita dos veces, a mano',
-    desc: 'Jennifer anota el pago en el libro diario de dineros recibidos, que ya pasa de 1.400 filas desde 2024, y después lo vuelve a escribir en el control de cada proyecto. En Cúcuta, José Luis y Yurley llevan otro Excel y un Drive aparte. Tres lugares para el mismo peso.',
+    desc: 'El pago se anota en el libro diario de dineros recibidos, que ya pasa de 1.400 filas desde 2024, y después se vuelve a escribir en el control de cada proyecto. En Cúcuta se lleva otro Excel y un Drive aparte. Tres lugares para el mismo peso.',
     icon: FileSpreadsheet, tint: 'amber',
   },
   {
@@ -54,13 +55,13 @@ const DOLORES = [
     icon: Calculator, tint: 'red',
   },
   {
-    titulo: 'El estado de cuenta se arma pestaña por pestaña',
-    desc: 'Para mostrarle a un cliente cuánto debe hay que reconstruir recibos, fechas y formas de pago. Los soportes viven en carpetas físicas, y la única prueba ante un reclamo es un cuadro de Excel.',
-    icon: FileSearch, tint: 'blue',
+    titulo: 'Dos empresas, varias sociedades y dinero en muchos lugares',
+    desc: 'El dinero entra a cuentas de distintas sociedades, a veces a una cuenta personal o en efectivo, y a veces a la cuenta de otra sociedad. Cada hoja del Excel es una sociedad distinta y no hay una vista que muestre el total ni lo que falta por trasladar.',
+    icon: Landmark, tint: 'blue',
   },
   {
     titulo: 'No hay una foto al día de cuánto entra y cuánto le toca a cada socio',
-    desc: 'El consolidado del grupo y los informes a socios se arman con fórmulas escritas a mano, con porcentajes que cambian en el tiempo, como en Miravista, que pasó de tres socios a dos. Sin esa foto, decidir si meterse en otro proyecto es una apuesta.',
+    desc: 'El flujo de caja, el informe a socios y la contabilidad se arman con fórmulas escritas a mano, con porcentajes que cambian en el tiempo, como en Miravista, que pasó de tres socios a dos. Sin esa foto, decidir si meterse en otro proyecto es una apuesta.',
     icon: Users, tint: 'purple',
   },
 ];
@@ -71,7 +72,12 @@ const BENEFICIOS = [
   {
     icon: Wallet, color: MIZAR_GOLD, colorAlpha: 'rgba(201,164,67,.08)', colorBorder: 'rgba(201,164,67,.22)',
     titulo: 'Un solo registro para cada peso',
-    desc: 'El pago se digita una vez y desde ahí alimenta el estado de cuenta, la lista de morosos, el informe a socios y el flujo de caja. Se acaba la doble digitación y con ella los descuadres entre archivos.',
+    desc: 'El pago se digita una vez y desde ahí alimenta el estado de cuenta, la lista de morosos, el libro de ingresos, el informe a socios y el flujo de caja. Se acaba la doble digitación y con ella los descuadres entre archivos.',
+  },
+  {
+    icon: Building2, color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.08)', colorBorder: 'rgba(0,191,165,.22)',
+    titulo: 'Dos empresas, una sola plataforma',
+    desc: 'Un selector de empresa separa Mizar (Bucaramanga) de Mi Lote (Cúcuta), cada una con sus sociedades, cuentas, consecutivos de recibo y reglas. Cada persona ve solo lo que le corresponde según su rol.',
   },
   {
     icon: Search, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
@@ -80,197 +86,261 @@ const BENEFICIOS = [
   },
   {
     icon: Calculator, color: '#f87171', colorAlpha: 'rgba(248,113,113,.08)', colorBorder: 'rgba(248,113,113,.22)',
-    titulo: 'La mora se calcula sola',
-    desc: 'Con la tasa que Mizar defina, el sistema liquida el interés de mora sobre lo que no se pagó a tiempo. Cuando el cliente llega a pagar, la respuesta ya está: "es un millón más tanto de interés". En Cúcuta, sin mora, como dice su contrato.',
-  },
-  {
-    icon: HandCoins, color: '#a78bfa', colorAlpha: 'rgba(167,139,250,.08)', colorBorder: 'rgba(167,139,250,.22)',
-    titulo: 'Abonos a capital con cálculo financiero',
-    desc: 'Si un cliente paga de más, el sobrante va a capital y el plan se recalcula: termina antes o la cuota baja. Los acuerdos de pago con clientes atrasados usan la misma calculadora.',
+    titulo: 'Intereses, mora y abonos que se calculan solos',
+    desc: 'Con la tasa que Mizar firme, el sistema liquida la mora, aplica cada pago en el orden definido y recalcula el plan cuando hay un abono a capital. Mientras la tasa no esté firmada, la mora queda apagada.',
   },
   {
     icon: MessageSquare, color: '#25D366', colorAlpha: 'rgba(37,211,102,.08)', colorBorder: 'rgba(37,211,102,.22)',
-    titulo: 'El cliente reporta su pago por WhatsApp',
-    desc: 'Monto y comprobante, desde el mismo chat. Llega a la bandeja de tesorería, que lo confirma contra el banco. Si la referencia ya se usó, el sistema lo bloquea. Es la misma tecnología que ya funciona en compras.',
+    titulo: 'El cliente paga y reporta por WhatsApp',
+    desc: 'Recibe un link de pago o reporta su pago con el comprobante, desde el mismo chat. Tesorería lo ve en una bandeja con semáforo, lo aprueba solo o en lote, y el recibo le llega al cliente. Si la referencia ya se usó, el sistema lo bloquea.',
+  },
+  {
+    icon: BookOpen, color: '#a78bfa', colorAlpha: 'rgba(167,139,250,.08)', colorBorder: 'rgba(167,139,250,.22)',
+    titulo: 'Bancos y contabilidad sin doble trabajo',
+    desc: 'Los extractos se cargan y se concilian contra los pagos registrados. Los comprobantes contables salen de cada movimiento, y todo es exportable a Helisa para que el contador no vuelva a digitar.',
+  },
+  {
+    icon: TrendingUp, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
+    titulo: 'Socios y flujo de caja reales',
+    desc: 'Cada socio recibe su informe sencillo con el porcentaje vigente. El flujo de caja del grupo, con el período del 15 al 14 como lo manejan hoy, muestra lo programado, lo recogido y lo gastado, cruzado con compras y caja menor.',
   },
   {
     icon: BellRing, color: '#f59e0b', colorAlpha: 'rgba(245,158,11,.08)', colorBorder: 'rgba(245,158,11,.22)',
     titulo: 'Cobranza que no depende de la memoria',
-    desc: 'Los recordatorios salen solos según la fecha de corte de cada cliente. Al buen pagador le basta un mensaje; al que viene atrasado se le asigna una llamada. Nadie tiene que acordarse de a quién escribirle.',
-  },
-  {
-    icon: Users, color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.08)', colorBorder: 'rgba(0,191,165,.22)',
-    titulo: 'Cada socio recibe su informe sencillo',
-    desc: 'De este proyecto se recogió tanto, se gastó tanto, queda tanto y esto es lo suyo. Con porcentajes por proyecto, por cliente y con fecha de vigencia, sin fórmulas escritas a mano.',
-  },
-  {
-    icon: TrendingUp, color: '#34d399', colorAlpha: 'rgba(52,211,153,.08)', colorBorder: 'rgba(52,211,153,.22)',
-    titulo: 'El flujo de caja real del grupo',
-    desc: 'Mes a mes, cuánto estaba programado, cuánto se recogió y cuánto se gastó, cruzado con los egresos de compras y caja menor. La respuesta a la pregunta de fondo: ¿podemos meternos en otro proyecto?',
+    desc: 'Los recordatorios salen solos según la fecha de corte de cada cliente. Al buen pagador le basta un mensaje; al que viene atrasado se le asigna una llamada. Y, si Mizar lo decide, las recompensas premian al que paga a tiempo.',
   },
 ];
 
-// ─── QUÉ INCLUYE ─────────────────────────────────────────────────────────────
+// ─── QUÉ INCLUYE: NUEVE MÓDULOS, CADA UNO CON SU PRECIO ──────────────────────
 
-const MODULOS: { num: string; nombre: string; icon: React.ElementType; color: string; colorAlpha: string; colorBorder: string; descripcion: string; items: string[] }[] = [
+type Extra = { nombre: string; precio: number; semanas: string; descripcion: string; items: string[]; entregable: string };
+type Modulo = {
+  num: string; nombre: string; icon: React.ElementType; color: string; colorAlpha: string; colorBorder: string;
+  semanas: string; precio: number; descripcion: string; items: string[]; entregable: string; depende: string;
+  extra?: Extra;
+};
+
+const MODULOS: Modulo[] = [
   {
     num: '01',
-    nombre: 'Clientes, inmuebles y planes de pago',
-    icon: UserPlus,
+    nombre: 'Base de las dos empresas, sociedades y configuración',
+    icon: Building2,
     color: MIZAR_GOLD,
     colorAlpha: 'rgba(201,164,67,.10)',
     colorBorder: 'rgba(201,164,67,.28)',
-    descripcion: 'La venta entra una sola vez, desde la promesa de compraventa, con su plan de pagos completo.',
+    semanas: 'Semanas 1 y 2',
+    precio: 1200000,
+    descripcion: 'El cimiento: las dos empresas, sus sociedades, cuentas, proyectos y personas, con las reglas de dinero acordadas por escrito.',
     items: [
-      'Alta del cliente con nombre, cédula, contacto, proyecto, inmueble, valor y cuota inicial o separación',
-      'Plan de pagos tal como está en la promesa, con capital e interés separados por cuota',
-      'Fecha de corte propia de cada cliente: el 5, el último día del mes u otra',
-      'Planes distintos por sede: cuota con interés de financiación en Bucaramanga, cuota fija en Cúcuta',
-      'Marca del cliente como de la sociedad, solo de Mizar o solo del otro socio',
-      'Desistimientos y reventa del inmueble, con el historial del comprador anterior',
-      'Carga inicial de los Excel actuales de Bucaramanga y Cúcuta, depurados con el equipo',
+      'Dos empresas, Mizar (Bucaramanga) y Mi Lote (Cúcuta), con selector de empresa y datos propios',
+      'Sociedades titulares por proyecto, con sus cuentas bancarias y su consecutivo de recibos',
+      'Proyectos, inmuebles y lista de precios de lotes',
+      'Roles y permisos: cartera, tesorería, sede, gerencia y contador',
+      'Sesión con gerencia y contador para dejar por escrito el orden de aplicación de los pagos, los abonos, los acuerdos y la regla de las tres cuotas, con un valor por defecto donde falte una decisión',
+      'Registro de quién hizo cada cambio y cuándo',
     ],
+    entregable: 'Las dos empresas, sus sociedades, cuentas y roles creados y revisados por Mizar',
+    depende: 'Es el punto de partida',
   },
   {
     num: '02',
-    nombre: 'Registro de pagos y recibos',
-    icon: Receipt,
+    nombre: 'Clientes, planes de pago, simulador y migración de los Excel',
+    icon: UserPlus,
     color: '#38bdf8',
     colorAlpha: 'rgba(56,189,248,.10)',
     colorBorder: 'rgba(56,189,248,.28)',
-    descripcion: 'El reemplazo del libro diario de dineros recibidos, con el recibo y el soporte pegados a cada pago.',
+    semanas: 'Semanas 3 y 4',
+    precio: 2300000,
+    descripcion: 'La venta entra una sola vez, con su plan de pagos completo, y los datos de hoy se cargan limpios.',
     items: [
-      'Registro diario de pagos, incluidos los parciales, en efectivo, transferencia o consignación',
-      'Cuenta bancaria por donde entró el dinero: Bancolombia Mizar, Ictinos, Miraflor y las que se sumen',
-      'Recibo con consecutivo generado por el sistema, que reemplaza el recibo físico',
-      'Soporte escaneado o foto del comprobante adjunto a cada pago',
-      'Orden fijo de aplicación de cada pago: primero mora, luego interés y luego capital',
-      'Bloqueo de pagos con una referencia bancaria que ya se usó',
-      'Bandeja de pagos por identificar para las consignaciones que llegan sin cliente',
+      'Alta de la venta desde la promesa o el contrato: cliente, inmueble, valor, cuota inicial o separación',
+      'Plan de pagos cuota por cuota, con capital e interés separados, y fecha de corte propia de cada cliente',
+      'Planes distintos por sede: cuota con interés de financiación en Bucaramanga, cuota fija en Cúcuta',
+      'Simulador de lotes de Cúcuta con la lista de precios: lote, plazo y cuota inicial dan la cuota',
+      'Pagador tercero, y clientes de la sociedad, solo de Mizar o solo de otro socio',
+      'Desistimientos y reventa del inmueble, con el historial del comprador anterior',
+      'Limpieza y carga de los Excel de las dos empresas y de los saldos de la administración anterior de Cúcuta',
     ],
+    entregable: 'Todos los contratos cargados con su plan, revisables por el equipo',
+    depende: 'Módulo 1',
   },
   {
     num: '03',
-    nombre: 'Motor financiero: intereses, mora y abonos',
-    icon: Calculator,
+    nombre: 'Pagos, recibos, intereses, mora y estado de cuenta',
+    icon: Receipt,
     color: '#f87171',
     colorAlpha: 'rgba(248,113,113,.10)',
     colorBorder: 'rgba(248,113,113,.28)',
-    descripcion: 'El "cálculo financiero" que se pidió en la reunión: la mora, el interés y los abonos se liquidan solos, con las reglas de cada sede.',
+    semanas: 'Semanas 5 a 7',
+    precio: 2600000,
+    descripcion: 'El reemplazo del libro diario de dineros recibidos y el cálculo financiero que se pidió en la reunión.',
     items: [
-      'Tasa de interés de mora configurable por proyecto, con días de gracia',
-      'Capital, interés pactado e interés de mora separados en cada cuota',
-      'Abonos extraordinarios a capital, eligiendo reducir el plazo o el valor de la cuota',
-      'Acuerdos de pago que generan un plan nuevo sobre lo vencido',
-      'Descuentos registrados con quién los autorizó y por qué',
-      'Reglas de Cúcuta: cuota fija según contrato y sin interés de mora',
-      'Recálculo inmediato si Mizar cambia una tasa o una regla',
+      'Registro de pagos, incluidos los parciales: efectivo, transferencia, consignación, cheque de gerencia, descuento de nómina o en especie',
+      'Recibo con consecutivo por sociedad y soporte adjunto a cada pago; bloqueo de referencias repetidas y bandeja de pagos por identificar',
+      'Cada pago se aplica solo en el orden definido: mora, interés y capital',
+      'Motor de mora con días de gracia, tope de usura y festivos, y abonos a capital que reducen el plazo o la cuota. La mora arranca apagada hasta que Mizar firme la tasa',
+      'Dinero «por trasladar» cuando entra en efectivo o a una cuenta personal, con alerta; pagos que llegan a la cuenta de otra sociedad',
+      'Devoluciones y desistimientos con su registro',
+      'Estado de cuenta por cédula, nombre, contrato o inmueble, en pantalla y en PDF, con la administración anterior de Cúcuta aparte y envío por WhatsApp o correo',
     ],
+    entregable: '20 contratos con el mismo saldo que el Excel, y el estado de cuenta de cada uno en PDF',
+    depende: 'Módulos 1 y 2',
   },
   {
     num: '04',
-    nombre: 'Estado de cuenta al instante',
-    icon: FileSearch,
-    color: '#a78bfa',
-    colorAlpha: 'rgba(167,139,250,.10)',
-    colorBorder: 'rgba(167,139,250,.28)',
-    descripcion: 'Se digita la cédula y sale el estado de cuenta completo, listo para enviar. Adiós a las pestañas armadas a mano.',
-    items: [
-      'Búsqueda por cédula o por nombre',
-      'Datos del cliente y del inmueble, con todas las cuotas y todos los pagos',
-      'Lo pagado, lo que falta, el interés y la mora, cada uno por separado',
-      'Sello de estado: al día o en mora, calculado a la fecha',
-      'Pagos de la administración anterior de Cúcuta (antes de junio de 2025) mostrados aparte',
-      'Descarga en PDF con la nota de 15 días para reportar diferencias',
-      'Envío directo al cliente por WhatsApp o correo',
-    ],
-  },
-  {
-    num: '05',
-    nombre: 'Morosos, alertas y reglas por sede',
-    icon: TriangleAlert,
-    color: '#f59e0b',
-    colorAlpha: 'rgba(245,158,11,.10)',
-    colorBorder: 'rgba(245,158,11,.28)',
-    descripcion: 'La lista de morosos a pedido, con la acción que corresponde a cada caso, y las reglas propias de Mi Lote.',
-    items: [
-      'Listado de morosos al momento, con filtro por sede, proyecto y días de atraso',
-      'Cuotas vencidas, días de atraso, valor vencido y mora de cada cliente',
-      'Alerta cuando un cliente de Cúcuta acumula tres cuotas: el sistema avisa y una persona decide',
-      'Bono por referido que se libera solo cuando el referido paga su tercera cuota, y se anula si desiste',
-      'Historial de gestión de cobro por cliente: mensajes, llamadas y compromisos',
-      'Exportación a Excel del listado',
-    ],
-  },
-  {
-    num: '06',
-    nombre: 'Reporte de pago por WhatsApp y verificación',
+    nombre: 'WhatsApp: reporte de pago, link de pago, validación y aprobación',
     icon: MessageSquare,
     color: '#25D366',
     colorAlpha: 'rgba(37,211,102,.10)',
     colorBorder: 'rgba(37,211,102,.28)',
-    descripcion: 'El cliente reporta su pago desde WhatsApp y tesorería lo confirma. Reutiliza el canal y el formulario que ya se construyeron para compras.',
+    semanas: 'Semanas 6 y 7',
+    precio: 1700000,
+    descripcion: 'El cliente paga o reporta desde WhatsApp y tesorería aprueba. Reutiliza el canal que ya funciona para compras.',
     items: [
-      'Opción "Reportar pago" en WhatsApp: monto y comprobante en PDF o foto, sin salir del chat',
-      'El reporte llega a la bandeja de tesorería, con el comprobante a la vista',
-      'Alertas automáticas: referencia repetida, valor distinto a la cuota o cliente sin identificar',
-      'Confirmar o rechazar con motivo; al confirmar, el pago se aplica y el recibo le llega al cliente',
-      'Respuesta automática al cliente en cada paso: recibido, confirmado o rechazado',
+      'Opción «Reportar pago» en WhatsApp: monto y comprobante en foto o PDF, sin salir del chat',
+      'Link de pago por WhatsApp con la pasarela que Mizar elija (una por empresa)',
+      'Lectura del comprobante y bandeja de tesorería con semáforo: referencia repetida, valor distinto a la cuota o cliente sin identificar',
+      'Confirmar o rechazar con motivo, uno por uno o en lote',
+      'Al aprobar, el pago se aplica y el recibo le llega al cliente; respuesta automática en cada paso',
       'La confirmación final sigue siendo de una persona contra el extracto, como exige la operación bancaria en Colombia',
     ],
+    entregable: 'Un pago por link y uno por comprobante, aprobados y con su recibo',
+    depende: 'Módulo 3',
+  },
+  {
+    num: '05',
+    nombre: 'Carteras, acuerdos, cruces de cartera y morosos',
+    icon: TriangleAlert,
+    color: '#f59e0b',
+    colorAlpha: 'rgba(245,158,11,.10)',
+    colorBorder: 'rgba(245,158,11,.28)',
+    semanas: 'Semanas 8 y 9',
+    precio: 1800000,
+    descripcion: 'La lista de morosos a pedido, con la acción que corresponde a cada caso, y las herramientas para negociar con el cliente.',
+    items: [
+      'Listado de morosos al momento, con edades de cartera, filtros por empresa, proyecto y días de atraso, y exportación a Excel',
+      'Historial de gestión de cobro por cliente: mensajes, llamadas y compromisos',
+      'Acuerdos de pago que generan un plan nuevo sobre lo vencido, con aprobación y alerta si se incumplen',
+      'Cruce de cartera: saldar la deuda de un cliente contra una cuenta por pagar, con aprobación de gerencia',
+      'Provisión y castigo de cartera según lo que defina el contador, y certificados de paz y salvo',
+      'Alerta cuando un cliente de Cúcuta acumula tres cuotas: el sistema avisa y una persona decide',
+      'Bono por referido que se libera cuando el referido paga sus primeras cuotas, y se anula si desiste',
+    ],
+    entregable: 'Un cruce contra compras y un acuerdo de pago aprobados de punta a punta',
+    depende: 'Módulo 3',
+  },
+  {
+    num: '06',
+    nombre: 'Ingresos, bancos y conciliación (contabilidad completa como opción)',
+    icon: Landmark,
+    color: '#a78bfa',
+    colorAlpha: 'rgba(167,139,250,.10)',
+    colorBorder: 'rgba(167,139,250,.28)',
+    semanas: 'Semanas 10 y 11',
+    precio: 1900000,
+    descripcion: 'El libro de ingresos por sociedad y la conciliación contra los bancos. La contabilidad completa se puede sumar como opción.',
+    items: [
+      'Libro de ingresos por empresa y por sociedad, que reemplaza al libro diario de dineros recibidos',
+      'Carga de extractos bancarios y conciliación contra los pagos registrados, cuenta por cuenta',
+      'Saldos por cuenta bancaria y por empresa',
+      'Exportación para Helisa, que sigue siendo el sistema contable del contador',
+    ],
+    entregable: 'Una cuenta bancaria conciliada al peso',
+    depende: 'Módulo 3',
+    extra: {
+      nombre: 'Contabilidad completa',
+      precio: 2200000,
+      semanas: 'Semanas 12 y 13',
+      descripcion: 'Opcional. Convierte cada movimiento en contabilidad, para que la plataforma lleve la contabilidad de ingresos y cartera.',
+      items: [
+        'Plan de cuentas por sociedad',
+        'Comprobantes contables automáticos desde cada pago, devolución y cruce',
+        'Libros auxiliares y estados financieros',
+        'Balance de prueba por sociedad, comparable con el del contador',
+      ],
+      entregable: 'El balance de prueba de un mes, igual al del contador',
+    },
   },
   {
     num: '07',
-    nombre: 'Sociedades y reparto entre socios',
+    nombre: 'Socios, flujo de caja e informes',
     icon: Scale,
-    color: '#00bfa5',
-    colorAlpha: 'rgba(0,191,165,.10)',
-    colorBorder: 'rgba(0,191,165,.28)',
-    descripcion: 'Los porcentajes de cada socio, por proyecto y por cliente, con fecha de vigencia. El informe al socio sale solo.',
-    items: [
-      'Socios por proyecto con su porcentaje y la fecha desde la que rige',
-      'Excepciones por cliente: los que son solo de Mizar o solo del otro socio',
-      'Reparto de ingresos y gastos según el porcentaje vigente en cada fecha, por ejemplo de tres socios a dos',
-      'Gastos del proyecto tomados del módulo de compras y de la caja menor, sin volver a digitarlos',
-      'Comisiones de venta: lo causado, lo pagado y lo pendiente',
-      'Informe sencillo por socio en PDF: se recogió, se gastó, queda y le corresponde',
-    ],
-  },
-  {
-    num: '08',
-    nombre: 'Flujo de caja del grupo',
-    icon: TrendingUp,
     color: '#34d399',
     colorAlpha: 'rgba(52,211,153,.10)',
     colorBorder: 'rgba(52,211,153,.28)',
-    descripcion: 'El consolidado del grupo empresarial, al día y sin fórmulas: lo programado frente a lo que realmente entró y salió.',
+    semanas: 'Semanas 14 y 15',
+    precio: 1900000,
+    descripcion: 'El reparto entre socios, el flujo de caja del grupo y los informes de gerencia, sin fórmulas escritas a mano.',
     items: [
-      'Programado frente a recaudado, mes a mes, por proyecto y consolidado',
-      'Egresos del mes tomados de compras y caja menor',
-      'Flujo del mes y caja proyectada para los meses siguientes',
-      'Saldo por cuenta bancaria y por sede',
-      'Porcentaje de recaudo sobre lo programado, que se vuelve la línea base para medir mejoras',
-      'Exportación a Excel para las juntas de socios',
+      'Socios por proyecto con su porcentaje y la fecha desde la que rige, y excepciones por cliente',
+      'Reparto de ingresos y gastos con el porcentaje vigente en cada fecha, con los gastos tomados de compras y caja menor',
+      'Comisiones de venta: lo causado, lo pagado y lo pendiente',
+      'Informe sencillo por socio en PDF: se recogió, se gastó, queda y le corresponde',
+      'Flujo de caja del grupo con el formato de hoy: programado frente a recaudado y gastado, caja proyectada y período del 15 al 14',
+      'Los 16 informes de gerencia, con exportación a Excel',
     ],
+    entregable: 'El informe al socio y el flujo del mes en paralelo, iguales a los que hoy arma gerencia',
+    depende: 'Módulos 3 y 6',
   },
   {
-    num: '09',
-    nombre: 'Recordatorios y cobranza automática',
+    num: '08',
+    nombre: 'Recordatorios de cobro (recompensas como opción)',
     icon: BellRing,
     color: '#38bdf8',
     colorAlpha: 'rgba(56,189,248,.10)',
     colorBorder: 'rgba(56,189,248,.28)',
+    semanas: 'Semana 16',
+    precio: 700000,
     descripcion: 'El primer recordatorio sale solo. El equipo solo interviene donde de verdad hace falta.',
     items: [
       'Recordatorios por WhatsApp según la fecha de corte de cada cliente: antes, el día del corte y después',
       'Reglas según el comportamiento: al buen pagador un mensaje, al atrasado una llamada asignada',
       'Mensajes con el nombre, el valor y la fecha de cada cliente, aprobados por Meta',
-      'Horarios y frecuencia configurables para cumplir la regulación de cobranza',
+      'Horarios y frecuencia configurables según la regulación de cobranza, y sin recordatorios a quien no tenga autorización registrada',
       'Aviso interno cuando un cliente entra en mora o incumple un acuerdo',
-      'Registro de cada mensaje enviado dentro del historial del cliente',
     ],
+    entregable: 'Recordatorios funcionando, solo en horario permitido',
+    depende: 'Módulos 3 y 4',
+    extra: {
+      nombre: 'Recompensas por pagar a tiempo',
+      precio: 800000,
+      semanas: 'Semana 17',
+      descripcion: 'Opcional. Premia al cliente que paga a tiempo, con un piloto medido antes de extenderlo.',
+      items: [
+        'Rachas de pago, puntos y beneficios sencillos',
+        'Una campaña de prueba en un proyecto de cada empresa, con tope mensual de presupuesto',
+        'Medición del recaudo antes y después de la campaña',
+      ],
+      entregable: 'Una campaña de prueba medida',
+    },
+  },
+  {
+    num: '09',
+    nombre: 'Puesta en marcha y capacitación',
+    icon: GraduationCap,
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.10)',
+    colorBorder: 'rgba(201,164,67,.28)',
+    semanas: 'Semana 18',
+    precio: 900000,
+    descripcion: 'Que el equipo use el sistema solo y se pueda retirar el Excel con tranquilidad.',
+    items: [
+      'Capacitación por rol: cartera, tesorería, sede, gerencia y contador',
+      'Trabajo en paralelo con el Excel hasta confirmar que todo cuadra',
+      'Verificación de que todos los saldos son iguales al Excel en la fecha de corte',
+      'Retiro de los archivos de control actuales',
+      'Garantía correctiva de 30 días desde la entrega',
+    ],
+    entregable: '100 % de los saldos iguales al Excel en la fecha de corte',
+    depende: 'Los módulos contratados',
   },
 ];
+
+const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
+const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
+const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
+
+const cop = (n: number) => '$' + n.toLocaleString('es-CO');
 
 // ─── PLAN DE TRABAJO ─────────────────────────────────────────────────────────
 
@@ -278,119 +348,197 @@ const FASES = [
   {
     num: '01',
     semanas: 'Semanas 1 y 2',
-    titulo: 'Reglas del dinero y base de clientes',
+    titulo: 'Base de las dos empresas',
+    modulos: 'Módulo 1',
     color: MIZAR_GOLD,
     colorAlpha: 'rgba(201,164,67,.10)',
     colorBorder: 'rgba(201,164,67,.28)',
-    desc: 'Cerramos por escrito las reglas de dinero y cargamos la base real de clientes, que es el cimiento de todo lo demás.',
+    desc: 'Dejamos creadas las dos empresas con sus sociedades, proyectos, cuentas y personas, y cerramos por escrito las reglas del dinero.',
     hitos: [
-      'Sesión con Claudia, José Luis y su contador para fijar la tasa de mora, el orden de aplicación, los abonos, los acuerdos y la regla de las tres cuotas',
-      'Catálogo de sedes, proyectos, inmuebles, cuentas bancarias y socios',
-      'Depuración de los Excel de Bucaramanga y Cúcuta, fila por fila, con Jennifer y Yurley',
-      'Alta de clientes y planes de pago funcionando en la plataforma',
+      'Sesión con gerencia y contador para fijar el orden de aplicación de pagos, los abonos y las reglas de cada sede',
+      'Empresas, sociedades titulares, proyectos, inmuebles, cuentas bancarias y socios',
+      'Roles y permisos de cada persona',
     ],
-    entregable: 'Clientes y planes cargados en la plataforma, revisables por el equipo',
+    entregable: 'Reglas firmadas, o con el valor por defecto aceptado, y empresas y cuentas creadas',
   },
   {
     num: '02',
     semanas: 'Semanas 3 y 4',
-    titulo: 'Pagos, motor financiero y estado de cuenta',
-    color: '#f87171',
-    colorAlpha: 'rgba(248,113,113,.10)',
-    colorBorder: 'rgba(248,113,113,.28)',
-    desc: 'Construimos el corazón del módulo: el registro de pagos y el cálculo de capital, interés y mora.',
-    hitos: [
-      'Registro de pagos con recibo consecutivo y soporte adjunto',
-      'Motor de mora, interés y capital, con abonos extra y acuerdos de pago',
-      'Estado de cuenta por cédula, en pantalla y en PDF',
-      'Saldos de la administración anterior de Cúcuta cargados y mostrados aparte',
-    ],
-    entregable: 'Jennifer y Yurley registran pagos reales en la plataforma, en paralelo con el Excel',
-  },
-  {
-    num: '03',
-    semanas: 'Semanas 5 y 6',
-    titulo: 'WhatsApp, verificación y morosos',
-    color: '#25D366',
-    colorAlpha: 'rgba(37,211,102,.10)',
-    colorBorder: 'rgba(37,211,102,.28)',
-    desc: 'Abrimos el canal del cliente y cerramos el ciclo del pago, desde que lo reporta hasta que recibe su recibo.',
-    hitos: [
-      'Opción "Reportar pago" en WhatsApp, sobre el canal que ya usa compras',
-      'Bandeja de tesorería con alertas de referencia repetida y valores que no cuadran',
-      'Bandeja de pagos por identificar',
-      'Listado de morosos, alerta de tres cuotas y bono por referido',
-    ],
-    entregable: 'Ciclo completo del pago, desde el reporte del cliente hasta el recibo',
-  },
-  {
-    num: '04',
-    semanas: 'Semanas 7 y 8',
-    titulo: 'Socios, comisiones y flujo de caja',
-    color: '#00bfa5',
-    colorAlpha: 'rgba(0,191,165,.10)',
-    colorBorder: 'rgba(0,191,165,.28)',
-    desc: 'Llevamos la cartera al nivel de la gerencia: el reparto entre socios y la foto del dinero del grupo.',
-    hitos: [
-      'Socios con porcentajes por proyecto y por cliente, con fecha de vigencia',
-      'Informe sencillo por socio, con gastos tomados de compras y caja menor',
-      'Comisiones de venta causadas, pagadas y pendientes',
-      'Flujo de caja programado frente a ejecutado, por proyecto y consolidado',
-    ],
-    entregable: 'Primer informe a socios y primer flujo del grupo generados por la plataforma',
-  },
-  {
-    num: '05',
-    semanas: 'Semanas 9 y 10',
-    titulo: 'Cobranza automática y puesta en marcha',
+    titulo: 'Clientes, planes y migración de los Excel',
+    modulos: 'Módulo 2',
     color: '#38bdf8',
     colorAlpha: 'rgba(56,189,248,.10)',
     colorBorder: 'rgba(56,189,248,.28)',
-    desc: 'Activamos los recordatorios, capacitamos a cada rol y retiramos el Excel cuando los números cuadren.',
+    desc: 'Cargamos la base real de clientes y planes, que es el cimiento de todo lo demás.',
     hitos: [
-      'Recordatorios automáticos por fecha de corte y reglas según el comportamiento del cliente',
-      'Capacitación por rol: cartera, tesorería, gerencia y responsable de Cúcuta',
-      'Dos semanas de acompañamiento con el Excel en paralelo, hasta confirmar que todo cuadra',
+      'Alta de clientes y contratos con el simulador de lotes',
+      'Depuración de los Excel de las dos empresas, fila por fila, con el equipo',
+      'Saldos de la administración anterior de Cúcuta cargados aparte',
+    ],
+    entregable: 'Todos los contratos cargados con su plan',
+  },
+  {
+    num: '03',
+    semanas: 'Semanas 5 a 7',
+    titulo: 'Pagos, intereses y estado de cuenta, y WhatsApp',
+    modulos: 'Módulos 3 y 4',
+    color: '#f87171',
+    colorAlpha: 'rgba(248,113,113,.10)',
+    colorBorder: 'rgba(248,113,113,.28)',
+    desc: 'Construimos el corazón del sistema: el registro de pagos, el cálculo de capital, interés y mora, el estado de cuenta, y el canal del cliente por WhatsApp.',
+    hitos: [
+      'Registro de pagos con recibo consecutivo y soporte adjunto',
+      'Motor de mora, interés y capital, con abonos extra',
+      'Estado de cuenta por cédula, en pantalla y en PDF',
+      'Link de pago, lectura del comprobante y bandeja de aprobación de tesorería',
+    ],
+    entregable: '20 contratos con el mismo saldo del Excel; un pago por link y uno por comprobante aprobados y con recibo',
+  },
+  {
+    num: '04',
+    semanas: 'Semanas 8 y 9',
+    titulo: 'Carteras, acuerdos, cruces y morosos',
+    modulos: 'Módulo 5',
+    color: '#f59e0b',
+    colorAlpha: 'rgba(245,158,11,.10)',
+    colorBorder: 'rgba(245,158,11,.28)',
+    desc: 'Damos al equipo las herramientas para cobrar y para negociar con el cliente atrasado.',
+    hitos: [
+      'Morosos, edades de cartera y gestión de cobro',
+      'Acuerdos de pago ampliados, cruces de cartera, provisión y certificados',
+      'Alerta de tres cuotas y bono por referido',
+    ],
+    entregable: 'Un cruce contra compras y un acuerdo de pago aprobados de punta a punta',
+  },
+  {
+    num: '05',
+    semanas: 'Semanas 10 a 13',
+    titulo: 'Ingresos, bancos, conciliación y contabilidad',
+    modulos: 'Módulo 6 (y su opción de contabilidad completa)',
+    color: '#a78bfa',
+    colorAlpha: 'rgba(167,139,250,.10)',
+    colorBorder: 'rgba(167,139,250,.28)',
+    desc: 'Conectamos el dinero que entra con los bancos y, si Mizar lo contrata, con la contabilidad.',
+    hitos: [
+      'Libro de ingresos por empresa y sociedad',
+      'Carga de extractos y conciliación de cada cuenta',
+      'Opción: plan de cuentas, comprobantes automáticos, libros y estados financieros',
+    ],
+    entregable: 'Una cuenta conciliada al peso y, con la opción, el balance de prueba de un mes igual al del contador',
+  },
+  {
+    num: '06',
+    semanas: 'Semanas 14 y 15',
+    titulo: 'Socios, flujo de caja e informes',
+    modulos: 'Módulo 7',
+    color: '#34d399',
+    colorAlpha: 'rgba(52,211,153,.10)',
+    colorBorder: 'rgba(52,211,153,.28)',
+    desc: 'Llevamos el sistema al nivel de la gerencia: el reparto entre socios y la foto del dinero del grupo.',
+    hitos: [
+      'Participaciones por proyecto y por cliente, con fecha de vigencia',
+      'Informe por socio, comisiones y flujo de caja del grupo',
+      'Los 16 informes de gerencia',
+    ],
+    entregable: 'El informe al socio y el flujo de un mes en paralelo, iguales a los actuales',
+  },
+  {
+    num: '07',
+    semanas: 'Semanas 16 y 17',
+    titulo: 'Recordatorios y recompensas',
+    modulos: 'Módulo 8',
+    color: '#25D366',
+    colorAlpha: 'rgba(37,211,102,.10)',
+    colorBorder: 'rgba(37,211,102,.28)',
+    desc: 'Activamos la cobranza automática y, si Mizar lo contrata, la prueba de recompensas.',
+    hitos: [
+      'Recordatorios por fecha de corte y reglas según el comportamiento',
+      'Mensajes solo en horario permitido y con autorización registrada',
+      'Opción: campaña de recompensas de prueba, medida',
+    ],
+    entregable: 'Recordatorios funcionando y, con la opción, una campaña de prueba medida',
+  },
+  {
+    num: '08',
+    semanas: 'Semana 18',
+    titulo: 'Puesta en marcha',
+    modulos: 'Módulo 9',
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.10)',
+    colorBorder: 'rgba(201,164,67,.28)',
+    desc: 'Capacitamos a cada rol, trabajamos en paralelo con el Excel y lo retiramos cuando los números cuadren.',
+    hitos: [
+      'Capacitación por rol',
+      'Paralelo con el Excel hasta confirmar que todo cuadra',
       'Retiro de los archivos de control actuales',
     ],
-    entregable: 'Módulo de cartera en producción y los Excel de control retirados',
+    entregable: '100 % de los saldos iguales al Excel en la fecha de corte',
   },
 ];
 
 // ─── INSUMOS ─────────────────────────────────────────────────────────────────
 
 const INSUMOS = [
-  'Los Excel de Bucaramanga y de Cúcuta, sin datos reales para el diseño y con datos reales para la carga',
-  'Una promesa de compraventa de ejemplo, con su tabla de capital e interés',
-  'Un contrato de Mi Lote (formato MF) de ejemplo',
-  'La lista de proyectos con sus socios, porcentajes y fechas de vigencia',
-  'La tasa de mora y sus condiciones, validadas por el contador o el abogado de Mizar',
-  'El número aproximado de clientes activos y de cuentas bancarias por sede',
+  'Los Excel de Bucaramanga y de Cúcuta: sin datos reales para el diseño y con datos reales para la carga',
+  'Una promesa de compraventa de ejemplo, con su tabla de capital e interés, y un contrato de Mi Lote de ejemplo',
+  'La lista de proyectos con su sociedad titular, sus socios, porcentajes y fechas de vigencia',
+  'La lista de precios de lotes de Cúcuta',
+  'Las cuentas bancarias de cada sociedad y los extractos de una cuenta para probar la conciliación',
+  'La tasa de mora y sus condiciones, validadas por el contador o el abogado de Mizar (puede esperar: la mora arranca apagada)',
+  'El número aproximado de clientes activos y de pagos al mes por empresa',
 ];
 
 // ─── FUERA DE ALCANCE ────────────────────────────────────────────────────────
 
 const FUERA = [
   {
-    titulo: 'Gamificación y campañas de recompensa',
-    desc: 'Rachas de pago, anillo de progreso y campañas como la de la prima se proponen como una fase siguiente, cuando la cartera esté operando y exista una línea base del recaudo para medir si funcionan. Todo lo que construye esta propuesta es la base que esas campañas necesitan.',
+    titulo: 'Gamificación avanzada',
+    desc: 'El módulo 8 opcional incluye una prueba sencilla de recompensas. Juegos más elaborados, niveles o campañas permanentes se cotizan aparte, cuando exista una línea base del recaudo para medir si funcionan.',
     icon: Gamepad2, tint: 'purple',
   },
   {
     titulo: 'Conexión directa con los bancos',
-    desc: 'En Colombia los bancos no ofrecen una conexión directa para confirmar pagos, así que la confirmación sigue siendo de una persona. Sixteam investiga las alertas de Bancolombia por correo o SMS y el servicio de avisos que mencionó José Luis, y presenta el resultado por separado.',
+    desc: 'En Colombia los bancos no ofrecen una conexión directa para confirmar pagos, así que los extractos se cargan y la confirmación sigue siendo de una persona. Si aparece un servicio de avisos confiable, entra por el mismo cruce y se cotiza por separado.',
     icon: Landmark, tint: 'blue',
   },
   {
-    titulo: 'Definir la tasa de mora y las decisiones legales',
-    desc: 'La tasa la fija Mizar con su contador o su abogado, dentro del tope legal, y debe estar pactada en los contratos. La recuperación de un lote en Cúcuta la decide una persona según el contrato. La plataforma aplica las reglas y alerta; no las define.',
+    titulo: 'Fijar la tasa de mora y las decisiones legales',
+    desc: 'La tasa la fija Mizar con su contador o su abogado, dentro del tope legal, y debe estar pactada en los contratos. La mora arranca apagada hasta que Mizar firme la tasa. La recuperación de un lote la decide una persona según el contrato.',
     icon: Scale, tint: 'red',
   },
   {
-    titulo: 'Sistema contable y cuenta de Miraflor',
-    desc: 'Helisa sigue siendo el sistema contable y la plataforma le entrega la información exportable. La titularidad de la cuenta de Miraflor es un tema que Mizar resuelve con su asesor; la plataforma registra lo que entra por ella.',
+    titulo: 'Facturación electrónica y conexión con Siigo u otro software contable',
+    desc: 'La factura y la nómina electrónicas, y una conexión directa con Siigo u otro programa contable, no se construyen aquí. El sistema exporta la información para Helisa, o se conecta después con un proveedor autorizado, según lo que Mizar decida.',
     icon: FileText, tint: 'amber',
   },
+  {
+    titulo: 'Portal del cliente, giro de utilidades y cambios al bot',
+    desc: 'El cliente recibe todo por WhatsApp, sin portal propio. El informe calcula lo que le toca a cada socio, pero el giro se hace con una orden de pago de compras. Los cambios al bot de ventas son otro servicio.',
+    icon: Puzzle, tint: 'teal',
+  },
+  {
+    titulo: 'La cuenta de Miraflor',
+    desc: 'La titularidad de esa cuenta es un tema que Mizar resuelve con su asesor. El sistema registra lo que entra por ella como dinero de una cuenta de tercero.',
+    icon: Lock, tint: 'gold',
+  },
+];
+
+// ─── POR CONFIRMAR ───────────────────────────────────────────────────────────
+
+const PENDIENTES: { tema: string; pregunta: string; porDefecto: string }[] = [
+  { tema: 'Empresa de Cúcuta', pregunta: '¿Cuál es su razón social y su NIT, y qué son Ictinos y la Asociación Miraflor frente a ella?', porDefecto: 'Una empresa «Cúcuta» con sus cuentas, y Miraflor como cuenta de tercero' },
+  { tema: 'Sociedades por proyecto', pregunta: '¿Qué sociedad es titular de cada proyecto y cuáles llevan contabilidad propia?', porDefecto: 'Cada hoja del libro de dineros recibidos es una sociedad, agrupadas en Bucaramanga y Cúcuta' },
+  { tema: 'Contabilidad y Helisa', pregunta: '¿La plataforma reemplaza a Helisa o conviven? ¿La factura y la nómina siguen en Helisa?', porDefecto: 'Conviven un año: la plataforma lleva la contabilidad de ingresos y cartera y exporta a Helisa' },
+  { tema: 'Avisos bancarios', pregunta: '¿Se contrata un servicio de avisos bancarios o se leen los correos del banco?', porDefecto: 'Solo carga de extractos' },
+  { tema: 'Pasarela de pagos', pregunta: '¿Cuál pasarela se usa y quién asume la comisión?', porDefecto: 'Una pasarela por empresa; la comisión la asume Mizar' },
+  { tema: 'Recompensas', pregunta: '¿Qué beneficios se dan, con qué presupuesto mensual y en qué proyectos?', porDefecto: 'Piloto en un proyecto de cada empresa, con tope mensual' },
+  { tema: 'Otras carteras', pregunta: '¿Hay arriendos, préstamos a socios o anticipos que se deban llevar además de las ventas?', porDefecto: 'Solo ventas y préstamos entre empresas' },
+  { tema: 'Cruces de cartera', pregunta: '¿Quién aprueba un cruce y con qué tope? ¿Se aceptan pagos en especie?', porDefecto: 'Aprueba gerencia, sin tope; en especie solo con avalúo' },
+  { tema: 'Provisión y castigo', pregunta: '¿Qué porcentajes por tramo de atraso y cuándo se castiga una cuenta?', porDefecto: 'Según el contador, sin castigo automático' },
+  { tema: 'Participación en Cúcuta', pregunta: 'En el informe de Cúcuta, la «comisión» es la mitad de lo recaudado: ¿es una participación, un reparto entre socios o una comisión?', porDefecto: 'Se modela como participación configurable sobre el recaudo' },
+  { tema: 'Dinero fuera de la cuenta de la sociedad', pregunta: '¿Se sigue recibiendo dinero en cuentas personales y en efectivo? ¿En cuántos días debe quedar en la cuenta de la sociedad?', porDefecto: 'Se permite; queda «por trasladar» y alerta a los 3 días hábiles' },
+  { tema: 'Descuento de nómina', pregunta: '¿Qué empleados compran a cuotas y cómo se registra el descuento?', porDefecto: 'Medio de pago «descuento de nómina» con el soporte de la nómina' },
+  { tema: 'Lista de precios y bonos', pregunta: '¿Quién actualiza la lista de precios de lotes y cada cuánto? ¿Quién autoriza un bono de descuento?', porDefecto: 'La actualiza gerencia; el bono lo autoriza gerencia o el responsable de sede' },
 ];
 
 // ─── TÉRMINOS ────────────────────────────────────────────────────────────────
@@ -398,22 +546,22 @@ const FUERA = [
 const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   {
     titulo: 'Cómo aceptar esta propuesta',
-    desc: 'Mizar confirma su aceptación vía WhatsApp, correo electrónico o de forma verbal. Con esa confirmación se procede con la firma del contrato y el primer pago.',
+    desc: 'Mizar confirma su aceptación vía WhatsApp, correo electrónico o de forma verbal, indicando qué módulos contrata. Con esa confirmación se procede con la firma del contrato y el primer pago.',
     icon: CheckCircle,
   },
   {
-    titulo: 'Forma de pago del desarrollo',
-    desc: 'Dos cuotas iguales de $3.000.000 COP: la primera al iniciar el proyecto y la segunda contra la entrega del módulo en producción.',
+    titulo: 'Contratación y pago por módulo',
+    desc: 'Cada módulo tiene su propio valor, se entrega y se aprueba por separado, y se paga al entregarse. El módulo 1 se paga al firmar, para arrancar. Los módulos 1, 2 y 3 son la base indispensable; los demás se contratan en el orden en que se construyen. Los módulos opcionales, contabilidad completa y recompensas, se pueden contratar ahora o más adelante.',
     icon: FileText,
   },
   {
-    titulo: 'Pago mensual',
-    desc: 'El módulo de cartera suma $150.000 COP al valor mensual que Mizar ya paga por la plataforma, que pasa de $350.000 a $500.000. Se paga mes a mes de forma anticipada desde que el módulo entra en producción y queda dentro del mismo contrato anual de uso.',
+    titulo: 'Pago mensual (por confirmar)',
+    desc: 'Por confirmar: el sistema suma $150.000 COP al valor mensual que Mizar ya paga por la plataforma, que pasaría de $350.000 a $500.000. Se pagaría mes a mes de forma anticipada desde que el primer módulo entra en producción, dentro del mismo contrato anual de uso. Este valor se define antes de firmar.',
     icon: Clock,
   },
   {
     titulo: 'Tarifas de mensajes de Meta',
-    desc: 'Los recordatorios y avisos por WhatsApp tienen una tarifa por mensaje que cobra Meta. No está incluida en el valor mensual y la asume Mizar al costo, sin margen de Sixteam. El consumo depende del número de clientes y de las reglas de recordatorio que se activen.',
+    desc: 'Los recordatorios y avisos por WhatsApp tienen una tarifa por mensaje que cobra Meta. No está incluida en el valor mensual y la asume Mizar al costo, sin margen de Sixteam. El consumo depende del número de clientes y de las reglas de recordatorio que se activen. La comisión de la pasarela de pagos, si se activa el link de pago, también la asume Mizar.',
     icon: MessageSquare,
   },
   {
@@ -423,12 +571,17 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Duración del desarrollo',
-    desc: '10 semanas desde el inicio del proyecto, en cinco fases con un entregable revisable al cierre de cada una.',
+    desc: '18 semanas desde el inicio del proyecto, en ocho fases con un entregable revisable al cierre de cada una. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.',
     icon: Zap,
   },
   {
+    titulo: 'La mora arranca apagada',
+    desc: 'El sistema solo cobra mora cuando Mizar firme la tasa y las condiciones, validadas con su contador o abogado. Mientras tanto, los pagos se registran y se separan en capital e interés, pero no se liquida mora.',
+    icon: Scale,
+  },
+  {
     titulo: 'Datos personales y cobranza',
-    desc: 'Mizar es responsable de contar con la autorización de sus clientes para tratar sus datos y contactarlos por WhatsApp. Los horarios y la frecuencia de los mensajes de cobro se configuran según la regulación de cobranza vigente, que Mizar valida con su asesor.',
+    desc: 'Mizar es responsable de contar con la autorización de sus clientes para tratar sus datos y contactarlos por WhatsApp. Los horarios y la frecuencia de los mensajes de cobro se configuran según la regulación de cobranza vigente, que Mizar valida con su asesor. Sin autorización registrada no salen recordatorios.',
     icon: ShieldCheck,
   },
   {
@@ -438,7 +591,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Modificaciones al alcance',
-    desc: 'Todo requerimiento funcional no contemplado en esta propuesta se maneja mediante cotización independiente y no modifica el valor mensual acordado.',
+    desc: 'Todo requerimiento funcional no contemplado en esta propuesta se maneja mediante cotización independiente y no modifica el valor mensual acordado. Las decisiones por confirmar se resuelven con el valor por defecto indicado; si Mizar decide otra cosa y cambia el alcance, se ajusta el valor del módulo afectado de común acuerdo.',
     icon: AlertCircle,
   },
   {
@@ -448,7 +601,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Responsables del proyecto',
-    desc: 'Mizar designa un responsable en Bucaramanga y uno en Cúcuta para las sesiones de validación al cierre de cada fase. La participación de Jennifer y Yurley en la depuración de los Excel es determinante para que los saldos cuadren desde el primer día.',
+    desc: 'Mizar designa un responsable en Bucaramanga, uno en Cúcuta y a su contador para las sesiones de validación al cierre de cada fase. La participación del equipo de cartera de cada sede en la depuración de los Excel es determinante para que los saldos cuadren desde el primer día.',
     icon: Target,
   },
   {
@@ -503,6 +656,8 @@ const MizarCarteraProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [moduloActivo, setModuloActivo] = useState<number | null>(null);
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
+  const [extras, setExtras] = useState<Record<string, boolean>>({ '06': true, '08': true });
+  const totalOpciones = MODULOS.reduce((t, m) => t + (m.extra && extras[m.num] ? m.extra.precio : 0), 0);
 
   useEffect(() => {
     const handler = () => {
@@ -590,7 +745,7 @@ const MizarCarteraProposal = () => {
           <div className="w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-10 lg:gap-12 items-center">
 
             <div className="flex flex-col justify-center">
-              <TagLabel>Propuesta de trabajo y cotización · Nuevo módulo de la plataforma</TagLabel>
+              <TagLabel>Propuesta de trabajo y cotización · Nuevos módulos de la plataforma</TagLabel>
               <div className="mt-4 mb-3 flex flex-wrap items-center gap-2">
                 <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
                   style={{ background: `linear-gradient(135deg, ${MIZAR_GOLD}, #8f7226)` }}>
@@ -600,7 +755,7 @@ const MizarCarteraProposal = () => {
                 <span className="font-poppins font-bold text-white/85 text-[18px]">Mizar · Mi Lote</span>
                 <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
                   style={{ background: 'rgba(201,164,67,.12)', border: '1px solid rgba(201,164,67,.28)', color: MIZAR_GOLD }}>
-                  Cartera y recaudo
+                  Sistema financiero de ingresos
                 </span>
               </div>
               <h1 className="font-poppins font-black text-white leading-[1.0] mb-4"
@@ -646,7 +801,7 @@ const MizarCarteraProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo','2. Resultados que obtendrán','3. Pruebe la demo','4. Qué incluye el módulo','5. Plan de trabajo','6. Alcance y límites','7. Propuesta de inversión','8. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo','2. Resultados que obtendrán','3. Pruebe la demo','4. Los nueve módulos','5. Plan de trabajo','6. Alcance y por confirmar','7. Inversión por módulo','8. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -737,17 +892,17 @@ const MizarCarteraProposal = () => {
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Sedes</p>
-                <p className="font-poppins font-semibold text-white/80 text-[18px]">Bucaramanga y Cúcuta, con reglas distintas</p>
+                <p className="font-poppins font-semibold text-white/80 text-[18px]">Mizar en Bucaramanga y Mi Lote en Cúcuta, con reglas distintas</p>
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Equipo involucrado</p>
-                <p className="font-lato text-white/60 text-[18px]">Cartera, tesorería, gerencia, Cúcuta y socios</p>
+                <p className="font-lato text-white/60 text-[18px]">Cartera, tesorería, sedes, gerencia, contador y socios</p>
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Situación actual</p>
                 <div className="flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#f59e0b' }} />
-                  <p className="font-poppins font-semibold text-[15px] text-[#f59e0b]">Cartera en varios Excel, llenados a mano</p>
+                  <p className="font-poppins font-semibold text-[15px] text-[#f59e0b]">Cartera, ingresos y contabilidad en varios Excel</p>
                 </div>
               </div>
               <div>
@@ -756,20 +911,20 @@ const MizarCarteraProposal = () => {
               </div>
               <div>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Formatos base</p>
-                <p className="font-lato text-white/60 text-[18px]">Dineros recibidos, flujo por proyecto e informes a socios</p>
+                <p className="font-lato text-white/60 text-[18px]">Dineros recibidos, flujo por proyecto, informes a socios y extractos</p>
               </div>
             </div>
           </div>
 
           <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
             <p>
-              Mizar vende a cuotas y financia directamente a sus compradores, muchos de ellos en el exterior y sin estudio de crédito. Eso convierte la cartera en el asunto de caja más importante de la empresa: de nada sirve vender si el recaudo no está organizado. Hoy ese recaudo vive en varios Excel que Jennifer, Yurley y José Luis llenan a mano, pago por pago.
+              Mizar vende a cuotas y financia directamente a sus compradores, muchos de ellos en el exterior y sin estudio de crédito. Eso convierte el dinero que entra en el asunto de caja más importante del grupo: de nada sirve vender si el recaudo no está organizado. Hoy ese recaudo vive en varios Excel que el equipo de cada sede llena a mano, pago por pago, para dos empresas distintas, Mizar en Bucaramanga y Mi Lote en Cúcuta, y para las sociedades que son dueñas de cada proyecto.
             </p>
             <p>
-              En la reunión del 23 de septiembre la ingeniera Claudia planteó el objetivo con claridad: <strong className="text-white/90 font-semibold">saber mes a mes cuánto dinero está programado, cuánto se recogió y cuánto se puede gastar</strong>, para decidir si la empresa puede tomar más proyectos. Y para el día a día, una plataforma donde el cliente y su plan se crean una vez, los pagos se digitan una vez, la mora se calcula sola y el estado de cuenta sale al digitar la cédula.
+              En la reunión del 23 de septiembre la ingeniera Claudia planteó el objetivo con claridad: <strong className="text-white/90 font-semibold">saber mes a mes cuánto dinero está programado, cuánto se recogió y cuánto se puede gastar</strong>, para decidir si la empresa puede tomar más proyectos. A medida que se detalló el trabajo, el alcance creció de una cartera a un <strong className="text-white/90 font-semibold">sistema financiero de ingresos</strong>: clientes y planes, pagos, mora, bancos, contabilidad, socios y flujo de caja, para las dos empresas.
             </p>
             <p>
-              Sixteam propone construirlo como un <strong className="text-white/90 font-semibold">módulo nuevo dentro de la Plataforma Mizar</strong>, la misma donde ya viven compras, pagos de obra y caja menor. Son <strong className="text-white/90 font-semibold">nueve funcionalidades en diez semanas</strong>, con las reglas de Bucaramanga y de Cúcuta configuradas por sede, no como dos sistemas distintos.
+              Sixteam propone construirlo dentro de la <strong className="text-white/90 font-semibold">Plataforma Mizar</strong>, la misma donde ya viven compras, pagos de obra y caja menor, y presentarlo por módulos: <strong className="text-white/90 font-semibold">nueve módulos en 18 semanas</strong>, cada uno con su alcance, su entregable y su propio precio, para que Mizar vea qué paga por cada parte y pueda recibirlo y pagarlo módulo a módulo.
             </p>
           </div>
 
@@ -781,7 +936,7 @@ const MizarCarteraProposal = () => {
             <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr_auto_1fr] gap-3 items-stretch">
               {[
                 { t: 'Compras y pagos de obra', s: 'Requisiciones, órdenes de compra, pagos y caja menor', e: 'Ya en marcha', c: '#38bdf8', bg: 'rgba(56,189,248,.08)', bd: 'rgba(56,189,248,.22)', icon: FileSpreadsheet },
-                { t: 'Cartera y recaudo', s: 'Clientes, pagos, mora, estados de cuenta y socios', e: 'Esta propuesta', c: MIZAR_GOLD, bg: 'rgba(201,164,67,.10)', bd: 'rgba(201,164,67,.30)', icon: Wallet },
+                { t: 'Ingresos, cartera y contabilidad', s: 'Clientes, pagos, mora, bancos, contabilidad y socios', e: 'Esta propuesta', c: MIZAR_GOLD, bg: 'rgba(201,164,67,.10)', bd: 'rgba(201,164,67,.30)', icon: Wallet },
                 { t: 'Las finanzas del grupo', s: 'Lo que entra y lo que sale, en un solo lugar y al día', e: 'El resultado', c: '#00bfa5', bg: 'rgba(0,191,165,.08)', bd: 'rgba(0,191,165,.25)', icon: TrendingUp },
               ].flatMap((b, i, arr) => {
                 const Icon = b.icon;
@@ -805,7 +960,7 @@ const MizarCarteraProposal = () => {
               })}
             </div>
             <p className="font-lato text-white/50 text-[15px] mt-4 leading-relaxed">
-              Como usuarios, roles, servidor, respaldos y el canal de WhatsApp ya existen, este módulo cuesta menos y sale más rápido que un sistema nuevo. Y los gastos que compras ya registra alimentan directamente el informe a socios y el flujo de caja.
+              Como usuarios, roles, servidor, respaldos y el canal de WhatsApp ya existen, este sistema cuesta menos y sale más rápido que uno nuevo. Y los gastos que compras ya registra alimentan directamente el informe a socios y el flujo de caja.
             </p>
           </div>
 
@@ -921,16 +1076,16 @@ const MizarCarteraProposal = () => {
             <div className="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-8 items-center">
               <div>
                 <p className="font-lato text-white/60 text-[18px] leading-relaxed mb-5">
-                  Preparamos una demo navegable del módulo, con clientes y pagos ficticios, para que el equipo lo pruebe con sus propias manos. Nada de lo que se haga ahí se guarda.
+                  Preparamos una demo navegable del sistema, con clientes y pagos ficticios, para que el equipo lo pruebe con sus propias manos. Cubre lo que describen los módulos de esta propuesta, y nada de lo que se haga ahí se guarda.
                 </p>
                 <ul className="space-y-2.5 mb-6">
                   {[
-                    'Buscar un cliente por cédula y ver su estado de cuenta completo',
-                    'Registrar un pago parcial y ver cómo se reparte entre mora, interés y capital',
-                    'Confirmar un pago reportado por WhatsApp y ver cómo se bloquea una referencia repetida',
-                    'Revisar los morosos y la alerta de tres cuotas de Cúcuta',
-                    'Ver el informe de un socio y el flujo de caja del grupo',
-                    'Cambiar la tasa de mora y ver el efecto en toda la cartera',
+                    'Cambiar de empresa, Mizar o Mi Lote, y de rol: cartera, tesorería, sede, gerencia o contador',
+                    'Dar de alta una venta con su plan de pagos, y simular un lote de Cúcuta con la lista de precios',
+                    'Registrar un pago parcial, ver cómo se reparte entre mora, interés y capital, y descargar el recibo y el estado de cuenta en PDF',
+                    'Ver el link de pago por WhatsApp, el semáforo de tesorería y la aprobación de pagos en lote',
+                    'Revisar el dinero por trasladar, los morosos, los acuerdos de pago y el cruce de cartera',
+                    'Recorrer los bancos y la conciliación, la contabilidad con sus comprobantes, el informe a socios, el flujo de caja y los 16 informes',
                   ].map((t, j) => (
                     <li key={j} className="flex items-start gap-2.5">
                       <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
@@ -998,17 +1153,17 @@ const MizarCarteraProposal = () => {
         {/* ─ 04 QUÉ INCLUYE ─ */}
         <section id="incluye" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 · Qué incluye el módulo</TagLabel>
-          <SectionTitle>9 funcionalidades · Desarrollo a la medida</SectionTitle>
+          <TagLabel>04 · Los nueve módulos</TagLabel>
+          <SectionTitle>Qué incluye cada módulo y cuánto cuesta</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Nueve funcionalidades que cubren el ciclo completo de la cartera, desde la promesa de compraventa hasta el informe a los socios. Cada una se construye sobre los archivos y las reglas que Mizar y Mi Lote ya usan.
+            El sistema se construye y se entrega en nueve módulos. Cada uno muestra su alcance, su entregable, sus semanas y su precio, para que Mizar vea qué paga por cada parte. Dos módulos traen una parte opcional con su propio precio. Toca un módulo para ver el detalle.
           </p>
 
           <div className="relative">
             <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(201,164,67,.4), rgba(56,189,248,.4), rgba(248,113,113,.4), rgba(167,139,250,.4), rgba(245,158,11,.4), rgba(37,211,102,.4), rgba(0,191,165,.4), rgba(52,211,153,.4), rgba(56,189,248,.4))' }} />
+              style={{ background: 'linear-gradient(to bottom, rgba(201,164,67,.4), rgba(56,189,248,.4), rgba(248,113,113,.4), rgba(37,211,102,.4), rgba(245,158,11,.4), rgba(167,139,250,.4), rgba(52,211,153,.4), rgba(56,189,248,.4), rgba(201,164,67,.4))' }} />
 
             <div className="space-y-3">
               {MODULOS.map((mod, i) => {
@@ -1025,30 +1180,73 @@ const MizarCarteraProposal = () => {
 
                     <button onClick={() => setModuloActivo(open ? null : i)}
                       className="w-full flex items-center gap-3 p-4 sm:p-5 text-left">
-                      <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
+                      <div className="hidden sm:flex w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                         style={{ background: open ? mod.colorAlpha : 'rgba(255,255,255,.05)' }}>
                         <Icon className="w-4 h-4 transition-colors" style={{ color: open ? mod.color : 'rgba(255,255,255,.35)' }} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/70'}`}>{mod.nombre}</span>
+                        <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/70'}`}>
+                          <span className="sm:hidden" style={{ color: mod.color }}>{mod.num} · </span>{mod.nombre}
+                        </span>
                         <p className={`font-lato text-white/40 text-[15px] mt-0.5 ${open ? '' : 'line-clamp-1'}`}>{mod.descripcion}</p>
                       </div>
-                      <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ml-2 ${open ? 'rotate-90' : ''}`}
+                      <div className="flex-shrink-0 text-right ml-2">
+                        <p className="font-poppins font-black text-[17px] leading-tight" style={{ color: open ? mod.color : 'rgba(255,255,255,.75)' }}>{cop(mod.precio)}</p>
+                        <p className="font-lato text-white/30 text-[12px]">{mod.semanas}</p>
+                      </div>
+                      <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ml-1 ${open ? 'rotate-90' : ''}`}
                         style={{ color: open ? mod.color : 'rgba(255,255,255,.3)' }} />
                     </button>
 
                     {open && (
                       <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
                         <div className="pt-4">
-                          <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Funcionalidades incluidas</p>
+                          <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Qué incluye</p>
                           <ul className="space-y-2">
                             {mod.items.map((item, j) => (
                               <li key={j} className="flex items-start gap-2">
-                                <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
+                                <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
                                 <span className="font-lato text-white/65 text-[17px] flex-1">{item}</span>
                               </li>
                             ))}
                           </ul>
+                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                              <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
+                              <div>
+                                <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Entregable</p>
+                                <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.entregable}</p>
+                              </div>
+                            </div>
+                            <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                              <Layers className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
+                              <div>
+                                <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Se apoya en</p>
+                                <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.depende}</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          {mod.extra && (
+                            <div className="mt-4 rounded-xl p-4" style={{ background: mod.colorAlpha, border: `1px dashed ${mod.colorBorder}` }}>
+                              <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                  style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${mod.colorBorder}`, color: mod.color }}>Opcional</span>
+                                <p className="font-poppins font-bold text-white/90 text-[16px]">{mod.num}B · {mod.extra.nombre}</p>
+                                <p className="font-poppins font-black text-[16px] ml-auto" style={{ color: mod.color }}>+{cop(mod.extra.precio)}</p>
+                              </div>
+                              <p className="font-lato text-white/45 text-[14px] mb-2">{mod.extra.semanas} · {mod.extra.descripcion}</p>
+                              <ul className="space-y-1.5 mb-2">
+                                {mod.extra.items.map((item, j) => (
+                                  <li key={j} className="flex items-start gap-2">
+                                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
+                                    <span className="font-lato text-white/65 text-[16px] flex-1">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                              <p className="font-lato text-white/55 text-[14px]"><strong className="text-white/75">Entregable:</strong> {mod.extra.entregable}</p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}
@@ -1062,7 +1260,7 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(201,164,67,.06)', border: '1px solid rgba(201,164,67,.22)' }}>
             <Lock className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Todo opera bajo <strong className="text-white/80">acceso por roles</strong>: cartera digita, tesorería confirma, gerencia ve todo, Cúcuta ve lo suyo y los socios solo reciben su informe. Cada cambio queda registrado con quién lo hizo y cuándo, algo indispensable cuando hay dinero de socios y cobro de intereses.
+              Todo opera bajo <strong className="text-white/80">acceso por roles</strong>: cartera digita, tesorería confirma, la sede ve lo suyo, gerencia ve todo, el contador revisa la contabilidad y los socios solo reciben su informe. Cada cambio queda registrado con quién lo hizo y cuándo, algo indispensable cuando hay dinero de socios y cobro de intereses.
             </p>
           </div>
         </section>
@@ -1071,11 +1269,11 @@ const MizarCarteraProposal = () => {
         <section id="plan" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>05 · Plan de trabajo</TagLabel>
-          <SectionTitle>10 semanas hasta producción</SectionTitle>
+          <SectionTitle>18 semanas hasta producción</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Cinco fases de dos semanas, cada una con un entregable revisable. Desde la fase 2 el equipo ya registra pagos reales en la plataforma, y el Excel solo se retira cuando los números cuadran.
+            Ocho fases, cada una con un entregable revisable y ligada a uno o dos módulos. Desde la fase 3 el equipo ya registra pagos reales en la plataforma, y el Excel solo se retira cuando los números cuadran. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.
           </p>
 
           <div className="space-y-4">
@@ -1089,6 +1287,7 @@ const MizarCarteraProposal = () => {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-poppins font-bold text-white text-[20px] leading-tight">{f.titulo}</p>
+                    <p className="font-lato text-white/35 text-[13px] mt-0.5">{f.modulos}</p>
                   </div>
                   <span className="font-lato text-[12px] px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5"
                     style={{ background: 'rgba(255,255,255,.05)', border: `1px solid ${f.colorBorder}`, color: f.color }}>
@@ -1137,7 +1336,7 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(56,189,248,.05)', border: '1px solid rgba(56,189,248,.20)' }}>
             <Users className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#38bdf8]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              El cronograma asume una sesión de validación de cerca de una hora al cierre de cada fase, con Bucaramanga y Cúcuta. La depuración de los Excel en la fase 1 es la única tarea que pide más tiempo del equipo, y es la que garantiza que los saldos cuadren desde el primer día.
+              El cronograma asume una sesión de validación de cerca de una hora al cierre de cada fase, con Bucaramanga, Cúcuta y el contador. La depuración de los Excel en la fase 2 es la tarea que pide más tiempo del equipo, y es la que garantiza que los saldos cuadren desde el primer día.
             </p>
           </div>
         </section>
@@ -1145,12 +1344,12 @@ const MizarCarteraProposal = () => {
         {/* ─ 06 ALCANCE ─ */}
         <section id="alcance" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 · Alcance y límites</TagLabel>
-          <SectionTitle>Qué no está incluido en esta propuesta</SectionTitle>
+          <TagLabel>06 · Alcance y por confirmar</TagLabel>
+          <SectionTitle>Qué queda fuera y qué falta decidir</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Todo lo descrito en las nueve funcionalidades entra en esta inversión. Lo siguiente queda fuera de forma deliberada, para no mezclar lo urgente con lo que conviene hacer después.
+            Todo lo descrito en los nueve módulos entra en la inversión de la sección siguiente. Lo siguiente queda fuera de forma deliberada, para no mezclar lo urgente con lo que conviene hacer después.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -1169,13 +1368,33 @@ const MizarCarteraProposal = () => {
             })}
           </div>
 
+          <div className="rounded-2xl p-5 sm:p-6 mb-8" style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
+            <p className="font-poppins font-semibold text-white/80 text-[18px] mb-1 flex items-center gap-2">
+              <AlertCircle className="w-5 h-5 text-[#f59e0b]" /> Por confirmar con Mizar
+            </p>
+            <p className="font-lato text-white/50 text-[15px] leading-relaxed mb-4">
+              Son decisiones que todavía no están tomadas. No son promesas: en cada una se construye con el valor por defecto indicado hasta que Mizar confirme otra cosa. Se resuelven en las sesiones de validación, sobre todo en las dos primeras fases.
+            </p>
+            <div className="space-y-2">
+              {PENDIENTES.map((p, i) => (
+                <div key={i} className="rounded-lg p-3.5" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
+                  <p className="font-poppins font-semibold text-white/85 text-[15px] mb-0.5">{p.tema}</p>
+                  <p className="font-lato text-white/55 text-[15px] leading-snug mb-1.5">{p.pregunta}</p>
+                  <p className="font-lato text-[14px] leading-snug" style={{ color: '#f59e0b' }}>
+                    <span className="uppercase tracking-wider text-[11px] mr-1.5 text-white/35">Por defecto</span>{p.porDefecto}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
             <div className="flex items-center gap-2 mb-2">
               <Layers className="w-5 h-5 text-[#00bfa5]" />
               <p className="font-poppins font-semibold text-white/80 text-[18px]">Un alcance cerrado, con la puerta abierta</p>
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Esta propuesta cubre la cartera completa: clientes y planes, pagos, mora, estados de cuenta, verificación por WhatsApp, morosos, socios, flujo de caja y recordatorios. Lo que queda por fuera se puede sumar después sobre lo ya construido, sin rehacer nada, y con datos reales para decidir si vale la pena.
+              Esta propuesta cubre el sistema financiero de ingresos completo: clientes y planes, pagos, mora, estados de cuenta, verificación por WhatsApp, morosos y cruces, bancos y conciliación, contabilidad, socios, flujo de caja, informes y recordatorios. Lo que queda por fuera se puede sumar después sobre lo ya construido, sin rehacer nada, y con datos reales para decidir si vale la pena.
             </p>
           </div>
         </section>
@@ -1183,86 +1402,79 @@ const MizarCarteraProposal = () => {
         {/* ─ 07 INVERSIÓN ─ */}
         <section id="inversion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 · Propuesta de inversión</TagLabel>
-          <SectionTitle>Una inversión que completa la plataforma.</SectionTitle>
+          <TagLabel>07 · Inversión por módulo</TagLabel>
+          <SectionTitle>Cada parte con su precio.</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Dos componentes: el desarrollo del módulo, que se paga una sola vez, y lo que el módulo suma al valor mensual que Mizar ya paga por la plataforma. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong>
+            El desarrollo se paga una sola vez y por módulo entregado. Los módulos esenciales suman <strong className="text-white/75">{cop(PRECIO_ESENCIAL)}</strong> y, con las dos opciones, el total es de <strong className="text-white/75">{cop(PRECIO_TOTAL)}</strong>. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong> Activa o desactiva las opciones para ver el total.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-
-            {/* Desarrollo */}
-            <div className="rounded-2xl overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, rgba(201,164,67,.10) 0%, rgba(3,13,26,.95) 100%)', border: '1px solid rgba(201,164,67,.35)', boxShadow: '0 4px 32px rgba(201,164,67,.15)' }}>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(201,164,67,.2)' }}>
-                    <Zap className="w-4 h-4" style={{ color: MIZAR_GOLD }} />
+          {/* Tabla de módulos */}
+          <div className="rounded-2xl overflow-hidden mb-6"
+            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(201,164,67,.30)', boxShadow: '0 4px 32px rgba(201,164,67,.10)' }}>
+            <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
+              {MODULOS.map((m) => (
+                <React.Fragment key={m.num}>
+                  <div className="flex items-start gap-3 px-4 sm:px-5 py-3.5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
+                    <span className="font-poppins font-black text-[14px] w-7 flex-shrink-0 pt-0.5" style={{ color: m.color }}>{m.num}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-poppins font-semibold text-white/85 text-[16px] leading-snug">{m.nombre}</p>
+                      <p className="font-lato text-white/35 text-[13px]">{m.semanas} · Esencial</p>
+                    </div>
+                    <p className="font-poppins font-bold text-white/85 text-[16px] flex-shrink-0 whitespace-nowrap">{cop(m.precio)}</p>
                   </div>
-                  <span className="font-poppins font-bold text-white/70 text-[15px]">Desarrollo del módulo</span>
-                  <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider ml-auto"
-                    style={{ background: 'rgba(201,164,67,.18)', border: '1px solid rgba(201,164,67,.35)', color: MIZAR_GOLD }}>
-                    Pago único
-                  </span>
-                </div>
-                <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: '2.4rem' }}>
-                  $6.000.000
-                </p>
-                <p className="font-lato text-white/35 text-[15px] mb-5">COP · Valor único de construcción</p>
-                <ul className="space-y-2">
-                  {[
-                    'Diseño y desarrollo de las nueve funcionalidades descritas en esta propuesta',
-                    'Depuración y carga de los Excel de Bucaramanga y Cúcuta, con los saldos de la administración anterior',
-                    'Configuración de proyectos, cuentas, socios y reglas de cada sede',
-                    'Opción "Reportar pago" y recordatorios sobre el canal de WhatsApp existente',
-                    'Capacitación por rol y dos semanas de acompañamiento con el Excel en paralelo',
-                    'Período de garantía correctiva de 30 días desde la entrega',
-                  ].map((p, j) => (
-                    <li key={j} className="flex items-start gap-2.5">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
-                      <span className="font-lato text-white/60 text-[15px] leading-snug">{p}</span>
-                    </li>
-                  ))}
-                </ul>
+                  {m.extra && (
+                    <button type="button" onClick={() => setExtras(e => ({ ...e, [m.num]: !e[m.num] }))}
+                      aria-pressed={!!extras[m.num]}
+                      className="w-full flex items-start gap-3 px-4 sm:px-5 py-3.5 text-left transition-colors hover:bg-white/[0.02]"
+                      style={{ background: extras[m.num] ? m.colorAlpha : 'transparent', borderColor: 'rgba(255,255,255,.06)' }}>
+                      <span className="w-7 flex-shrink-0 pt-0.5">
+                        <span className="block w-4 h-4 rounded border-2 flex items-center justify-center"
+                          style={{ borderColor: m.color, background: extras[m.num] ? m.color : 'transparent' }}>
+                          {extras[m.num] && <CheckCircle className="w-3 h-3 text-[#030d1a]" />}
+                        </span>
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-poppins font-semibold text-white/85 text-[16px] leading-snug">
+                          {m.num}B · {m.extra.nombre}
+                          <span className="ml-2 font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider align-middle"
+                            style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${m.colorBorder}`, color: m.color }}>Opcional</span>
+                        </p>
+                        <p className="font-lato text-white/35 text-[13px]">{m.extra.semanas}</p>
+                      </div>
+                      <p className="font-poppins font-bold text-[16px] flex-shrink-0 whitespace-nowrap" style={{ color: extras[m.num] ? m.color : 'rgba(255,255,255,.35)' }}>+{cop(m.extra.precio)}</p>
+                    </button>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="px-4 sm:px-5 py-4 space-y-1.5" style={{ background: 'rgba(201,164,67,.07)', borderTop: '1px solid rgba(201,164,67,.30)' }}>
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="font-lato text-white/55 text-[15px]">Subtotal de los módulos esenciales</p>
+                <p className="font-poppins font-bold text-white/85 text-[17px]">{cop(PRECIO_ESENCIAL)}</p>
+              </div>
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="font-lato text-white/55 text-[15px]">Opciones elegidas</p>
+                <p className="font-poppins font-bold text-white/85 text-[17px]">{cop(totalOpciones)}</p>
+              </div>
+              <div className="flex items-baseline justify-between gap-3 pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,.08)' }}>
+                <p className="font-poppins font-bold text-white text-[18px]">Total del desarrollo</p>
+                <p className="font-poppins font-black text-[26px] leading-none" style={{ color: MIZAR_GOLD }}>{cop(PRECIO_ESENCIAL + totalOpciones)}</p>
               </div>
             </div>
+          </div>
 
-            {/* Mensualidad */}
-            <div className="rounded-2xl overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.08) 0%, rgba(3,13,26,.95) 100%)', border: '1px solid rgba(0,191,165,.28)', boxShadow: '0 4px 32px rgba(0,191,165,.10)' }}>
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,191,165,.18)' }}>
-                    <Shield className="w-4 h-4 text-[#00bfa5]" />
-                  </div>
-                  <span className="font-poppins font-bold text-white/70 text-[15px]">Uso y soporte del módulo</span>
-                  <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider ml-auto"
-                    style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.28)', color: '#00bfa5' }}>
-                    Mensual
-                  </span>
-                </div>
-                <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: '2.4rem' }}>
-                  +$150.000
-                </p>
-                <p className="font-lato text-white/35 text-[15px] mb-5">COP mensuales · la plataforma pasa de $350.000 a $500.000</p>
-                <ul className="space-y-2">
-                  {[
-                    'Alojamiento de la cartera y de los soportes de pago, con respaldo diario',
-                    'Mantenimiento del reporte de pago y de los recordatorios por WhatsApp',
-                    'Atención a inconvenientes o errores detectados en el módulo',
-                    'SLA de respuesta máximo de 4 horas ante cualquier incidencia',
-                    'Actualizaciones de seguridad y estabilidad',
-                    'Dentro del mismo contrato anual de uso de la plataforma',
-                  ].map((p, j) => (
-                    <li key={j} className="flex items-start gap-2.5">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-                      <span className="font-lato text-white/60 text-[15px] leading-snug">{p}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
+              <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Con lo esencial</p>
+              <p className="font-poppins font-black text-white text-[24px] leading-none mb-1">{cop(PRECIO_ESENCIAL)}</p>
+              <p className="font-lato text-white/45 text-[14px]">Los nueve módulos, sin contabilidad completa ni recompensas. Cerca de 15 semanas.</p>
+            </div>
+            <div className="rounded-xl p-4" style={{ background: 'rgba(201,164,67,.07)', border: '1px solid rgba(201,164,67,.25)' }}>
+              <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Con todo</p>
+              <p className="font-poppins font-black text-white text-[24px] leading-none mb-1">{cop(PRECIO_TOTAL)}</p>
+              <p className="font-lato text-white/45 text-[14px]">Los nueve módulos más las dos opciones. 18 semanas.</p>
             </div>
           </div>
 
@@ -1271,34 +1483,60 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
             <div className="flex items-center gap-2 mb-4">
               <FileText className="w-5 h-5 text-[#00bfa5]" />
-              <p className="font-poppins font-semibold text-white/80 text-[18px]">Forma de pago · Desarrollo</p>
+              <p className="font-poppins font-semibold text-white/80 text-[18px]">Forma de pago · Por módulo entregado</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {[
-                { pct: '50%', momento: 'Al iniciar el proyecto', desc: 'Con la aceptación de la propuesta y la firma del contrato arranca el desarrollo, contando desde ahí las diez semanas del cronograma.', valor: '$3.000.000' },
-                { pct: '50%', momento: 'Al entregar el módulo', desc: 'El saldo se paga contra la entrega del módulo en producción, con el equipo capacitado y los saldos cuadrados.', valor: '$3.000.000' },
-              ].map((pago, i) => (
-                <div key={i} className="rounded-xl p-4"
-                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <p className="font-poppins font-black text-[#00bfa5] text-[28px] leading-none">{pago.pct}</p>
-                    <p className="font-poppins font-bold text-white/50 text-[16px]">{pago.valor} COP</p>
-                  </div>
-                  <p className="font-poppins font-semibold text-white/80 text-[15px] mb-1">{pago.momento}</p>
-                  <p className="font-lato text-white/40 text-[13px] leading-relaxed">{pago.desc}</p>
+                { n: '1', t: 'Al firmar', d: `Se paga el módulo 1 (${cop(MODULOS[0].precio)}) para arrancar la construcción.` },
+                { n: '2', t: 'Al entregar cada módulo', d: 'Cada módulo siguiente se paga por su valor cuando Mizar lo recibe y lo aprueba en la sesión de validación.' },
+                { n: '3', t: 'Las opciones, si se contratan', d: 'La contabilidad completa y las recompensas se pagan igual, contra su entrega, y se pueden contratar más adelante.' },
+              ].map((x) => (
+                <div key={x.n} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <p className="font-poppins font-black text-[#00bfa5] text-[24px] leading-none mb-1">{x.n}</p>
+                  <p className="font-poppins font-semibold text-white/80 text-[15px] mb-1">{x.t}</p>
+                  <p className="font-lato text-white/40 text-[13px] leading-relaxed">{x.d}</p>
                 </div>
               ))}
             </div>
-            <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
-              Los $150.000 COP adicionales se pagan mes a mes de forma anticipada, desde que el módulo entra en producción.
-            </p>
+          </div>
+
+          {/* Mensualidad */}
+          <div className="rounded-2xl overflow-hidden mb-6"
+            style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.08) 0%, rgba(3,13,26,.95) 100%)', border: '1px solid rgba(0,191,165,.28)' }}>
+            <div className="p-5 sm:p-6">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,191,165,.18)' }}>
+                  <Shield className="w-4 h-4 text-[#00bfa5]" />
+                </div>
+                <span className="font-poppins font-bold text-white/70 text-[15px]">Uso y soporte de la plataforma</span>
+                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider ml-auto"
+                  style={{ background: 'rgba(245,158,11,.12)', border: '1px solid rgba(245,158,11,.30)', color: '#f59e0b' }}>
+                  Por confirmar
+                </span>
+              </div>
+              <p className="font-poppins font-black text-white leading-none mb-1" style={{ fontSize: '2rem' }}>+$150.000 <span className="text-[16px] font-lato font-normal text-white/40">COP al mes</span></p>
+              <p className="font-lato text-white/40 text-[14px] mb-4">Valor por confirmar antes de firmar. La plataforma pasaría de $350.000 a $500.000 al mes.</p>
+              <ul className="space-y-2">
+                {[
+                  'Alojamiento de la información financiera y de los soportes de pago, con respaldo diario',
+                  'Mantenimiento del reporte de pago, del link de pago y de los recordatorios por WhatsApp',
+                  'Atención a inconvenientes o errores detectados, con SLA de respuesta máximo de 4 horas',
+                  'Actualizaciones de seguridad y estabilidad, dentro del mismo contrato anual de uso',
+                ].map((p, j) => (
+                  <li key={j} className="flex items-start gap-2.5">
+                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
+                    <span className="font-lato text-white/60 text-[15px] leading-snug">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="rounded-xl p-4 flex gap-3 mb-4"
             style={{ background: 'rgba(201,164,67,.06)', border: '1px solid rgba(201,164,67,.22)' }}>
             <Puzzle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              <strong className="text-white/80">Por qué cuesta menos que un sistema nuevo:</strong> usuarios, roles, servidor, respaldos y el canal de WhatsApp ya están construidos y pagados dentro de la Plataforma Mizar. Esta inversión se concentra solo en lo que es propio de la cartera.
+              <strong className="text-white/80">Por qué cuesta menos que un sistema nuevo:</strong> usuarios, roles, servidor, respaldos y el canal de WhatsApp ya están construidos y pagados dentro de la Plataforma Mizar. Esta inversión se concentra solo en lo que es propio del dinero que entra.
             </p>
           </div>
 
@@ -1306,7 +1544,7 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(37,211,102,.05)', border: '1px solid rgba(37,211,102,.22)' }}>
             <MessageSquare className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#25D366' }} />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Las <strong className="text-white/80">tarifas que Meta cobra por cada mensaje</strong> de recordatorio o aviso no están incluidas en el valor mensual y las asume Mizar al costo, sin margen de Sixteam.
+              Las <strong className="text-white/80">tarifas que Meta cobra por cada mensaje</strong> de recordatorio o aviso, y la comisión de la pasarela de pagos, no están incluidas y las asume Mizar al costo, sin margen de Sixteam.
             </p>
           </div>
 
@@ -1314,7 +1552,7 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Esta propuesta cubre el alcance funcional descrito en este documento. Cualquier requerimiento adicional, como la gamificación o los avisos bancarios automáticos, se maneja mediante cotización separada y no modifica el valor mensual acordado.
+              Esta propuesta cubre el alcance descrito en este documento. Cualquier requerimiento adicional, como la gamificación avanzada, los avisos bancarios automáticos o la facturación electrónica, se cotiza por separado.
             </p>
           </div>
         </section>

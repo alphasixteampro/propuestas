@@ -307,9 +307,9 @@ const PROPOSALS: Proposal[] = [
   {
     slug: 'mizar-plataforma-cartera',
     cliente: 'Mizar Diseño y Construcción · Mi Lote · Cartera',
-    sector: 'Construcción · Cartera, recaudo y socios · 9 funcionalidades · 10 semanas · con demo',
-    fecha: 'Septiembre 2026',
-    monto: 'COP 6.000.000 impl. + COP 150.000/mes',
+    sector: 'Construcción · Sistema financiero de ingresos · 2 empresas · 9 módulos · 18 semanas · con demo',
+    fecha: 'Octubre 2026',
+    monto: 'COP 15.000.000 a 18.000.000 por módulos + COP 150.000/mes (por confirmar)',
     estado: 'borrador',
     path: '/mizar-cartera',
   },
