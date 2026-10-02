@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LogoCarousel from '../components/LogoCarousel';
-import PDFButton from '../components/PDFButton';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap, BarChart3,
   AlertCircle, Calendar, Info, MapPin, Users, Database, Quote, Eye,
   GitBranch, Layers, Rocket, ClipboardList, MessagesSquare, Search,
-  Compass, Gauge, Network, HardHat, Building2, ShieldCheck, Wrench,
+  Compass, Gauge, Network, HardHat, ShieldCheck, Wrench,
   Truck, Calculator, UserCog, Scale, Map as MapIcon, Sparkles, BellRing,
   ArrowRight,
 } from 'lucide-react';
@@ -26,6 +25,7 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
+  elaboradoPor: 'Ernesto Hernández · Gerente Comercial',
   objetivo: 'Diagnóstico de procesos, visión de futuro y hoja de ruta tecnológica',
 };
 
@@ -387,7 +387,7 @@ const COMPONENTES_FIJOS = [
   { nombre: 'Arranque', detalle: 'Reunión inicial, revisión de documentos y preparación de la encuesta', valor: 400000 },
   { nombre: '5 mesas de trabajo de 1 hora', detalle: 'Ventas · Operaciones e inventario · Contabilidad · Gestión humana y SST · Gerencia y calidad', valor: 800000 },
   { nombre: 'Visión de la gerencia y situación deseada', detalle: 'Taller de visión con la gerencia y diseño de cómo deberían funcionar los procesos clave', valor: 900000 },
-  { nombre: 'Informes finales y presentación', detalle: 'Situación actual, flujograma, inventario de actividades, hoja de ruta y presentación de resultados', valor: 1080000 },
+  { nombre: 'Informes finales y presentación', detalle: 'Situación actual, flujograma, inventario de actividades, hoja de ruta y presentación de resultados', valor: 980000 },
 ];
 const TOTAL_NUM = SUBTOTAL_CARGOS + COMPONENTES_FIJOS.reduce((a, b) => a + b.valor, 0);
 
@@ -449,7 +449,6 @@ const RosaniaHeldProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [etapaActiva, setEtapaActiva] = useState<number | null>(0);
   const [procesoActivo, setProcesoActivo] = useState<number | null>(null);
-  const [verCargos, setVerCargos] = useState(false);
 
   useEffect(() => {
     const handler = () => {
@@ -513,7 +512,6 @@ const RosaniaHeldProposal = () => {
             <ClientLogo className="hidden sm:flex w-44 px-3 py-2" />
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            <PDFButton elementId="proposal-root" filename="propuesta-rosania-held-sixteam.pdf" className="hidden md:inline-flex" />
             <span className="font-lato text-[#00bfa5]/80 text-[13px] uppercase tracking-[0.2em] border border-[#00bfa5]/20 rounded-full px-3 py-1.5">Confidencial</span>
           </div>
         </div>
@@ -1114,7 +1112,7 @@ const RosaniaHeldProposal = () => {
           <SectionTitle>Una inversión para decidir con datos</SectionTitle>
           <Rule />
           <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-8">
-            Una sola inversión que cubre <Hl color="#fff">{TOTAL_PROCESOS} procesos y {TOTAL_CARGOS} cargos</Hl>. Para que vean en qué se invierte, mostramos también el <Hl>valor de cada cargo</Hl>. Valores en pesos colombianos más IVA.
+            Una sola inversión que cubre <Hl color="#fff">{TOTAL_PROCESOS} procesos y {TOTAL_CARGOS} cargos</Hl>. Para que vean en qué se invierte, mostramos el <Hl>valor según el nivel de cada cargo</Hl>. Valores en pesos colombianos más IVA.
           </p>
 
           {/* Card total */}
@@ -1186,38 +1184,6 @@ const RosaniaHeldProposal = () => {
                 <span className="font-poppins font-black text-[#00bfa5] text-[20px]">{fmt(TOTAL_NUM)}</span>
               </div>
             </div>
-          </div>
-
-          {/* Valor por cargo (desplegable) */}
-          <div className="rounded-xl overflow-hidden mb-4" style={{ border: '1px solid rgba(47,124,246,.2)' }}>
-            <button onClick={() => setVerCargos(!verCargos)}
-              className="w-full px-5 py-4 flex items-center justify-between gap-3 text-left" style={{ background: 'rgba(47,124,246,.07)' }}>
-              <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4" style={{ color: ARH_BLUE }} />
-                <span className="font-poppins font-semibold text-white/85 text-[15px]">Ver valor por cargo</span>
-                <span className="font-lato text-white/40 text-[13px]">({TOTAL_CARGOS} cargos)</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <span className="font-poppins font-black text-[16px]" style={{ color: ARH_BLUE }}>{fmt(SUBTOTAL_CARGOS)}</span>
-                <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${verCargos ? 'rotate-90' : ''}`} style={{ color: ARH_BLUE }} />
-              </div>
-            </button>
-            {verCargos && (
-              <div className="divide-y divide-white/5">
-                {CARGOS.map((c, i) => {
-                  const ns = NIVEL_STYLE[c.nivel];
-                  return (
-                    <div key={i} className="px-5 py-3 flex items-center justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="font-poppins font-semibold text-white/90 text-[15px]">{c.nombre}</p>
-                        <p className="font-lato text-[13px]"><span style={{ color: ns.color }}>{c.nivel}</span><span className="text-white/35"> · {c.proceso}</span></p>
-                      </div>
-                      <span className="font-poppins font-bold text-white/85 text-[15px] flex-shrink-0">{fmt(PRECIO_NIVEL[c.nivel])}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
           </div>
 
           <p className="font-lato text-white/45 text-[15px] leading-relaxed mb-8 flex gap-2">
@@ -1304,6 +1270,7 @@ const RosaniaHeldProposal = () => {
                 <span>·</span>
                 <span>RL: {META.rl}</span>
               </div>
+              <p className="font-lato text-white/45 text-[14px] mt-3">Propuesta elaborada por: <span className="text-white/75 font-semibold">{META.elaboradoPor}</span></p>
               <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/20 text-[13px]">
                   Process + Technology + People = Growth · Propuesta elaborada en {META.fecha} · Uso confidencial
