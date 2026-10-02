@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  Bot, MessageSquare, Calendar, Receipt, Info, ChevronRight, Link2, Check,
+  Bot, MessageSquare, Calendar, Receipt, Info, Link2, Check,
   Sparkles, TrendingUp, Coins, Mail,
 } from 'lucide-react';
 import PDFButton from '../components/PDFButton';
@@ -18,30 +18,16 @@ const MSG_PROMEDIO = 6;
 
 type Moneda = 'USD' | 'COP' | 'CLP';
 
-const MONEDAS: Record<Moneda, { label: string; tasa: number; nota: string; pais: string }> = {
-  USD: { label: 'Solo USD',                tasa: 1,       nota: '',                                pais: '' },
-  COP: { label: 'Pesos colombianos (COP)', tasa: 3202.79, nota: 'TRM del 31 de agosto de 2026',    pais: 'Colombia' },
-  CLP: { label: 'Pesos chilenos (CLP)',    tasa: 950,     nota: 'Tasa de referencia, septiembre 2026', pais: 'Chile' },
+const MONEDAS: Record<Moneda, { label: string; tasa: number; nota: string }> = {
+  USD: { label: 'Solo USD',                tasa: 1,       nota: '' },
+  COP: { label: 'Pesos colombianos (COP)', tasa: 3202.79, nota: 'TRM del 31 de agosto de 2026' },
+  CLP: { label: 'Pesos chilenos (CLP)',    tasa: 950,     nota: 'Tasa de referencia, septiembre 2026' },
 };
 
 const ESCENARIOS = [
   { id: 'arranque',    label: 'Arranque',     conv: 100,  desc: 'Pocas conversaciones, el asistente empieza a atender' },
   { id: 'crecimiento', label: 'Crecimiento',  conv: 300,  desc: 'Volumen típico de una pyme con pauta activa' },
   { id: 'alto',        label: 'Alto volumen', conv: 1000, desc: 'Campañas constantes y varios canales conectados' },
-];
-
-// Tarifas de plantillas de WhatsApp (Meta), USD por mensaje entregado
-const TARIFAS_META: [string, string, string][] = [
-  ['🇨🇴 Colombia','0.0131','0.0008'],['🇨🇱 Chile','0.0933','0.0210'],['🇲🇽 Mexico','0.0320','0.0089'],
-  ['🇵🇪 Peru','0.0738','0.0210'],['🇦🇷 Argentina','0.0649','0.0273'],['🇧🇷 Brazil','0.0656','0.0071'],
-  ['🇪🇸 Spain','0.0646','0.0210'],['🇺🇸 North America','0.0263','0.0036'],['🇬🇧 United Kingdom','0.0555','0.0231'],
-  ['🇫🇷 France','0.0902','0.0315'],['🇩🇪 Germany','0.1433','0.0578'],['🇮🇹 Italy','0.0726','0.0315'],
-  ['🇳🇱 Netherlands','0.1677','0.0525'],['🇮🇳 India','0.0124','0.0015'],['🇮🇩 Indonesia','0.0432','0.0263'],
-  ['🇹🇷 Turkey','0.0114','0.0056'],['🇷🇺 Russia','0.0842','0.0420'],['🇸🇦 Saudi Arabia','0.0478','0.0112'],
-  ['🇦🇪 United Arab Emirates','0.0524','0.0165'],['🇿🇦 South Africa','0.0398','0.0080'],['🇳🇬 Nigeria','0.0542','0.0070'],
-  ['🌎 Rest of Latin America','0.0777','0.0119'],['🌏 Rest of Asia Pacific','0.0769','0.0119'],
-  ['🌍 Rest of Western Europe','0.0622','0.0180'],['🌍 Rest of C. & E. Europe','0.0903','0.0223'],
-  ['🌍 Rest of Middle East','0.0358','0.0096'],['🌍 Rest of Africa','0.0236','0.0042'],['🌐 Other','0.0634','0.0081'],
 ];
 
 const COMO_SE_COBRA = [
@@ -57,7 +43,7 @@ const COMO_SE_COBRA = [
   },
   {
     titulo: 'Qué no incluye',
-    desc: 'Las plantillas de WhatsApp enviadas fuera de la ventana de 24 horas las cobra Meta según la tarifa de cada país y se trasladan sin margen adicional. Están al final de esta página.',
+    desc: 'Los mensajes de WhatsApp los cobra Meta aparte, según la tarifa de cada país, y se trasladan sin margen adicional. Ese valor no está incluido en este cálculo.',
     icon: MessageSquare,
   },
   {
@@ -154,7 +140,6 @@ export default function CalculadoraIA() {
     USD: 1, COP: MONEDAS.COP.tasa, CLP: MONEDAS.CLP.tasa,
   });
   const [copiado, setCopiado]   = useState(false);
-  const [showMeta, setShowMeta] = useState(false);
 
   useEffect(() => { document.title = 'Calculadora de consumo de IA — Sixteam.pro'; }, []);
 
@@ -365,61 +350,6 @@ export default function CalculadoraIA() {
                 <p className="font-lato text-white/65 text-[15px] leading-relaxed">{desc}</p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ── PLANTILLAS META ── */}
-        <section className="mb-14">
-          <div className="rounded-xl overflow-hidden"
-            style={{ border: showMeta ? '1px solid rgba(96,165,250,.3)' : '1px solid rgba(255,255,255,.08)' }}>
-            <button onClick={() => setShowMeta(v => !v)}
-              className="w-full flex items-center gap-3 px-5 py-4 text-left"
-              style={{ background: showMeta ? 'rgba(96,165,250,.06)' : 'rgba(255,255,255,.02)' }}>
-              <MessageSquare className="w-4 h-4 flex-shrink-0" style={{ color: '#60a5fa' }} />
-              <div className="flex-1">
-                <p className="font-poppins font-semibold text-white text-[15px]">Otro costo variable: plantillas de WhatsApp</p>
-                <p className="font-lato text-white/50 text-[13px]">Lo cobra Meta, no forma parte del consumo de IA</p>
-              </div>
-              <ChevronRight className="w-4 h-4 flex-shrink-0 transition-transform duration-200"
-                style={{ color: '#60a5fa', transform: showMeta ? 'rotate(90deg)' : undefined }} />
-            </button>
-
-            {showMeta && (
-              <div className="px-5 pb-5 pt-1">
-                <p className="font-lato text-white/65 text-[14px] leading-relaxed mb-4">
-                  Cuando el negocio escribe primero o responde después de 24 horas, WhatsApp exige una plantilla aprobada y
-                  Meta cobra cada envío según el país del destinatario. Responder dentro de las 24 horas (Service) es gratis.
-                  Sixteam traslada estos valores sin margen adicional.
-                </p>
-                <div className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(96,165,250,.2)' }}>
-                  <div className="grid grid-cols-4 px-3 py-2 text-[11px] font-poppins font-semibold uppercase tracking-wider text-white/45"
-                    style={{ background: 'rgba(96,165,250,.06)', borderBottom: '1px solid rgba(96,165,250,.15)' }}>
-                    <span className="col-span-2 sm:col-span-1">País / mercado</span>
-                    <span className="text-right">Marketing</span>
-                    <span className="text-right">Utility</span>
-                    <span className="text-right hidden sm:block">Service</span>
-                  </div>
-                  <div className="max-h-80 overflow-y-auto">
-                    {TARIFAS_META.map(([mercado, marketing, utility], i) => {
-                      const destacado = MONEDAS[moneda].pais !== '' && mercado.includes(MONEDAS[moneda].pais);
-                      return (
-                        <div key={mercado} className="grid grid-cols-4 px-3 py-2 items-center"
-                          style={{ background: destacado ? 'rgba(0,191,165,.10)' : i % 2 === 0 ? 'rgba(255,255,255,.015)' : 'transparent' }}>
-                          <span className={`col-span-2 sm:col-span-1 font-lato text-[13px] ${destacado ? 'text-white font-semibold' : 'text-white/70'}`}>{mercado}</span>
-                          <span className="font-poppins font-semibold text-[13px] text-right" style={{ color: destacado ? '#00bfa5' : 'rgba(255,255,255,.7)' }}>{marketing}</span>
-                          <span className="font-poppins font-semibold text-[13px] text-right" style={{ color: destacado ? '#00bfa5' : 'rgba(255,255,255,.7)' }}>{utility}</span>
-                          <span className="font-poppins font-bold text-[12px] text-right text-[#00bfa5] hidden sm:block">Gratis</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="px-3 py-2 text-[11px] font-lato text-white/40 text-center"
-                    style={{ borderTop: '1px solid rgba(96,165,250,.1)', background: 'rgba(96,165,250,.03)' }}>
-                    Fuente: Meta for Developers, WhatsApp Business Platform Pricing · USD por mensaje entregado
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </section>
 
