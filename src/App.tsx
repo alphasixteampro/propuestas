@@ -46,6 +46,7 @@ const ConnectyMapeoProcesosProposal = lazy(() => import('./pages/ConnectyMapeoPr
 const MizarCarteraProposal       = lazy(() => import('./pages/MizarCarteraProposal'));
 const MizarCarteraDemo           = lazy(() => import('./pages/MizarCarteraDemo'));
 const CalculadoraIA              = lazy(() => import('./pages/CalculadoraIA'));
+const RosaniaHeldProposal         = lazy(() => import('./pages/RosaniaHeldProposal'));
 
 function Loader() {
   return (
@@ -112,6 +113,7 @@ export default function App() {
           <Route path="/mizar-cartera"        element={<MizarCarteraProposal />} />
           <Route path="/mizar-cartera/demo"   element={<MizarCarteraDemo />} />
           <Route path="/calculadora-ia"       element={<CalculadoraIA />} />
+          <Route path="/rosania-held"         element={<RosaniaHeldProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
