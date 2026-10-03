@@ -390,7 +390,7 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Asesoría Rosanía Held S.A.S.',
     sector: 'Alquiler de equipos para trabajo en altura · Diagnóstico de procesos · Colombia',
     fecha: 'Octubre 2026',
-    monto: 'COP 8.400.000 + IVA · 9 procesos · 18 cargos',
+    monto: 'COP 8.500.000 + IVA · 9 procesos · 18 cargos',
     estado: 'activa',
     path: '/rosania-held',
   },

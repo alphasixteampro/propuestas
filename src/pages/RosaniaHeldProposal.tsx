@@ -387,7 +387,7 @@ const COMPONENTES_FIJOS = [
   { nombre: 'Arranque', detalle: 'Reunión inicial, revisión de documentos y preparación de la encuesta', valor: 400000 },
   { nombre: '5 mesas de trabajo de 1 hora', detalle: 'Ventas · Operaciones e inventario · Contabilidad · Gestión humana y SST · Gerencia y calidad', valor: 800000 },
   { nombre: 'Visión de la gerencia y situación deseada', detalle: 'Taller de visión con la gerencia y diseño de cómo deberían funcionar los procesos clave', valor: 900000 },
-  { nombre: 'Informes finales y presentación', detalle: 'Situación actual, flujograma, inventario de actividades, hoja de ruta y presentación de resultados', valor: 980000 },
+  { nombre: 'Informes finales y presentación', detalle: 'Situación actual, flujograma, inventario de actividades, hoja de ruta y presentación de resultados', valor: 1080000 },
 ];
 const TOTAL_NUM = SUBTOTAL_CARGOS + COMPONENTES_FIJOS.reduce((a, b) => a + b.valor, 0);
 
