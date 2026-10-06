@@ -111,18 +111,60 @@ const BENEFICIOS = [
   },
 ];
 
-// ─── QUÉ INCLUYE: NUEVE MÓDULOS, CADA UNO CON SU PRECIO ──────────────────────
+// ─── QUÉ INCLUYE: TRES ETAPAS, NUEVE MÓDULOS, CADA UNO CON SU PRECIO ─────────
 
 type Extra = { nombre: string; precio: number; semanas: string; descripcion: string; items: string[]; entregable: string };
 type Modulo = {
-  num: string; nombre: string; icon: React.ElementType; color: string; colorAlpha: string; colorBorder: string;
+  num: string; etapa: number; nombre: string; icon: React.ElementType; color: string; colorAlpha: string; colorBorder: string;
   semanas: string; precio: number; descripcion: string; items: string[]; entregable: string; depende: string;
   extra?: Extra;
 };
 
+// Cada etapa deja una parte de la aplicación funcionando con datos reales y se puede usar sola.
+const ETAPAS = [
+  {
+    num: 1,
+    nombre: 'Cartera y pagos',
+    lema: 'El día a día del cobro',
+    semanas: 'Semanas 1 a 7',
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.08)',
+    colorBorder: 'rgba(201,164,67,.30)',
+    usuarios: 'Cartera, tesorería y responsable de sede',
+    desc: 'Las dos empresas, sus clientes y planes, los pagos con su recibo, la mora y el estado de cuenta, y el cliente pagando o reportando por WhatsApp.',
+    resultado: 'Al cerrar la etapa, cartera deja el libro diario de dineros recibidos y los estados de cuenta en Excel.',
+  },
+  {
+    num: 2,
+    nombre: 'Cobranza y cliente',
+    lema: 'Que la plata entre a tiempo',
+    semanas: 'Semanas 8 a 11',
+    color: '#38bdf8',
+    colorAlpha: 'rgba(56,189,248,.07)',
+    colorBorder: 'rgba(56,189,248,.28)',
+    usuarios: 'Cartera, responsable de sede y gerencia',
+    desc: 'Morosos, acuerdos de pago, cruces de cartera y las reglas de Cúcuta, más los recordatorios automáticos y, como opción, las recompensas.',
+    resultado: 'Al cerrar la etapa, el cobro deja de depender de la memoria: el sistema dice a quién escribir, a quién llamar y qué se acordó.',
+  },
+  {
+    num: 3,
+    nombre: 'Dinero, socios y gerencia',
+    lema: 'Decidir con números reales',
+    semanas: 'Semanas 12 a 18',
+    color: '#00bfa5',
+    colorAlpha: 'rgba(0,191,165,.07)',
+    colorBorder: 'rgba(0,191,165,.28)',
+    usuarios: 'Tesorería, contador, gerencia y socios',
+    desc: 'Bancos y conciliación, todos los ingresos del grupo, el reparto entre socios, el flujo de caja, los informes y, como opción, la contabilidad completa.',
+    resultado: 'Al cerrar la etapa, el informe a socios y el flujo de caja salen del sistema y se retiran todos los Excel de control.',
+  },
+];
+
 const MODULOS: Modulo[] = [
+  // ── ETAPA 1 · CARTERA Y PAGOS ──
   {
     num: '01',
+    etapa: 1,
     nombre: 'Base de las dos empresas, sociedades y configuración',
     icon: Building2,
     color: MIZAR_GOLD,
@@ -130,349 +172,296 @@ const MODULOS: Modulo[] = [
     colorBorder: 'rgba(201,164,67,.28)',
     semanas: 'Semanas 1 y 2',
     precio: 1200000,
-    descripcion: 'El cimiento: las dos empresas, sus sociedades, cuentas, proyectos y personas, con las reglas de dinero acordadas por escrito.',
+    descripcion: 'El cimiento: las dos empresas, sus sociedades, cuentas, proyectos, inmuebles y personas, con las reglas de dinero acordadas por escrito.',
     items: [
-      'Dos empresas, Mizar (Bucaramanga) y Mi Lote (Cúcuta), con selector de empresa y datos propios',
-      'Sociedades titulares por proyecto, con sus cuentas bancarias y su consecutivo de recibos',
-      'Proyectos, inmuebles y lista de precios de lotes',
-      'Roles y permisos: cartera, tesorería, sede, gerencia y contador',
-      'Sesión con gerencia y contador para dejar por escrito el orden de aplicación de los pagos, los abonos, los acuerdos y la regla de las tres cuotas, con un valor por defecto donde falte una decisión',
-      'Registro de quién hizo cada cambio y cuándo',
+      'Dos empresas, Mizar (Bucaramanga) y Mi Lote (Cúcuta), con selector de empresa y una vista consolidada del grupo',
+      'Sociedades titulares por proyecto, cada una con su NIT, sus cuentas bancarias y su consecutivo de recibos',
+      'Lugares de recaudo: cuentas de cada sociedad, efectivo por persona y cuentas personales, en una lista cerrada',
+      'Proyectos e inmuebles: apartamentos, lotes por manzana, tipo (medianero, esquinero, comercial o intermedio), área y urbanismo',
+      'Reglas por empresa: cuota con interés de financiación y mora en Bucaramanga; cuota fija y sin mora en Cúcuta',
+      'Vendedores con el porcentaje de comisión de cada proyecto',
+      'Roles y permisos: cartera, tesorería, sede, gerencia y contador; registro de quién hizo cada cambio y cuándo',
+      'Sesión con gerencia y contador para dejar por escrito las reglas del dinero, con un valor por defecto donde falte una decisión',
     ],
-    entregable: 'Las dos empresas, sus sociedades, cuentas y roles creados y revisados por Mizar',
+    entregable: 'Las dos empresas, sus sociedades, cuentas, proyectos y roles creados y revisados por Mizar',
     depende: 'Es el punto de partida',
   },
   {
     num: '02',
-    nombre: 'Clientes, planes de pago, simulador y migración de los Excel',
+    etapa: 1,
+    nombre: 'Clientes, contratos, planes de pago, simulador y migración de los Excel',
     icon: UserPlus,
-    color: '#38bdf8',
-    colorAlpha: 'rgba(56,189,248,.10)',
-    colorBorder: 'rgba(56,189,248,.28)',
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.10)',
+    colorBorder: 'rgba(201,164,67,.28)',
     semanas: 'Semanas 3 y 4',
     precio: 2300000,
-    descripcion: 'La venta entra una sola vez, con su plan de pagos completo, y los datos de hoy se cargan limpios.',
+    descripcion: 'La venta entra una sola vez, desde la promesa, con su plan de pagos completo, y los datos de hoy se cargan limpios.',
     items: [
-      'Alta de la venta desde la promesa o el contrato: cliente, inmueble, valor, cuota inicial o separación',
-      'Plan de pagos cuota por cuota, con capital e interés separados, y fecha de corte propia de cada cliente',
-      'Planes distintos por sede: cuota con interés de financiación en Bucaramanga, cuota fija en Cúcuta',
-      'Simulador de lotes de Cúcuta con la lista de precios: lote, plazo y cuota inicial dan la cuota',
-      'Pagador tercero, y clientes de la sociedad, solo de Mizar o solo de otro socio',
-      'Desistimientos y reventa del inmueble, con el historial del comprador anterior',
-      'Limpieza y carga de los Excel de las dos empresas y de los saldos de la administración anterior de Cúcuta',
+      'Ficha única del cliente, aunque tenga contratos en las dos empresas: contratos, cuotas, pagos, gestiones y documentos',
+      'Alta de la venta desde la promesa o el contrato, con consecutivo de contrato por empresa, y su estado: promesa, compraventa, escritura y entrega',
+      'Plantillas de plan por proyecto: separación, cuota inicial diferida, cuotas, extraordinarias, primas y saldo con crédito',
+      'Capital e interés separados en cada cuota, tal como vienen en la promesa, y fecha de corte propia de cada cliente (el 5, fin de mes u otra)',
+      'Lista de precios y simulador de lotes de Cúcuta: tipo de lote, área, plazo, cuota inicial y bono de descuento dan la cuota',
+      'Pagador tercero (el «encargado de pagos») y clientes de la sociedad, solo de Mizar o solo de otro socio',
+      'Limpieza y carga de los Excel de las dos empresas desde 2024, incluidos los saldos de la administración anterior de Cúcuta; las marcas sueltas («SOLO MIZAR», asteriscos, colores) se vuelven datos',
     ],
     entregable: 'Todos los contratos cargados con su plan, revisables por el equipo',
     depende: 'Módulo 1',
   },
   {
     num: '03',
+    etapa: 1,
     nombre: 'Pagos, recibos, intereses, mora y estado de cuenta',
     icon: Receipt,
-    color: '#f87171',
-    colorAlpha: 'rgba(248,113,113,.10)',
-    colorBorder: 'rgba(248,113,113,.28)',
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.10)',
+    colorBorder: 'rgba(201,164,67,.28)',
     semanas: 'Semanas 5 a 7',
     precio: 2600000,
-    descripcion: 'El reemplazo del libro diario de dineros recibidos y el cálculo financiero que se pidió en la reunión.',
+    descripcion: 'Un solo registro en vez de dos Excel, y el cálculo financiero que se pidió en la reunión.',
     items: [
-      'Registro de pagos, incluidos los parciales: efectivo, transferencia, consignación, cheque de gerencia, descuento de nómina o en especie',
-      'Recibo con consecutivo por sociedad y soporte adjunto a cada pago; bloqueo de referencias repetidas y bandeja de pagos por identificar',
-      'Cada pago se aplica solo en el orden definido: mora, interés y capital',
-      'Motor de mora con días de gracia, tope de usura y festivos, y abonos a capital que reducen el plazo o la cuota. La mora arranca apagada hasta que Mizar firme la tasa',
+      'Registro de pagos, incluidos los parciales: efectivo, transferencia, consignación, cheque de gerencia, descuento de nómina o en especie, con la cuenta por donde entró',
+      'Recibo con consecutivo por sociedad y soporte escaneado en cada pago; bloqueo de referencias repetidas y bandeja de pagos por identificar',
+      'Cada pago se aplica solo: mora, interés y capital, y los abonos extra van a capital reduciendo el plazo o la cuota',
+      'Tasas en efectivo anual o mensual, fijas o por tramos, con tope de usura, días de gracia y festivos. La mora arranca apagada hasta que Mizar firme la tasa',
+      'Descuentos con quién los autorizó, y descuento por pronto pago configurable, apagado hasta que Mizar lo defina',
       'Dinero «por trasladar» cuando entra en efectivo o a una cuenta personal, con alerta; pagos que llegan a la cuenta de otra sociedad',
-      'Devoluciones y desistimientos con su registro',
-      'Estado de cuenta por cédula, nombre, contrato o inmueble, en pantalla y en PDF, con la administración anterior de Cúcuta aparte y envío por WhatsApp o correo',
+      'Devoluciones y desistimientos registrados contra el contrato, y pagados con una orden de pago de compras',
+      'Estado de cuenta por cédula, nombre, contrato o inmueble, en pantalla y PDF, con sello al día o en mora, la administración anterior aparte y la nota de 15 días; certificado de pagos; envío por WhatsApp o correo',
     ],
     entregable: '20 contratos con el mismo saldo que el Excel, y el estado de cuenta de cada uno en PDF',
     depende: 'Módulos 1 y 2',
   },
   {
     num: '04',
+    etapa: 1,
     nombre: 'WhatsApp: reporte de pago, link de pago, validación y aprobación',
     icon: MessageSquare,
-    color: '#25D366',
-    colorAlpha: 'rgba(37,211,102,.10)',
-    colorBorder: 'rgba(37,211,102,.28)',
+    color: MIZAR_GOLD,
+    colorAlpha: 'rgba(201,164,67,.10)',
+    colorBorder: 'rgba(201,164,67,.28)',
     semanas: 'Semanas 6 y 7',
     precio: 1700000,
     descripcion: 'El cliente paga o reporta desde WhatsApp y tesorería aprueba. Reutiliza el canal que ya funciona para compras.',
     items: [
       'Opción «Reportar pago» en WhatsApp: monto y comprobante en foto o PDF, sin salir del chat',
-      'Link de pago por WhatsApp con la pasarela que Mizar elija (una por empresa)',
-      'Lectura del comprobante y bandeja de tesorería con semáforo: referencia repetida, valor distinto a la cuota o cliente sin identificar',
-      'Confirmar o rechazar con motivo, uno por uno o en lote',
+      'Link de pago por WhatsApp con la pasarela que Mizar elija (una por empresa), que se confirma solo',
+      'Lectura del comprobante y cruce con el extracto cargado; semáforo en la bandeja de tesorería: referencia repetida, valor distinto a la cuota, comprobante dudoso o cliente sin identificar',
+      'Confirmar o rechazar con motivo, uno por uno o en lote (solo los verdes), con la misma lógica de aprobación de compras',
       'Al aprobar, el pago se aplica y el recibo le llega al cliente; respuesta automática en cada paso',
       'La confirmación final sigue siendo de una persona contra el extracto, como exige la operación bancaria en Colombia',
     ],
     entregable: 'Un pago por link y uno por comprobante, aprobados y con su recibo',
-    depende: 'Módulo 3',
+    depende: 'Módulo 3 (se construye en paralelo)',
   },
+  // ── ETAPA 2 · COBRANZA Y CLIENTE ──
   {
     num: '05',
+    etapa: 2,
     nombre: 'Carteras, acuerdos, cruces de cartera y morosos',
     icon: TriangleAlert,
-    color: '#f59e0b',
-    colorAlpha: 'rgba(245,158,11,.10)',
-    colorBorder: 'rgba(245,158,11,.28)',
+    color: '#38bdf8',
+    colorAlpha: 'rgba(56,189,248,.10)',
+    colorBorder: 'rgba(56,189,248,.28)',
     semanas: 'Semanas 8 y 9',
     precio: 1800000,
     descripcion: 'La lista de morosos a pedido, con la acción que corresponde a cada caso, y las herramientas para negociar con el cliente.',
     items: [
-      'Listado de morosos al momento, con edades de cartera, filtros por empresa, proyecto y días de atraso, y exportación a Excel',
+      'Listado de morosos al momento, con edades de cartera (1–30, 31–60, 61–90 y más de 90 días), filtros por empresa y proyecto, y exportación a Excel',
       'Historial de gestión de cobro por cliente: mensajes, llamadas y compromisos',
-      'Acuerdos de pago que generan un plan nuevo sobre lo vencido, con aprobación y alerta si se incumplen',
-      'Cruce de cartera: saldar la deuda de un cliente contra una cuenta por pagar, con aprobación de gerencia',
-      'Provisión y castigo de cartera según lo que defina el contador, y certificados de paz y salvo',
-      'Alerta cuando un cliente de Cúcuta acumula tres cuotas: el sistema avisa y una persona decide',
-      'Bono por referido que se libera cuando el referido paga sus primeras cuotas, y se anula si desiste',
+      'Acuerdos de pago con la misma calculadora: refinanciación, prórroga, cambio de fecha de corte o congelamiento, con aprobación, documento firmado y alerta si se incumplen',
+      'Cruces de cartera: contra una cuenta por pagar, traslado de saldo entre contratos, pago en especie (por ejemplo, un vehículo) y entre sociedades, con aprobación de gerencia',
+      'Otras carteras además de las ventas, como préstamos entre empresas, según lo que Mizar confirme',
+      'Provisión y castigo de cartera según lo que defina el contador, y paz y salvo',
+      'Cúcuta: porcentaje de incumplimiento de las últimas 3 cuotas y alerta de tres cuotas para recuperar el lote, que decide una persona',
+      'Bono por referido que se libera cuando el referido paga sus primeras cuotas, se anula si desiste y se paga con orden de pago',
     ],
     entregable: 'Un cruce contra compras y un acuerdo de pago aprobados de punta a punta',
-    depende: 'Módulo 3',
+    depende: 'Etapa 1',
   },
   {
     num: '06',
+    etapa: 2,
+    nombre: 'Recordatorios de cobro (recompensas como opción)',
+    icon: BellRing,
+    color: '#38bdf8',
+    colorAlpha: 'rgba(56,189,248,.10)',
+    colorBorder: 'rgba(56,189,248,.28)',
+    semanas: 'Semana 10',
+    precio: 700000,
+    descripcion: 'El primer recordatorio sale solo. El equipo solo interviene donde de verdad hace falta.',
+    items: [
+      'Recordatorios por WhatsApp según la fecha de corte de cada cliente: antes, el día del corte y después',
+      'Cobranza escalonada según el comportamiento: al buen pagador un mensaje, al atrasado un segundo aviso y luego una llamada asignada',
+      'Mensajes con el nombre, el valor y la fecha de cada cliente, aprobados por Meta',
+      'Horarios y frecuencia según la regulación de cobranza, sin molestar al cliente justo antes del vencimiento, y nada a quien no tenga autorización registrada',
+      'Aviso interno cuando un cliente entra en mora o incumple un acuerdo',
+    ],
+    entregable: 'Recordatorios funcionando, solo en horario permitido',
+    depende: 'Etapa 1 y módulo 5',
+    extra: {
+      nombre: 'Recompensas por pagar a tiempo',
+      precio: 800000,
+      semanas: 'Semana 11',
+      descripcion: 'Opcional. Premia al cliente que paga a tiempo, con un piloto medido antes de extenderlo.',
+      items: [
+        'Rachas de pago, puntos, beneficios por pronto pago y un mensaje de progreso al cliente («llevas 3 pagos a tiempo este trimestre»)',
+        'Campañas puntuales, como la de la prima: «abona un extra y recibe un descuento», con límites legales',
+        'Piloto en un proyecto de cada empresa, con tope mensual, y medición del recaudo antes y después',
+      ],
+      entregable: 'Una campaña de prueba medida',
+    },
+  },
+  // ── ETAPA 3 · DINERO, SOCIOS Y GERENCIA ──
+  {
+    num: '07',
+    etapa: 3,
     nombre: 'Ingresos, bancos y conciliación (contabilidad completa como opción)',
     icon: Landmark,
-    color: '#a78bfa',
-    colorAlpha: 'rgba(167,139,250,.10)',
-    colorBorder: 'rgba(167,139,250,.28)',
-    semanas: 'Semanas 10 y 11',
+    color: '#00bfa5',
+    colorAlpha: 'rgba(0,191,165,.10)',
+    colorBorder: 'rgba(0,191,165,.28)',
+    semanas: 'Semanas 12 y 13',
     precio: 1900000,
-    descripcion: 'El libro de ingresos por sociedad y la conciliación contra los bancos. La contabilidad completa se puede sumar como opción.',
+    descripcion: 'Todo el dinero que entra al grupo y la conciliación contra los bancos. La contabilidad completa se puede sumar como opción.',
     items: [
-      'Libro de ingresos por empresa y por sociedad, que reemplaza al libro diario de dineros recibidos',
-      'Carga de extractos bancarios y conciliación contra los pagos registrados, cuenta por cuenta',
-      'Saldos por cuenta bancaria y por empresa',
+      'Libro de ingresos por empresa y por sociedad, con las cuotas y también lo que no es cuota: ventas de contado, arriendos, aportes de socios, reintegros y rendimientos',
+      'Movimientos por cuenta con saldo verificado, y traslados entre cuentas y entre sociedades (por ejemplo, pagos de Cantalta que entran a la cuenta de Mizar)',
+      'Carga de extractos bancarios y conciliación cuenta por cuenta contra los pagos registrados',
+      'Saldos por cuenta bancaria, por sociedad y por empresa',
       'Exportación para Helisa, que sigue siendo el sistema contable del contador',
     ],
     entregable: 'Una cuenta bancaria conciliada al peso',
-    depende: 'Módulo 3',
+    depende: 'Etapa 1',
     extra: {
       nombre: 'Contabilidad completa',
       precio: 2200000,
-      semanas: 'Semanas 12 y 13',
-      descripcion: 'Opcional. Convierte cada movimiento en contabilidad, para que la plataforma lleve la contabilidad de ingresos y cartera.',
+      semanas: 'Semanas 16 y 17',
+      descripcion: 'Opcional. Convierte cada movimiento en contabilidad, para que la plataforma lleve la contabilidad de ingresos y cartera de cada sociedad.',
       items: [
         'Plan de cuentas por sociedad',
-        'Comprobantes contables automáticos desde cada pago, devolución y cruce',
-        'Libros auxiliares y estados financieros',
+        'Comprobantes contables automáticos desde cada pago, devolución y cruce, y causación mensual de intereses',
+        'Libros auxiliares y estados financieros por empresa y proyecto',
         'Balance de prueba por sociedad, comparable con el del contador',
       ],
       entregable: 'El balance de prueba de un mes, igual al del contador',
     },
   },
   {
-    num: '07',
-    nombre: 'Socios, flujo de caja e informes',
+    num: '08',
+    etapa: 3,
+    nombre: 'Socios, comisiones, flujo de caja e informes',
     icon: Scale,
-    color: '#34d399',
-    colorAlpha: 'rgba(52,211,153,.10)',
-    colorBorder: 'rgba(52,211,153,.28)',
+    color: '#00bfa5',
+    colorAlpha: 'rgba(0,191,165,.10)',
+    colorBorder: 'rgba(0,191,165,.28)',
     semanas: 'Semanas 14 y 15',
     precio: 1900000,
     descripcion: 'El reparto entre socios, el flujo de caja del grupo y los informes de gerencia, sin fórmulas escritas a mano.',
     items: [
-      'Socios por proyecto con su porcentaje y la fecha desde la que rige, y excepciones por cliente',
-      'Reparto de ingresos y gastos con el porcentaje vigente en cada fecha, con los gastos tomados de compras y caja menor',
-      'Comisiones de venta: lo causado, lo pagado y lo pendiente',
-      'Informe sencillo por socio en PDF: se recogió, se gastó, queda y le corresponde',
-      'Flujo de caja del grupo con el formato de hoy: programado frente a recaudado y gastado, caja proyectada y período del 15 al 14',
-      'Los 16 informes de gerencia, con exportación a Excel',
+      'Socios por proyecto con su porcentaje y la fecha desde la que rige (de tres socios a dos), y excepciones por cliente',
+      'Reparto de ingresos y gastos con el porcentaje vigente en cada fecha; gastos tomados de compras y caja menor, y gastos de un proyecto pagados por otro',
+      'Comisiones por vendedor con el porcentaje de cada proyecto: causadas, pagadas y pendientes; participación sobre el recaudo en Cúcuta',
+      'Informe sencillo por socio en PDF, del 15 al 14 o el rango que se elija: se recogió, se gastó, queda y le corresponde',
+      'Flujo de caja del grupo: programado frente a recaudado y gastado, egresos del mes (nómina, gastos bancarios, comisiones) y caja proyectada',
+      'Los 16 informes de gerencia, entre ellos ventas frente a recaudo, cumplimiento del mes y proyección de 12 meses, con exportación a Excel',
     ],
     entregable: 'El informe al socio y el flujo del mes en paralelo, iguales a los que hoy arma gerencia',
-    depende: 'Módulos 3 y 6',
-  },
-  {
-    num: '08',
-    nombre: 'Recordatorios de cobro (recompensas como opción)',
-    icon: BellRing,
-    color: '#38bdf8',
-    colorAlpha: 'rgba(56,189,248,.10)',
-    colorBorder: 'rgba(56,189,248,.28)',
-    semanas: 'Semana 16',
-    precio: 700000,
-    descripcion: 'El primer recordatorio sale solo. El equipo solo interviene donde de verdad hace falta.',
-    items: [
-      'Recordatorios por WhatsApp según la fecha de corte de cada cliente: antes, el día del corte y después',
-      'Reglas según el comportamiento: al buen pagador un mensaje, al atrasado una llamada asignada',
-      'Mensajes con el nombre, el valor y la fecha de cada cliente, aprobados por Meta',
-      'Horarios y frecuencia configurables según la regulación de cobranza, y sin recordatorios a quien no tenga autorización registrada',
-      'Aviso interno cuando un cliente entra en mora o incumple un acuerdo',
-    ],
-    entregable: 'Recordatorios funcionando, solo en horario permitido',
-    depende: 'Módulos 3 y 4',
-    extra: {
-      nombre: 'Recompensas por pagar a tiempo',
-      precio: 800000,
-      semanas: 'Semana 17',
-      descripcion: 'Opcional. Premia al cliente que paga a tiempo, con un piloto medido antes de extenderlo.',
-      items: [
-        'Rachas de pago, puntos y beneficios sencillos',
-        'Una campaña de prueba en un proyecto de cada empresa, con tope mensual de presupuesto',
-        'Medición del recaudo antes y después de la campaña',
-      ],
-      entregable: 'Una campaña de prueba medida',
-    },
+    depende: 'Etapa 1 y módulo 7',
   },
   {
     num: '09',
+    etapa: 3,
     nombre: 'Puesta en marcha y capacitación',
     icon: GraduationCap,
-    color: MIZAR_GOLD,
-    colorAlpha: 'rgba(201,164,67,.10)',
-    colorBorder: 'rgba(201,164,67,.28)',
+    color: '#00bfa5',
+    colorAlpha: 'rgba(0,191,165,.10)',
+    colorBorder: 'rgba(0,191,165,.28)',
     semanas: 'Semana 18',
     precio: 900000,
-    descripcion: 'Que el equipo use el sistema solo y se pueda retirar el Excel con tranquilidad.',
+    descripcion: 'Que el equipo use el sistema solo y se puedan retirar los Excel con tranquilidad.',
     items: [
-      'Capacitación por rol: cartera, tesorería, sede, gerencia y contador',
+      'Capacitación por rol al cierre de cada etapa: cartera, tesorería, sede, gerencia y contador',
       'Trabajo en paralelo con el Excel hasta confirmar que todo cuadra',
       'Verificación de que todos los saldos son iguales al Excel en la fecha de corte',
       'Retiro de los archivos de control actuales',
       'Garantía correctiva de 30 días desde la entrega',
     ],
     entregable: '100 % de los saldos iguales al Excel en la fecha de corte',
-    depende: 'Los módulos contratados',
+    depende: 'Las etapas contratadas',
   },
 ];
 
 const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
 const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
+const precioEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + m.precio, 0);
+const opcionalEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 
 const cop = (n: number) => '$' + n.toLocaleString('es-CO');
 
-// ─── PLAN DE TRABAJO ─────────────────────────────────────────────────────────
+// ─── LO QUE PIDIERON Y DÓNDE QUEDA ───────────────────────────────────────────
+// Sale de la reunión del 23-sep-2026 y de los Excel compartidos después.
 
-const FASES = [
+const PEDIDOS: { etapa: number | null; items: { pedido: string; donde: string }[] }[] = [
   {
-    num: '01',
-    semanas: 'Semanas 1 y 2',
-    titulo: 'Base de las dos empresas',
-    modulos: 'Módulo 1',
-    color: MIZAR_GOLD,
-    colorAlpha: 'rgba(201,164,67,.10)',
-    colorBorder: 'rgba(201,164,67,.28)',
-    desc: 'Dejamos creadas las dos empresas con sus sociedades, proyectos, cuentas y personas, y cerramos por escrito las reglas del dinero.',
-    hitos: [
-      'Sesión con gerencia y contador para fijar el orden de aplicación de pagos, los abonos y las reglas de cada sede',
-      'Empresas, sociedades titulares, proyectos, inmuebles, cuentas bancarias y socios',
-      'Roles y permisos de cada persona',
+    etapa: 1,
+    items: [
+      { pedido: 'Dos empresas y varias sociedades, con proyectos de socios distintos', donde: '01' },
+      { pedido: 'Crear al cliente y su plan una sola vez, desde la promesa de compraventa', donde: '02' },
+      { pedido: 'Capital, interés e interés de mora separados en cada cuota', donde: '02 · 03' },
+      { pedido: 'Fecha de corte propia de cada cliente (el 5 o fin de mes)', donde: '02' },
+      { pedido: 'Lista de precios y simulador de lotes de Cúcuta', donde: '02' },
+      { pedido: 'Pasar los Excel desde 2024, con la administración anterior de Cúcuta', donde: '02' },
+      { pedido: 'Un solo registro de pagos en vez de dos archivos', donde: '03' },
+      { pedido: 'Registrar pagos parciales con la cuenta por donde entró el dinero', donde: '03' },
+      { pedido: 'Recibo con consecutivo y soporte escaneado, en lugar de carpetas físicas', donde: '03' },
+      { pedido: 'Interés de mora con una tasa configurable', donde: '03' },
+      { pedido: 'Abonos extra a capital con cálculo financiero', donde: '03' },
+      { pedido: 'Cúcuta con cuota fija y sin mora', donde: '01 · 03' },
+      { pedido: 'Descuentos autorizados y descuento por pronto pago', donde: '03' },
+      { pedido: 'Clientes «por identificar» y dinero en efectivo o cuentas personales', donde: '03' },
+      { pedido: 'Estado de cuenta al digitar la cédula', donde: '03' },
+      { pedido: 'Reportar el pago por WhatsApp con el comprobante', donde: '04' },
+      { pedido: 'Bloquear soportes repetidos y señalar comprobantes dudosos', donde: '04' },
     ],
-    entregable: 'Reglas firmadas, o con el valor por defecto aceptado, y empresas y cuentas creadas',
   },
   {
-    num: '02',
-    semanas: 'Semanas 3 y 4',
-    titulo: 'Clientes, planes y migración de los Excel',
-    modulos: 'Módulo 2',
-    color: '#38bdf8',
-    colorAlpha: 'rgba(56,189,248,.10)',
-    colorBorder: 'rgba(56,189,248,.28)',
-    desc: 'Cargamos la base real de clientes y planes, que es el cimiento de todo lo demás.',
-    hitos: [
-      'Alta de clientes y contratos con el simulador de lotes',
-      'Depuración de los Excel de las dos empresas, fila por fila, con el equipo',
-      'Saldos de la administración anterior de Cúcuta cargados aparte',
+    etapa: 2,
+    items: [
+      { pedido: 'Listado de morosos a pedido', donde: '05' },
+      { pedido: 'Acuerdos de pago con la misma calculadora', donde: '05' },
+      { pedido: 'Regla de tres cuotas de Cúcuta para recuperar el lote', donde: '05' },
+      { pedido: 'Bono por referido después de la tercera cuota, anulado si desiste', donde: '05' },
+      { pedido: 'Pagos en especie y cruces entre proyectos o sociedades', donde: '05' },
+      { pedido: 'Recordatorios automáticos según la fecha de corte', donde: '06' },
+      { pedido: 'Al buen pagador un mensaje; al atrasado, una llamada', donde: '06' },
+      { pedido: 'Campañas como la de la prima, rachas y progreso al estilo Duolingo', donde: '06B (opción)' },
     ],
-    entregable: 'Todos los contratos cargados con su plan',
   },
   {
-    num: '03',
-    semanas: 'Semanas 5 a 7',
-    titulo: 'Pagos, intereses y estado de cuenta, y WhatsApp',
-    modulos: 'Módulos 3 y 4',
-    color: '#f87171',
-    colorAlpha: 'rgba(248,113,113,.10)',
-    colorBorder: 'rgba(248,113,113,.28)',
-    desc: 'Construimos el corazón del sistema: el registro de pagos, el cálculo de capital, interés y mora, el estado de cuenta, y el canal del cliente por WhatsApp.',
-    hitos: [
-      'Registro de pagos con recibo consecutivo y soporte adjunto',
-      'Motor de mora, interés y capital, con abonos extra',
-      'Estado de cuenta por cédula, en pantalla y en PDF',
-      'Link de pago, lectura del comprobante y bandeja de aprobación de tesorería',
+    etapa: 3,
+    items: [
+      { pedido: 'Varias cuentas bancarias y cuadre con el extracto', donde: '07' },
+      { pedido: 'Contabilidad de cada empresa', donde: '07B (opción)' },
+      { pedido: 'Porcentajes de socios por proyecto, por cliente y que cambian en el tiempo', donde: '08' },
+      { pedido: 'Gastos repartidos con el porcentaje de cada fecha (de tres a dos socios)', donde: '08' },
+      { pedido: 'Informe sencillo para cada socio', donde: '08' },
+      { pedido: 'Liquidación de comisiones de venta', donde: '08' },
+      { pedido: 'Flujo de caja mes a mes: programado, recogido y gastado, para decidir nuevos proyectos', donde: '08' },
+      { pedido: 'Egresos tomados de compras y caja menor, sin volver a digitarlos', donde: '08' },
+      { pedido: 'Capacitación y retiro de los Excel', donde: '09' },
     ],
-    entregable: '20 contratos con el mismo saldo del Excel; un pago por link y uno por comprobante aprobados y con recibo',
   },
   {
-    num: '04',
-    semanas: 'Semanas 8 y 9',
-    titulo: 'Carteras, acuerdos, cruces y morosos',
-    modulos: 'Módulo 5',
-    color: '#f59e0b',
-    colorAlpha: 'rgba(245,158,11,.10)',
-    colorBorder: 'rgba(245,158,11,.28)',
-    desc: 'Damos al equipo las herramientas para cobrar y para negociar con el cliente atrasado.',
-    hitos: [
-      'Morosos, edades de cartera y gestión de cobro',
-      'Acuerdos de pago ampliados, cruces de cartera, provisión y certificados',
-      'Alerta de tres cuotas y bono por referido',
+    etapa: null,
+    items: [
+      { pedido: 'Confirmar pagos directo con el banco (servicio de avisos, SMS o correos del banco)', donde: 'Fuera · se investiga' },
+      { pedido: 'Informes interpretados con inteligencia artificial', donde: 'Fuera · siguiente paso' },
+      { pedido: 'Gamificación avanzada (niveles, juegos, campañas permanentes)', donde: 'Fuera · siguiente paso' },
+      { pedido: 'Cambios al bot de ventas Lily', donde: 'Otro servicio' },
     ],
-    entregable: 'Un cruce contra compras y un acuerdo de pago aprobados de punta a punta',
-  },
-  {
-    num: '05',
-    semanas: 'Semanas 10 a 13',
-    titulo: 'Ingresos, bancos, conciliación y contabilidad',
-    modulos: 'Módulo 6 (y su opción de contabilidad completa)',
-    color: '#a78bfa',
-    colorAlpha: 'rgba(167,139,250,.10)',
-    colorBorder: 'rgba(167,139,250,.28)',
-    desc: 'Conectamos el dinero que entra con los bancos y, si Mizar lo contrata, con la contabilidad.',
-    hitos: [
-      'Libro de ingresos por empresa y sociedad',
-      'Carga de extractos y conciliación de cada cuenta',
-      'Opción: plan de cuentas, comprobantes automáticos, libros y estados financieros',
-    ],
-    entregable: 'Una cuenta conciliada al peso y, con la opción, el balance de prueba de un mes igual al del contador',
-  },
-  {
-    num: '06',
-    semanas: 'Semanas 14 y 15',
-    titulo: 'Socios, flujo de caja e informes',
-    modulos: 'Módulo 7',
-    color: '#34d399',
-    colorAlpha: 'rgba(52,211,153,.10)',
-    colorBorder: 'rgba(52,211,153,.28)',
-    desc: 'Llevamos el sistema al nivel de la gerencia: el reparto entre socios y la foto del dinero del grupo.',
-    hitos: [
-      'Participaciones por proyecto y por cliente, con fecha de vigencia',
-      'Informe por socio, comisiones y flujo de caja del grupo',
-      'Los 16 informes de gerencia',
-    ],
-    entregable: 'El informe al socio y el flujo de un mes en paralelo, iguales a los actuales',
-  },
-  {
-    num: '07',
-    semanas: 'Semanas 16 y 17',
-    titulo: 'Recordatorios y recompensas',
-    modulos: 'Módulo 8',
-    color: '#25D366',
-    colorAlpha: 'rgba(37,211,102,.10)',
-    colorBorder: 'rgba(37,211,102,.28)',
-    desc: 'Activamos la cobranza automática y, si Mizar lo contrata, la prueba de recompensas.',
-    hitos: [
-      'Recordatorios por fecha de corte y reglas según el comportamiento',
-      'Mensajes solo en horario permitido y con autorización registrada',
-      'Opción: campaña de recompensas de prueba, medida',
-    ],
-    entregable: 'Recordatorios funcionando y, con la opción, una campaña de prueba medida',
-  },
-  {
-    num: '08',
-    semanas: 'Semana 18',
-    titulo: 'Puesta en marcha',
-    modulos: 'Módulo 9',
-    color: MIZAR_GOLD,
-    colorAlpha: 'rgba(201,164,67,.10)',
-    colorBorder: 'rgba(201,164,67,.28)',
-    desc: 'Capacitamos a cada rol, trabajamos en paralelo con el Excel y lo retiramos cuando los números cuadren.',
-    hitos: [
-      'Capacitación por rol',
-      'Paralelo con el Excel hasta confirmar que todo cuadra',
-      'Retiro de los archivos de control actuales',
-    ],
-    entregable: '100 % de los saldos iguales al Excel en la fecha de corte',
   },
 ];
 
@@ -493,7 +482,7 @@ const INSUMOS = [
 const FUERA = [
   {
     titulo: 'Gamificación avanzada',
-    desc: 'El módulo 8 opcional incluye una prueba sencilla de recompensas. Juegos más elaborados, niveles o campañas permanentes se cotizan aparte, cuando exista una línea base del recaudo para medir si funcionan.',
+    desc: 'La opción del módulo 6 incluye una prueba sencilla de recompensas. Juegos más elaborados, niveles o campañas permanentes se cotizan aparte, cuando exista una línea base del recaudo para medir si funcionan.',
     icon: Gamepad2, tint: 'purple',
   },
   {
@@ -517,6 +506,11 @@ const FUERA = [
     icon: Puzzle, tint: 'teal',
   },
   {
+    titulo: 'Informes interpretados con inteligencia artificial',
+    desc: 'Los 16 informes salen con los datos listos para leer y exportar. Un asistente que los lea y explique con inteligencia artificial, como se mencionó en la reunión, se propone como paso siguiente, cuando los datos ya vivan en la plataforma.',
+    icon: Zap, tint: 'teal',
+  },
+  {
     titulo: 'La cuenta de Miraflor',
     desc: 'La titularidad de esa cuenta es un tema que Mizar resuelve con su asesor. El sistema registra lo que entra por ella como dinero de una cuenta de tercero.',
     icon: Lock, tint: 'gold',
@@ -538,6 +532,8 @@ const PENDIENTES: { tema: string; pregunta: string; porDefecto: string }[] = [
   { tema: 'Participación en Cúcuta', pregunta: 'En el informe de Cúcuta, la «comisión» es la mitad de lo recaudado: ¿es una participación, un reparto entre socios o una comisión?', porDefecto: 'Se modela como participación configurable sobre el recaudo' },
   { tema: 'Dinero fuera de la cuenta de la sociedad', pregunta: '¿Se sigue recibiendo dinero en cuentas personales y en efectivo? ¿En cuántos días debe quedar en la cuenta de la sociedad?', porDefecto: 'Se permite; queda «por trasladar» y alerta a los 3 días hábiles' },
   { tema: 'Descuento de nómina', pregunta: '¿Qué empleados compran a cuotas y cómo se registra el descuento?', porDefecto: 'Medio de pago «descuento de nómina» con el soporte de la nómina' },
+  { tema: 'Descuento por pronto pago', pregunta: '¿Se ofrece un descuento por pagar antes de la fecha, o una penalidad por pagar tarde? ¿Con qué condiciones?', porDefecto: 'Queda configurable y apagado hasta que Mizar lo defina' },
+  { tema: 'Línea base del recaudo', pregunta: 'En la reunión se habló de un recaudo de «70, 75» o «35» por ciento. ¿Cuál es y cómo se mide?', porDefecto: 'El sistema calcula el cumplimiento del mes y el recaudo sobre lo programado, y se toma el primer mes como base' },
   { tema: 'Lista de precios y bonos', pregunta: '¿Quién actualiza la lista de precios de lotes y cada cuánto? ¿Quién autoriza un bono de descuento?', porDefecto: 'La actualiza gerencia; el bono lo autoriza gerencia o el responsable de sede' },
 ];
 
@@ -550,8 +546,8 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
     icon: CheckCircle,
   },
   {
-    titulo: 'Contratación y pago por módulo',
-    desc: 'Cada módulo tiene su propio valor, se entrega y se aprueba por separado, y se paga al entregarse. El módulo 1 se paga al firmar, para arrancar. Los módulos 1, 2 y 3 son la base indispensable; los demás se contratan en el orden en que se construyen. Los módulos opcionales, contabilidad completa y recompensas, se pueden contratar ahora o más adelante.',
+    titulo: 'Contratación por etapa y pago por módulo',
+    desc: 'Las tres etapas se pueden contratar juntas o una a una; la etapa 1 es la base indispensable y las otras se construyen sobre ella. Cada módulo tiene su propio valor, se entrega y se aprueba por separado, y se paga al entregarse. El módulo 1 se paga al firmar, para arrancar. Los módulos opcionales, recompensas y contabilidad completa, se pueden contratar ahora o más adelante.',
     icon: FileText,
   },
   {
@@ -571,7 +567,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Duración del desarrollo',
-    desc: '18 semanas desde el inicio del proyecto, en ocho fases con un entregable revisable al cierre de cada una. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.',
+    desc: '18 semanas desde el inicio del proyecto, en tres etapas: cartera y pagos (semanas 1 a 7), cobranza y cliente (8 a 11) y dinero, socios y gerencia (12 a 18). Cada módulo cierra con un entregable revisable. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.',
     icon: Zap,
   },
   {
@@ -617,7 +613,8 @@ const SECCIONES = [
   { id: 'resumen',    label: 'Resumen'     },
   { id: 'beneficios', label: 'Beneficios'  },
   { id: 'demo',       label: 'Demo'        },
-  { id: 'incluye',    label: 'Qué incluye' },
+  { id: 'incluye',    label: 'Módulos'     },
+  { id: 'pedidos',    label: 'Lo pedido'   },
   { id: 'plan',       label: 'Plan'        },
   { id: 'alcance',    label: 'Alcance'     },
   { id: 'inversion',  label: 'Inversión'   },
@@ -656,7 +653,7 @@ const MizarCarteraProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [moduloActivo, setModuloActivo] = useState<number | null>(null);
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
-  const [extras, setExtras] = useState<Record<string, boolean>>({ '06': true, '08': true });
+  const [extras, setExtras] = useState<Record<string, boolean>>({ '06': true, '07': true });
   const totalOpciones = MODULOS.reduce((t, m) => t + (m.extra && extras[m.num] ? m.extra.precio : 0), 0);
 
   useEffect(() => {
@@ -675,7 +672,7 @@ const MizarCarteraProposal = () => {
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible(); const s8 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible(); const s7 = useVisible();
+  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible(); const s7 = useVisible(); const s9 = useVisible();
 
   return (
     <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
@@ -801,7 +798,7 @@ const MizarCarteraProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen ejecutivo','2. Resultados que obtendrán','3. Pruebe la demo','4. Los nueve módulos','5. Plan de trabajo','6. Alcance y por confirmar','7. Inversión por módulo','8. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen ejecutivo','2. Resultados que obtendrán','3. Pruebe la demo','4. Tres etapas, nueve módulos','5. Lo que pidieron','6. Plan de trabajo','7. Alcance y por confirmar','8. Inversión','9. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -924,7 +921,7 @@ const MizarCarteraProposal = () => {
               En la reunión del 23 de septiembre la ingeniera Claudia planteó el objetivo con claridad: <strong className="text-white/90 font-semibold">saber mes a mes cuánto dinero está programado, cuánto se recogió y cuánto se puede gastar</strong>, para decidir si la empresa puede tomar más proyectos. A medida que se detalló el trabajo, el alcance creció de una cartera a un <strong className="text-white/90 font-semibold">sistema financiero de ingresos</strong>: clientes y planes, pagos, mora, bancos, contabilidad, socios y flujo de caja, para las dos empresas.
             </p>
             <p>
-              Sixteam propone construirlo dentro de la <strong className="text-white/90 font-semibold">Plataforma Mizar</strong>, la misma donde ya viven compras, pagos de obra y caja menor, y presentarlo por módulos: <strong className="text-white/90 font-semibold">nueve módulos en 18 semanas</strong>, cada uno con su alcance, su entregable y su propio precio, para que Mizar vea qué paga por cada parte y pueda recibirlo y pagarlo módulo a módulo.
+              Sixteam propone construirlo dentro de la <strong className="text-white/90 font-semibold">Plataforma Mizar</strong>, la misma donde ya viven compras, pagos de obra y caja menor, y presentarlo por partes: <strong className="text-white/90 font-semibold">tres etapas y nueve módulos en 18 semanas</strong>. Cada etapa deja una parte de la aplicación funcionando, y cada módulo tiene su alcance, su entregable y su propio precio, para que Mizar vea qué paga por cada parte y pueda recibirlo y pagarlo módulo a módulo.
             </p>
           </div>
 
@@ -1153,110 +1150,142 @@ const MizarCarteraProposal = () => {
         {/* ─ 04 QUÉ INCLUYE ─ */}
         <section id="incluye" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 · Los nueve módulos</TagLabel>
+          <TagLabel>04 · Tres etapas, nueve módulos</TagLabel>
           <SectionTitle>Qué incluye cada módulo y cuánto cuesta</SectionTitle>
           <Rule />
 
-          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            El sistema se construye y se entrega en nueve módulos. Cada uno muestra su alcance, su entregable, sus semanas y su precio, para que Mizar vea qué paga por cada parte. Dos módulos traen una parte opcional con su propio precio. Toca un módulo para ver el detalle.
+          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
+            El sistema se construye en tres etapas. Cada una deja una parte de la aplicación funcionando con datos reales y se puede usar sola, aunque las siguientes todavía no estén. Dentro de cada etapa, cada módulo muestra su alcance, su entregable, sus semanas y su precio. Toca un módulo para ver el detalle.
           </p>
 
-          <div className="relative">
-            <div className="hidden sm:block absolute left-[28px] top-10 bottom-10 w-px"
-              style={{ background: 'linear-gradient(to bottom, rgba(201,164,67,.4), rgba(56,189,248,.4), rgba(248,113,113,.4), rgba(37,211,102,.4), rgba(245,158,11,.4), rgba(167,139,250,.4), rgba(52,211,153,.4), rgba(56,189,248,.4), rgba(201,164,67,.4))' }} />
+          {/* Las tres etapas de un vistazo */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+            {ETAPAS.map((e, k) => (
+              <div key={e.num} className="rounded-xl p-4 relative" style={{ background: e.colorAlpha, border: `1px solid ${e.colorBorder}` }}>
+                <p className="font-lato text-[12px] uppercase tracking-wider mb-1" style={{ color: e.color }}>Etapa {e.num} · {e.semanas}</p>
+                <p className="font-poppins font-bold text-white text-[18px] leading-tight">{e.nombre}</p>
+                <p className="font-lato text-white/45 text-[14px] mb-2">{e.lema}</p>
+                <p className="font-poppins font-black text-white/85 text-[18px]">{cop(precioEtapa(e.num))}
+                  {opcionalEtapa(e.num) > 0 && <span className="font-lato font-normal text-white/40 text-[13px]"> + opción {cop(opcionalEtapa(e.num))}</span>}
+                </p>
+                {k < ETAPAS.length - 1 && (
+                  <ArrowRight className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                )}
+              </div>
+            ))}
+          </div>
 
-            <div className="space-y-3">
-              {MODULOS.map((mod, i) => {
-                const Icon = mod.icon;
-                const open = moduloActivo === i;
-                return (
-                  <div key={i} className="rounded-xl overflow-hidden transition-all duration-300 sm:ml-12 relative"
-                    style={{ background: 'rgba(255,255,255,.03)', border: open ? `1px solid ${mod.colorBorder}` : '1px solid rgba(255,255,255,.07)' }}>
+          <div className="space-y-10">
+            {ETAPAS.map((e) => (
+              <div key={e.num}>
+                <div className="rounded-xl p-4 sm:p-5 mb-4" style={{ background: e.colorAlpha, border: `1px solid ${e.colorBorder}` }}>
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
+                    <p className="font-poppins font-black text-[20px]" style={{ color: e.color }}>Etapa {e.num} · {e.nombre}</p>
+                    <span className="font-lato text-white/40 text-[14px]">{e.semanas}</span>
+                  </div>
+                  <p className="font-lato text-white/60 text-[16px] leading-relaxed mb-2">{e.desc}</p>
+                  <p className="font-lato text-white/45 text-[14px]"><strong className="text-white/70">Quién la usa:</strong> {e.usuarios}</p>
+                  <p className="font-lato text-white/45 text-[14px]"><strong className="text-white/70">Qué cambia al terminarla:</strong> {e.resultado}</p>
+                </div>
 
-                    <div className="hidden sm:flex absolute -left-12 top-5 w-8 h-8 rounded-full items-center justify-center border-2 z-10"
-                      style={{ background: '#030d1a', borderColor: mod.color }}>
-                      <span className="font-poppins font-black text-[13px]" style={{ color: mod.color }}>{mod.num}</span>
-                    </div>
+                <div className="relative">
+                  <div className="hidden sm:block absolute left-[28px] top-6 bottom-6 w-px" style={{ background: e.colorBorder }} />
+                  <div className="space-y-3">
+                    {MODULOS.map((mod, i) => {
+                      if (mod.etapa !== e.num) return null;
+                      const Icon = mod.icon;
+                      const open = moduloActivo === i;
+                      return (
+                        <div key={i} className="rounded-xl overflow-hidden transition-all duration-300 sm:ml-12 relative"
+                          style={{ background: 'rgba(255,255,255,.03)', border: open ? `1px solid ${mod.colorBorder}` : '1px solid rgba(255,255,255,.07)' }}>
 
-                    <button onClick={() => setModuloActivo(open ? null : i)}
-                      className="w-full flex items-center gap-3 p-4 sm:p-5 text-left">
-                      <div className="hidden sm:flex w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                        style={{ background: open ? mod.colorAlpha : 'rgba(255,255,255,.05)' }}>
-                        <Icon className="w-4 h-4 transition-colors" style={{ color: open ? mod.color : 'rgba(255,255,255,.35)' }} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/70'}`}>
-                          <span className="sm:hidden" style={{ color: mod.color }}>{mod.num} · </span>{mod.nombre}
-                        </span>
-                        <p className={`font-lato text-white/40 text-[15px] mt-0.5 ${open ? '' : 'line-clamp-1'}`}>{mod.descripcion}</p>
-                      </div>
-                      <div className="flex-shrink-0 text-right ml-2">
-                        <p className="font-poppins font-black text-[17px] leading-tight" style={{ color: open ? mod.color : 'rgba(255,255,255,.75)' }}>{cop(mod.precio)}</p>
-                        <p className="font-lato text-white/30 text-[12px]">{mod.semanas}</p>
-                      </div>
-                      <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ml-1 ${open ? 'rotate-90' : ''}`}
-                        style={{ color: open ? mod.color : 'rgba(255,255,255,.3)' }} />
-                    </button>
-
-                    {open && (
-                      <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                        <div className="pt-4">
-                          <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Qué incluye</p>
-                          <ul className="space-y-2">
-                            {mod.items.map((item, j) => (
-                              <li key={j} className="flex items-start gap-2">
-                                <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
-                                <span className="font-lato text-white/65 text-[17px] flex-1">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                            <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
-                              <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
-                              <div>
-                                <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Entregable</p>
-                                <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.entregable}</p>
-                              </div>
-                            </div>
-                            <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
-                              <Layers className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
-                              <div>
-                                <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Se apoya en</p>
-                                <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.depende}</p>
-                              </div>
-                            </div>
+                          <div className="hidden sm:flex absolute -left-12 top-5 w-8 h-8 rounded-full items-center justify-center border-2 z-10"
+                            style={{ background: '#030d1a', borderColor: mod.color }}>
+                            <span className="font-poppins font-black text-[13px]" style={{ color: mod.color }}>{mod.num}</span>
                           </div>
 
-                          {mod.extra && (
-                            <div className="mt-4 rounded-xl p-4" style={{ background: mod.colorAlpha, border: `1px dashed ${mod.colorBorder}` }}>
-                              <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
-                                  style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${mod.colorBorder}`, color: mod.color }}>Opcional</span>
-                                <p className="font-poppins font-bold text-white/90 text-[16px]">{mod.num}B · {mod.extra.nombre}</p>
-                                <p className="font-poppins font-black text-[16px] ml-auto" style={{ color: mod.color }}>+{cop(mod.extra.precio)}</p>
+                          <button onClick={() => setModuloActivo(open ? null : i)}
+                            className="w-full flex items-center gap-3 p-4 sm:p-5 text-left">
+                            <div className="hidden sm:flex w-9 h-9 rounded-lg items-center justify-center flex-shrink-0"
+                              style={{ background: open ? mod.colorAlpha : 'rgba(255,255,255,.05)' }}>
+                              <Icon className="w-4 h-4 transition-colors" style={{ color: open ? mod.color : 'rgba(255,255,255,.35)' }} />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/70'}`}>
+                                <span className="sm:hidden" style={{ color: mod.color }}>{mod.num} · </span>{mod.nombre}
+                              </span>
+                              <p className={`font-lato text-white/40 text-[15px] mt-0.5 ${open ? '' : 'line-clamp-1'}`}>{mod.descripcion}</p>
+                            </div>
+                            <div className="flex-shrink-0 text-right ml-2">
+                              <p className="font-poppins font-black text-[17px] leading-tight" style={{ color: open ? mod.color : 'rgba(255,255,255,.75)' }}>{cop(mod.precio)}</p>
+                              <p className="font-lato text-white/30 text-[12px]">{mod.semanas}</p>
+                            </div>
+                            <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ml-1 ${open ? 'rotate-90' : ''}`}
+                              style={{ color: open ? mod.color : 'rgba(255,255,255,.3)' }} />
+                          </button>
+
+                          {open && (
+                            <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                              <div className="pt-4">
+                                <p className="font-poppins font-semibold text-white/50 text-[13px] uppercase tracking-wider mb-3">Qué incluye</p>
+                                <ul className="space-y-2">
+                                  {mod.items.map((item, j) => (
+                                    <li key={j} className="flex items-start gap-2">
+                                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
+                                      <span className="font-lato text-white/65 text-[17px] flex-1">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                  <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                                    <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
+                                    <div>
+                                      <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Entregable</p>
+                                      <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.entregable}</p>
+                                    </div>
+                                  </div>
+                                  <div className="rounded-lg p-3 flex gap-2.5 items-start" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                                    <Layers className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
+                                    <div>
+                                      <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Se apoya en</p>
+                                      <p className="font-lato text-white/75 text-[15px] leading-snug">{mod.depende}</p>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {mod.extra && (
+                                  <div className="mt-4 rounded-xl p-4" style={{ background: mod.colorAlpha, border: `1px dashed ${mod.colorBorder}` }}>
+                                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                                      <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                        style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${mod.colorBorder}`, color: mod.color }}>Opcional</span>
+                                      <p className="font-poppins font-bold text-white/90 text-[16px]">{mod.num}B · {mod.extra.nombre}</p>
+                                      <p className="font-poppins font-black text-[16px] ml-auto" style={{ color: mod.color }}>+{cop(mod.extra.precio)}</p>
+                                    </div>
+                                    <p className="font-lato text-white/45 text-[14px] mb-2">{mod.extra.semanas} · {mod.extra.descripcion}</p>
+                                    <ul className="space-y-1.5 mb-2">
+                                      {mod.extra.items.map((item, j) => (
+                                        <li key={j} className="flex items-start gap-2">
+                                          <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
+                                          <span className="font-lato text-white/65 text-[16px] flex-1">{item}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <p className="font-lato text-white/55 text-[14px]"><strong className="text-white/75">Entregable:</strong> {mod.extra.entregable}</p>
+                                  </div>
+                                )}
                               </div>
-                              <p className="font-lato text-white/45 text-[14px] mb-2">{mod.extra.semanas} · {mod.extra.descripcion}</p>
-                              <ul className="space-y-1.5 mb-2">
-                                {mod.extra.items.map((item, j) => (
-                                  <li key={j} className="flex items-start gap-2">
-                                    <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
-                                    <span className="font-lato text-white/65 text-[16px] flex-1">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                              <p className="font-lato text-white/55 text-[14px]"><strong className="text-white/75">Entregable:</strong> {mod.extra.entregable}</p>
                             </div>
                           )}
                         </div>
-                      </div>
-                    )}
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="mt-6 rounded-xl p-4 flex gap-3"
+          <div className="mt-8 rounded-xl p-4 flex gap-3"
             style={{ background: 'rgba(201,164,67,.06)', border: '1px solid rgba(201,164,67,.22)' }}>
             <Lock className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: MIZAR_GOLD }} />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
@@ -1265,53 +1294,105 @@ const MizarCarteraProposal = () => {
           </div>
         </section>
 
-        {/* ─ 05 PLAN DE TRABAJO ─ */}
-        <section id="plan" ref={s4.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 · Plan de trabajo</TagLabel>
-          <SectionTitle>18 semanas hasta producción</SectionTitle>
+        {/* ─ 05 LO QUE PIDIERON ─ */}
+        <section id="pedidos" ref={s9.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s9.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>05 · Lo que pidieron</TagLabel>
+          <SectionTitle>Cada pedido, en su módulo</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Ocho fases, cada una con un entregable revisable y ligada a uno o dos módulos. Desde la fase 3 el equipo ya registra pagos reales en la plataforma, y el Excel solo se retira cuando los números cuadran. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.
+            Revisamos lo que se habló en la reunión del 23 de septiembre y los archivos de Excel que compartieron después. Esto es lo que pidieron y el módulo donde queda resuelto. Lo que no entra también está, con el motivo.
+          </p>
+
+          <div className="space-y-5">
+            {PEDIDOS.map((g, gi) => {
+              const e = g.etapa ? ETAPAS[g.etapa - 1] : null;
+              const color = e ? e.color : '#94a3b8';
+              return (
+                <div key={gi} className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,.03)', border: `1px solid ${e ? e.colorBorder : 'rgba(255,255,255,.10)'}` }}>
+                  <div className="px-4 sm:px-5 py-3" style={{ background: e ? e.colorAlpha : 'rgba(255,255,255,.04)' }}>
+                    <p className="font-poppins font-bold text-[16px]" style={{ color }}>
+                      {e ? `Etapa ${e.num} · ${e.nombre}` : 'No entra en esta propuesta'}
+                    </p>
+                  </div>
+                  <ul className="divide-y" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                    {g.items.map((it, j) => (
+                      <li key={j} className="flex items-start gap-3 px-4 sm:px-5 py-2.5" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+                        {e
+                          ? <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color }} />
+                          : <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-white/35" />}
+                        <span className="font-lato text-white/70 text-[16px] leading-snug flex-1">{it.pedido}</span>
+                        <span className="font-lato text-[12px] px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0"
+                          style={{ background: 'rgba(255,255,255,.05)', border: `1px solid ${e ? e.colorBorder : 'rgba(255,255,255,.12)'}`, color }}>
+                          {e ? `Módulo ${it.donde}` : it.donde}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ─ 06 PLAN DE TRABAJO ─ */}
+        <section id="plan" ref={s4.ref as React.RefObject<HTMLElement>}
+          className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <TagLabel>06 · Plan de trabajo</TagLabel>
+          <SectionTitle>18 semanas, en tres etapas</SectionTitle>
+          <Rule />
+
+          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
+            Cada etapa termina con su parte de la aplicación funcionando y con sus usuarios capacitados. Desde la semana 7 el equipo ya registra pagos reales en la plataforma, y el Excel solo se retira cuando los números cuadran. Sin los dos módulos opcionales, el cronograma baja a cerca de 15 semanas.
           </p>
 
           <div className="space-y-4">
-            {FASES.map((f, i) => (
-              <div key={i} className="rounded-2xl p-5 sm:p-6"
-                style={{ background: f.colorAlpha, border: `1px solid ${f.colorBorder}` }}>
+            {ETAPAS.map((e) => (
+              <div key={e.num} className="rounded-2xl p-5 sm:p-6"
+                style={{ background: e.colorAlpha, border: `1px solid ${e.colorBorder}` }}>
                 <div className="flex flex-wrap items-center gap-3 mb-3">
                   <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 border-2"
-                    style={{ background: '#030d1a', borderColor: f.color }}>
-                    <span className="font-poppins font-black text-[13px]" style={{ color: f.color }}>{f.num}</span>
+                    style={{ background: '#030d1a', borderColor: e.color }}>
+                    <span className="font-poppins font-black text-[14px]" style={{ color: e.color }}>{e.num}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-poppins font-bold text-white text-[20px] leading-tight">{f.titulo}</p>
-                    <p className="font-lato text-white/35 text-[13px] mt-0.5">{f.modulos}</p>
+                    <p className="font-poppins font-bold text-white text-[20px] leading-tight">Etapa {e.num} · {e.nombre}</p>
+                    <p className="font-lato text-white/35 text-[13px] mt-0.5">{e.usuarios}</p>
                   </div>
                   <span className="font-lato text-[12px] px-3 py-1 rounded-full uppercase tracking-wider flex items-center gap-1.5"
-                    style={{ background: 'rgba(255,255,255,.05)', border: `1px solid ${f.colorBorder}`, color: f.color }}>
-                    <Clock className="w-3 h-3" /> {f.semanas}
+                    style={{ background: 'rgba(255,255,255,.05)', border: `1px solid ${e.colorBorder}`, color: e.color }}>
+                    <Clock className="w-3 h-3" /> {e.semanas}
                   </span>
                 </div>
 
-                <p className="font-lato text-white/55 text-[17px] leading-relaxed mb-4">{f.desc}</p>
-
                 <ul className="space-y-2 mb-4">
-                  {f.hitos.map((h, j) => (
-                    <li key={j} className="flex items-start gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: f.color }} />
-                      <span className="font-lato text-white/65 text-[16px] flex-1">{h}</span>
-                    </li>
-                  ))}
+                  {MODULOS.filter(m => m.etapa === e.num).flatMap((m) => {
+                    const filas = [
+                      <li key={m.num} className="flex items-start gap-2">
+                        <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: e.color }} />
+                        <span className="font-lato text-white/65 text-[16px] flex-1"><strong className="text-white/85">{m.num}</strong> · {m.nombre}</span>
+                        <span className="font-lato text-white/35 text-[13px] whitespace-nowrap">{m.semanas}</span>
+                      </li>,
+                    ];
+                    if (m.extra) filas.push(
+                      <li key={m.num + 'B'} className="flex items-start gap-2 pl-5">
+                        <span className="font-lato text-[10px] px-1.5 py-0.5 rounded-full uppercase tracking-wider mt-0.5"
+                          style={{ border: `1px solid ${e.colorBorder}`, color: e.color }}>Opción</span>
+                        <span className="font-lato text-white/50 text-[15px] flex-1">{m.num}B · {m.extra.nombre}</span>
+                        <span className="font-lato text-white/35 text-[13px] whitespace-nowrap">{m.extra.semanas}</span>
+                      </li>,
+                    );
+                    return filas;
+                  })}
                 </ul>
 
                 <div className="rounded-xl p-3.5 flex gap-2.5 items-start"
                   style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
-                  <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: f.color }} />
+                  <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: e.color }} />
                   <div>
-                    <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Entregable de la fase</p>
-                    <p className="font-lato text-white/75 text-[16px] leading-snug">{f.entregable}</p>
+                    <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-0.5">Al cerrar la etapa</p>
+                    <p className="font-lato text-white/75 text-[16px] leading-snug">{e.resultado}</p>
                   </div>
                 </div>
               </div>
@@ -1336,20 +1417,20 @@ const MizarCarteraProposal = () => {
             style={{ background: 'rgba(56,189,248,.05)', border: '1px solid rgba(56,189,248,.20)' }}>
             <Users className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#38bdf8]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              El cronograma asume una sesión de validación de cerca de una hora al cierre de cada fase, con Bucaramanga, Cúcuta y el contador. La depuración de los Excel en la fase 2 es la tarea que pide más tiempo del equipo, y es la que garantiza que los saldos cuadren desde el primer día.
+              El cronograma asume una sesión de validación de cerca de una hora al cierre de cada módulo, con Bucaramanga, Cúcuta y el contador. La depuración de los Excel en el módulo 2 es la tarea que pide más tiempo del equipo, y es la que garantiza que los saldos cuadren desde el primer día.
             </p>
           </div>
         </section>
 
-        {/* ─ 06 ALCANCE ─ */}
+        {/* ─ 07 ALCANCE ─ */}
         <section id="alcance" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 · Alcance y por confirmar</TagLabel>
+          <TagLabel>07 · Alcance y por confirmar</TagLabel>
           <SectionTitle>Qué queda fuera y qué falta decidir</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Todo lo descrito en los nueve módulos entra en la inversión de la sección siguiente. Lo siguiente queda fuera de forma deliberada, para no mezclar lo urgente con lo que conviene hacer después.
+            Todo lo descrito en las tres etapas entra en la inversión de la sección siguiente. Lo siguiente queda fuera de forma deliberada, para no mezclar lo urgente con lo que conviene hacer después.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -1399,22 +1480,29 @@ const MizarCarteraProposal = () => {
           </div>
         </section>
 
-        {/* ─ 07 INVERSIÓN ─ */}
+        {/* ─ 08 INVERSIÓN ─ */}
         <section id="inversion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 · Inversión por módulo</TagLabel>
+          <TagLabel>08 · Inversión por etapa y módulo</TagLabel>
           <SectionTitle>Cada parte con su precio.</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            El desarrollo se paga una sola vez y por módulo entregado. Los módulos esenciales suman <strong className="text-white/75">{cop(PRECIO_ESENCIAL)}</strong> y, con las dos opciones, el total es de <strong className="text-white/75">{cop(PRECIO_TOTAL)}</strong>. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong> Activa o desactiva las opciones para ver el total.
+            El desarrollo se paga una sola vez y por módulo entregado, agrupado en las tres etapas. Los módulos esenciales suman <strong className="text-white/75">{cop(PRECIO_ESENCIAL)}</strong> y, con las dos opciones, el total es de <strong className="text-white/75">{cop(PRECIO_TOTAL)}</strong>. Todos los valores en <strong className="text-white/75">pesos colombianos (COP).</strong> Activa o desactiva las opciones para ver el total.
           </p>
 
           {/* Tabla de módulos */}
           <div className="rounded-2xl overflow-hidden mb-6"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(201,164,67,.30)', boxShadow: '0 4px 32px rgba(201,164,67,.10)' }}>
             <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
-              {MODULOS.map((m) => (
+              {ETAPAS.map((e) => (
+                <React.Fragment key={'etapa' + e.num}>
+                  <div className="flex flex-wrap items-baseline gap-x-3 px-4 sm:px-5 py-2.5" style={{ background: e.colorAlpha, borderColor: 'rgba(255,255,255,.06)' }}>
+                    <p className="font-poppins font-bold text-[15px] w-full sm:w-auto sm:flex-1 min-w-0" style={{ color: e.color }}>Etapa {e.num} · {e.nombre}</p>
+                    <p className="font-lato text-white/40 text-[13px]">{e.semanas}</p>
+                    <p className="font-poppins font-bold text-white/80 text-[15px] whitespace-nowrap">Subtotal {cop(precioEtapa(e.num))}</p>
+                  </div>
+              {MODULOS.filter(m => m.etapa === e.num).map((m) => (
                 <React.Fragment key={m.num}>
                   <div className="flex items-start gap-3 px-4 sm:px-5 py-3.5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                     <span className="font-poppins font-black text-[14px] w-7 flex-shrink-0 pt-0.5" style={{ color: m.color }}>{m.num}</span>
@@ -1448,6 +1536,8 @@ const MizarCarteraProposal = () => {
                   )}
                 </React.Fragment>
               ))}
+                </React.Fragment>
+              ))}
             </div>
             <div className="px-4 sm:px-5 py-4 space-y-1.5" style={{ background: 'rgba(201,164,67,.07)', borderTop: '1px solid rgba(201,164,67,.30)' }}>
               <div className="flex items-baseline justify-between gap-3">
@@ -1469,7 +1559,7 @@ const MizarCarteraProposal = () => {
             <div className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
               <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Con lo esencial</p>
               <p className="font-poppins font-black text-white text-[24px] leading-none mb-1">{cop(PRECIO_ESENCIAL)}</p>
-              <p className="font-lato text-white/45 text-[14px]">Los nueve módulos, sin contabilidad completa ni recompensas. Cerca de 15 semanas.</p>
+              <p className="font-lato text-white/45 text-[14px]">Las tres etapas con sus nueve módulos, sin contabilidad completa ni recompensas. Cerca de 15 semanas.</p>
             </div>
             <div className="rounded-xl p-4" style={{ background: 'rgba(201,164,67,.07)', border: '1px solid rgba(201,164,67,.25)' }}>
               <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Con todo</p>
@@ -1580,10 +1670,10 @@ const MizarCarteraProposal = () => {
           })()} />
         </div>
 
-        {/* ─ 08 VIGENCIA ─ */}
+        {/* ─ 09 VIGENCIA ─ */}
         <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>08 · Vigencia y términos</TagLabel>
+          <TagLabel>09 · Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
