@@ -47,6 +47,7 @@ const MizarCarteraProposal       = lazy(() => import('./pages/MizarCarteraPropos
 const MizarCarteraDemo           = lazy(() => import('./pages/MizarCarteraDemo'));
 const CalculadoraIA              = lazy(() => import('./pages/CalculadoraIA'));
 const RosaniaHeldProposal         = lazy(() => import('./pages/RosaniaHeldProposal'));
+const LnEquiposProposal           = lazy(() => import('./pages/LnEquiposProposal'));
 
 function Loader() {
   return (
@@ -114,6 +115,7 @@ export default function App() {
           <Route path="/mizar-cartera/demo"   element={<MizarCarteraDemo />} />
           <Route path="/calculadora-ia"       element={<CalculadoraIA />} />
           <Route path="/rosania-held"         element={<RosaniaHeldProposal />} />
+          <Route path="/ln-equipos"           element={<LnEquiposProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

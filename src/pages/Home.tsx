@@ -394,6 +394,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/rosania-held',
   },
+  {
+    slug: 'ln-equipos',
+    cliente: 'LN Equipos S.A.S.',
+    sector: 'Alquiler y venta de maquinaria pesada · Mapeo de procesos para IA · Colombia',
+    fecha: 'Octubre 2026',
+    monto: 'COP 4.800.000 + IVA · Mapeo de procesos · 5 puestos',
+    estado: 'activa',
+    path: '/ln-equipos',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
