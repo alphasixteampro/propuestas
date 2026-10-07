@@ -127,6 +127,7 @@ const MODULOS: Modulo[] = [
       'Otros cobros: parqueadero, trámite de escritura, arriendo',
       'Pagos del día con el medio y la cuenta donde entraron, incluidos los parciales, los de terceros, los descontados de nómina y los que caen en la cuenta de otra sociedad',
       'Recibo con número consecutivo y soporte guardado; un comprobante repetido se rechaza',
+      'Comprobante contable de cada pago, de la mora y de los descuentos, listo para el contador',
       'Mora calculada sola con la tasa que firme Mizar (en Cúcuta, cuota fija); descuento por pronto pago y penalidad listos para activar',
       'Descuentos y perdones de mora con el nombre de quien los autorizó',
       'Abonos extra a capital que recalculan el plan y guardan la versión anterior',
@@ -227,7 +228,6 @@ const MODULOS: Modulo[] = [
       items: [
         'Rachas y mensajes de avance',
         'Campañas como la de la prima, con el descuento aplicado al saldo',
-        'Prueba en un proyecto por empresa, con tope mensual y resultado medido',
       ] } },
 
   // ── Etapa 3 · Dinero, socios y gerencia ──
@@ -256,13 +256,13 @@ const MODULOS: Modulo[] = [
       'Informe sencillo por socio: se recogió, se gastó, comisiones y lo que le corresponde',
       'Comisiones por proyecto y por vendedor; venta de lotes de terceros por encargo',
       'Cierre mensual del informe, que no cambia después de enviado',
+      'Comprobantes contables de las comisiones y de los traslados entre cuentas y sociedades',
       'Información lista para el contador, exportable a Helisa',
     ],
     entregable: 'Un mes de dos cuentas quede conciliado al peso y el informe a socios sea igual al que hoy arma gerencia',
     extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 980000, semanas: 'Semanas 18 y 19',
       descripcion: 'La contabilidad de ingresos y cartera se hace sola.',
       items: [
-        'Comprobantes automáticos de pagos, mora, descuentos, comisiones y traslados',
         'Libros auxiliares por sociedad',
         'Estado de ingresos y cartera por sociedad, cuadrado con el contador',
       ],
