@@ -93,7 +93,7 @@ const E3 = { color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.10)', colorBorder: '
 
 const MODULOS: Modulo[] = [
   // ── Etapa 1 · Cartera básica (paquete mínimo) ──
-  { num: '01', etapa: 1, ...E1, icon: Building2, semanas: 'Semana 1', precio: 1450000, requiere: 'nada', minimo: true,
+  { num: '01', etapa: 1, ...E1, icon: Building2, semanas: 'Semana 1', precio: 2450000, requiere: 'nada', minimo: true,
     nombre: 'Base del grupo: empresas, sociedades, proyectos y lotes',
     descripcion: 'Todo el grupo en un solo lugar: cada proyecto con su sociedad, sus lotes y las cuentas donde recibe dinero.',
     items: [
@@ -227,7 +227,7 @@ const MODULOS: Modulo[] = [
       'Registro de cada mensaje enviado y si llegó',
     ],
     entregable: 'Haya un mes de recordatorios en un proyecto de cada sede',
-    extra: { nombre: 'Recompensas por pagar a tiempo', precio: 500000, semanas: 'Semana 18',
+    extra: { nombre: 'Recompensas por pagar a tiempo', precio: 800000, semanas: 'Semana 18',
       descripcion: 'Premia al que paga a tiempo, con una prueba medida.',
       items: [
         'Rachas y mensajes de avance',
@@ -270,7 +270,7 @@ const MODULOS: Modulo[] = [
       'Gastos y flujo dentro de la vista de cada proyecto',
     ],
     entregable: 'El flujo de un mes sea igual al consolidado de gerencia' },
-  { num: '12', etapa: 3, ...E3, icon: Scale, semanas: 'Semanas 15 y 16', precio: 1800000, requiere: 'Cartera básica y 11', minimo: false,
+  { num: '12', etapa: 3, ...E3, icon: Scale, semanas: 'Semanas 15 y 16', precio: 1200000, requiere: 'Cartera básica y 11', minimo: false,
     nombre: 'Socios, comisiones y reparto',
     descripcion: 'Cada socio recibe su informe con el porcentaje que le tocaba en cada fecha.',
     items: [
@@ -398,29 +398,10 @@ const PEDIDOS: { etapa: number; items: { pedido: string; donde: string }[] }[] =
 const FUERA = [
   { titulo: 'Gamificación avanzada', desc: 'Se propone después, con datos de recaudo para medirla.', icon: Gamepad2, tint: 'purple' },
   { titulo: 'Conexión directa con los bancos', desc: 'No existe hoy; se usa el archivo diario de cada cuenta. Bre-B con referencia y finanzas abiertas, no antes de 2028.', icon: Landmark, tint: 'blue' },
-  { titulo: 'Definir la tasa de mora', desc: 'La fija Mizar con su asesor; hasta entonces la mora queda apagada.', icon: Scale, tint: 'red' },
   { titulo: 'Facturación electrónica y Siigo', desc: 'Siguen en el sistema contable actual, que recibe la información.', icon: FileText, tint: 'amber' },
-  { titulo: 'Portal del cliente y bot de ventas', desc: 'El cliente se atiende por WhatsApp; el bot es otro servicio.', icon: Puzzle, tint: 'teal' },
   { titulo: 'Informes con inteligencia artificial', desc: 'Paso siguiente, cuando los datos ya vivan en la plataforma.', icon: Zap, tint: 'gold' },
 ];
 
-// ─── DECISIONES PARA EL ARRANQUE ─────────────────────────────────────────────
-// Se construye con el valor por defecto hasta que Mizar confirme otra cosa.
-
-const PENDIENTES: { tema: string; porDefecto: string }[] = [
-  { tema: 'Tasa de mora', porDefecto: 'Apagada hasta que Mizar la firme' },
-  { tema: 'Empresa de Cúcuta y sociedades por proyecto', porDefecto: 'Según el libro de dineros recibidos' },
-  { tema: 'Contabilidad y Helisa', porDefecto: 'Conviven un año; el sistema exporta a Helisa' },
-  { tema: 'Pasarela de pagos', porDefecto: 'Solo si se contrata el link de pago' },
-  { tema: 'Convenio de recaudo con referencia', porDefecto: 'Lo pide cada sociedad a su banco; mientras tanto, archivo diario' },
-  { tema: 'Orden en que se aplica cada pago', porDefecto: 'Primero intereses y luego capital, como dice la ley, salvo pacto distinto' },
-  { tema: 'Abonos extra', porDefecto: 'Reducen el plazo; el cliente puede pedir bajar la cuota' },
-  { tema: 'Dinero en efectivo o cuentas personales', porDefecto: 'Alerta si no se traslada en 3 días hábiles' },
-  { tema: 'Cruces de cartera y pagos en especie', porDefecto: 'Aprueba gerencia; en especie, con avalúo' },
-  { tema: 'Provisión y castigo de cartera', porDefecto: 'Según el contador, sin castigo automático' },
-  { tema: 'Descuento por pronto pago', porDefecto: 'Apagado hasta que Mizar lo defina' },
-  { tema: 'Recompensas', porDefecto: 'Prueba en un proyecto por empresa, con tope mensual' },
-];
 
 // ─── TÉRMINOS ────────────────────────────────────────────────────────────────
 
@@ -1104,7 +1085,7 @@ const MizarCarteraProposal = () => {
         <section id="alcance" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>06 · Alcance</TagLabel>
-          <SectionTitle>Qué no incluye y qué decidimos al arrancar</SectionTitle>
+          <SectionTitle>Qué no incluye</SectionTitle>
           <Rule />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -1122,20 +1103,6 @@ const MizarCarteraProposal = () => {
             })}
           </div>
 
-          <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
-            <p className="font-poppins font-semibold text-white/85 text-[17px] mb-1 flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-[#f59e0b]" /> Decisiones que cerramos con Mizar al arrancar
-            </p>
-            <p className="font-lato text-white/45 text-[14px] mb-4">Mientras tanto, el sistema funciona con el valor indicado.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
-              {PENDIENTES.map((p, i) => (
-                <div key={i} className="font-lato text-[15px] leading-snug">
-                  <span className="text-white/85 font-semibold">{p.tema}: </span>
-                  <span className="text-white/50">{p.porDefecto}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
 
         {/* ─ 07 INVERSIÓN ─ */}

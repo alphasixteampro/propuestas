@@ -1032,6 +1032,81 @@ function ModalRegistrarPago({ cliente, proyecto, referenciasUsadas, reglas, sigu
 }
 
 // ─────────────────────────────────────────────────────────────────────────
+// REGISTRAR PAGOS DEL DÍA: buscador para cobrar sin entrar cliente por cliente
+// ─────────────────────────────────────────────────────────────────────────
+
+interface PagoDeSesion { id: string; nombre: string; valor: number; medio: Medio; recibo: string | null; }
+
+function BuscadorPagos({ clientes, resumenes, aviso, sesion, onElegir, onTerminar }: {
+  clientes: Cliente[]; resumenes: Map<string, { cuotas: CuotaEstado[]; resumen: ResumenCliente }>;
+  aviso: string | null; sesion: PagoDeSesion[]; onElegir: (clienteId: string) => void; onTerminar: () => void;
+}) {
+  const [texto, setTexto] = useState('');
+  const consulta = sinTildes(texto).trim();
+  const resultados = useMemo(() => {
+    if (!consulta) return [];
+    return clientes.filter(c => !contratoCerrado(c) && sinTildes(`${c.raw.nombre} ${c.raw.cedula} ${c.raw.numeroContrato ?? ''} ${c.raw.inmueble}`).includes(consulta));
+  }, [clientes, consulta]);
+  const totalSesion = sesion.reduce((s, x) => s + x.valor, 0);
+  return (
+    <Modal titulo="Registrar pagos del día" subtitulo="Busca al cliente y registra su pago sin entrar a su estado de cuenta." onCerrar={onTerminar} ancho={640}>
+      {aviso && (
+        <p role="status" style={{ fontSize: 13, fontWeight: 600, color: C.green, background: C.greenSoft, borderRadius: 8, padding: '10px 12px', margin: '0 0 12px' }}>{aviso}</p>
+      )}
+      <Campo id="buscar-pago" label="Buscar cliente" ayuda="Por nombre, cédula, número de contrato o lote.">
+        <div style={{ position: 'relative' }}>
+          <Search size={16} color={C.muted} style={{ position: 'absolute', left: 12, top: 14 }} />
+          <input id="buscar-pago" autoFocus value={texto} onChange={e => setTexto(e.target.value)} placeholder="Ej. Pérez, 1098, CA-012 o Lote M3-11" style={{ ...estiloInput, paddingLeft: 36 }} />
+        </div>
+      </Campo>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, margin: '12px 0 16px', maxHeight: 300, overflowY: 'auto' }}>
+        {!consulta && <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Escribe al menos una parte del nombre, la cédula, el contrato o el lote.</p>}
+        {consulta && resultados.length === 0 && <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Ningún cliente coincide con «{texto.trim()}».</p>}
+        {resultados.slice(0, 8).map(c => {
+          const r = resumenes.get(c.raw.id)?.resumen;
+          const prox = r?.proximaCuota;
+          const enMora = !!r && r.cuotasVencidas > 0;
+          return (
+            <button key={c.raw.id} type="button" onClick={() => onElegir(c.raw.id)} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, textAlign: 'left', width: '100%',
+              background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, padding: '10px 12px', cursor: 'pointer', minHeight: 48, fontFamily: 'inherit',
+            }}>
+              <span style={{ minWidth: 0 }}>
+                <span style={{ display: 'block', fontSize: 14, fontWeight: 700, color: C.ink }}>{c.raw.nombre}</span>
+                <span style={{ display: 'block', fontSize: 12, color: C.muted }}>{proyectoPorId(c.raw.proyectoId).nombre} · {c.raw.inmueble} · contrato {c.raw.numeroContrato}</span>
+                <span style={{ display: 'block', fontSize: 12, color: C.muted }}>
+                  {prox ? `Próxima cuota: ${money(prox.capitalProg + prox.interesProg)} · vence ${fechaLarga(prox.vence)}` : 'Sin cuotas pendientes'}
+                </span>
+              </span>
+              <Chip tono={enMora ? 'red' : 'green'} texto={enMora ? 'En mora' : 'Al día'} />
+            </button>
+          );
+        })}
+        {resultados.length > 8 && <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>Hay {resultados.length - 8} más: escribe más letras para acotar.</p>}
+      </div>
+      <div style={{ background: C.surface, border: `1px solid ${C.line}`, borderRadius: 10, padding: 14, marginBottom: 16 }}>
+        <p style={{ fontSize: 13, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Registrados en esta sesión{sesion.length > 0 ? ` · ${plural(sesion.length, 'pago', 'pagos')} · ${money(totalSesion)}` : ''}</p>
+        {sesion.length === 0 ? (
+          <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Todavía no has registrado ninguno.</p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {sesion.map(x => (
+              <div key={x.id} style={{ display: 'flex', justifyContent: 'space-between', gap: 8, fontSize: 13, color: C.ink, flexWrap: 'wrap' }}>
+                <span style={{ fontWeight: 600 }}>{x.nombre}</span>
+                <span style={{ color: C.muted }}>{money(x.valor)} · {x.medio} · {x.recibo ? `recibo ${x.recibo}` : 'en tesorería, sin recibo todavía'}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <BotonPrimario onClick={onTerminar}>Terminar</BotonPrimario>
+      </div>
+    </Modal>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 // MODALES: RECIBO, ESTADO DE CUENTA EN PDF, ACUERDO, GESTIÓN Y DECISIÓN
 // ─────────────────────────────────────────────────────────────────────────
 
@@ -1373,11 +1448,18 @@ const NAV: { id: Seccion; label: string; icono: React.ComponentType<any>; grupo:
   { id: 'configuracion', label: 'Configuración', icono: Settings, grupo: 'Ajustes' },
 ];
 
-function FranjaAviso() {
+function FranjaAviso({ onRegistrarPago }: { onRegistrarPago?: () => void }) {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60, height: 44, background: C.navy, color: '#cfe0f2', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', fontSize: 13, gap: 12 }}>
       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Demo con datos ficticios · nada de lo que hagas aquí se guarda</span>
-      <Link to="/mizar-cartera" style={{ color: '#fff', fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}>← Volver a la propuesta</Link>
+      <span style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+        {onRegistrarPago && (
+          <button type="button" onClick={onRegistrarPago} style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#fff', color: C.navy, border: 'none', borderRadius: 8, padding: '0 12px', minHeight: 32, fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+            <Wallet size={15} /> Registrar pago
+          </button>
+        )}
+        <Link to="/mizar-cartera" style={{ color: '#fff', fontWeight: 700, whiteSpace: 'nowrap', textDecoration: 'none' }}>← Volver a la propuesta</Link>
+      </span>
     </div>
   );
 }
@@ -1489,7 +1571,7 @@ const HALLAZGOS_EXCEL: { texto: string; seccion: Seccion; persona: string }[] = 
   { texto: 'El reparto a socios se arma con fórmulas a mano y qué lote es «solo Mizar» se escoge mes a mes.', seccion: 'socios', persona: 'claudia' },
 ];
 
-function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarResumen, sociedades, compromisosIncumplidos, permitidas, onIrComo, onVerProyecto }: {
+function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarResumen, sociedades, compromisosIncumplidos, permitidas, onIrComo, onVerProyecto, onRegistrarPago }: {
   kpis: { programadoSep: number; recaudadoSep: number; valorVencidoTotal: number; clientesEnMora: number; clientesAlerta3: number; reportesPendientes: number; sinIdentificar: number; cumplimientoSep: number };
   barras: { mes: string; programado: number; recaudado: number }[];
   onIrA: (s: Seccion) => void;
@@ -1501,6 +1583,7 @@ function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarR
   permitidas: Seccion[];
   onIrComo: (personaId: string, s: Seccion) => void;
   onVerProyecto: (proyectoId: string) => void;
+  onRegistrarPago?: () => void;
 }) {
   const [verHallazgos, setVerHallazgos] = useState(true);
   const puedeVerProyectos = permitidas.includes('proyectos');
@@ -1613,6 +1696,15 @@ function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarR
         <Tarjeta>
           <p style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: '0 0 12px' }}>Para hoy</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {onRegistrarPago && (
+              <button type="button" onClick={onRegistrarPago} style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, textAlign: 'left',
+                background: C.navy, border: `1px solid ${C.navy}`, borderRadius: 8, padding: '10px 12px', fontSize: 13, fontWeight: 700, color: '#fff',
+                cursor: 'pointer', minHeight: 40, fontFamily: 'inherit',
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Wallet size={16} /> Registrar pagos del día</span> <ChevronRight size={16} color="#fff" />
+              </button>
+            )}
             {pendientes.map((p, i) => (
               <button key={i} type="button" onClick={() => onIrA(p.seccion)} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, textAlign: 'left',
@@ -1633,9 +1725,9 @@ function SeccionInicio({ kpis, barras, onIrA, alcance, porEmpresa, porTrasladarR
 // SECCIÓN: CLIENTES Y CONTRATOS (alta de venta desde la promesa, F1 del PRD)
 // ─────────────────────────────────────────────────────────────────────────
 
-function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer, onToast }: {
+function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer, onToast, onRegistrarPago }: {
   clientes: Cliente[]; resumenes: Map<string, { cuotas: CuotaEstado[]; resumen: ResumenCliente }>; persona: Persona; reglas: Reglas;
-  onCrear: (raw: ClienteRaw) => void; onVer: (id: string) => void; onToast: (m: string) => void;
+  onCrear: (raw: ClienteRaw) => void; onVer: (id: string) => void; onToast: (m: string) => void; onRegistrarPago?: (id: string) => void;
 }) {
   const proyectos = PROYECTOS.filter(p => !persona.sede || p.sede === persona.sede);
   const [abierto, setAbierto] = useState(false);
@@ -1794,7 +1886,7 @@ function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer, o
 
       <Tarjeta>
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 760 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 900 }}>
             <thead>
               <tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
                 <th style={{ padding: '8px 6px' }}>Contrato</th><th style={{ padding: '8px 6px' }}>Cliente</th><th style={{ padding: '8px 6px' }}>Proyecto · inmueble</th>
@@ -1818,7 +1910,12 @@ function SeccionVentas({ clientes, resumenes, persona, reglas, onCrear, onVer, o
                     <td style={{ padding: '8px 6px' }}>
                       {contratoCerrado(c) ? <Chip tono="muted" texto={c.estado === 'desistido' ? 'Desistido' : 'Lote recuperado'} /> : r && <Chip tono={chipDeEstadoGeneral(r.estadoGeneral)} texto={textoEstadoGeneral(r.estadoGeneral, reglas)} />}
                     </td>
-                    <td style={{ padding: '8px 6px' }}><BotonSecundario onClick={() => onVer(c.raw.id)}>Ver estado de cuenta</BotonSecundario></td>
+                    <td style={{ padding: '8px 6px' }}>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        {onRegistrarPago && !contratoCerrado(c) && <BotonSecundario onClick={() => onRegistrarPago(c.raw.id)}>Registrar pago</BotonSecundario>}
+                        <BotonSecundario onClick={() => onVer(c.raw.id)}>Ver estado de cuenta</BotonSecundario>
+                      </div>
+                    </td>
                   </tr>
                 );
               })}
@@ -2191,13 +2288,14 @@ function porcentajeConfirmadoSolo(clientes: Cliente[]): { pct: number; solo: num
   return { pct: total > 0 ? Math.round((solo / total) * 100) : 0, solo, total };
 }
 
-function SeccionPorVerificar({ clientes, clientesTodos, resumenes, reportes, pagosSinIdentificar, persona, vistos, onConfirmarReporte, onAprobarLote, onRechazarReporte, onAsignarSinIdentificar, onReporteCliente, onPagarLink }: {
+function SeccionPorVerificar({ clientes, clientesTodos, resumenes, reportes, pagosSinIdentificar, persona, vistos, onConfirmarReporte, onAprobarLote, onRechazarReporte, onAsignarSinIdentificar, onReporteCliente, onPagarLink, onRegistrarPago }: {
   clientes: Cliente[]; clientesTodos: Cliente[]; resumenes: Map<string, { cuotas: CuotaEstado[]; resumen: ResumenCliente }>;
   reportes: ReporteWhatsApp[]; pagosSinIdentificar: PagoSinIdentificar[]; persona: Persona; vistos: Set<string>;
   onConfirmarReporte: (r: ReporteWhatsApp) => void; onAprobarLote: (rs: ReporteWhatsApp[]) => void; onRechazarReporte: (id: string, motivo: string) => void;
   onAsignarSinIdentificar: (item: PagoSinIdentificar, clienteId: string) => void;
   onReporteCliente: (d: { clienteId: string; valor: number; fecha: string; cuenta: string; referencia: string }) => void;
   onPagarLink: (d: { clienteId: string; valor: number; metodo: string }) => string;
+  onRegistrarPago?: (clienteId: string) => void;
 }) {
   const puedeConfirmar = persona.rol === 'tesoreria' || persona.rol === 'sede' || persona.rol === 'gerencia';
   const pendientes = reportes.filter(r => r.estado === 'pendiente');
@@ -2241,7 +2339,7 @@ function SeccionPorVerificar({ clientes, clientesTodos, resumenes, reportes, pag
           {[...pendientes, ...resueltos].map(r => {
             const cliente = clientePorIdEn(clientes, r.clienteId);
             if (!cliente) return null;
-            return <TarjetaReporte key={r.id} reporte={r} cliente={cliente} visto={vistos.has(r.id)} puedeConfirmar={puedeConfirmar} onConfirmar={() => onConfirmarReporte(r)} onRechazar={motivo => onRechazarReporte(r.id, motivo)} />;
+            return <TarjetaReporte key={r.id} reporte={r} cliente={cliente} visto={vistos.has(r.id)} puedeConfirmar={puedeConfirmar} onConfirmar={() => onConfirmarReporte(r)} onRechazar={motivo => onRechazarReporte(r.id, motivo)} onRegistrarPago={onRegistrarPago && !contratoCerrado(cliente) ? () => onRegistrarPago(cliente.raw.id) : undefined} />;
           })}
         </div>
         <TelefonoFlow clientes={clientes} onEnviar={onReporteCliente} onPagarLink={onPagarLink} />
@@ -2320,7 +2418,7 @@ function LecturaComprobante({ reporte, cliente }: { reporte: ReporteWhatsApp; cl
   );
 }
 
-function TarjetaReporte({ reporte, cliente, visto, puedeConfirmar, onConfirmar, onRechazar }: { reporte: ReporteWhatsApp; cliente: Cliente; visto: boolean; puedeConfirmar: boolean; onConfirmar: () => void; onRechazar: (motivo: string) => void }) {
+function TarjetaReporte({ reporte, cliente, visto, puedeConfirmar, onConfirmar, onRechazar, onRegistrarPago }: { reporte: ReporteWhatsApp; cliente: Cliente; visto: boolean; puedeConfirmar: boolean; onConfirmar: () => void; onRechazar: (motivo: string) => void; onRegistrarPago?: () => void }) {
   const [mostrarMotivo, setMostrarMotivo] = useState(false);
   const yaResuelto = reporte.estado !== 'pendiente';
   const semaforo = semaforoDe(reporte, cliente, visto);
@@ -2332,7 +2430,10 @@ function TarjetaReporte({ reporte, cliente, visto, puedeConfirmar, onConfirmar, 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
             <p style={{ fontWeight: 700, fontSize: 14, color: C.ink, margin: 0 }}>{cliente.raw.nombre}</p>
-            <span style={{ fontSize: 12, color: C.muted }}>{fechaLarga(reporte.fecha)} · {reporte.hora}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 12, color: C.muted }}>{fechaLarga(reporte.fecha)} · {reporte.hora}</span>
+              {onRegistrarPago && <BotonSecundario onClick={onRegistrarPago}>Registrar pago</BotonSecundario>}
+            </span>
           </div>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '6px 0' }}>
             <Chip tono={reporte.origen === 'whatsapp' ? 'green' : 'blue'} texto={reporte.origen === 'whatsapp' ? 'Reportado por WhatsApp' : `Oficina · lo registró ${reporte.registradoPor}`} />
@@ -3007,6 +3108,11 @@ export default function MizarCarteraDemo() {
   const [clienteSeleccionadoId, setClienteSeleccionadoId] = useState('la2');
   const [busqueda, setBusqueda] = useState('');
   const [modalPagoAbierto, setModalPagoAbierto] = useState(false);
+  // «Registrar pagos del día»: buscador abierto, cliente elegido para cobrar, y lo registrado en la sesión.
+  const [buscadorAbierto, setBuscadorAbierto] = useState(false);
+  const [pagoRapido, setPagoRapido] = useState<{ clienteId: string; desdeBuscador: boolean } | null>(null);
+  const [sesionPagos, setSesionPagos] = useState<PagoDeSesion[]>([]);
+  const [avisoBuscador, setAvisoBuscador] = useState<string | null>(null);
   const [modalRecibo, setModalRecibo] = useState<{ clienteId: string; pago: Pago } | null>(null);
   const [modalPDF, setModalPDF] = useState<{ fecha: string; cuotas: CuotaEstado[]; resumen: ResumenCliente } | null>(null);
   const [modalAcuerdo, setModalAcuerdo] = useState<string | null>(null);
@@ -3240,21 +3346,46 @@ export default function MizarCarteraDemo() {
     return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
   }
 
-  function confirmarPagoModal(datos: DatosPago, vaATesoreria: boolean) {
-    const c = clientePorIdEn(clientes, clienteSeleccionadoId);
-    setModalPagoAbierto(false);
-    if (!c) return;
+  // Misma regla de siempre para registrar un pago; devuelve el recibo (o null si pasó a tesorería) y no avisa si se pide en silencio.
+  function confirmarPagoDe(clienteId: string, datos: DatosPago, vaATesoreria: boolean, silencioso = false): { recibo: string | null } | null {
+    const c = clientePorIdEn(clientes, clienteId);
+    if (!c) return null;
+    const avisar = (m: string) => { if (!silencioso) mostrarToast(m); };
     if (vaATesoreria) {
       const esperado = valorEsperado(c, resumenes.get(c.raw.id)?.cuotas ?? []);
       const alerta = alertaDeReporte(clientes, reportes, esperado, datos.valor, datos.referencia, datos.fecha);
       setReportes(prev => [{ id: `rep-${Date.now()}`, clienteId: c.raw.id, fecha: datos.fecha, hora: horaActual(), valor: datos.valor, banco: datos.cuenta, referencia: datos.referencia,
         estado: 'pendiente', alerta, origen: 'oficina', medio: datos.medio, cuenta: datos.cuenta, registradoPor: persona.nombre }, ...prev]);
-      mostrarToast('Enviado a tesorería. Cambia a «Óscar Daniel · Tesorería» para confirmarlo.');
-      return;
+      avisar('Enviado a tesorería. Cambia a «Óscar Daniel · Tesorería» para confirmarlo.');
+      return { recibo: null };
     }
     const { recibo, quedaDebiendo } = registrarPagoEnCliente(c.raw.id, datos.valor, datos.fecha, datos.medio, datos.cuenta, datos.referencia, datos.excedente, datos.modoAbono,
       { origen: 'oficina', registradoPor: persona.nombre, confirmadoPor: persona.nombre, pagadoPor: datos.pagadoPor });
-    mostrarToast(avisoDePago('Pago registrado', recibo, quedaDebiendo));
+    avisar(avisoDePago('Pago registrado', recibo, quedaDebiendo));
+    return { recibo };
+  }
+
+  function confirmarPagoModal(datos: DatosPago, vaATesoreria: boolean) {
+    setModalPagoAbierto(false);
+    confirmarPagoDe(clienteSeleccionadoId, datos, vaATesoreria);
+  }
+
+  function abrirBuscadorPagos() { setAvisoBuscador(null); setBuscadorAbierto(true); }
+  function terminarBuscadorPagos() {
+    setBuscadorAbierto(false); setPagoRapido(null); setAvisoBuscador(null);
+    if (sesionPagos.length > 0) mostrarToast(`Listo: ${plural(sesionPagos.length, 'pago registrado', 'pagos registrados')} en esta sesión.`);
+    setSesionPagos([]);
+  }
+
+  function confirmarPagoRapido(datos: DatosPago, vaATesoreria: boolean) {
+    if (!pagoRapido) return;
+    const { clienteId, desdeBuscador } = pagoRapido;
+    const c = clientePorIdEn(clientes, clienteId);
+    setPagoRapido(null);
+    const res = confirmarPagoDe(clienteId, datos, vaATesoreria, desdeBuscador);
+    if (!desdeBuscador || !c || !res) return;
+    setSesionPagos(prev => [{ id: `${Date.now()}-${prev.length}`, nombre: c.raw.nombre, valor: datos.valor, medio: datos.medio, recibo: res.recibo }, ...prev]);
+    setAvisoBuscador(res.recibo ? `Pago de ${c.raw.nombre} registrado · recibo ${res.recibo}` : `Pago de ${c.raw.nombre} enviado a tesorería · el recibo sale cuando lo confirmen`);
   }
 
   function confirmarReporte(reporte: ReporteWhatsApp) {
@@ -3464,6 +3595,8 @@ export default function MizarCarteraDemo() {
 
   const reportesVisibles = reportes.filter(r => { const c = clientePorIdEn(clientes, r.clienteId); return !!c && enSede(c); });
 
+  const puedeRegistrarPagos = persona.rol !== 'contabilidad';
+  const clienteRapido = pagoRapido ? clientePorIdEn(clientes, pagoRapido.clienteId) : undefined;
   const clienteModal = clientePorIdEn(clientes, clienteSeleccionadoId);
   const proyectoModal = clienteModal ? proyectoPorId(clienteModal.raw.proyectoId) : null;
   const clienteDe = (id: string | null) => (id ? clientePorIdEn(clientes, id) : undefined);
@@ -3472,14 +3605,14 @@ export default function MizarCarteraDemo() {
     <div style={{ minHeight: '100vh', background: C.surface, color: C.ink, fontFamily: "'DM Sans', Arial, sans-serif" }}>
       <style>{"@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap'); button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible, [role='switch']:focus-visible { outline: 2px solid #0a2342; outline-offset: 2px; } * { box-sizing: border-box; } .nav-movil { scrollbar-width: none; } .nav-movil::-webkit-scrollbar { display: none; }"}</style>
 
-      <FranjaAviso />
+      <FranjaAviso onRegistrarPago={puedeRegistrarPagos ? abrirBuscadorPagos : undefined} />
       <NavMovil seccion={seccionVisible} onCambiar={irA} permitidas={permitidas} />
       <Sidebar seccion={seccionVisible} onCambiar={irA} permitidas={permitidas} persona={persona} />
 
       <main className="pt-[116px] lg:pt-[64px] lg:ml-[240px]" style={{ maxWidth: 1180 }}>
         <div className="pb-10 px-3 sm:px-6">
           <SelectorPersona persona={persona} onCambiar={cambiarPersona} empresa={empresa} onEmpresa={elegirEmpresa} />
-          {seccionVisible === 'inicio' && <SeccionInicio kpis={kpisInicio} barras={barrasMeses} onIrA={irA} alcance={alcanceTexto} porEmpresa={porEmpresa} porTrasladarResumen={porTrasladarResumen} sociedades={sociedadesVisibles} compromisosIncumplidos={compromisosIncumplidos} permitidas={permitidas} onIrComo={irComo} onVerProyecto={verProyecto} />}
+          {seccionVisible === 'inicio' && <SeccionInicio kpis={kpisInicio} barras={barrasMeses} onIrA={irA} alcance={alcanceTexto} porEmpresa={porEmpresa} porTrasladarResumen={porTrasladarResumen} sociedades={sociedadesVisibles} compromisosIncumplidos={compromisosIncumplidos} permitidas={permitidas} onIrComo={irComo} onVerProyecto={verProyecto} onRegistrarPago={puedeRegistrarPagos ? abrirBuscadorPagos : undefined} />}
           {seccionVisible === 'proyectos' && (
             <SeccionProyecto proyectoId={proyectoVerId} setProyectoId={setProyectoVerId} clientes={clientesVisibles} resumenes={resumenes}
               persona={persona} empresa={empresa} permitidas={permitidas} listaMorosos={listaMorosos} gestiones={gestiones}
@@ -3490,7 +3623,8 @@ export default function MizarCarteraDemo() {
           {seccionVisible === 'planes' && <SeccionPlanes empresa={empresa} persona={persona} onIrA={irA} onToast={mostrarToast} />}
           {seccionVisible === 'ventas' && (
             <SeccionVentas clientes={clientesVisibles} resumenes={resumenes} persona={persona} reglas={reglas} onCrear={crearContrato}
-              onVer={id => { setClienteSeleccionadoId(id); setSeccion('estado-cuenta'); }} onToast={mostrarToast} />
+              onVer={id => { setClienteSeleccionadoId(id); setSeccion('estado-cuenta'); }} onToast={mostrarToast}
+              onRegistrarPago={puedeRegistrarPagos ? id => setPagoRapido({ clienteId: id, desdeBuscador: false }) : undefined} />
           )}
           {seccionVisible === 'estado-cuenta' && (
             <SeccionEstadoCuenta clientes={clientesVisibles} resumenes={resumenes} busqueda={busqueda} setBusqueda={setBusqueda}
@@ -3505,7 +3639,8 @@ export default function MizarCarteraDemo() {
             <SeccionPorVerificar clientes={clientesVisibles} clientesTodos={clientes} resumenes={resumenes} reportes={reportesVisibles}
               pagosSinIdentificar={pagosSinIdentificar} persona={persona} vistos={vistosEnBanco}
               onConfirmarReporte={confirmarReporte} onAprobarLote={aprobarLote} onRechazarReporte={rechazarReporte} onAsignarSinIdentificar={asignarSinIdentificar}
-              onReporteCliente={reporteDelCliente} onPagarLink={pagarConLink} />
+              onReporteCliente={reporteDelCliente} onPagarLink={pagarConLink}
+              onRegistrarPago={puedeRegistrarPagos ? id => setPagoRapido({ clienteId: id, desdeBuscador: false }) : undefined} />
           )}
           {seccionVisible === 'morosos' && (
             <SeccionMorosos lista={listaMorosos} filtroSede={filtroSedeMorosos} setFiltroSede={setFiltroSedeMorosos} persona={persona} reglas={reglas}
@@ -3538,6 +3673,14 @@ export default function MizarCarteraDemo() {
       {modalPagoAbierto && clienteModal && proyectoModal && (
         <ModalRegistrarPago cliente={clienteModal} proyecto={proyectoModal} referenciasUsadas={referenciasUsadas} reglas={reglas}
           siguienteRecibo={siguienteRecibo} persona={persona} onCerrar={() => setModalPagoAbierto(false)} onConfirmar={confirmarPagoModal} />
+      )}
+      {buscadorAbierto && !pagoRapido && (
+        <BuscadorPagos clientes={clientesVisibles} resumenes={resumenes} aviso={avisoBuscador} sesion={sesionPagos}
+          onElegir={id => { setAvisoBuscador(null); setPagoRapido({ clienteId: id, desdeBuscador: true }); }} onTerminar={terminarBuscadorPagos} />
+      )}
+      {pagoRapido && clienteRapido && (
+        <ModalRegistrarPago cliente={clienteRapido} proyecto={proyectoPorId(clienteRapido.raw.proyectoId)} referenciasUsadas={referenciasUsadas} reglas={reglas}
+          siguienteRecibo={siguienteRecibo} persona={persona} onCerrar={() => setPagoRapido(null)} onConfirmar={confirmarPagoRapido} />
       )}
       {modalRecibo && (() => {
         const c = clienteDe(modalRecibo.clienteId);
