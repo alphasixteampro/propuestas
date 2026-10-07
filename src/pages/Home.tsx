@@ -309,7 +309,7 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcción · Mi Lote · Cartera',
     sector: 'Construcción · Sistema financiero de ingresos · 2 empresas · 3 etapas · 9 módulos · 18 semanas · con demo',
     fecha: 'Octubre 2026',
-    monto: 'COP 15.000.000 a 18.000.000 por módulos + COP 150.000/mes (por confirmar)',
+    monto: 'COP 18.000.000 implementación completa (5 % menos pagando por anticipado) + COP 150.000/mes (por confirmar)',
     estado: 'borrador',
     path: '/mizar-cartera',
   },

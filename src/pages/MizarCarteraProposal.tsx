@@ -186,6 +186,8 @@ const MODULOS: Modulo[] = [
 const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
 const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
+const DESCUENTO_ANTICIPO = 0.05;
+const PRECIO_ANTICIPADO = Math.round(PRECIO_TOTAL * (1 - DESCUENTO_ANTICIPO));
 const precioEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + m.precio, 0);
 const opcionalEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 
@@ -250,11 +252,11 @@ const PENDIENTES: { tema: string; porDefecto: string }[] = [
 // ─── TÉRMINOS ────────────────────────────────────────────────────────────────
 
 const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
-  { titulo: 'Aceptación', desc: 'Mizar confirma por WhatsApp, correo o de palabra qué etapas contrata. Luego se firma el contrato y se hace el primer pago.', icon: CheckCircle },
-  { titulo: 'Contratación y pago', desc: 'Las etapas se contratan juntas o una a una; la etapa 1 es la base. Cada módulo se paga al entregarse y aprobarse; el módulo 1, al firmar.', icon: FileText },
+  { titulo: 'Aceptación', desc: 'Mizar confirma por WhatsApp, correo o de palabra su aceptación y la forma de pago. Luego se firma el contrato y se hace el primer pago.', icon: CheckCircle },
+  { titulo: 'Forma de pago', desc: 'Se contrata la implementación completa: los nueve módulos y sus dos opciones. Se paga 50 % al iniciar y 50 % al terminar la implementación, o el total por anticipado con 5 % de descuento.', icon: FileText },
   { titulo: 'Pago mensual (por confirmar)', desc: '$150.000 adicionales al mes sobre lo que Mizar ya paga por la plataforma, desde que el primer módulo entra en uso.', icon: Clock },
   { titulo: 'WhatsApp y pasarela', desc: 'Las tarifas de Meta por mensaje y la comisión de la pasarela las asume Mizar al costo, sin margen de Sixteam.', icon: MessageSquare },
-  { titulo: 'Duración', desc: '18 semanas en tres etapas; cerca de 15 sin las dos opciones. Arranca cuando el módulo de compras esté en uso.', icon: Calendar },
+  { titulo: 'Duración', desc: '18 semanas en tres etapas. Arranca cuando el módulo de compras esté en uso.', icon: Calendar },
   { titulo: 'Lo que aporta Mizar', desc: 'Los Excel actuales, una promesa y un contrato de ejemplo, las cuentas de cada sociedad y una persona responsable por sede.', icon: ClipboardList },
   { titulo: 'Datos personales y cobranza', desc: 'Mizar cuenta con la autorización de sus clientes para escribirles; sin autorización no salen recordatorios.', icon: ShieldCheck },
   { titulo: 'Soporte', desc: 'Respuesta en máximo 4 horas hábiles por WhatsApp o correo. Garantía de 30 días desde cada entrega.', icon: Shield },
@@ -308,8 +310,6 @@ const MizarCarteraProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [moduloActivo, setModuloActivo] = useState<number | null>(null);
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
-  const [extras, setExtras] = useState<Record<string, boolean>>({ '06': true, '07': true });
-  const totalOpciones = MODULOS.reduce((t, m) => t + (m.extra && extras[m.num] ? m.extra.precio : 0), 0);
 
   useEffect(() => {
     const handler = () => {
@@ -544,8 +544,8 @@ const MizarCarteraProposal = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
             {[
               { v: '3 etapas', s: 'Cada una funciona sola' },
-              { v: '18 semanas', s: 'Cerca de 15 con lo esencial' },
-              { v: cop(PRECIO_ESENCIAL), s: `Hasta ${cop(PRECIO_TOTAL)} con las opciones` },
+              { v: '18 semanas', s: 'Implementación de principio a fin' },
+              { v: cop(PRECIO_TOTAL), s: `Todo incluido · ${cop(PRECIO_ANTICIPADO)} pagando por anticipado` },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
                 <p className="font-poppins font-black text-white text-[24px] leading-tight">{k.v}</p>
@@ -886,80 +886,83 @@ const MizarCarteraProposal = () => {
         <section id="inversion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <TagLabel>07 · Inversión</TagLabel>
-          <SectionTitle>Cada parte con su precio.</SectionTitle>
+          <SectionTitle>Implementación completa.</SectionTitle>
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Pago único por módulo entregado, en pesos colombianos. Activa o quita las opciones para ver el total.
+            Incluye los nueve módulos y sus dos opciones, implementados de punta a punta en 18 semanas. Valores en pesos colombianos.
           </p>
 
-          <div className="rounded-2xl overflow-hidden mb-6"
+          <div className="rounded-2xl overflow-hidden mb-8"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(201,164,67,.30)', boxShadow: '0 4px 32px rgba(201,164,67,.10)' }}>
             {ETAPAS.map((e) => (
               <div key={e.num}>
                 <div className="flex flex-wrap items-baseline gap-x-3 px-4 sm:px-5 py-2.5" style={{ background: e.colorAlpha }}>
                   <p className="font-poppins font-bold text-[15px] w-full sm:w-auto sm:flex-1 min-w-0" style={{ color: e.color }}>Etapa {e.num} · {e.nombre}</p>
                   <p className="font-lato text-white/40 text-[13px]">{e.semanas}</p>
-                  <p className="font-poppins font-bold text-white/80 text-[15px] whitespace-nowrap">Subtotal {cop(precioEtapa(e.num))}</p>
+                  <p className="font-poppins font-bold text-white/80 text-[15px] whitespace-nowrap">Subtotal {cop(precioEtapa(e.num) + opcionalEtapa(e.num))}</p>
                 </div>
-                {MODULOS.filter(m => m.etapa === e.num).map((m) => (
-                  <React.Fragment key={m.num}>
-                    <div className="flex items-start gap-3 px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(255,255,255,.05)' }}>
-                      <span className="font-poppins font-black text-[14px] w-7 flex-shrink-0 pt-0.5" style={{ color: m.color }}>{m.num}</span>
-                      <p className="font-poppins font-semibold text-white/85 text-[16px] leading-snug flex-1 min-w-0">{m.nombre}</p>
-                      <p className="font-poppins font-bold text-white/85 text-[16px] flex-shrink-0 whitespace-nowrap">{cop(m.precio)}</p>
-                    </div>
-                    {m.extra && (
-                      <button type="button" onClick={() => setExtras(x => ({ ...x, [m.num]: !x[m.num] }))}
-                        aria-pressed={!!extras[m.num]}
-                        className="w-full flex items-start gap-3 px-4 sm:px-5 py-3 text-left transition-colors hover:bg-white/[0.02]"
-                        style={{ background: extras[m.num] ? m.colorAlpha : 'transparent', borderTop: '1px solid rgba(255,255,255,.05)' }}>
-                        <span className="w-7 flex-shrink-0 pt-0.5">
-                          <span className="w-4 h-4 rounded border-2 flex items-center justify-center"
-                            style={{ borderColor: m.color, background: extras[m.num] ? m.color : 'transparent' }}>
-                            {extras[m.num] && <CheckCircle className="w-3 h-3 text-[#030d1a]" />}
-                          </span>
-                        </span>
-                        <p className="font-poppins font-semibold text-white/85 text-[16px] leading-snug flex-1 min-w-0">
-                          {m.extra.nombre}
-                          <span className="ml-2 font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider align-middle"
-                            style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${m.colorBorder}`, color: m.color }}>Opcional</span>
-                        </p>
-                        <p className="font-poppins font-bold text-[16px] flex-shrink-0 whitespace-nowrap" style={{ color: extras[m.num] ? m.color : 'rgba(255,255,255,.35)' }}>+{cop(m.extra.precio)}</p>
-                      </button>
-                    )}
-                  </React.Fragment>
+                {MODULOS.filter(m => m.etapa === e.num).flatMap((m) => {
+                  const filas = [{ k: m.num, num: m.num, nombre: m.nombre, precio: m.precio, color: m.color, border: m.colorBorder, opcional: false }];
+                  if (m.extra) filas.push({ k: m.num + 'B', num: '', nombre: m.extra.nombre, precio: m.extra.precio, color: m.color, border: m.colorBorder, opcional: true });
+                  return filas;
+                }).map((f) => (
+                  <div key={f.k} className="flex items-start gap-3 px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(255,255,255,.05)' }}>
+                    <span className="font-poppins font-black text-[14px] w-7 flex-shrink-0 pt-0.5" style={{ color: f.color }}>{f.num}</span>
+                    <p className="font-poppins font-semibold text-white/85 text-[16px] leading-snug flex-1 min-w-0">
+                      {f.nombre}
+                      {f.opcional && (
+                        <span className="ml-2 font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider align-middle"
+                          style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${f.border}`, color: f.color }}>Opcional · incluido</span>
+                      )}
+                    </p>
+                    <p className="font-poppins font-bold text-white/85 text-[16px] flex-shrink-0 whitespace-nowrap">{cop(f.precio)}</p>
+                  </div>
                 ))}
               </div>
             ))}
-            <div className="px-4 sm:px-5 py-4 space-y-1.5" style={{ background: 'rgba(201,164,67,.07)', borderTop: '1px solid rgba(201,164,67,.30)' }}>
-              <div className="flex items-baseline justify-between gap-3">
-                <p className="font-lato text-white/55 text-[15px]">Módulos esenciales</p>
-                <p className="font-poppins font-bold text-white/85 text-[17px]">{cop(PRECIO_ESENCIAL)}</p>
-              </div>
-              <div className="flex items-baseline justify-between gap-3">
-                <p className="font-lato text-white/55 text-[15px]">Opciones elegidas</p>
-                <p className="font-poppins font-bold text-white/85 text-[17px]">{cop(totalOpciones)}</p>
-              </div>
-              <div className="flex items-baseline justify-between gap-3 pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,.08)' }}>
-                <p className="font-poppins font-bold text-white text-[18px]">Total</p>
-                <p className="font-poppins font-black text-[26px] leading-none" style={{ color: MIZAR_GOLD }}>{cop(PRECIO_ESENCIAL + totalOpciones)}</p>
-              </div>
+            <div className="px-4 sm:px-5 py-4 flex items-baseline justify-between gap-3" style={{ background: 'rgba(201,164,67,.07)', borderTop: '1px solid rgba(201,164,67,.30)' }}>
+              <p className="font-poppins font-bold text-white text-[18px]">Total de la implementación</p>
+              <p className="font-poppins font-black text-[26px] leading-none" style={{ color: MIZAR_GOLD }}>{cop(PRECIO_TOTAL)}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-            {[
-              { n: '1', t: 'Al firmar', d: `Se paga el módulo 1 (${cop(MODULOS[0].precio)}).` },
-              { n: '2', t: 'En cada entrega', d: 'Cada módulo se paga cuando Mizar lo recibe y lo aprueba.' },
-              { n: '3', t: 'Las opciones', d: 'Se pagan igual, ahora o cuando se contraten.' },
-            ].map((x) => (
-              <div key={x.n} className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
-                <p className="font-poppins font-black text-[#00bfa5] text-[22px] leading-none mb-1">{x.n}</p>
-                <p className="font-poppins font-semibold text-white/85 text-[15px]">{x.t}</p>
-                <p className="font-lato text-white/45 text-[14px] leading-snug">{x.d}</p>
+          <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
+            <FileText className="w-4 h-4 text-[#00bfa5]" /> Dos formas de pago
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.10)' }}>
+              <p className="font-poppins font-bold text-white text-[18px] mb-3">Pago en dos partes</p>
+              <div className="space-y-2.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[15px]">50 % al iniciar</p>
+                  <p className="font-poppins font-bold text-white/90 text-[17px]">{cop(PRECIO_TOTAL / 2)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[15px]">50 % al terminar la implementación</p>
+                  <p className="font-poppins font-bold text-white/90 text-[17px]">{cop(PRECIO_TOTAL / 2)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3 pt-2 border-t" style={{ borderColor: 'rgba(255,255,255,.08)' }}>
+                  <p className="font-lato text-white/80 text-[15px] font-bold">Total</p>
+                  <p className="font-poppins font-black text-white text-[20px]">{cop(PRECIO_TOTAL)}</p>
+                </div>
               </div>
-            ))}
+            </div>
+            <div className="rounded-2xl p-5 relative" style={{ background: 'rgba(0,191,165,.07)', border: '1px solid rgba(0,191,165,.35)' }}>
+              <span className="absolute top-4 right-4 font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                style={{ background: 'rgba(0,191,165,.15)', border: '1px solid rgba(0,191,165,.35)', color: '#00bfa5' }}>{Math.round(DESCUENTO_ANTICIPO * 100)} % de descuento</span>
+              <p className="font-poppins font-bold text-white text-[18px] mb-3 pr-28">Pago total por anticipado</p>
+              <div className="space-y-2.5">
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[15px]">Al iniciar, en un solo pago</p>
+                  <p className="font-poppins font-black text-[#00bfa5] text-[20px]">{cop(PRECIO_ANTICIPADO)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[15px]">Ahorro para Mizar</p>
+                  <p className="font-poppins font-bold text-white/90 text-[17px]">{cop(PRECIO_TOTAL - PRECIO_ANTICIPADO)}</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="rounded-xl p-4 flex flex-wrap items-center gap-x-4 gap-y-1"
