@@ -265,10 +265,12 @@ const MODULOS: Modulo[] = [
 const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
 const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
-// Precio cerrado si Mizar elige todo: los 11 módulos y las 3 opciones.
-const PRECIO_TODO_CON_DESCUENTO = 17000000;
-const DESCUENTO_TODO = PRECIO_TOTAL - PRECIO_TODO_CON_DESCUENTO;
-const DESCUENTO_TODO_PCT = Math.round((DESCUENTO_TODO / PRECIO_TOTAL) * 100);
+// Descuento si Mizar elige todo: los 11 módulos y las 3 opciones.
+const DESCUENTO_TODO_PCT = 8;
+const DESCUENTO_TODO = Math.round(PRECIO_TOTAL * DESCUENTO_TODO_PCT / 100);
+const PRECIO_TODO_CON_DESCUENTO = PRECIO_TOTAL - DESCUENTO_TODO;
+// Descuento adicional por pagar todo por anticipado, sobre el total del alcance elegido.
+const DESCUENTO_ANTICIPADO_PCT = 5;
 const precioEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + m.precio, 0);
 const opcionalEtapa = (n: number) => MODULOS.filter(m => m.etapa === n).reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const cuentaOpciones = (n: number) => MODULOS.filter(m => m.etapa === n && m.extra).length;
@@ -381,7 +383,7 @@ const FUERA = [
 
 const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   { titulo: 'Aceptación', desc: 'Mizar confirma por WhatsApp, correo o de palabra qué etapas contrata. Luego se firma el contrato y se hace el primer pago.', icon: CheckCircle },
-  { titulo: 'Contratación y pago', desc: 'Las etapas se contratan juntas o una a una, pero siempre se empieza por la Cartera básica (01 a 05). Cada módulo se paga al entregarse y aprobarse; el 01 se paga al firmar.', icon: FileText },
+  { titulo: 'Contratación y pago', desc: 'Las etapas se contratan juntas o una a una, pero siempre se empieza por la Cartera básica (01 a 05). El pago se hace de una de dos formas: 50 % al iniciar y 50 % al entregar, o el total por anticipado con 5 % de descuento adicional.', icon: FileText },
   { titulo: 'Pago mensual (por confirmar)', desc: '$150.000 adicionales al mes sobre lo que Mizar ya paga por la plataforma, desde que el primer módulo entra en uso.', icon: Clock },
   { titulo: 'WhatsApp y pasarela', desc: 'Las tarifas de Meta por mensaje y, si se contrata el link de pago, la comisión de la pasarela las asume Mizar al costo, sin margen de Sixteam.', icon: MessageSquare },
   { titulo: 'Duración', desc: '16 semanas lo esencial; 19 con todas las opciones; arranca cuando compras esté en uso.', icon: Calendar },
@@ -439,6 +441,7 @@ const MizarCarteraProposal = () => {
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
   const [seleccion, setSeleccion] = useState<Set<string>>(() => new Set(SELECCION_INICIAL));
   const [detalles, setDetalles] = useState<Set<string>>(() => new Set());
+  const [rutasAbiertas, setRutasAbiertas] = useState(false);
   const alternarDetalle = (c: string) => setDetalles(prev => { const n = new Set(prev); if (n.has(c)) n.delete(c); else n.add(c); return n; });
   const [aviso, setAviso] = useState<string | null>(null);
 
@@ -451,6 +454,8 @@ const MizarCarteraProposal = () => {
   const subtotal = totalModulos + totalOpciones;
   const descuento = eligioTodo ? DESCUENTO_TODO : 0;
   const totalFinal = subtotal - descuento;
+  const pagoInicial = Math.round(totalFinal / 2);
+  const totalAnticipado = Math.round(totalFinal * (1 - DESCUENTO_ANTICIPADO_PCT / 100));
   const subtotalEtapa = (n: number) => MODULOS.filter(m => m.etapa === n)
     .reduce((s, m) => s + (seleccion.has(m.num) ? m.precio : 0) + (m.extra && seleccion.has(m.num + '+') ? m.extra.precio : 0), 0);
   const etapaIncluida = (n: number) => MODULOS.some(m => m.etapa === n && (seleccion.has(m.num) || (m.extra && seleccion.has(m.num + '+'))));
@@ -1130,7 +1135,7 @@ const MizarCarteraProposal = () => {
                 </p>
                 <p className="font-lato text-white/65 text-[15px] flex items-center gap-1.5">
                   <FileText className="w-4 h-4 flex-shrink-0" style={{ color: MIZAR_GOLD }} />
-                  Al firmar: <span className="font-semibold text-white/90">{cop(MODULOS[0].precio)}</span>
+                  Al iniciar (50 %): <span className="font-semibold text-white/90">{cop(pagoInicial)}</span>
                 </p>
               </div>
             </div>
@@ -1147,11 +1152,17 @@ const MizarCarteraProposal = () => {
           </div>
 
           {/* Paquete mínimo y compra por partes */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-6" style={{ background: 'rgba(201,164,67,.05)', border: '1px solid rgba(201,164,67,.25)' }}>
-            <p className="font-poppins font-semibold text-white/85 text-[17px] mb-4 flex items-center gap-2">
-              <Layers className="w-5 h-5" style={{ color: MIZAR_GOLD }} /> Paquete mínimo y compra por partes
-            </p>
+          <div className="rounded-2xl mb-6 overflow-hidden" style={{ background: 'rgba(201,164,67,.05)', border: '1px solid rgba(201,164,67,.25)' }}>
+            <button type="button" onClick={() => setRutasAbiertas(a => !a)} aria-expanded={rutasAbiertas} aria-controls="rutas-compra"
+              className="w-full flex items-center gap-2 px-5 sm:px-6 py-4 text-left transition-colors hover:bg-white/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#00bfa5]">
+              <Layers className="w-5 h-5 flex-shrink-0" style={{ color: MIZAR_GOLD }} />
+              <span className="font-poppins font-semibold text-white/85 text-[17px] flex-1">Paquete mínimo y compra por partes</span>
+              <span className="no-print hidden sm:inline font-lato text-[13px] text-white/55">{rutasAbiertas ? 'Ocultar' : 'Ver'}</span>
+              <ChevronDown className={'no-print w-5 h-5 flex-shrink-0 text-white/55 transition-transform' + (rutasAbiertas ? ' rotate-180' : '')} />
+            </button>
 
+            {rutasAbiertas && (
+            <div id="rutas-compra" className="px-5 sm:px-6 pb-5 sm:pb-6">
             <div className="rounded-xl p-4 mb-3" style={{ background: 'rgba(201,164,67,.08)', border: `1px solid ${ETAPAS[0].colorBorder}` }}>
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1.5">
                 <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider self-center"
@@ -1195,21 +1206,50 @@ const MizarCarteraProposal = () => {
               <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
               <span>El cobro, los recordatorios y los informes necesitan la Cartera básica: sin plan de pagos y cálculo de mora no hay a quién cobrar ni qué informar.</span>
             </p>
+            </div>
+            )}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-            {[
-              { n: '1', t: 'Al firmar', d: `Se paga el módulo 01 (${cop(MODULOS[0].precio)}).` },
-              { n: '2', t: 'En cada entrega', d: 'Cada módulo se paga cuando Mizar lo recibe y lo aprueba.' },
-              { n: '3', t: 'Las opciones', d: 'Se pagan igual, ahora o cuando se contraten.' },
-            ].map((x) => (
-              <div key={x.n} className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
-                <p className="font-poppins font-black text-[#00bfa5] text-[22px] leading-none mb-1">{x.n}</p>
-                <p className="font-poppins font-semibold text-white/85 text-[15px]">{x.t}</p>
-                <p className="font-lato text-white/45 text-[14px] leading-snug">{x.d}</p>
+          <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Wallet className="w-4 h-4 text-[#00bfa5]" /> Forma de pago
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-2">
+            <div className="rounded-xl p-4" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
+              <p className="font-poppins font-black text-[#00bfa5] text-[22px] leading-none mb-1">1</p>
+              <p className="font-poppins font-semibold text-white/85 text-[16px]">50 % al iniciar y 50 % al entregar</p>
+              <div className="mt-2 space-y-1">
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/55 text-[14px]">Al iniciar</p>
+                  <p className="font-poppins font-bold text-white/85 text-[16px]">{cop(pagoInicial)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/55 text-[14px]">Al entregar</p>
+                  <p className="font-poppins font-bold text-white/85 text-[16px]">{cop(totalFinal - pagoInicial)}</p>
+                </div>
               </div>
-            ))}
+            </div>
+            <div className="rounded-xl p-4" style={{ background: 'rgba(201,164,67,.06)', border: '1px solid rgba(201,164,67,.28)' }}>
+              <p className="font-poppins font-black text-[22px] leading-none mb-1" style={{ color: MIZAR_GOLD }}>2</p>
+              <p className="font-poppins font-semibold text-white/85 text-[16px]">
+                Pago total por anticipado
+                <span className="ml-2 font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider align-middle"
+                  style={{ background: 'rgba(255,255,255,.06)', border: '1px solid rgba(201,164,67,.35)', color: MIZAR_GOLD }}>{DESCUENTO_ANTICIPADO_PCT} % adicional</span>
+              </p>
+              <div className="mt-2 space-y-1">
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/55 text-[14px]">Descuento adicional</p>
+                  <p className="font-poppins font-bold text-[16px]" style={{ color: MIZAR_GOLD }}>−{cop(totalFinal - totalAnticipado)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/55 text-[14px]">Un solo pago al iniciar</p>
+                  <p className="font-poppins font-black text-[18px]" style={{ color: MIZAR_GOLD }}>{cop(totalAnticipado)}</p>
+                </div>
+              </div>
+            </div>
           </div>
+          <p className="font-lato text-white/40 text-[14px] leading-snug mb-6">
+            Los valores se calculan sobre el total del alcance elegido arriba ({cop(totalFinal)}).
+          </p>
 
           <div className="rounded-xl p-4 flex flex-wrap items-center gap-x-4 gap-y-1"
             style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
