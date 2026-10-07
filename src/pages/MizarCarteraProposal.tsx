@@ -201,7 +201,7 @@ const MODULOS: Modulo[] = [
         'El pago se confirma y se aplica solo, con su recibo',
         'Una pasarela por cada sociedad que lo use, con la comisión a cargo de Mizar',
       ] } },
-  { num: '08', etapa: 2, ...E2, icon: TriangleAlert, semanas: 'Semanas 10 y 11', precio: 1400000, requiere: 'Cartera básica', minimo: false,
+  { num: '08', etapa: 2, ...E2, icon: TriangleAlert, semanas: 'Semanas 10 y 11', precio: 980000, requiere: 'Cartera básica', minimo: false,
     nombre: 'Cobranza: morosos, acuerdos y casos especiales',
     descripcion: 'Saber a quién cobrar, qué prometió y cómo negociar.',
     items: [
@@ -250,7 +250,7 @@ const MODULOS: Modulo[] = [
       'Gastos y flujo dentro de la vista de cada proyecto',
     ],
     entregable: 'El flujo de un mes sea igual al consolidado de gerencia' },
-  { num: '11', etapa: 3, ...E3, icon: Landmark, semanas: 'Semanas 14 a 16', precio: 2500000, requiere: 'Cartera básica, 06 y 10', minimo: false,
+  { num: '11', etapa: 3, ...E3, icon: Landmark, semanas: 'Semanas 14 a 16', precio: 1250000, requiere: 'Cartera básica, 06 y 10', minimo: false,
     nombre: 'Tesorería, socios y reparto',
     descripcion: 'Todo el dinero del grupo cuadrado con los bancos, y cada socio con su informe según el porcentaje de cada fecha.',
     items: [
@@ -264,7 +264,7 @@ const MODULOS: Modulo[] = [
       'Información lista para el contador, exportable a Helisa',
     ],
     entregable: 'Un mes de dos cuentas quede conciliado al peso y el informe a socios sea igual al que hoy arma gerencia',
-    extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 1400000, semanas: 'Semanas 18 y 19',
+    extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 980000, semanas: 'Semanas 18 y 19',
       descripcion: 'La contabilidad de ingresos y cartera se hace sola.',
       items: [
         'Comprobantes automáticos de pagos, mora, descuentos, comisiones y traslados',
