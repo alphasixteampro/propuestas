@@ -45,6 +45,9 @@ const ConnectyTransformacionProposal = lazy(() => import('./pages/ConnectyTransf
 const ConnectyMapeoProcesosProposal = lazy(() => import('./pages/ConnectyMapeoProcesosProposal'));
 const MizarCarteraProposal       = lazy(() => import('./pages/MizarCarteraProposal'));
 const MizarCarteraDemo           = lazy(() => import('./pages/MizarCarteraDemo'));
+const CalculadoraIA              = lazy(() => import('./pages/CalculadoraIA'));
+const RosaniaHeldProposal         = lazy(() => import('./pages/RosaniaHeldProposal'));
+const LnEquiposProposal           = lazy(() => import('./pages/LnEquiposProposal'));
 
 function Loader() {
   return (
@@ -110,6 +113,9 @@ export default function App() {
           <Route path="/conecty-mapeo-procesos" element={<ConnectyMapeoProcesosProposal />} />
           <Route path="/mizar-cartera"        element={<MizarCarteraProposal />} />
           <Route path="/mizar-cartera/demo"   element={<MizarCarteraDemo />} />
+          <Route path="/calculadora-ia"       element={<CalculadoraIA />} />
+          <Route path="/rosania-held"         element={<RosaniaHeldProposal />} />
+          <Route path="/ln-equipos"           element={<LnEquiposProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

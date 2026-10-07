@@ -385,6 +385,24 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/conecty-mapeo-procesos',
   },
+  {
+    slug: 'rosania-held',
+    cliente: 'Asesoría Rosanía Held S.A.S.',
+    sector: 'Alquiler de equipos para trabajo en altura · Diagnóstico de procesos · Colombia',
+    fecha: 'Octubre 2026',
+    monto: 'COP 8.500.000 + IVA · 9 procesos · 18 cargos',
+    estado: 'activa',
+    path: '/rosania-held',
+  },
+  {
+    slug: 'ln-equipos',
+    cliente: 'LN Equipos S.A.S.',
+    sector: 'Alquiler y venta de maquinaria pesada · Mapeo de procesos para IA · Colombia',
+    fecha: 'Octubre 2026',
+    monto: 'COP 4.800.000 + IVA · Mapeo de procesos · 5 puestos',
+    estado: 'activa',
+    path: '/ln-equipos',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
