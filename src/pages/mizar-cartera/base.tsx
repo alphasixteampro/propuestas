@@ -91,7 +91,7 @@ export function repartir(total: number, participantes: { nombre: string; pct: nu
 export type Sede = 'Bucaramanga' | 'Cúcuta';
 export type Medio = 'Transferencia' | 'Efectivo' | 'Consignación' | 'Link de pago' | 'Cruce de cartera'
   | 'Cheque de gerencia' | 'Descuento de nómina' | 'Pago en especie';
-export type Seccion = 'inicio' | 'ventas' | 'planes' | 'estado-cuenta' | 'por-verificar' | 'morosos' | 'carteras'
+export type Seccion = 'inicio' | 'proyectos' | 'ventas' | 'planes' | 'estado-cuenta' | 'por-verificar' | 'morosos' | 'carteras'
   | 'bancos' | 'contabilidad' | 'socios' | 'informes' | 'recompensas' | 'configuracion';
 
 // Dos empresas distintas (PRD 12A). Cada sede de la demo es una empresa: Bucaramanga = Mizar,
@@ -121,18 +121,27 @@ export interface Proyecto {
 // Dónde puede entrar el dinero. Las cuentas bancarias son de una sociedad; el efectivo y las
 // cuentas personales quedan «por trasladar» hasta consignarse en la cuenta de la sociedad (R25).
 export type TipoLugar = 'banco' | 'efectivo' | 'personal';
-export interface LugarRecaudo { nombre: string; tipo: TipoLugar; sociedad?: string; empresaId: EmpresaId | null; banco?: string; }
+export interface LugarRecaudo { nombre: string; tipo: TipoLugar; sociedad?: string; empresaId: EmpresaId | null; banco?: string; deTercero?: boolean; }
 export const LUGARES_RECAUDO: LugarRecaudo[] = [
   { nombre: 'Bancolombia Mizar', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Mizar Diseño y Construcción', empresaId: 'mizar' },
   { nombre: 'Bancolombia Palmoc', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Palmoc', empresaId: 'mizar' },
   { nombre: 'Bancolombia Hacienda Pedregal', tipo: 'banco', banco: 'Bancolombia', sociedad: 'Hacienda Pedregal', empresaId: 'mizar' },
+  { nombre: 'Banco de Occidente Ictinos', tipo: 'banco', banco: 'Banco de Occidente', sociedad: 'Ictinos Inmobiliaria', empresaId: 'mizar' },
+  { nombre: 'Davivienda Villa Sol 2', tipo: 'banco', banco: 'Davivienda', sociedad: 'Villa Sol 2', empresaId: 'mizar' },
   { nombre: 'Cuenta Ictinos', tipo: 'banco', banco: 'Banco de Bogotá', sociedad: 'Ictinos Inmobiliaria', empresaId: 'cucuta' },
-  { nombre: 'Cuenta Miraflor', tipo: 'banco', banco: 'Davivienda', sociedad: 'Asociación de Vivienda Miraflor', empresaId: 'cucuta' },
+  { nombre: 'Cuenta Miraflor', tipo: 'banco', banco: 'Davivienda', sociedad: 'Asociación de Vivienda Miraflor', empresaId: 'cucuta', deTercero: true },
   { nombre: 'Efectivo · caja de tesorería', tipo: 'efectivo', empresaId: null },
   { nombre: 'Efectivo · gerencia', tipo: 'efectivo', empresaId: null },
   { nombre: 'Cuenta personal · colaboradora de ventas', tipo: 'personal', empresaId: null },
+  { nombre: 'Nu · cuenta personal de un asesor', tipo: 'personal', empresaId: null },
 ];
 export function lugarPorNombre(nombre: string): LugarRecaudo | undefined { return LUGARES_RECAUDO.find(l => l.nombre === nombre); }
+// Las cuentas personales y las de un tercero no se pueden verificar solas: el pago se confirma a mano
+// mientras la cuenta no sea de la sociedad.
+export function sinVerificacionAutomatica(nombre: string): boolean {
+  const lugar = lugarPorNombre(nombre);
+  return !!lugar && (lugar.tipo === 'personal' || !!lugar.deTercero);
+}
 // Un pago recibido en efectivo o en una cuenta personal sigue «por trasladar» hasta que se consigna.
 export function porTrasladar(p: { cuenta: string; trasladado?: unknown; administracionAnterior?: boolean }): boolean {
   const lugar = lugarPorNombre(p.cuenta);
@@ -143,13 +152,15 @@ export interface CuotaPlan { numero: number; vence: string; capitalProg: number;
 
 export interface Aplicacion { cuota: number; mora: number; interes: number; capital: number; }
 
-export type OrigenPago = 'oficina' | 'whatsapp' | 'identificado' | 'administracion-anterior' | 'historico';
+export type OrigenPago = 'oficina' | 'whatsapp' | 'identificado' | 'administracion-anterior' | 'historico' | 'convenio';
 
 export interface Pago {
   recibo: string; fecha: string; valor: number; medio: Medio; cuenta: string; referencia: string;
   aplicaciones: Aplicacion[]; abono?: { monto: number; modo: 'plazo' | 'cuota' }; saldoFavor?: number;
   soporte?: boolean; administracionAnterior?: boolean;
   origen?: OrigenPago; registradoPor?: string; confirmadoPor?: string;
+  // Si el reporte ya se había visto en los movimientos del banco cuando una persona lo confirmó.
+  vistoEnExtracto?: boolean;
   planAntes?: CuotaPlan[]; anulado?: { motivo: string; por: string };
   // Quién pagó cuando no es el titular («encargado de pagos») y, si entró en efectivo o a una cuenta
   // personal, cuándo se consignó en la cuenta de la sociedad.
@@ -168,10 +179,20 @@ export interface ClienteRaw {
   // Lote como en los formatos de Cúcuta: tipo, manzana, número, área y si incluye urbanismo.
   lote?: { tipo: 'Medianero' | 'Esquinero' | 'Comercial' | 'Intermedio'; manzana: string; numero: string; area: number; urbanismo: boolean };
   bonoDescuento?: number;
+  // Ficha del cliente: en qué va el papeleo, cobros del contrato aparte de las cuotas y quién paga por él.
+  tramites?: { promesa: boolean; compraventa: boolean; escritura: boolean };
+  otrosCobros?: { concepto: string; valor: number; pagado: number }[];
+  encargadoPagos?: string;
+  // Otras personas que pueden pagar por el cliente: sus pagos se sugieren solos en «Pagos por identificar».
+  pagadoresAutorizados?: { nombre: string; relacion: string }[];
+  // Quién vendió el contrato: de él sale la comisión por vendedor.
+  vendedor?: string;
 }
 
 export interface Acuerdo {
   fecha: string; cuotas: number; valorCuota: number; consolidado: number; descuentoMora: number; autorizadoPor: string;
+  // Un acuerdo puede repartir lo vencido en cuotas nuevas o suspender los pagos unos meses (cuotas = las que se corrieron).
+  tipo?: 'refinanciacion' | 'suspension'; meses?: number; finAntes?: string; finDespues?: string;
 }
 
 export interface Devolucion { fecha: string; valor: number; motivo: string; por: string; orden: string; }
@@ -208,6 +229,8 @@ export function tasaDiariaAplicada(r: Reglas): number { return tasaDiaria(Math.m
 export type Rol = 'cartera' | 'tesoreria' | 'sede' | 'gerencia' | 'contabilidad';
 export interface Persona { id: string; nombre: string; cargo: string; rol: Rol; sede: Sede | null; }
 export function vigentes(pagos: Pago[]): Pago[] { return pagos.filter(p => !p.anulado); }
+// Nombre provisional del otro socio de Cantalta y Mirador de la Montaña: cambiar si se confirma el nombre del socio.
+export const SOCIO_EXTERNO = 'Socio externo';
 export const PROYECTOS: Proyecto[] = [
   {
     id: 'villa-plaza', nombre: 'Villa Plaza Real', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
@@ -215,9 +238,9 @@ export const PROYECTOS: Proyecto[] = [
     socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 60 }, { nombre: 'Inversionista Villa Plaza', pct: 40 }] }],
   },
   {
-    id: 'montana', nombre: 'Miradores de la Montaña', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
+    id: 'montana', nombre: 'Mirador de la Montaña', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
     cuentaDefault: 'Bancolombia Hacienda Pedregal', sociedad: 'Hacienda Pedregal', prefijo: 'MM', comisionPct: 18,
-    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 100 }] }],
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 50 }, { nombre: SOCIO_EXTERNO, pct: 50 }] }],
   },
   {
     id: 'laureles', nombre: 'Laureles Campestre T3', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
@@ -227,7 +250,27 @@ export const PROYECTOS: Proyecto[] = [
   {
     id: 'cantalta', nombre: 'Miradores de Cantalta', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
     cuentaDefault: 'Bancolombia Palmoc', sociedad: 'Palmoc', prefijo: 'MC', comisionPct: 20,
-    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 50 }, { nombre: 'Socio Cantalta', pct: 50 }] }],
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 50 }, { nombre: SOCIO_EXTERNO, pct: 50 }] }],
+  },
+  {
+    id: 'villa-cuesta', nombre: 'Villa Cuesta', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
+    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'VC', comisionPct: 3,
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 100 }] }],
+  },
+  {
+    id: 'cantera', nombre: 'Cantera', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
+    cuentaDefault: 'Bancolombia Mizar', sociedad: 'Mizar Diseño y Construcción', prefijo: 'CN', comisionPct: 3,
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Mizar', pct: 100 }] }],
+  },
+  {
+    id: 'villa-sol-1', nombre: 'Villa Sol 1', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
+    cuentaDefault: 'Banco de Occidente Ictinos', sociedad: 'Ictinos Inmobiliaria', prefijo: 'S1', comisionPct: 3,
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Ictinos', pct: 100 }] }],
+  },
+  {
+    id: 'villa-sol-2', nombre: 'Villa Sol 2', sede: 'Bucaramanga', conMora: true, alerta3Cuotas: false,
+    cuentaDefault: 'Davivienda Villa Sol 2', sociedad: 'Villa Sol 2', prefijo: 'S2', comisionPct: 3,
+    socios: [{ desde: '2024-01-01', hasta: null, participantes: [{ nombre: 'Socios por confirmar', pct: 100 }] }],
   },
   {
     id: 'miraflor', nombre: 'Miraflor (Mi Lote)', sede: 'Cúcuta', conMora: false, alerta3Cuotas: true,
@@ -246,12 +289,20 @@ export const PROYECTOS: Proyecto[] = [
 
 export function proyectoPorId(id: string): Proyecto { return PROYECTOS.find(p => p.id === id)!; }
 
+// Lotes que tiene cada proyecto en total (cifras de ejemplo para la vista «Proyectos»): los disponibles
+// son el total menos los lotes con contrato vigente. Los proyectos que no están aquí cuentan 20.
+export const LOTES_TOTALES: Record<string, number> = {
+  'villa-plaza': 40, 'montana': 53, 'laureles': 48, 'cantalta': 30, 'villa-cuesta': 20, 'cantera': 20,
+  'villa-sol-1': 20, 'villa-sol-2': 20, 'miraflor': 60, 'miravista': 45,
+};
+
 // Sociedades titulares, con su operación y sus proyectos (se derivan de los proyectos).
 export interface Sociedad { nombre: string; empresaId: EmpresaId; proyectos: string[]; }
 export const SOCIEDADES: Sociedad[] = PROYECTOS.reduce<Sociedad[]>((lista, p) => {
-  const existente = lista.find(s => s.nombre === p.sociedad);
+  const empresaId = EMPRESAS.find(e => e.sede === p.sede)!.id;
+  const existente = lista.find(s => s.nombre === p.sociedad && s.empresaId === empresaId);
   if (existente) existente.proyectos.push(p.nombre);
-  else lista.push({ nombre: p.sociedad, empresaId: EMPRESAS.find(e => e.sede === p.sede)!.id, proyectos: [p.nombre] });
+  else lista.push({ nombre: p.sociedad, empresaId, proyectos: [p.nombre] });
   return lista;
 }, []);
 export type Tono = 'green' | 'red' | 'amber' | 'blue' | 'purple' | 'muted' | 'navy';
@@ -277,6 +328,21 @@ export function chipDeCuota(estado: CuotaEstado['estado']): { tono: Tono; texto:
   if (estado === 'vencida') return { tono: 'red', texto: 'Vencida' };
   if (estado === 'reestructurada') return { tono: 'purple', texto: 'Reestructurada' };
   return { tono: 'muted', texto: 'Próxima' };
+}
+
+// De dónde salió la prueba de un pago: el banco, la pasarela o la revisión de una persona.
+export function fuenteConfirmacion(p: Pago): { texto: string; tono: Tono } {
+  if (p.origen === 'convenio') return { texto: 'Archivo del banco (convenio)', tono: 'green' };
+  if (p.registradoPor?.startsWith('Pasarela')) return { texto: 'Pasarela de pago', tono: 'green' };
+  if (p.origen === 'identificado') return { texto: 'Movimiento del banco asignado', tono: 'green' };
+  if (p.medio === 'Efectivo') return { texto: 'Recibo de caja', tono: 'muted' };
+  if (p.medio === 'Cruce de cartera') return { texto: 'Cruce de cartera aprobado, sin movimiento de dinero', tono: 'muted' };
+  if ((p.origen === 'whatsapp' || p.origen === 'oficina') && p.confirmadoPor) {
+    return p.vistoEnExtracto
+      ? { texto: 'Revisado contra el banco', tono: 'green' }
+      : { texto: `Comprobante revisado por ${p.confirmadoPor}`, tono: 'amber' };
+  }
+  return { texto: 'Sin prueba del banco registrada', tono: 'amber' };
 }
 
 export function chipDeEstadoGeneral(estado: ResumenCliente['estadoGeneral']): Tono {

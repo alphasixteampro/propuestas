@@ -107,8 +107,12 @@ interface FilaTipo { tipo: string; empresa: string; deudores: number; saldo: num
 // CRUCES DE CARTERA
 // ─────────────────────────────────────────────────────────────────────────
 
+const TIPO_PAGO_A_PROVEEDOR = 'Pago del cliente directo a un proveedor';
+const PROVEEDORES = ['Proim (obra)', 'Concretos del Oriente', 'Ferretería Santander'];
+
 const TIPOS_CRUCE = [
   'Contra cuentas por pagar (factura de compras)',
+  TIPO_PAGO_A_PROVEEDOR,
   'Entre contratos del mismo cliente',
   'Pago en especie o permuta',
   'Entre empresas del grupo',
@@ -141,6 +145,7 @@ function ModalNuevoCruce({ clientes, resumenes, persona, onCerrar, onConfirmar }
   const facturaInicial = FACTURAS_COMPRAS.find(f => clientes.some(c => c.raw.id === f.clienteId)) ?? FACTURAS_COMPRAS[0];
   const [clienteId, setClienteId] = useState(clientes.some(c => c.raw.id === facturaInicial.clienteId) ? facturaInicial.clienteId : (clientes[0]?.raw.id ?? ''));
   const [facturaId, setFacturaId] = useState(facturaInicial.id);
+  const [proveedor, setProveedor] = useState(PROVEEDORES[0]);
   const [bien, setBien] = useState('');
   const [avaluoTexto, setAvaluoTexto] = useState('');
   const [valorTexto, setValorTexto] = useState('');
@@ -165,6 +170,9 @@ function ModalNuevoCruce({ clientes, resumenes, persona, onCerrar, onConfirmar }
   } else if (tipo === 'Pago en especie o permuta') {
     valor = avaluo;
     detalleFinal = bien.trim() ? `Pago en especie: ${bien.trim()} (avalúo ${money(avaluo)})` : '';
+  } else if (tipo === TIPO_PAGO_A_PROVEEDOR) {
+    valor = valorLibre;
+    detalleFinal = `Pagó directo a ${proveedor} a nombre de Mizar: abona a la factura de ${proveedor} en Compras`;
   } else {
     valor = valorLibre;
     detalleFinal = detalle.trim();
@@ -194,6 +202,19 @@ function ModalNuevoCruce({ clientes, resumenes, persona, onCerrar, onConfirmar }
               </select>
             </Campo>
             {valor <= 0 && <p style={{ fontSize: 12, color: C.amber, margin: 0 }}>Este cliente no tiene una deuda pendiente para cruzar.</p>}
+          </>
+        )}
+
+        {tipo === TIPO_PAGO_A_PROVEEDOR && (
+          <>
+            <Campo id="cruce-proveedor" label="Proveedor">
+              <select id="cruce-proveedor" value={proveedor} onChange={e => setProveedor(e.target.value)} style={estiloInput}>
+                {PROVEEDORES.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
+            </Campo>
+            <Campo id="cruce-valor-proveedor" label="Valor">
+              <input id="cruce-valor-proveedor" inputMode="numeric" value={valorLibre ? valorLibre.toLocaleString('es-CO') : ''} onChange={e => setValorTexto(e.target.value)} style={estiloInput} placeholder="$ 0" />
+            </Campo>
           </>
         )}
 
@@ -229,7 +250,9 @@ function ModalNuevoCruce({ clientes, resumenes, persona, onCerrar, onConfirmar }
           <p style={{ margin: 0 }}>
             {tipo === 'Contra cuentas por pagar (factura de compras)'
               ? `Así queda: la cuota del cliente se paga con ${money(valor)} y la factura ${factura.id} queda pagada; un solo comprobante contable.`
-              : `Así queda: el cruce de ${money(valor)} queda aplicado a la cuenta del cliente; un solo comprobante contable.`}
+              : tipo === TIPO_PAGO_A_PROVEEDOR
+                ? `Así queda: la cuota del cliente se paga con ${money(valor)} y la deuda con ${proveedor} baja en lo mismo; un solo comprobante.`
+                : `Así queda: el cruce de ${money(valor)} queda aplicado a la cuenta del cliente; un solo comprobante contable.`}
           </p>
         </div>
       )}
@@ -383,10 +406,19 @@ export function SeccionCarteras(props: {
   const [cruces, setCruces] = useState<Cruce[]>(() => {
     const primero = props.clientes[0];
     if (!primero) return [];
-    return [{
+    const lista: Cruce[] = [{
       fecha: '2026-09-12', tipo: 'Entre contratos del mismo cliente', clienteId: primero.raw.id, clienteNombre: primero.raw.nombre,
       valor: 1200000, detalle: 'Saldo a favor del lote anterior aplicado a este contrato', estado: 'Aprobado', aprobadoPor: 'Claudia', comprobante: 'CC-2026-001',
     }];
+    // Un cliente que le pagó directo a un proveedor de la obra: espera la aprobación de gerencia.
+    const clienteProveedor = props.clientes.find(c => c.raw.id === 'vp1');
+    if (clienteProveedor) {
+      lista.push({
+        fecha: '2026-09-19', tipo: TIPO_PAGO_A_PROVEEDOR, clienteId: clienteProveedor.raw.id, clienteNombre: clienteProveedor.raw.nombre, valor: 1_500_000,
+        detalle: 'Pagó directo a Proim (obra) a nombre de Mizar: abona a la factura de Proim en Compras', estado: 'Esperando aprobación',
+      });
+    }
+    return lista;
   });
   const [modalCruce, setModalCruce] = useState(false);
 
@@ -553,6 +585,7 @@ export function SeccionCarteras(props: {
               </tbody>
             </table>
           </div>
+          <p style={{ fontSize: 12, color: C.muted, margin: '10px 0 0' }}>En el libro hay 7 pagos de clientes que entraron a cuentas de Proim.</p>
         </Tarjeta>
       )}
 

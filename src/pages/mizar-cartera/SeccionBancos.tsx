@@ -1,12 +1,12 @@
 // SECCIÓN: BANCOS Y CONCILIACIÓN (PRD 12C)
-// Cuentas bancarias por empresa, movimientos de septiembre, carga simulada del extracto,
+// Cuentas bancarias por empresa, movimientos de septiembre, carga simulada de los movimientos del banco,
 // cruce contra lo registrado, conciliación mensual y traslados entre cuentas.
 import React, { useMemo, useState } from 'react';
 import { ArrowRightLeft, Loader2 } from 'lucide-react';
 import {
   C, HOY, money, fechaLarga, diffDays, plural, vigentes, Cliente, Persona, FiltroEmpresa, EmpresaId,
-  empresaPorId, proyectoPorId, porTrasladar, Chip, Tarjeta, BotonPrimario, BotonSecundario,
-  Modal, Campo, estiloInput, Tono, TONOS,
+  empresaPorId, proyectoPorId, porTrasladar, lugarPorNombre, Chip, Tarjeta, BotonPrimario, BotonSecundario,
+  Modal, Campo, estiloInput, Tono, TONOS, sinVerificacionAutomatica,
 } from './base';
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -24,9 +24,20 @@ const CUENTAS: CuentaBancaria[] = [
   { id: 'bancolombia-pedregal', cuenta: 'Bancolombia Hacienda Pedregal', banco: 'Bancolombia', ultimos4: '6612', titular: 'Hacienda Pedregal', empresaId: 'mizar', saldoInicial: 41900000, deTercero: false },
   { id: 'cuenta-ictinos', cuenta: 'Cuenta Ictinos', banco: 'Banco de Bogotá', ultimos4: '7734', titular: 'Ictinos Inmobiliaria', empresaId: 'cucuta', saldoInicial: 38900000, deTercero: false },
   { id: 'cuenta-miraflor', cuenta: 'Cuenta Miraflor', banco: 'Davivienda', ultimos4: '1190', titular: 'Asociación de Vivienda Miraflor', empresaId: 'cucuta', saldoInicial: 2450000, deTercero: true },
+  { id: 'occidente-ictinos', cuenta: 'Banco de Occidente Ictinos', banco: 'Banco de Occidente', ultimos4: '5590', titular: 'Ictinos Inmobiliaria', empresaId: 'mizar', saldoInicial: 36_200_000, deTercero: false },
+  { id: 'davivienda-villa-sol-2', cuenta: 'Davivienda Villa Sol 2', banco: 'Davivienda', ultimos4: '2045', titular: 'Villa Sol 2', empresaId: 'mizar', saldoInicial: 19_800_000, deTercero: false },
 ];
 
 function cuentaPorId(id: string): CuentaBancaria { return CUENTAS.find(c => c.id === id) ?? CUENTAS[0]; }
+
+// Hace cuántos días tesorería subió los movimientos de cada cuenta (datos de ejemplo). Al cargarlos pasa a 0 = hoy.
+const DIAS_SIN_CARGA_INICIALES: Record<string, number> = {
+  'bancolombia-mizar': 0, 'bancolombia-palmoc': 3, 'bancolombia-pedregal': 2, 'cuenta-ictinos': 0,
+  'cuenta-miraflor': 6, 'occidente-ictinos': 0, 'davivienda-villa-sol-2': 0,
+};
+
+// Pagos que aplicó el archivo de recaudo del convenio con el banco (los aplica la pantalla principal).
+export interface ConvenioAplicado { cliente: string; contrato: string; valor: number; recibo: string; }
 
 // Salidas fijas del mes por cuenta (órdenes de compra pagadas, nómina, caja menor).
 const SALIDAS_FIJAS: Record<string, { fecha: string; concepto: string; valor: number }[]> = {
@@ -80,7 +91,7 @@ const PARTIDAS_SIN_REGISTRO: Record<string, { fecha: string; concepto: string; v
 // ─────────────────────────────────────────────────────────────────────────
 
 interface MovimientoCuenta { id: string; fecha: string; concepto: string; tercero: string; entrada: number; salida: number; }
-interface Traslado { id: string; origenId: string; destinoId: string; valor: number; fecha: string; motivo: string; }
+export interface TrasladoCuenta { id: string; origenId: string; destinoId: string; valor: number; fecha: string; motivo: string; clave?: string; }
 type ReportePendiente = { id: string; clienteNombre: string; valor: number; referencia: string; cuenta: string; fecha: string };
 type CruceExtracto = 'conciliada' | 'sin-registro' | 'reporte-visto';
 interface LineaExtracto { fecha: string; concepto: string; valor: number; cruce: CruceExtracto; }
@@ -116,7 +127,7 @@ function movimientosDePagos(clientes: Cliente[], cuentaNombre: string): Movimien
   return movs;
 }
 
-function movimientosDeCuenta(cuenta: CuentaBancaria, clientes: Cliente[], traslados: Traslado[]): MovimientoCuenta[] {
+function movimientosDeCuenta(cuenta: CuentaBancaria, clientes: Cliente[], traslados: TrasladoCuenta[]): MovimientoCuenta[] {
   const movs = movimientosDePagos(clientes, cuenta.cuenta);
   for (const s of SALIDAS_FIJAS[cuenta.cuenta] ?? []) {
     movs.push({ id: `salida-${cuenta.id}-${s.fecha}-${s.concepto}`, fecha: s.fecha, concepto: s.concepto, tercero: '—', entrada: 0, salida: s.valor });
@@ -137,7 +148,7 @@ function movimientosDeCuenta(cuenta: CuentaBancaria, clientes: Cliente[], trasla
   return movs.sort((a, b) => a.fecha.localeCompare(b.fecha));
 }
 
-function saldoDeCuenta(cuenta: CuentaBancaria, clientes: Cliente[], traslados: Traslado[]): number {
+function saldoDeCuenta(cuenta: CuentaBancaria, clientes: Cliente[], traslados: TrasladoCuenta[]): number {
   return movimientosDeCuenta(cuenta, clientes, traslados).reduce((s, m) => s + m.entrada - m.salida, cuenta.saldoInicial);
 }
 
@@ -153,7 +164,8 @@ const CRUCE_INFO: Record<CruceExtracto, { tono: Tono; texto: string }> = {
 // PIEZAS DE UI
 // ─────────────────────────────────────────────────────────────────────────
 
-function TarjetaCuenta({ cuenta, saldo, seleccionada, onClick }: { cuenta: CuentaBancaria; saldo: number; seleccionada: boolean; onClick: () => void }) {
+function TarjetaCuenta({ cuenta, saldo, diasSinCarga, seleccionada, onClick }: { cuenta: CuentaBancaria; saldo: number; diasSinCarga: number; seleccionada: boolean; onClick: () => void }) {
+  const manual = cuenta.deTercero || sinVerificacionAutomatica(cuenta.cuenta);
   return (
     <button type="button" onClick={onClick} style={{
       textAlign: 'left', background: C.paper, border: `1px solid ${seleccionada ? C.navy : C.line}`,
@@ -171,6 +183,11 @@ function TarjetaCuenta({ cuenta, saldo, seleccionada, onClick }: { cuenta: Cuent
       <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>{empresaPorId(cuenta.empresaId).corto}</p>
       <p style={{ fontSize: 20, fontWeight: 700, color: C.ink, margin: '6px 0 0', fontVariantNumeric: 'tabular-nums' }}>{money(saldo)}</p>
       <p style={{ fontSize: 11, color: C.muted, margin: 0 }}>Saldo a hoy</p>
+      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
+        <Chip tono={diasSinCarga === 0 ? 'green' : 'amber'} texto={`Última carga: ${diasSinCarga === 0 ? 'hoy' : `hace ${plural(diasSinCarga, 'día', 'días')}`}`} />
+        {manual && <Chip tono="muted" texto="Sin verificación automática" />}
+      </div>
+      {manual && <p style={{ fontSize: 11, color: C.muted, margin: 0 }}>Se confirma a mano mientras la cuenta no sea de la sociedad.</p>}
     </button>
   );
 }
@@ -278,7 +295,7 @@ function PanelExtracto({ cuenta, resultado }: { cuenta: CuentaBancaria; resultad
   return (
     <Tarjeta>
       <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Resultado del cruce · {cuenta.cuenta}</p>
-      <p style={{ fontSize: 12, color: C.muted, margin: '0 0 12px' }}>Así quedó el extracto de septiembre comparado con lo que ya estaba registrado.</p>
+      <p style={{ fontSize: 12, color: C.muted, margin: '0 0 12px' }}>Así quedaron los movimientos comparados con lo registrado.</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16 }}>
         <TarjetaResultado tono="green" titulo="Conciliadas" valor={String(resultado.conciliadas)} detalle="Movimientos que casan con el banco" />
         <TarjetaResultado tono="amber" titulo="En el banco sin registro" valor={String(resultado.sinRegistro)} detalle="Pasan a por identificar o a gastos" />
@@ -320,7 +337,7 @@ function PanelExtracto({ cuenta, resultado }: { cuenta: CuentaBancaria; resultad
 
 // Historial simple de los traslados que se han hecho en esta sesión, para que quede claro
 // de dónde salió y a dónde llegó cada peso movido entre cuentas.
-function PanelTraslados({ traslados }: { traslados: Traslado[] }) {
+function PanelTraslados({ traslados }: { traslados: TrasladoCuenta[] }) {
   if (traslados.length === 0) return null;
   return (
     <Tarjeta>
@@ -372,7 +389,7 @@ function PanelConciliacion({
         {cerrada && <Chip tono="green" texto={`Cerrada por ${personaNombre}`} />}
       </div>
       {!extractoCargado ? (
-        <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Carga el extracto de esta cuenta para iniciar la conciliación.</p>
+        <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Carga los movimientos de esta cuenta para iniciar la conciliación.</p>
       ) : (
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12, marginBottom: 16 }}>
@@ -415,6 +432,38 @@ function PanelConciliacion({
             {motivoBloqueo && !cerrada && <p style={{ fontSize: 12, color: C.muted, margin: 0 }}>{motivoBloqueo}.</p>}
           </div>
         </>
+      )}
+    </Tarjeta>
+  );
+}
+
+// Segundo camino de verificación: con un convenio de recaudo el banco entrega un archivo con cada pago
+// ya identificado por número de contrato, aunque pague otra persona. Solo se carga una vez al día.
+function TarjetaConvenio({ cargado, puedeCargar, onCargar }: { cargado: ConvenioAplicado[] | null; puedeCargar: boolean; onCargar: () => void }) {
+  return (
+    <Tarjeta>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ maxWidth: 560 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Archivo del banco (convenio de recaudo)</p>
+          <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>
+            Los clientes pagan en la app, PSE o un corresponsal con su número de contrato como referencia. El banco entrega un archivo con cada pago ya identificado, aunque pague otra persona.
+          </p>
+        </div>
+        {cargado ? (
+          <Chip tono="green" texto={`Archivo de hoy cargado: ${plural(cargado.length, 'pago aplicado solo', 'pagos aplicados solos')}`} />
+        ) : (
+          <BotonPrimario disabled={!puedeCargar} onClick={onCargar}>Cargar archivo de recaudo de hoy</BotonPrimario>
+        )}
+      </div>
+      {!cargado && !puedeCargar && <p style={{ fontSize: 12, color: C.muted, margin: '8px 0 0' }}>Lo hace tesorería.</p>}
+      {cargado && cargado.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 12 }}>
+          {cargado.map(a => (
+            <p key={a.recibo} style={{ fontSize: 13, color: C.ink, margin: 0 }}>
+              {a.cliente} · contrato {a.contrato} · <strong>{money(a.valor)}</strong> · recibo {a.recibo}
+            </p>
+          ))}
+        </div>
       )}
     </Tarjeta>
   );
@@ -496,6 +545,86 @@ function TarjetaDineroPorTrasladar({ filas, puedeGestionar, onTrasladar }: {
   );
 }
 
+// Plata de una sociedad que entró a la cuenta de otra: cada pago vigente (que no sea de la
+// administración anterior) cuyo dinero quedó en un banco de una sociedad distinta a la dueña del proyecto.
+interface DeudaEntreSociedades {
+  clave: string; recibio: string; duena: string; cuentaRecibio: string; cuentaDuena: string;
+  proyectos: string[]; n: number; total: number;
+}
+
+function deudasEntreSociedades(clientes: Cliente[]): DeudaEntreSociedades[] {
+  const mapa = new Map<string, DeudaEntreSociedades>();
+  for (const c of clientes) {
+    const proyecto = proyectoPorId(c.raw.proyectoId);
+    for (const p of vigentes(c.pagos)) {
+      if (p.administracionAnterior) continue;
+      const nombre = p.trasladado ? p.trasladado.cuentaDestino : p.cuenta;
+      const lugar = lugarPorNombre(nombre);
+      if (!lugar || lugar.tipo !== 'banco' || lugar.sociedad === proyecto.sociedad) continue;
+      const clave = `${lugar.sociedad}|${proyecto.sociedad}`;
+      const actual = mapa.get(clave) ?? {
+        clave, recibio: lugar.sociedad ?? '', duena: proyecto.sociedad, cuentaRecibio: nombre, cuentaDuena: proyecto.cuentaDefault,
+        proyectos: [], n: 0, total: 0,
+      };
+      if (!actual.proyectos.includes(proyecto.nombre)) actual.proyectos.push(proyecto.nombre);
+      actual.n += 1;
+      actual.total += p.valor;
+      mapa.set(clave, actual);
+    }
+  }
+  return [...mapa.values()].sort((a, b) => b.total - a.total);
+}
+
+// Tarjeta «plata de una sociedad en la cuenta de otra»: muestra quién le debe a quién y deja saldar
+// la deuda con un traslado entre las dos cuentas.
+function TarjetaEntreSociedades({ filas, traslados, puedeTrasladar, onAgregarTraslado, onToast }: {
+  filas: DeudaEntreSociedades[]; traslados: TrasladoCuenta[]; puedeTrasladar: boolean;
+  onAgregarTraslado: (t: Omit<TrasladoCuenta, 'id'>) => void; onToast: (m: string) => void;
+}) {
+  return (
+    <Tarjeta>
+      <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>Plata de una sociedad en la cuenta de otra</p>
+      <p style={{ fontSize: 12, color: C.muted, margin: '0 0 12px' }}>Pagos de clientes que entraron al banco de una sociedad que no es la dueña del proyecto: cada uno deja una deuda entre sociedades hasta que se devuelve.</p>
+      {filas.length === 0 ? (
+        <p style={{ fontSize: 13, color: C.green, margin: 0, fontWeight: 600 }}>No hay dinero de una sociedad en la cuenta de otra.</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {filas.map(f => {
+            const pagado = traslados.filter(t => t.clave === f.clave).reduce((s, t) => s + t.valor, 0);
+            const pendiente = Math.max(0, f.total - pagado);
+            const origen = CUENTAS.find(c => c.cuenta === f.cuentaRecibio);
+            const destino = CUENTAS.find(c => c.cuenta === f.cuentaDuena);
+            const proyectosTexto = f.proyectos.join(', ');
+            return (
+              <div key={f.clave} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', background: C.surface, border: `1px solid ${C.line}`, borderRadius: 8, padding: 12 }}>
+                <div>
+                  <p style={{ fontSize: 13, color: C.ink, margin: 0, fontWeight: 700 }}>{f.recibio} le debe a {f.duena}</p>
+                  <p style={{ fontSize: 12, color: C.muted, margin: '2px 0 0' }}>{plural(f.n, 'pago', 'pagos')} de {proyectosTexto} entraron a {f.cuentaRecibio} · {money(f.total)} en total{pagado > 0 ? ` · ya se devolvieron ${money(pagado)}` : ''}</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  {pendiente > 0 ? (
+                    <>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: C.amber, fontVariantNumeric: 'tabular-nums' }}>{money(pendiente)}</span>
+                      {puedeTrasladar ? (
+                        <BotonSecundario disabled={!origen || !destino} onClick={() => {
+                          if (!origen || !destino) return;
+                          onAgregarTraslado({ origenId: origen.id, destinoId: destino.id, valor: pendiente, fecha: HOY, motivo: `Devolver a ${f.duena} lo de ${proyectosTexto}`, clave: f.clave });
+                          onToast(`Deuda saldada: ${money(pendiente)} de ${f.cuentaRecibio} a ${f.cuentaDuena}.`);
+                        }}><ArrowRightLeft size={15} />Trasladar para saldar</BotonSecundario>
+                      ) : <span style={{ fontSize: 12, color: C.muted }}>Lo registra tesorería</span>}
+                    </>
+                  ) : <Chip tono="green" texto="Saldado" />}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <p style={{ fontSize: 12, color: C.muted, margin: '10px 0 0' }}>En el libro 2024–2026 hay 145 pagos así; al cargarlo, cada uno queda con su deuda entre sociedades.</p>
+    </Tarjeta>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // COMPONENTE PRINCIPAL
 // ─────────────────────────────────────────────────────────────────────────
@@ -505,11 +634,15 @@ export function SeccionBancos(props: {
   reportesPendientes: { id: string; clienteNombre: string; valor: number; referencia: string; cuenta: string; fecha: string }[];
   onMarcarVistos: (ids: string[]) => void; onToast: (m: string) => void;
   onTrasladar: (clienteId: string, recibo: string, cuentaDestino: string) => void;
+  traslados: TrasladoCuenta[]; onAgregarTraslado: (t: Omit<TrasladoCuenta, 'id'>) => void;
+  convenioCargado: ConvenioAplicado[] | null; onCargarConvenio: () => void;
 }) {
-  const { clientes, empresa, persona, reportesPendientes, onMarcarVistos, onToast, onTrasladar } = props;
+  const { clientes, empresa, persona, reportesPendientes, onMarcarVistos, onToast, onTrasladar, traslados, onAgregarTraslado, convenioCargado, onCargarConvenio } = props;
   const puedeGestionar = persona.rol === 'tesoreria' || persona.rol === 'gerencia' || persona.rol === 'contabilidad';
   const puedeTrasladar = persona.rol === 'tesoreria' || persona.rol === 'gerencia' || persona.rol === 'sede';
+  const puedeCargarConvenio = persona.rol === 'tesoreria' || persona.rol === 'gerencia';
   const pendientesTraslado = useMemo(() => pagosPorTrasladar(clientes), [clientes]);
+  const entreSociedades = useMemo(() => deudasEntreSociedades(clientes), [clientes]);
 
   const cuentasVisibles = useMemo(() => CUENTAS.filter(c => empresa === 'grupo' || c.empresaId === empresa), [empresa]);
 
@@ -517,9 +650,9 @@ export function SeccionBancos(props: {
   const cuentaSelId = cuentasVisibles.some(c => c.id === cuentaSelIdState) ? cuentaSelIdState : (cuentasVisibles[0]?.id ?? CUENTAS[0].id);
   const cuentaSel = cuentasVisibles.find(c => c.id === cuentaSelId) ?? CUENTAS[0];
 
-  const [traslados, setTraslados] = useState<Traslado[]>([]);
   const [extractos, setExtractos] = useState<Record<string, ResultadoCruce>>({});
   const [cargandoId, setCargandoId] = useState<string | null>(null);
+  const [diasSinCarga, setDiasSinCarga] = useState<Record<string, number>>(DIAS_SIN_CARGA_INICIALES);
   const [resueltas, setResueltas] = useState<Set<string>>(new Set());
   const [cerradas, setCerradas] = useState<Set<string>>(new Set());
   const [modalTraslado, setModalTraslado] = useState(false);
@@ -555,6 +688,7 @@ export function SeccionBancos(props: {
       const lineas = [...lineasConciliadas, ...extras, ...lineasReportes].sort((a, b) => a.fecha.localeCompare(b.fecha));
       setExtractos(prev => ({ ...prev, [cuentaSel.id]: { lineas, conciliadas: lineasConciliadas.length, sinRegistro: extras.length, reportesVistos: incluidos.length, reportesNoAparecen: excluido } }));
       if (incluidos.length > 0) onMarcarVistos(incluidos.map(r => r.id));
+      setDiasSinCarga(prev => ({ ...prev, [cuentaSel.id]: 0 }));
       setCargandoId(null);
     }, 700);
   }
@@ -570,7 +704,7 @@ export function SeccionBancos(props: {
   }
 
   function confirmarTraslado(d: { origenId: string; destinoId: string; valor: number; motivo: string }) {
-    setTraslados(prev => [...prev, { id: `tr-${prev.length + 1}`, origenId: d.origenId, destinoId: d.destinoId, valor: d.valor, motivo: d.motivo, fecha: HOY }]);
+    onAgregarTraslado({ ...d, fecha: HOY });
     setModalTraslado(false);
     onToast(`Traslado registrado: ${money(d.valor)} de ${cuentaPorId(d.origenId).cuenta} a ${cuentaPorId(d.destinoId).cuenta}.`);
   }
@@ -581,14 +715,18 @@ export function SeccionBancos(props: {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <h1 style={{ fontSize: 22, fontWeight: 700, color: C.ink, margin: 0 }}>Bancos y conciliación</h1>
       <p style={{ fontSize: 14, color: C.muted, margin: 0, maxWidth: 720 }}>
-        En Colombia no hay conexión directa con los bancos: tesorería descarga el extracto y el sistema lo cruza con lo registrado.
+        No hay una conexión en vivo barata con los bancos, pero sí dos caminos: tesorería sube cada mañana los movimientos de cada cuenta y el sistema los cruza solo; y con un convenio de recaudo, el banco entrega los pagos ya identificados por número de contrato.
       </p>
+
+      <TarjetaConvenio cargado={convenioCargado} puedeCargar={puedeCargarConvenio} onCargar={onCargarConvenio} />
 
       <TarjetaDineroPorTrasladar filas={pendientesTraslado} puedeGestionar={puedeTrasladar} onTrasladar={onTrasladar} />
 
+      <TarjetaEntreSociedades filas={entreSociedades} traslados={traslados} puedeTrasladar={puedeTrasladar} onAgregarTraslado={onAgregarTraslado} onToast={onToast} />
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12 }}>
         {cuentasVisibles.map(cuenta => (
-          <TarjetaCuenta key={cuenta.id} cuenta={cuenta} saldo={saldoDeCuenta(cuenta, clientes, traslados)} seleccionada={cuenta.id === cuentaSel.id} onClick={() => setCuentaSelIdState(cuenta.id)} />
+          <TarjetaCuenta key={cuenta.id} cuenta={cuenta} saldo={saldoDeCuenta(cuenta, clientes, traslados)} diasSinCarga={diasSinCarga[cuenta.id] ?? 0} seleccionada={cuenta.id === cuentaSel.id} onClick={() => setCuentaSelIdState(cuenta.id)} />
         ))}
       </div>
       {cuentasVisibles.some(c => c.deTercero) && (
@@ -607,7 +745,7 @@ export function SeccionBancos(props: {
             <BotonSecundario onClick={() => setModalTraslado(true)}><ArrowRightLeft size={15} />Trasladar entre cuentas</BotonSecundario>
             <BotonPrimario disabled={!puedeGestionar || cargando} onClick={cargarExtracto}>
               {cargando ? <Loader2 size={15} className="animate-spin" /> : null}
-              {cargando ? 'Cargando extracto...' : 'Cargar extracto de septiembre'}
+              {cargando ? 'Cargando movimientos...' : 'Cargar movimientos hasta hoy'}
             </BotonPrimario>
           </div>
         </div>

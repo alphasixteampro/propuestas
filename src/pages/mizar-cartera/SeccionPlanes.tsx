@@ -38,9 +38,9 @@ const PLANTILLAS: Plantilla[] = [
     saldoPct: 70, saldoModo: 'credito', mesesEntrega: 26, conceptoSaldo: 'Saldo con crédito hipotecario o subsidio',
   },
   {
-    tipo: 'apartamento', proyectoId: 'montana', nombre: 'Apartamento terminado', separacion: 5000000,
-    inicialPct: 30, inicialCuotasDefault: 6, primasDefault: false,
-    saldoPct: 70, saldoModo: 'cuotas', saldoCuotasDefault: 48, tasaMensualDefault: 1,
+    tipo: 'apartamento', proyectoId: 'montana', nombre: 'Lote con cuota inicial del 15 %', separacion: 2_000_000,
+    inicialPct: 15, inicialCuotasDefault: 3, primasDefault: false,
+    saldoPct: 85, saldoModo: 'cuotas', saldoCuotasDefault: 48, tasaMensualDefault: 1,
   },
   {
     tipo: 'apartamento', proyectoId: 'cantalta', nombre: 'Lote campestre', separacion: 2000000,
@@ -439,8 +439,8 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
           </Campo>
           <Campo id="p-corte" label="Día de corte">
             <select id="p-corte" value={diaCorte} onChange={e => setDiaCorte(Number(e.target.value))} style={estiloInput}>
-              <option value={5}>El 5 de cada mes</option><option value={15}>El 15 de cada mes</option>
-              <option value={30}>El 30 de cada mes</option><option value={31}>El último día del mes</option>
+              {Array.from({ length: 30 }, (_, i) => i + 1).map(d => <option key={d} value={d}>El {d} de cada mes</option>)}
+              <option value={31}>El último día del mes</option>
             </select>
           </Campo>
 
@@ -588,7 +588,7 @@ export function SeccionPlanes(props: { empresa: FiltroEmpresa; persona: Persona;
         <p style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: '0 0 12px' }}>Intereses</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
-            'Un plan puede no tener interés, tener una tasa fija o cobrar por tramos, según el proyecto.',
+            'Hoy el interés va metido en la cuota: en 23 de 28 lotes revisados el plan suma más que el precio. Aquí cada cuota separa capital e interés y el plan cuadra con el precio.',
             'La tasa se digita en efectiva anual o mensual y el sistema hace la conversión.',
             'La mora tiene un tope: no puede pasar la tasa de usura (se define en Configuración).',
             'Los acuerdos de pago pueden quedar con un interés distinto al del plan original.',

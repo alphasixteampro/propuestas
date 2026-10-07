@@ -71,7 +71,7 @@ function saldosAnteriores(empresaId: EmpresaId): Record<string, number> {
 }
 
 const CUENTAS_POR_EMPRESA: Record<EmpresaId, string[]> = {
-  mizar: ['Bancolombia Mizar'],
+  mizar: ['Bancolombia Mizar', 'Bancolombia Palmoc', 'Bancolombia Hacienda Pedregal', 'Banco de Occidente Ictinos', 'Davivienda Villa Sol 2'],
   cucuta: ['Cuenta Ictinos', 'Cuenta Miraflor'],
 };
 

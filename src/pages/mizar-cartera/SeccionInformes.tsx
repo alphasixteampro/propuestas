@@ -97,6 +97,7 @@ function etiquetaOrigen(origen: Pago['origen']): string {
   if (origen === 'oficina') return 'Oficina';
   if (origen === 'whatsapp') return 'WhatsApp';
   if (origen === 'identificado') return 'Identificado después';
+  if (origen === 'convenio') return 'Convenio del banco';
   return 'Histórico';
 }
 
@@ -295,6 +296,20 @@ function comisionesPorProyecto(clientes: Cliente[], proyectos: Proyecto[]): Fila
     const pagado = causado * 0.6;
     return { proyecto, pct, causado, pagado, pendiente: causado - pagado };
   }).filter(f => f.causado > 0);
+}
+
+// Comisión causada por vendedor: cada venta usa el % de comisión de su proyecto sobre el valor de venta.
+function comisionesPorVendedor(clientes: Cliente[]): { nombre: string; ventas: number; vendido: number; comision: number }[] {
+  const mapa = new Map<string, { nombre: string; ventas: number; vendido: number; comision: number }>();
+  for (const c of clientes) {
+    const nombre = c.raw.vendedor ?? 'Sin asignar';
+    const fila = mapa.get(nombre) ?? { nombre, ventas: 0, vendido: 0, comision: 0 };
+    fila.ventas += 1;
+    fila.vendido += c.raw.valorVenta;
+    fila.comision += c.raw.valorVenta * proyectoPorId(c.raw.proyectoId).comisionPct / 100;
+    mapa.set(nombre, fila);
+  }
+  return [...mapa.values()].sort((a, b) => b.comision - a.comision);
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -683,6 +698,7 @@ export function SeccionInformes(props: {
 
       {informeAbierto === 'I12' && (() => {
         const filas = comisionesPorProyecto(clientesFiltrados, proyectosEnVista);
+        const porVendedor = comisionesPorVendedor(clientesFiltrados);
         return (
           <Tarjeta>
             <p style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: '0 0 4px' }}>I12 · Comisiones</p>
@@ -703,6 +719,27 @@ export function SeccionInformes(props: {
                 </tbody>
               </table>
             </div>
+            {porVendedor.length > 0 && (
+              <div style={{ marginTop: 18 }}>
+                <p style={{ fontSize: 14, fontWeight: 700, color: C.ink, margin: '0 0 8px' }}>Por vendedor</p>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13, minWidth: 460 }}>
+                    <thead><tr style={{ textAlign: 'left', color: C.muted, borderBottom: `1px solid ${C.line}` }}>
+                      <th style={celda}>Vendedor</th><th style={celda}>Ventas</th><th style={celda}>Valor vendido</th><th style={celda}>Comisión causada</th>
+                    </tr></thead>
+                    <tbody>
+                      {porVendedor.map(v => (
+                        <tr key={v.nombre} style={{ borderBottom: `1px solid ${C.line}` }}>
+                          <td style={{ ...celda, fontWeight: 600 }}>{v.nombre}</td><td style={celda}>{v.ventas}</td>
+                          <td style={celda}>{money(v.vendido)}</td><td style={{ ...celda, fontWeight: 700 }}>{money(v.comision)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p style={{ fontSize: 12, color: C.muted, margin: '8px 0 0' }}>Cada venta usa el % de su proyecto.</p>
+              </div>
+            )}
             {filas.filter(f => f.proyecto.participacionRecaudoPct).map(f => {
               const pct = f.proyecto.participacionRecaudoPct ?? 0;
               const recaudado = filasPagoRango.filter(fp => fp.proyecto.id === f.proyecto.id).reduce((s, fp) => s + fp.pago.valor, 0);
@@ -731,7 +768,8 @@ export function SeccionInformes(props: {
                   {filas.map(c => (
                     <tr key={c.raw.id} style={{ borderBottom: `1px solid ${C.line}` }}>
                       <td style={{ ...celda, fontWeight: 600 }}>{c.raw.nombre}</td><td style={celda}>{fechaLarga(c.acuerdo!.fecha)}</td>
-                      <td style={celda}>{c.acuerdo!.cuotas}</td><td style={celda}>{money(c.acuerdo!.valorCuota)}</td><td style={celda}>{c.acuerdo!.autorizadoPor}</td>
+                      <td style={celda}>{c.acuerdo!.tipo === 'suspension' ? `Suspensión de ${c.acuerdo!.meses} meses` : c.acuerdo!.cuotas}</td>
+                      <td style={celda}>{c.acuerdo!.tipo === 'suspension' ? '—' : money(c.acuerdo!.valorCuota)}</td><td style={celda}>{c.acuerdo!.autorizadoPor}</td>
                     </tr>
                   ))}
                   {filas.length === 0 && <tr><td colSpan={5} style={{ padding: 16, textAlign: 'center', color: C.muted }}>No hay acuerdos vigentes para esta empresa.</td></tr>}
