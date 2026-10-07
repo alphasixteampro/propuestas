@@ -154,7 +154,7 @@ const MODULOS: Modulo[] = [
       'Limpieza de clientes: personas que pagan en el libro frente a clientes de la base, nombres con dos cédulas y proyectos con varios nombres',
       'Las distintas formas de escribir dónde entró el dinero, unificadas en las cuentas reales',
       'Planes actuales reconstruidos con capital e interés, aunque hoy el interés vaya dentro de la cuota',
-      'Carga de los pagos desde 2024, aplicados a cada contrato',
+      'Carga de los proyectos activos con sus pagos desde 2025, aplicados a cada contrato; lo anterior entra como saldo inicial',
       'Saldos de la administración anterior de Cúcuta, separados',
       'Diferencias revisadas contrato por contrato con Jennifer y Yurley',
       'Dos semanas en paralelo con el Excel y capacitación por rol',
