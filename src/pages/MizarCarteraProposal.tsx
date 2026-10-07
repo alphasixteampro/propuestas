@@ -9,7 +9,7 @@ import {
   Wallet, Calculator, FileSearch, TriangleAlert, TrendingUp,
   Landmark, HandCoins, Scale, Gamepad2, UserPlus, Puzzle, ArrowRight,
   MousePointerClick, Monitor, Search, ShieldCheck,
-  Building2, BookOpen, ListChecks,
+  Building2, BookOpen, ListChecks, ChevronDown,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -465,6 +465,8 @@ const MizarCarteraProposal = () => {
   const [moduloActivo, setModuloActivo] = useState<number | null>(null);
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
   const [seleccion, setSeleccion] = useState<Set<string>>(() => new Set(SELECCION_INICIAL));
+  const [detalles, setDetalles] = useState<Set<string>>(() => new Set());
+  const alternarDetalle = (c: string) => setDetalles(prev => { const n = new Set(prev); if (n.has(c)) n.delete(c); else n.add(c); return n; });
   const [aviso, setAviso] = useState<string | null>(null);
 
   const totalModulos = precioModulosDe(seleccion);
@@ -1169,7 +1171,26 @@ const MizarCarteraProposal = () => {
                           )}
                         </div>
                         <p className="font-poppins font-bold text-white/85 text-[16px] flex-shrink-0 whitespace-nowrap" style={{ opacity: activo ? 1 : 0.4 }}>{cop(m.precio)}</p>
+                        <button type="button" onClick={(ev) => { ev.preventDefault(); alternarDetalle(m.num); }}
+                          aria-expanded={detalles.has(m.num)} aria-label={(detalles.has(m.num) ? 'Ocultar' : 'Ver') + ' detalle de ' + etiquetaDe(m.num)}
+                          className="no-print flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md font-lato text-[13px] text-white/55 hover:text-white hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]">
+                          <span className="hidden sm:inline">Detalle</span>
+                          <ChevronDown className={'w-4 h-4 transition-transform' + (detalles.has(m.num) ? ' rotate-180' : '')} />
+                        </button>
                       </label>
+                      {detalles.has(m.num) && (
+                        <div className="pl-[4.25rem] pr-4 sm:pr-5 pb-4 -mt-1 space-y-2" style={{ opacity: activo ? 1 : 0.6 }}>
+                          <p className="font-lato text-white/70 text-[15px] leading-snug">{m.descripcion}</p>
+                          <ul className="space-y-1">
+                            {m.items.map((it, k) => (
+                              <li key={k} className="flex gap-2 font-lato text-white/60 text-[14px] leading-snug">
+                                <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: m.color }} />{it}
+                              </li>
+                            ))}
+                          </ul>
+                          <p className="font-lato text-white/45 text-[13px] leading-snug"><span className="text-white/60 font-semibold">{m.semanas}</span> · Se entrega cuando: {m.entregable}</p>
+                        </div>
+                      )}
                       {m.extra && (
                         <label className="flex items-start gap-3 px-4 sm:px-5 py-3 cursor-pointer transition-colors hover:bg-white/[0.02] focus-within:bg-white/[0.04]"
                           style={{ background: opcionActiva ? m.colorAlpha : 'transparent', borderTop: '1px solid rgba(255,255,255,.05)' }}>
@@ -1187,7 +1208,27 @@ const MizarCarteraProposal = () => {
                             <p className="font-lato text-white/35 text-[13px] leading-snug mt-0.5">Requiere: {m.num}</p>
                           </div>
                           <p className="font-poppins font-bold text-[16px] flex-shrink-0 whitespace-nowrap" style={{ color: opcionActiva ? m.color : 'rgba(255,255,255,.35)', opacity: opcionActiva ? 1 : 0.6 }}>+{cop(m.extra.precio)}</p>
+                        <button type="button" onClick={(ev) => { ev.preventDefault(); alternarDetalle(codigoOpcion); }}
+                          aria-expanded={detalles.has(codigoOpcion)} aria-label={(detalles.has(codigoOpcion) ? 'Ocultar' : 'Ver') + ' detalle de ' + etiquetaDe(codigoOpcion)}
+                          className="no-print flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md font-lato text-[13px] text-white/55 hover:text-white hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]">
+                          <span className="hidden sm:inline">Detalle</span>
+                          <ChevronDown className={'w-4 h-4 transition-transform' + (detalles.has(codigoOpcion) ? ' rotate-180' : '')} />
+                        </button>
                         </label>
+                      )}
+                      {m.extra && detalles.has(codigoOpcion) && (
+                        <div className="pl-[4.25rem] pr-4 sm:pr-5 pb-4 pt-1 space-y-2" style={{ background: opcionActiva ? m.colorAlpha : 'transparent', opacity: opcionActiva ? 1 : 0.6 }}>
+                          {m.extra.descripcion && <p className="font-lato text-white/70 text-[15px] leading-snug">{m.extra.descripcion}</p>}
+                          <ul className="space-y-1">
+                            {m.extra.items.map((it, k) => (
+                              <li key={k} className="flex gap-2 font-lato text-white/60 text-[14px] leading-snug">
+                                <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: m.color }} />{it}
+                              </li>
+                            ))}
+                          </ul>
+                          {m.extra.nota && <p className="font-lato text-white/45 text-[13px] leading-snug">{m.extra.nota}</p>}
+                          <p className="font-lato text-white/45 text-[13px]"><span className="text-white/60 font-semibold">{m.extra.semanas}</span></p>
+                        </div>
                       )}
                     </React.Fragment>
                   );
