@@ -425,7 +425,6 @@ const SECCIONES = [
   { id: 'resumen',    label: 'Resumen'     },
   { id: 'beneficios', label: 'Beneficios'  },
   { id: 'demo',       label: 'Demo'        },
-  { id: 'incluye',    label: 'Módulos'     },
   { id: 'pedidos',    label: 'Lo pedido'   },
   { id: 'alcance',    label: 'Alcance'     },
   { id: 'inversion',  label: 'Inversión'   },
@@ -677,7 +676,7 @@ const MizarCarteraProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen','2. Lo que cambia','3. Pruebe la demo','4. Tres etapas, doce módulos','5. Lo que pidieron','6. Alcance','7. Inversión','8. Términos'].map((item, i) => (
+                  {['1. Resumen','2. Lo que cambia','3. Pruebe la demo','4. Lo que pidieron','5. Alcance','6. Módulos e inversión','7. Términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -927,134 +926,10 @@ const MizarCarteraProposal = () => {
           </div>
         </section>
 
-        {/* ─ 04 MÓDULOS ─ */}
-        <section id="incluye" ref={s3.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 · Tres etapas, doce módulos</TagLabel>
-          <SectionTitle>Qué recibe Mizar y cuánto cuesta cada parte</SectionTitle>
-          <Rule />
-
-          <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-6">
-            Cada etapa deja una parte del sistema funcionando. La Cartera básica (etapa 1) es el punto de partida y lo demás se suma encima. Toca un módulo para ver qué incluye.
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
-            {ETAPAS.map((e, k) => (
-              <div key={e.num} className="rounded-xl p-4 relative" style={{ background: e.colorAlpha, border: `1px solid ${e.colorBorder}` }}>
-                <p className="font-lato text-[12px] uppercase tracking-wider mb-1" style={{ color: e.color }}>Etapa {e.num} · {e.semanas}</p>
-                {e.distintivo && (
-                  <span className="inline-block font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider mb-1.5"
-                    style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${e.colorBorder}`, color: e.color }}>{e.distintivo}</span>
-                )}
-                <p className="font-poppins font-bold text-white text-[18px] leading-tight">{e.nombre}</p>
-                <p className="font-lato text-white/45 text-[14px] mb-2">{e.lema}</p>
-                <p className="font-poppins font-black text-white/85 text-[18px]">{cop(precioEtapa(e.num))}
-                  {opcionalEtapa(e.num) > 0 && <span className="font-lato font-normal text-white/40 text-[13px]"> + {cuentaOpciones(e.num) > 1 ? 'opciones' : 'opción'} {cop(opcionalEtapa(e.num))}</span>}
-                </p>
-                {k < ETAPAS.length - 1 && (
-                  <ArrowRight className="hidden sm:block absolute -right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-10">
-            {ETAPAS.map((e) => (
-              <div key={e.num}>
-                <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-                  <p className="font-poppins font-black text-[20px]" style={{ color: e.color }}>Etapa {e.num} · {e.nombre}</p>
-                  <span className="font-lato text-white/40 text-[14px]">{e.semanas}</span>
-                  {e.distintivo && (
-                    <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider self-center"
-                      style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${e.colorBorder}`, color: e.color }}>{e.distintivo}</span>
-                  )}
-                </div>
-                <p className="font-lato text-white/55 text-[15px] mb-4 flex items-start gap-2">
-                  <Zap className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: e.color }} />
-                  <span><strong className="text-white/80">Al terminarla:</strong> {e.resultado}</span>
-                </p>
-
-                <div className="space-y-3">
-                  {MODULOS.map((mod, i) => {
-                    if (mod.etapa !== e.num) return null;
-                    const Icon = mod.icon;
-                    const open = moduloActivo === i;
-                    return (
-                      <div key={i} className="rounded-xl overflow-hidden transition-all duration-300"
-                        style={{ background: 'rgba(255,255,255,.03)', border: open ? `1px solid ${mod.colorBorder}` : '1px solid rgba(255,255,255,.07)' }}>
-                        <button onClick={() => setModuloActivo(open ? null : i)}
-                          className="w-full flex items-center gap-3 p-4 sm:p-5 text-left">
-                          <div className="hidden sm:flex w-9 h-9 rounded-lg items-center justify-center flex-shrink-0"
-                            style={{ background: open ? mod.colorAlpha : 'rgba(255,255,255,.05)' }}>
-                            <Icon className="w-4 h-4" style={{ color: open ? mod.color : 'rgba(255,255,255,.4)' }} />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <span className={`font-poppins font-bold text-[18px] ${open ? 'text-white' : 'text-white/80'}`}>
-                              <span style={{ color: mod.color }}>{mod.num} · </span>{mod.nombre}
-                            </span>
-                            <p className="font-lato text-white/50 text-[15px] mt-0.5">{mod.descripcion}</p>
-                          </div>
-                          <div className="flex-shrink-0 text-right ml-2">
-                            <p className="font-poppins font-black text-[17px] leading-tight" style={{ color: open ? mod.color : 'rgba(255,255,255,.8)' }}>{cop(mod.precio)}</p>
-                            <p className="font-lato text-white/30 text-[12px]">{mod.semanas}</p>
-                          </div>
-                          <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ml-1 ${open ? 'rotate-90' : ''}`}
-                            style={{ color: open ? mod.color : 'rgba(255,255,255,.3)' }} />
-                        </button>
-
-                        {open && (
-                          <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                            <ul className="space-y-2 pt-4">
-                              {mod.items.map((item, j) => (
-                                <li key={j} className="flex items-start gap-2">
-                                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
-                                  <span className="font-lato text-white/70 text-[16px] flex-1">{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                            <p className="font-lato text-white/45 text-[14px] mt-3"><strong className="text-white/70">Se entrega cuando:</strong> {mod.entregable}.</p>
-                            <p className="font-lato text-white/45 text-[14px] mt-1"><strong className="text-white/70">Requiere:</strong> {mod.requiere}.</p>
-
-                            {mod.extra && (
-                              <div className="mt-4 rounded-xl p-4" style={{ background: mod.colorAlpha, border: `1px dashed ${mod.colorBorder}` }}>
-                                <div className="flex flex-wrap items-center gap-2 mb-1">
-                                  <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
-                                    style={{ background: 'rgba(255,255,255,.06)', border: `1px solid ${mod.colorBorder}`, color: mod.color }}>Opcional</span>
-                                  <p className="font-poppins font-bold text-white/90 text-[16px]">{mod.extra.nombre}</p>
-                                  <p className="font-poppins font-black text-[16px] ml-auto" style={{ color: mod.color }}>+{cop(mod.extra.precio)}</p>
-                                </div>
-                                <p className="font-lato text-white/50 text-[14px] mb-2">{mod.extra.descripcion} {mod.extra.semanas}.</p>
-                                <ul className="space-y-1.5">
-                                  {mod.extra.items.map((item, j) => (
-                                    <li key={j} className="flex items-start gap-2">
-                                      <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: mod.color }} />
-                                      <span className="font-lato text-white/65 text-[15px] flex-1">{item}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                                {mod.extra.nota && (
-                                  <p className="font-lato text-white/45 text-[14px] mt-3 flex items-start gap-2">
-                                    <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: mod.color }} />
-                                    <span>{mod.extra.nota}</span>
-                                  </p>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ─ 05 LO QUE PIDIERON ─ */}
+        {/* ─ 04 LO QUE PIDIERON ─ */}
         <section id="pedidos" ref={s9.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s9.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 · Lo que pidieron</TagLabel>
+          <TagLabel>04 · Lo que pidieron</TagLabel>
           <SectionTitle>Cada pedido de la reunión, resuelto</SectionTitle>
           <Rule />
 
@@ -1086,7 +961,7 @@ const MizarCarteraProposal = () => {
         {/* ─ 06 ALCANCE ─ */}
         <section id="alcance" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 · Alcance</TagLabel>
+          <TagLabel>05 · Alcance</TagLabel>
           <SectionTitle>Qué no incluye</SectionTitle>
           <Rule />
 
@@ -1110,7 +985,7 @@ const MizarCarteraProposal = () => {
         {/* ─ 07 INVERSIÓN ─ */}
         <section id="inversion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 · Inversión</TagLabel>
+          <TagLabel>06 · Módulos e inversión</TagLabel>
           <SectionTitle>Cada parte con su precio.</SectionTitle>
           <Rule />
 
@@ -1147,6 +1022,7 @@ const MizarCarteraProposal = () => {
                   {etapaIncluida(e.num)
                     ? <p className="font-poppins font-bold text-white/80 text-[15px] whitespace-nowrap">Subtotal {cop(subtotalEtapa(e.num))}</p>
                     : <p className="font-lato text-white/45 text-[14px] whitespace-nowrap">No incluida</p>}
+                  <p className="font-lato text-white/55 text-[14px] leading-snug w-full mt-1"><span className="font-semibold" style={{ color: e.color }}>Al terminarla:</span> {e.resultado}</p>
                 </div>
                 {MODULOS.filter(m => m.etapa === e.num).map((m) => {
                   const fijo = m.minimo;
@@ -1397,7 +1273,7 @@ const MizarCarteraProposal = () => {
         {/* ─ 08 TÉRMINOS ─ */}
         <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>08 · Términos</TagLabel>
+          <TagLabel>07 · Términos</TagLabel>
           <SectionTitle>Términos de la propuesta</SectionTitle>
           <Rule />
 
