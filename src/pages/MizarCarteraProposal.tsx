@@ -93,7 +93,7 @@ const E3 = { color: '#00bfa5', colorAlpha: 'rgba(0,191,165,.10)', colorBorder: '
 
 const MODULOS: Modulo[] = [
   // ── Etapa 1 · Cartera básica (paquete mínimo) ──
-  { num: '01', etapa: 1, ...E1, icon: Building2, semanas: 'Semana 1', precio: 2450000, requiere: 'nada', minimo: true,
+  { num: '01', etapa: 1, ...E1, icon: Building2, semanas: 'Semana 1', precio: 3450000, requiere: 'nada', minimo: true,
     nombre: 'Base del grupo: empresas, sociedades, proyectos y lotes',
     descripcion: 'Todo el grupo en un solo lugar: cada proyecto con su sociedad, sus lotes y las cuentas donde recibe dinero.',
     items: [
@@ -143,7 +143,7 @@ const MODULOS: Modulo[] = [
       'Ventas frente a recaudo y el cumplimiento del mes',
       'Cartera y morosos del proyecto',
       'Dónde entró el dinero del proyecto',
-      'Suma gastos, flujo y socios cuando se contratan los módulos 11 y 12',
+      'Suma gastos, flujo y socios cuando se contratan los módulos 10 y 11',
       'Descarga en Excel o PDF',
     ],
     entregable: 'La vista de Miradores de la Montaña cuadre con su Excel de flujo' },
@@ -162,7 +162,7 @@ const MODULOS: Modulo[] = [
     entregable: 'El 100 % de los saldos sea igual al Excel y se retire el libro diario' },
 
   // ── Etapa 2 · Cobro y verificación ──
-  { num: '06', etapa: 2, ...E2, icon: ShieldCheck, semanas: 'Semanas 8 y 9', precio: 1300000, requiere: 'Cartera básica', minimo: false,
+  { num: '06', etapa: 2, ...E2, icon: ShieldCheck, semanas: 'Semanas 8 y 9', precio: 300000, requiere: 'Cartera básica', minimo: false,
     nombre: 'Verificación de pagos con el banco',
     descripcion: 'Tesorería confirma cada pago con el movimiento del banco, no a ojo.',
     items: [
@@ -236,27 +236,7 @@ const MODULOS: Modulo[] = [
       ] } },
 
   // ── Etapa 3 · Dinero, socios y gerencia ──
-  { num: '10', etapa: 3, ...E3, icon: Landmark, semanas: 'Semanas 12 y 13', precio: 1300000, requiere: 'Cartera básica y 06', minimo: false,
-    nombre: 'Tesorería: cuentas, traslados y conciliación',
-    descripcion: 'Todo el dinero del grupo, cuadrado con los bancos cada mes.',
-    items: [
-      'Saldo al día de cada cuenta, por sociedad',
-      'Todos los ingresos, no solo las cuotas',
-      'Traslados entre cuentas y entre sociedades, con lo que se deben entre ellas',
-      'Salidas de compras y caja menor cruzadas con el extracto',
-      'Cierre de mes con cada diferencia explicada',
-      'Información lista para el contador, exportable a Helisa',
-    ],
-    entregable: 'Un mes de dos cuentas quede conciliado al peso',
-    extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 1400000, semanas: 'Semanas 18 y 19',
-      descripcion: 'La contabilidad de ingresos y cartera se hace sola.',
-      items: [
-        'Comprobantes automáticos de pagos, mora, descuentos, comisiones y traslados',
-        'Libros auxiliares por sociedad',
-        'Estado de ingresos y cartera por sociedad, cuadrado con el contador',
-      ],
-      nota: 'El balance general completo sigue en el sistema contable actual.' } },
-  { num: '11', etapa: 3, ...E3, icon: TrendingUp, semanas: 'Semanas 13 y 14', precio: 1400000, requiere: 'Cartera básica', minimo: false,
+  { num: '10', etapa: 3, ...E3, icon: TrendingUp, semanas: 'Semanas 12 y 13', precio: 1400000, requiere: 'Cartera básica', minimo: false,
     nombre: 'Flujo de caja e informes de gerencia',
     descripcion: 'Mes a mes, lo programado, lo recogido y lo gastado, para decidir si tomar más proyectos.',
     items: [
@@ -270,26 +250,34 @@ const MODULOS: Modulo[] = [
       'Gastos y flujo dentro de la vista de cada proyecto',
     ],
     entregable: 'El flujo de un mes sea igual al consolidado de gerencia' },
-  { num: '12', etapa: 3, ...E3, icon: Scale, semanas: 'Semanas 15 y 16', precio: 1200000, requiere: 'Cartera básica y 11', minimo: false,
-    nombre: 'Socios, comisiones y reparto',
-    descripcion: 'Cada socio recibe su informe con el porcentaje que le tocaba en cada fecha.',
+  { num: '11', etapa: 3, ...E3, icon: Landmark, semanas: 'Semanas 14 a 16', precio: 2500000, requiere: 'Cartera básica, 06 y 10', minimo: false,
+    nombre: 'Tesorería, socios y reparto',
+    descripcion: 'Todo el dinero del grupo cuadrado con los bancos, y cada socio con su informe según el porcentaje de cada fecha.',
     items: [
-      'Porcentajes de los socios por proyecto, con la fecha desde la que rigen',
-      'Excepciones por lote o por cliente',
-      'Ingresos y gastos repartidos con el porcentaje vigente en su fecha, sin fórmulas a mano',
+      'Saldo al día de cada cuenta, por sociedad, y traslados entre cuentas y sociedades con lo que se deben',
+      'Salidas de compras y caja menor cruzadas con el extracto; cierre de mes con cada diferencia explicada',
+      'Porcentajes de los socios por proyecto con la fecha desde la que rigen, y excepciones por lote o cliente',
+      'Ingresos y gastos repartidos con el porcentaje vigente, sin fórmulas a mano',
       'Informe sencillo por socio: se recogió, se gastó, comisiones y lo que le corresponde',
-      'Comisiones por proyecto y por vendedor, causadas, pagadas y pendientes',
-      'Venta de lotes de terceros por encargo, con su comisión y lo pagado al dueño',
+      'Comisiones por proyecto y por vendedor; venta de lotes de terceros por encargo',
       'Cierre mensual del informe, que no cambia después de enviado',
-      'Socios dentro de la vista de cada proyecto',
+      'Información lista para el contador, exportable a Helisa',
     ],
-    entregable: 'El informe a socios de un mes sea igual al que hoy arma gerencia' },
+    entregable: 'Un mes de dos cuentas quede conciliado al peso y el informe a socios sea igual al que hoy arma gerencia',
+    extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 1400000, semanas: 'Semanas 18 y 19',
+      descripcion: 'La contabilidad de ingresos y cartera se hace sola.',
+      items: [
+        'Comprobantes automáticos de pagos, mora, descuentos, comisiones y traslados',
+        'Libros auxiliares por sociedad',
+        'Estado de ingresos y cartera por sociedad, cuadrado con el contador',
+      ],
+      nota: 'El balance general completo sigue en el sistema contable actual.' } },
 ];
 
 const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
 const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
-// Precio cerrado si Mizar elige todo: los 12 módulos y las 4 opciones.
+// Precio cerrado si Mizar elige todo: los 11 módulos y las 4 opciones.
 const PRECIO_TODO_CON_DESCUENTO = 17000000;
 const DESCUENTO_TODO = PRECIO_TOTAL - PRECIO_TODO_CON_DESCUENTO;
 const DESCUENTO_TODO_PCT = Math.round((DESCUENTO_TODO / PRECIO_TOTAL) * 100);
@@ -305,7 +293,7 @@ const CODIGOS_MINIMO = MODULOS.filter(m => m.minimo).map(m => m.num);
 const cop = (n: number) => '$' + n.toLocaleString('es-CO');
 
 // ─── ARMADOR DE PAQUETE ──────────────────────────────────────────────────────
-// La selección guarda códigos de módulo ('01' a '12') y de opción ('06+', '07+', '09+', '10+').
+// La selección guarda códigos de módulo ('01' a '11') y de opción ('06+', '07+', '09+', '10+').
 
 const CODIGOS_MODULOS = MODULOS.map(m => m.num);
 const CODIGOS_OPCIONES = MODULOS.filter(m => m.extra).map(m => m.num + '+');
@@ -314,22 +302,21 @@ const CODIGOS_TODO = [...CODIGOS_MODULOS, ...CODIGOS_OPCIONES];
 // Qué necesita cada pieza además de la Cartera básica (que siempre va incluida).
 const DEPENDE_DE: Record<string, string[]> = {
   '07': ['06'],
-  '10': ['06'],
-  '12': ['11'],
+  '11': ['06', '10'],
   '06+': ['06'],
   '07+': ['07'],
   '09+': ['09'],
-  '10+': ['10'],
+  '11+': ['11'],
 };
 
 // Semanas que suma cada pieza elegida por encima de la Cartera básica (7 semanas).
 const SEMANAS_DE: Record<string, number> = {
-  '06': 2, '07': 2, '08': 2, '09': 1, '10': 2, '11': 2, '12': 2,
-  '06+': 1, '07+': 1, '09+': 1, '10+': 2,
+  '06': 2, '07': 2, '08': 2, '09': 1, '10': 2, '11': 4,
+  '06+': 1, '07+': 1, '09+': 1, '11+': 2,
 };
 const SEMANAS_BASE = 7;
 
-const SELECCION_INICIAL = [...CODIGOS_MODULOS, '06+', '09+', '10+'];
+const SELECCION_INICIAL = [...CODIGOS_MODULOS, '06+', '09+', '11+'];
 
 const semanasDe = (sel: Set<string>) => {
   const suma = (codigos: string[]) => codigos.filter(c => sel.has(c)).reduce((s, c) => s + (SEMANAS_DE[c] ?? 0), 0);
@@ -354,7 +341,7 @@ const listaDe = (codigos: string[]) => unir(codigos.length <= 2 ? codigos.map(et
 const RUTAS: { clave: string; nombre: string; codigos: string[] }[] = [
   { clave: 'minimo', nombre: 'Paquete mínimo', codigos: CODIGOS_MINIMO },
   { clave: 'A', nombre: 'Ruta A', codigos: rango('01', '09') },
-  { clave: 'B', nombre: 'Ruta B', codigos: [...CODIGOS_MINIMO, '11', '12'] },
+  { clave: 'B', nombre: 'Ruta B', codigos: [...CODIGOS_MINIMO, '06', '10', '11'] },
   { clave: 'C', nombre: 'Ruta C (todo)', codigos: CODIGOS_TODO },
 ];
 const rutaDe = (clave: string) => RUTAS.find(r => r.clave === clave)!;
@@ -385,11 +372,11 @@ const PEDIDOS: { etapa: number; items: { pedido: string; donde: string }[] }[] =
     { pedido: 'Campañas y rachas al estilo Duolingo', donde: '09 · opción' },
   ] },
   { etapa: 3, items: [
-    { pedido: 'Varias cuentas bancarias, cuadradas con el extracto', donde: '10' },
-    { pedido: 'Flujo de caja para decidir nuevos proyectos', donde: '11' },
-    { pedido: 'Socios con porcentajes que cambian en el tiempo', donde: '12' },
-    { pedido: 'Informe sencillo para cada socio', donde: '12' },
-    { pedido: 'Comisiones de venta', donde: '12' },
+    { pedido: 'Flujo de caja para decidir nuevos proyectos', donde: '10' },
+    { pedido: 'Varias cuentas bancarias, cuadradas con el extracto', donde: '11' },
+    { pedido: 'Socios con porcentajes que cambian en el tiempo', donde: '11' },
+    { pedido: 'Informe sencillo para cada socio', donde: '11' },
+    { pedido: 'Comisiones de venta', donde: '11' },
   ] },
 ];
 
@@ -1140,7 +1127,7 @@ const MizarCarteraProposal = () => {
                 <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg px-3 py-2.5 mt-1"
                   style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
                   <p className="font-lato text-white/70 text-[14px] leading-snug flex-1 min-w-[200px]">
-                    Si eliges todo (12 módulos y 4 opciones), el total queda en <span className="font-semibold text-white/90">{cop(PRECIO_TODO_CON_DESCUENTO)}</span>: {DESCUENTO_TODO_PCT} % menos, ahorras {cop(DESCUENTO_TODO)}.
+                    Si eliges todo (11 módulos y 4 opciones), el total queda en <span className="font-semibold text-white/90">{cop(PRECIO_TODO_CON_DESCUENTO)}</span>: {DESCUENTO_TODO_PCT} % menos, ahorras {cop(DESCUENTO_TODO)}.
                   </p>
                   <button type="button" onClick={() => armar(CODIGOS_TODO, `Paquete armado: todo incluido, con ${DESCUENTO_TODO_PCT} % de descuento.`)}
                     className="no-print inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-poppins font-semibold text-[14px] text-[#00bfa5] transition-colors hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]"
@@ -1199,8 +1186,8 @@ const MizarCarteraProposal = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
               {[
                 { l: 'A', t: 'Primero el día a día de cartera', m: '01 a 09', precio: cop(precioDe(rutaDe('A').codigos)), sem: '11 semanas', d: 'Pagos confirmados con el banco y cobro ordenado.' },
-                { l: 'B', t: 'Primero flujo y socios', m: 'Cartera básica + 11 + 12', precio: cop(precioDe(rutaDe('B').codigos)), sem: '11 semanas', d: 'Los bancos se siguen cuadrando a mano hasta sumar 06 y 10.' },
-                { l: 'C', t: 'Todo', m: '12 módulos y 4 opciones', precio: cop(PRECIO_TODO_CON_DESCUENTO), sem: '19 semanas', d: `Precio cerrado con ${DESCUENTO_TODO_PCT} % de descuento; sin descuento serían ${cop(PRECIO_TOTAL)}.` },
+                { l: 'B', t: 'Primero flujo y socios', m: 'Cartera básica + 06 + 10 + 11', precio: cop(precioDe(rutaDe('B').codigos)), sem: '14 semanas', d: 'Flujo de caja, bancos cuadrados e informe a socios; incluye la verificación con el banco, que la tesorería necesita.' },
+                { l: 'C', t: 'Todo', m: '11 módulos y 4 opciones', precio: cop(PRECIO_TODO_CON_DESCUENTO), sem: '19 semanas', d: `Precio cerrado con ${DESCUENTO_TODO_PCT} % de descuento; sin descuento serían ${cop(PRECIO_TOTAL)}.` },
               ].map((r) => (
                 <div key={r.l} className="rounded-xl p-4 flex flex-col" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.09)' }}>
                   <p className="font-lato text-[12px] uppercase tracking-wider mb-1" style={{ color: MIZAR_GOLD }}>Ruta {r.l}</p>
