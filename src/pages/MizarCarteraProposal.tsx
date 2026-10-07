@@ -259,20 +259,13 @@ const MODULOS: Modulo[] = [
       'Comprobantes contables de las comisiones y de los traslados entre cuentas y sociedades',
       'Información lista para el contador, exportable a Helisa',
     ],
-    entregable: 'Un mes de dos cuentas quede conciliado al peso y el informe a socios sea igual al que hoy arma gerencia',
-    extra: { nombre: 'Contabilidad de ingresos y cartera', precio: 980000, semanas: 'Semanas 18 y 19',
-      descripcion: 'La contabilidad de ingresos y cartera se hace sola.',
-      items: [
-        'Libros auxiliares por sociedad',
-        'Estado de ingresos y cartera por sociedad, cuadrado con el contador',
-      ],
-      nota: 'El balance general completo sigue en el sistema contable actual.' } },
+    entregable: 'Un mes de dos cuentas quede conciliado al peso y el informe a socios sea igual al que hoy arma gerencia' },
 ];
 
 const PRECIO_ESENCIAL = MODULOS.reduce((s, m) => s + m.precio, 0);
 const PRECIO_OPCIONAL = MODULOS.reduce((s, m) => s + (m.extra?.precio ?? 0), 0);
 const PRECIO_TOTAL = PRECIO_ESENCIAL + PRECIO_OPCIONAL;
-// Precio cerrado si Mizar elige todo: los 11 módulos y las 4 opciones.
+// Precio cerrado si Mizar elige todo: los 11 módulos y las 3 opciones.
 const PRECIO_TODO_CON_DESCUENTO = 17000000;
 const DESCUENTO_TODO = PRECIO_TOTAL - PRECIO_TODO_CON_DESCUENTO;
 const DESCUENTO_TODO_PCT = Math.round((DESCUENTO_TODO / PRECIO_TOTAL) * 100);
@@ -301,17 +294,16 @@ const DEPENDE_DE: Record<string, string[]> = {
   '06+': ['06'],
   '07+': ['07'],
   '09+': ['09'],
-  '11+': ['11'],
 };
 
 // Semanas que suma cada pieza elegida por encima de la Cartera básica (7 semanas).
 const SEMANAS_DE: Record<string, number> = {
   '06': 2, '07': 2, '08': 2, '09': 1, '10': 2, '11': 4,
-  '06+': 1, '07+': 1, '09+': 1, '11+': 2,
+  '06+': 1, '07+': 1, '09+': 1,
 };
 const SEMANAS_BASE = 7;
 
-const SELECCION_INICIAL = [...CODIGOS_MODULOS, '06+', '09+', '11+'];
+const SELECCION_INICIAL = [...CODIGOS_MODULOS, '06+', '09+'];
 
 const semanasDe = (sel: Set<string>) => {
   const suma = (codigos: string[]) => codigos.filter(c => sel.has(c)).reduce((s, c) => s + (SEMANAS_DE[c] ?? 0), 0);
@@ -1122,7 +1114,7 @@ const MizarCarteraProposal = () => {
                 <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg px-3 py-2.5 mt-1"
                   style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.22)' }}>
                   <p className="font-lato text-white/70 text-[14px] leading-snug flex-1 min-w-[200px]">
-                    Si eliges todo (11 módulos y 4 opciones), el total queda en <span className="font-semibold text-white/90">{cop(PRECIO_TODO_CON_DESCUENTO)}</span>: {DESCUENTO_TODO_PCT} % menos, ahorras {cop(DESCUENTO_TODO)}.
+                    Si eliges todo (11 módulos y 3 opciones), el total queda en <span className="font-semibold text-white/90">{cop(PRECIO_TODO_CON_DESCUENTO)}</span>: {DESCUENTO_TODO_PCT} % menos, ahorras {cop(DESCUENTO_TODO)}.
                   </p>
                   <button type="button" onClick={() => armar(CODIGOS_TODO, `Paquete armado: todo incluido, con ${DESCUENTO_TODO_PCT} % de descuento.`)}
                     className="no-print inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-poppins font-semibold text-[14px] text-[#00bfa5] transition-colors hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]"
@@ -1182,7 +1174,7 @@ const MizarCarteraProposal = () => {
               {[
                 { l: 'A', t: 'Primero el día a día de cartera', m: '01 a 09', precio: cop(precioDe(rutaDe('A').codigos)), sem: '11 semanas', d: 'Pagos confirmados con el banco y cobro ordenado.' },
                 { l: 'B', t: 'Primero flujo y socios', m: 'Cartera básica + 06 + 10 + 11', precio: cop(precioDe(rutaDe('B').codigos)), sem: '14 semanas', d: 'Flujo de caja, bancos cuadrados e informe a socios; incluye la verificación con el banco, que la tesorería necesita.' },
-                { l: 'C', t: 'Todo', m: '11 módulos y 4 opciones', precio: cop(PRECIO_TODO_CON_DESCUENTO), sem: '19 semanas', d: `Precio cerrado con ${DESCUENTO_TODO_PCT} % de descuento; sin descuento serían ${cop(PRECIO_TOTAL)}.` },
+                { l: 'C', t: 'Todo', m: '11 módulos y 3 opciones', precio: cop(PRECIO_TODO_CON_DESCUENTO), sem: '19 semanas', d: `Precio cerrado con ${DESCUENTO_TODO_PCT} % de descuento; sin descuento serían ${cop(PRECIO_TOTAL)}.` },
               ].map((r) => (
                 <div key={r.l} className="rounded-xl p-4 flex flex-col" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.09)' }}>
                   <p className="font-lato text-[12px] uppercase tracking-wider mb-1" style={{ color: MIZAR_GOLD }}>Ruta {r.l}</p>
