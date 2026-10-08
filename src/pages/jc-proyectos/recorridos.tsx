@@ -2,7 +2,7 @@
 // la persona y la pantalla que tocan, resalta dónde hacer clic y espera a que la acción se haga
 // (o la hace con "Hacerlo por mí", útil cuando se presenta en vivo).
 import React, { useEffect } from 'react';
-import { PlayCircle, X, ChevronLeft, ChevronRight, Wand2, CheckCircle2 } from 'lucide-react';
+import { PlayCircle, X, ChevronLeft, ChevronRight, Wand2, CheckCircle2, MousePointerClick, PenLine } from 'lucide-react';
 import { C, Modal, Boton } from './ui';
 import { HOY, DIA_HOY, lineaDe, num, money, calcularNomina, EstadoLinea, FrenteId, Requisicion, Trabajador } from './datos';
 import { totalesNomina } from './nomina';
@@ -20,13 +20,33 @@ export interface Paso {
   texto: (c: ContextoRecorrido) => string;
   preparar: (c: ContextoRecorrido) => Preparar;
   objetivo?: (c: ContextoRecorrido) => string;
+  // Dónde tiene que escribir o tocar la persona, en orden. Se señala el primero que aún falta.
+  senalar?: (c: ContextoRecorrido) => Senal[];
   listo?: (c: ContextoRecorrido) => boolean;
   hecho?: (c: ContextoRecorrido) => string;
   hacer?: (c: ContextoRecorrido) => Accion;
 }
 export interface Recorrido { id: string; titulo: string; descripcion: string; duracion: string; pasos: Paso[]; }
 
-const reqDe = (c: ContextoRecorrido): Requisicion | undefined => c.estado.reqs.find(r => r.id === c.reqId);
+// Un botón, campo o lista donde hay que actuar. "conTexto" distingue botones con el mismo selector.
+export interface Senal {
+  selector: string; conTexto?: string; accion: 'tocar' | 'escribir' | 'elegir'; texto?: string;
+  listo?: () => boolean;
+}
+
+// Con un modal abierto solo se busca dentro de él: lo de atrás no se puede tocar.
+function modalAbierto(): HTMLElement | null {
+  return document.querySelector<HTMLElement>('[role="dialog"]:not([data-recorrido])');
+}
+export function elemento(selector: string, conTexto?: string): HTMLElement | null {
+  const raiz = modalAbierto() ?? document;
+  return Array.from(raiz.querySelectorAll<HTMLElement>(selector))
+    .find(el => (!conTexto || (el.textContent ?? '').includes(conTexto)) && el.getClientRects().length > 0) ?? null;
+}
+const valor = (selector: string) => (elemento(selector) as HTMLInputElement | null)?.value ?? '';
+const CON_SENAL: Senal = { selector: '[data-tour="senal"] button', conTexto: 'Con señal', accion: 'tocar' };
+
+const reqDe =(c: ContextoRecorrido): Requisicion | undefined => c.estado.reqs.find(r => r.id === c.reqId);
 
 // ─────────────────────────────────────────────────────────────────────────
 // RECORRIDO 1: pedir y gestionar materiales en la obra
@@ -49,6 +69,10 @@ const MATERIALES: Recorrido = {
         : 'Así lo ve el residente en obra. Ya están elegidos Cemento y Villa 1: escriba 10 en "Cantidad" y toque "Enviar pedido". Debajo del material se ve cuánto queda en el presupuesto antes de pedir.',
       preparar: () => ({ rol: 'residente', seccion: 'campo' }),
       objetivo: () => 'celular',
+      senalar: c => c.cola.length ? [CON_SENAL] : [
+        { selector: '[data-tour="celular"] #can-0', accion: 'escribir', texto: 'Escriba 10', listo: () => Number(valor('[data-tour="celular"] #can-0')) > 0 },
+        { selector: '[data-tour="celular"] button', conTexto: 'Enviar pedido', accion: 'tocar' },
+      ],
       listo: c => !!reqDe(c),
       hecho: c => `Listo: se creó el pedido ${c.reqId} y ya le llegó a usted para aprobar.`,
       hacer: () => ({ tipo: 'crear-req', items: [{ insumoId: 'cem', frente: 'v1', cantidad: 10 }], nota: 'Colado de castillos', solicitante: 'Residente de obra', origen: 'celular' }),
@@ -60,6 +84,7 @@ const MATERIALES: Recorrido = {
         : 'En la obra casi no hay internet. Si toca "Sin señal" y hace un pedido, se guarda en el teléfono y se envía solo cuando vuelve la conexión. Nada se pierde. Puede probarlo ahora o seguir.',
       preparar: () => ({ rol: 'residente', seccion: 'campo' }),
       objetivo: () => 'senal',
+      senalar: c => (c.cola.length ? [CON_SENAL] : []),
       listo: c => c.cola.length === 0,
     },
     {
@@ -73,6 +98,7 @@ const MATERIALES: Recorrido = {
       texto: c => `Este es el pedido del residente. Revise que queda presupuesto suficiente y toque "Aprobar" en el pedido ${c.reqId}.`,
       preparar: () => ({ rol: 'director', seccion: 'materiales' }),
       objetivo: c => `req-${c.reqId}`,
+      senalar: c => [{ selector: `[data-tour="req-${c.reqId}"] button`, conTexto: 'Aprobar', accion: 'tocar' }],
       listo: c => !!reqDe(c) && reqDe(c)!.estado !== 'por-aprobar',
       hecho: () => 'Aprobado. Compras ya lo tiene en su bandeja.',
       hacer: c => ({ tipo: 'aprobar-req', id: c.reqId }),
@@ -82,6 +108,10 @@ const MATERIALES: Recorrido = {
       texto: c => `Ahora lo ve compras. Toque "Comprar" en ${c.reqId}, elija el proveedor y escriba el precio de la cotización. Si sale más caro que el presupuesto, el sistema lo avisa. Después toque "Generar orden de compra".`,
       preparar: () => ({ rol: 'compras', seccion: 'materiales' }),
       objetivo: c => `req-${c.reqId}`,
+      senalar: c => [
+        { selector: `[data-tour="req-${c.reqId}"] button`, conTexto: 'Comprar', accion: 'tocar' },
+        { selector: 'button', conTexto: 'Generar orden de compra', accion: 'tocar' },
+      ],
       listo: c => ['en-camino', 'incompleta', 'recibida'].includes(reqDe(c)?.estado ?? ''),
       hecho: c => `Orden ${reqDe(c)?.oc ?? ''} generada para ${reqDe(c)?.proveedor ?? 'el proveedor'}. La obra ya ve que viene en camino.`,
       hacer: c => ({ tipo: 'comprar-req', id: c.reqId, proveedor: 'Materiales La Villa', precios: [262], fechaEntrega: HOY }),
@@ -91,6 +121,14 @@ const MATERIALES: Recorrido = {
       texto: () => 'El residente toca "Foto de la remisión" y la IA llena lo que llegó. Para ver qué pasa cuando falta algo, cambie la cantidad a 8 y toque "Confirmar recepción".',
       preparar: c => ({ rol: 'residente', seccion: 'recepcion', recepcion: c.reqId }),
       objetivo: () => 'form-recepcion',
+      senalar: c => {
+        const cantidad = `#rec-${c.reqId}-0`;
+        return [
+          { selector: '[data-tour="form-recepcion"] button', conTexto: 'Foto de la remisión', accion: 'tocar', listo: () => valor(cantidad) !== '' },
+          { selector: cantidad, accion: 'escribir', texto: 'Cambie a 8', listo: () => valor(cantidad) === '8' },
+          { selector: '[data-tour="form-recepcion"] button', conTexto: 'Confirmar recepción', accion: 'tocar' },
+        ];
+      },
       listo: c => (reqDe(c)?.recepciones.length ?? 0) > 0,
       hecho: c => {
         const it = reqDe(c)?.items[0];
@@ -152,6 +190,13 @@ const NOMINA: Recorrido = {
         : 'Todos empiezan como presentes. Toque a Juan Carlos López para marcar que hoy faltó y después "Guardar pase de lista". Funciona igual sin señal: no hace falta el reloj checador.',
       preparar: () => ({ rol: 'residente', seccion: 'campo', pantallaCelular: 'lista' }),
       objetivo: c => (listaEnTelefono(c) ? 'senal' : 'celular'),
+      senalar: c => listaEnTelefono(c) ? [CON_SENAL] : [
+        {
+          selector: '[data-tour="celular"] button', conTexto: 'Juan Carlos López', accion: 'tocar', texto: 'Toque a Juan Carlos',
+          listo: () => (elemento('[data-tour="celular"] button', 'Juan Carlos López')?.textContent ?? '').includes('Faltó'),
+        },
+        { selector: '[data-tour="celular"] button', conTexto: 'Guardar pase de lista', accion: 'tocar' },
+      ],
       listo: listaGuardada,
       hecho: c => {
         const faltas = enObra(c).filter(t => t.asistencia[DIA_HOY] === 'F').length;
@@ -174,6 +219,7 @@ const NOMINA: Recorrido = {
       texto: () => 'Luis González está "En espera" desde el lunes: no se le paga hasta que regrese. Si ya no va a volver, cámbielo a "Baja" en la columna Estado. Los nuevos se dan de alta con el botón "Dar de alta" y aparecen solos en la lista del residente.',
       preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
       objetivo: () => 'trab-t12',
+      senalar: () => [{ selector: 'select[aria-label="Estado de Luis González"]', accion: 'elegir', texto: 'Elija "Baja"' }],
       listo: c => trabajador(c, 't12')?.estado !== 'standby',
       hecho: c => `Luis González quedó como "${ESTADO_TEXTO[trabajador(c, 't12')!.estado]}".`,
       hacer: () => ({ tipo: 'estado-trabajador', id: 't12', estado: 'baja' }),
@@ -198,6 +244,10 @@ const NOMINA: Recorrido = {
       texto: () => 'Toque "Generar archivo del banco". Sale el pago de cada persona con su cuenta, listo para subirlo al banco. Revise el total y toque "Descargar archivo".',
       preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
       objetivo: () => 'btn-banco',
+      senalar: () => [
+        { selector: '[data-tour="btn-banco"] button', conTexto: 'Generar archivo del banco', accion: 'tocar' },
+        { selector: 'button', conTexto: 'Descargar archivo', accion: 'tocar' },
+      ],
       listo: c => c.estado.dispersada,
       hecho: c => `Archivo generado por ${money(totalesNomina(c.estado.cuadrilla).neto)}. Ya no hay que capturar los pagos uno por uno en el banco.`,
       hacer: () => ({ tipo: 'dispersar' }),
@@ -249,7 +299,65 @@ export const ESTILOS_RECORRIDO = `
 tr.tour-foco td { background: #e6faf6; }
 .tour-foco { position: relative; z-index: 5; outline: 3px solid #00bfa5 !important; outline-offset: 4px; animation: tourPulso 1.6s ease-in-out infinite; }
 @keyframes tourPulso { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,191,165,.35); } 50% { box-shadow: 0 0 0 12px rgba(0,191,165,0); } }
+.tour-accion { position: relative; z-index: 6; outline: 3px solid #f59e0b !important; outline-offset: 3px; animation: tourAccion 1.1s ease-in-out infinite; }
+@keyframes tourAccion { 0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,.55); } 50% { box-shadow: 0 0 0 10px rgba(245,158,11,0); } }
+@keyframes tourFlecha { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes tourFlechaAbajo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 `;
+
+interface Marca { x: number; y: number; abajo: boolean; texto: string; accion: Senal['accion']; }
+const TEXTO_ACCION: Record<Senal['accion'], string> = { tocar: 'Toque aquí', escribir: 'Escriba aquí', elegir: 'Elija aquí' };
+
+// Señala el botón o campo donde hay que actuar: lo resalta en ámbar y le pone una etiqueta encima.
+// Revisa seguido porque la acción siguiente aparece después de la anterior (un modal, un botón que se activa).
+function useSenalar(senales: Senal[], clave: string): Marca | null {
+  const ref = React.useRef(senales);
+  ref.current = senales;
+  const [marca, setMarca] = React.useState<Marca | null>(null);
+  useEffect(() => {
+    let actual: HTMLElement | null = null;
+    const revisar = () => {
+      let el: HTMLElement | null = null, senal: Senal | null = null;
+      for (const s of ref.current) {
+        const e = elemento(s.selector, s.conTexto);
+        if (e && !s.listo?.()) { el = e; senal = s; break; }
+      }
+      if (el !== actual) {
+        actual?.classList.remove('tour-accion');
+        actual = el;
+        if (el) { el.classList.add('tour-accion'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      }
+      if (!el || !senal) { setMarca(m => (m ? null : m)); return; }
+      const r = el.getBoundingClientRect();
+      const abajo = r.top < 150;
+      const x = Math.round(Math.min(window.innerWidth - 80, Math.max(80, r.left + r.width / 2)));
+      const y = Math.round(abajo ? r.bottom + 10 : r.top - 10);
+      const texto = senal.texto ?? TEXTO_ACCION[senal.accion];
+      setMarca(m => (m && m.x === x && m.y === y && m.texto === texto && m.abajo === abajo ? m : { x, y, abajo, texto, accion: senal!.accion }));
+    };
+    revisar();
+    const t = window.setInterval(revisar, 200);
+    return () => { window.clearInterval(t); actual?.classList.remove('tour-accion'); setMarca(null); };
+  }, [clave]);
+  return marca;
+}
+
+function EtiquetaAccion({ marca }: { marca: Marca }) {
+  const Icono = marca.accion === 'escribir' ? PenLine : MousePointerClick;
+  return (
+    <div aria-hidden="true" className="no-print" style={{
+      position: 'fixed', left: marca.x, top: marca.y, transform: `translate(-50%, ${marca.abajo ? '0' : '-100%'})`,
+      zIndex: 95, pointerEvents: 'none', transition: 'left .15s, top .15s',
+    }}>
+      <div style={{ display: 'flex', flexDirection: marca.abajo ? 'column-reverse' : 'column', alignItems: 'center', animation: `${marca.abajo ? 'tourFlechaAbajo' : 'tourFlecha'} 1s ease-in-out infinite` }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#f59e0b', color: '#1f1300', fontWeight: 800, fontSize: 13, padding: '6px 12px', borderRadius: 999, whiteSpace: 'nowrap', boxShadow: '0 6px 16px rgba(0,0,0,.25)' }}>
+          <Icono size={15} /> {marca.texto}
+        </span>
+        <span style={{ width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', ...(marca.abajo ? { borderBottom: '9px solid #f59e0b' } : { borderTop: '9px solid #f59e0b' }) }} />
+      </div>
+    </div>
+  );
+}
 
 export function PanelRecorrido({ recorrido, indice, contexto, onIr, onHacer, onSalir }: {
   recorrido: Recorrido; indice: number; contexto: ContextoRecorrido;
@@ -261,9 +369,12 @@ export function PanelRecorrido({ recorrido, indice, contexto, onIr, onHacer, onS
   const listo = paso.listo ? paso.listo(contexto) : true;
   const ultimo = indice === recorrido.pasos.length - 1;
   const total = recorrido.pasos.length;
+  const marca = useSenalar(!listo && paso.senalar ? paso.senalar(contexto) : [], `${recorrido.id}-${indice}`);
 
   return (
-    <div role="dialog" aria-label={`Recorrido: ${recorrido.titulo}`} className="no-print fixed bottom-3 left-3 right-3 lg:right-auto lg:left-[264px] lg:w-[420px]" style={{
+    <>
+    {marca && <EtiquetaAccion marca={marca} />}
+    <div role="dialog" data-recorrido aria-label={`Recorrido: ${recorrido.titulo}`} className="no-print fixed bottom-3 left-3 right-3 lg:right-auto lg:left-[264px] lg:w-[420px]" style={{
       zIndex: 80, background: C.paper, borderRadius: 14, border: `2px solid ${C.teal}`, boxShadow: '0 16px 44px rgba(10,35,66,.32)', padding: 16,
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 6 }}>
@@ -290,6 +401,7 @@ export function PanelRecorrido({ recorrido, indice, contexto, onIr, onHacer, onS
         </div>
       </div>
     </div>
+    </>
   );
 }
 
