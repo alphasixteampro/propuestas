@@ -412,6 +412,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/ln-equipos',
   },
+  {
+    slug: 'jc-proyectos',
+    cliente: 'JC Proyectos',
+    sector: 'Construcción · Materiales, nómina y programa de obra con IA · México · demo',
+    fecha: 'Octubre 2026',
+    monto: 'Por definir · demo para la reunión del 9 de octubre',
+    estado: 'borrador',
+    path: '/jc-proyectos/demo',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -593,7 +602,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' || p.slug === 'jc-proyectos' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -639,6 +648,9 @@ export default function Home() {
                     </div>
                   ) : p.slug === 'nibec' ? (
                     <img src="/Logo nibec.png" alt="Nibec" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'jc-proyectos' ? (
+                    <img src="/jc-proyectos-logo.png" alt="JC Proyectos" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'global-realty' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(224,151,60,.12)', borderRadius: 12 }}>
