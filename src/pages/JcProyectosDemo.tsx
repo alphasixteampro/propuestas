@@ -265,7 +265,11 @@ export default function JcProyectosDemo() {
       {menuTours && <ModalRecorridos onEmpezar={empezarTour} onCerrar={() => setMenuTours(false)} />}
       {recorrido && contextoTour && tour && (
         <PanelRecorrido recorrido={recorrido} indice={tour.paso} contexto={contextoTour} onIr={irPasoTour} onSalir={salirTour}
-          onHacer={a => { dispatch(a); if (!enLinea) { setEnLinea(true); cola.forEach(dispatch); setCola([]); } }} />
+          onHacer={a => {
+            // Sin señal, lo que ya estaba guardado en el teléfono se envía primero; si era esta misma acción, no se repite.
+            if (!enLinea) { setEnLinea(true); cola.forEach(dispatch); setCola([]); if (cola.some(x => x.tipo === a.tipo)) return; }
+            dispatch(a);
+          }} />
       )}
     </div>
   );
