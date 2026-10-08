@@ -314,6 +314,15 @@ const PROPOSALS: Proposal[] = [
     path: '/mizar-cartera',
   },
   {
+    slug: 'mizar-plataforma-cartera-mvp',
+    cliente: 'Mizar · Cartera esencial (MVP)',
+    sector: 'Construcción · Versión 2 de la propuesta de cartera · 6 módulos · 8 semanas · con demo',
+    fecha: 'Octubre 2026',
+    monto: 'COP 9.000.000 + COP 150.000/mes (por confirmar)',
+    estado: 'borrador',
+    path: '/mizar-cartera-mvp',
+  },
+  {
     slug: 'magaly-rosero',
     cliente: 'Magaly Rosero',
     sector: 'Formación empresarial · Empleado IA · Propulsor Compensar · Colombia',
