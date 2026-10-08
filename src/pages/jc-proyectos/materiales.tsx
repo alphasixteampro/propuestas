@@ -207,9 +207,9 @@ export function SeccionMateriales({ reqs, presupuesto, programa, persona, dispat
 
       {alertas.length > 0 && filtro === 'por-aprobar' && (
         <div style={{ marginBottom: 16 }}>
-          <NotaIA titulo="Antes de aprobar">
+          <div data-tour="alerta-ia"><NotaIA titulo="Antes de aprobar">
             <ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>{alertas.map((a, i) => <li key={i}>{a}</li>)}</ul>
-          </NotaIA>
+          </NotaIA></div>
         </div>
       )}
 
@@ -221,7 +221,7 @@ export function SeccionMateriales({ reqs, presupuesto, programa, persona, dispat
           const est = ESTADO_REQ[r.estado];
           const total = r.items.reduce((s, it) => s + it.cantidad * (it.precioCompra ?? insumo(it.insumoId).precio), 0);
           return (
-            <Tarjeta key={r.id}>
+            <Tarjeta key={r.id} tour={`req-${r.id}`}>
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
                 <div>
                   <p style={{ margin: 0, fontWeight: 800, fontSize: 16, fontFamily: 'Poppins, sans-serif' }}>{r.id} {r.oc && <span style={{ color: C.muted, fontWeight: 600, fontSize: 14 }}>· {r.oc}</span>}</p>
@@ -417,7 +417,7 @@ export function SeccionRecepcion({ reqs, persona, dispatch, avisar, seleccion, o
             ))}
           </div>
         </Tarjeta>
-        <Tarjeta titulo={actual ? `Recibir ${actual.oc}` : 'Elija una entrega'}>
+        <Tarjeta tour="form-recepcion" titulo={actual ? `Recibir ${actual.oc}` : 'Elija una entrega'}>
           {!actual && <p style={{ margin: 0, color: C.muted }}>Toque una entrega de la lista para revisarla contra lo que se pidió.</p>}
           {actual && (puede(persona, 'recibir') ? (
             <FormRecepcion key={actual.id} req={actual} onConfirmar={(cantidades, nota, conFoto) => {

@@ -1,0 +1,224 @@
+// Recorridos guiados: llevan a la persona paso a paso por un proceso completo. Cada paso cambia solo a
+// la persona y la pantalla que tocan, resalta dónde hacer clic y espera a que la acción se haga
+// (o la hace con "Hacerlo por mí", útil cuando se presenta en vivo).
+import React, { useEffect } from 'react';
+import { PlayCircle, X, ChevronLeft, ChevronRight, Wand2, CheckCircle2 } from 'lucide-react';
+import { C, Modal, Boton } from './ui';
+import { HOY, lineaDe, num, EstadoLinea, FrenteId, Requisicion } from './datos';
+import { Accion, Estado, Rol, Seccion } from './estado';
+
+export interface ContextoRecorrido {
+  estado: Estado; presupuesto: EstadoLinea[]; reqId: string; enLinea: boolean; cola: Accion[];
+}
+export interface Preparar {
+  rol: Rol; seccion: Seccion; recepcion?: string; frentePresupuesto?: FrenteId | 'todos';
+}
+export interface Paso {
+  titulo: string;
+  texto: (c: ContextoRecorrido) => string;
+  preparar: (c: ContextoRecorrido) => Preparar;
+  objetivo?: (c: ContextoRecorrido) => string;
+  listo?: (c: ContextoRecorrido) => boolean;
+  hecho?: (c: ContextoRecorrido) => string;
+  hacer?: (c: ContextoRecorrido) => Accion;
+}
+export interface Recorrido { id: string; titulo: string; descripcion: string; duracion: string; pasos: Paso[]; }
+
+const reqDe = (c: ContextoRecorrido): Requisicion | undefined => c.estado.reqs.find(r => r.id === c.reqId);
+
+// ─────────────────────────────────────────────────────────────────────────
+// RECORRIDO 1: pedir y gestionar materiales en la obra
+
+const MATERIALES: Recorrido = {
+  id: 'materiales',
+  titulo: 'Pedir y gestionar materiales en la obra',
+  descripcion: 'Un pedido de 10 bultos de cemento desde que el residente lo pide hasta que se descuenta del presupuesto.',
+  duracion: '9 pasos · unos 3 minutos',
+  pasos: [
+    {
+      titulo: 'Seguir un pedido de principio a fin',
+      texto: () => 'Vamos a seguir 10 bultos de cemento para la Villa 1. El residente los pide desde la obra, usted los aprueba, compras los compra, llegan a la obra y se descuentan solos del presupuesto. En cada paso la demo cambia sola a la persona que corresponde.',
+      preparar: () => ({ rol: 'director', seccion: 'inicio' }),
+    },
+    {
+      titulo: 'El residente pide desde el celular',
+      texto: c => c.cola.length
+        ? 'El pedido quedó guardado en el teléfono porque no hay señal. Toque "Con señal" a la derecha para enviarlo a la oficina.'
+        : 'Así lo ve el residente en obra. Ya están elegidos Cemento y Villa 1: escriba 10 en "Cantidad" y toque "Enviar pedido". Debajo del material se ve cuánto queda en el presupuesto antes de pedir.',
+      preparar: () => ({ rol: 'residente', seccion: 'campo' }),
+      objetivo: () => 'celular',
+      listo: c => !!reqDe(c),
+      hecho: c => `Listo: se creó el pedido ${c.reqId} y ya le llegó a usted para aprobar.`,
+      hacer: () => ({ tipo: 'crear-req', items: [{ insumoId: 'cem', frente: 'v1', cantidad: 10 }], nota: 'Colado de castillos', solicitante: 'Residente de obra', origen: 'celular' }),
+    },
+    {
+      titulo: 'Y si en la obra no hay señal',
+      texto: c => c.cola.length
+        ? 'El pedido quedó guardado en el teléfono. Toque "Con señal" y verá cómo se envía solo a la oficina.'
+        : 'En la obra casi no hay internet. Si toca "Sin señal" y hace un pedido, se guarda en el teléfono y se envía solo cuando vuelve la conexión. Nada se pierde. Puede probarlo ahora o seguir.',
+      preparar: () => ({ rol: 'residente', seccion: 'campo' }),
+      objetivo: () => 'senal',
+      listo: c => c.cola.length === 0,
+    },
+    {
+      titulo: 'Usted revisa antes de aprobar',
+      texto: () => 'Los pedidos le llegan con cuánto queda de cada material en el presupuesto. Si un pedido se pasa, la IA lo marca antes de que usted apruebe y le dice por qué conviene preguntar, como aquí con el pedido REQ-036.',
+      preparar: () => ({ rol: 'director', seccion: 'materiales' }),
+      objetivo: () => 'alerta-ia',
+    },
+    {
+      titulo: 'Aprobar con un clic',
+      texto: c => `Este es el pedido del residente. Revise que queda presupuesto suficiente y toque "Aprobar" en el pedido ${c.reqId}.`,
+      preparar: () => ({ rol: 'director', seccion: 'materiales' }),
+      objetivo: c => `req-${c.reqId}`,
+      listo: c => !!reqDe(c) && reqDe(c)!.estado !== 'por-aprobar',
+      hecho: () => 'Aprobado. Compras ya lo tiene en su bandeja.',
+      hacer: c => ({ tipo: 'aprobar-req', id: c.reqId }),
+    },
+    {
+      titulo: 'Compras genera la orden de compra',
+      texto: c => `Ahora lo ve compras. Toque "Comprar" en ${c.reqId}, elija el proveedor y escriba el precio de la cotización. Si sale más caro que el presupuesto, el sistema lo avisa. Después toque "Generar orden de compra".`,
+      preparar: () => ({ rol: 'compras', seccion: 'materiales' }),
+      objetivo: c => `req-${c.reqId}`,
+      listo: c => ['en-camino', 'incompleta', 'recibida'].includes(reqDe(c)?.estado ?? ''),
+      hecho: c => `Orden ${reqDe(c)?.oc ?? ''} generada para ${reqDe(c)?.proveedor ?? 'el proveedor'}. La obra ya ve que viene en camino.`,
+      hacer: c => ({ tipo: 'comprar-req', id: c.reqId, proveedor: 'Materiales La Villa', precios: [262], fechaEntrega: HOY }),
+    },
+    {
+      titulo: 'Llega el camión a la obra',
+      texto: () => 'El residente toca "Foto de la remisión" y la IA llena lo que llegó. Para ver qué pasa cuando falta algo, cambie la cantidad a 8 y toque "Confirmar recepción".',
+      preparar: c => ({ rol: 'residente', seccion: 'recepcion', recepcion: c.reqId }),
+      objetivo: () => 'form-recepcion',
+      listo: c => (reqDe(c)?.recepciones.length ?? 0) > 0,
+      hecho: c => {
+        const it = reqDe(c)?.items[0];
+        return it && it.recibido < it.cantidad
+          ? `Llegaron ${num(it.recibido)} de ${num(it.cantidad)}. Lo que faltó le queda avisado a compras.`
+          : 'Llegó completo y quedó registrado con la foto de la remisión.';
+      },
+      hacer: c => ({ tipo: 'recibir-req', id: c.reqId, cantidades: [8], nota: 'Llegaron 8 de 10 bultos según la remisión', conFoto: true, por: 'Residente de obra' }),
+    },
+    {
+      titulo: 'Se descuenta solo del presupuesto',
+      texto: c => {
+        const l = lineaDe(c.presupuesto, 'cem', 'v1');
+        return `El cemento de la Villa 1 ya cuenta lo que llegó: ${num(l.recibido)} bultos recibidos, ${num(l.porRecibir)} por llegar y ${num(l.disponible)} libres de ${num(l.presupuestado)}. Nadie tuvo que actualizar el Excel ni avisarle a presupuestos.`;
+      },
+      preparar: () => ({ rol: 'director', seccion: 'presupuesto', frentePresupuesto: 'v1' }),
+      objetivo: () => 'insumo-cem',
+    },
+    {
+      titulo: 'Lo que faltó no se pierde',
+      texto: c => {
+        const r = reqDe(c);
+        return r?.estado === 'incompleta'
+          ? `Como llegaron solo 8 bultos, la orden ${r.oc} aparece en "Para hoy" como entrega incompleta. Ahí sigue, igual que en la bandeja de compras, hasta que llegue lo que falta. Fin del recorrido.`
+          : 'Todo quedó registrado: quién pidió, quién aprobó, a qué precio se compró y qué llegó. Si una entrega llega incompleta, aparece aquí en "Para hoy". Fin del recorrido.';
+      },
+      preparar: () => ({ rol: 'director', seccion: 'inicio' }),
+      objetivo: () => 'para-hoy',
+    },
+  ],
+};
+
+export const RECORRIDOS: Recorrido[] = [MATERIALES];
+
+// ─────────────────────────────────────────────────────────────────────────
+// PANEL DEL RECORRIDO Y RESALTADO
+
+// Resalta el elemento del paso y lo trae a la vista. Vuelve a buscarlo mientras el paso está activo,
+// porque algunas pantallas aparecen un instante después de cambiar de persona o de sección.
+function useResaltar(objetivo: string | undefined) {
+  useEffect(() => {
+    if (!objetivo) return;
+    let actual: HTMLElement | null = null;
+    const buscar = () => {
+      const el = document.querySelector<HTMLElement>(`[data-tour="${objetivo}"]`);
+      if (el && el !== actual) {
+        actual?.classList.remove('tour-foco');
+        actual = el;
+        el.classList.add('tour-foco');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    };
+    const t0 = window.setTimeout(buscar, 120);
+    const t = window.setInterval(buscar, 400);
+    return () => { window.clearTimeout(t0); window.clearInterval(t); actual?.classList.remove('tour-foco'); };
+  }, [objetivo]);
+}
+
+export const ESTILOS_RECORRIDO = `
+tr.tour-foco td { background: #e6faf6; }
+.tour-foco { position: relative; z-index: 5; outline: 3px solid #00bfa5 !important; outline-offset: 4px; animation: tourPulso 1.6s ease-in-out infinite; }
+@keyframes tourPulso { 0%, 100% { box-shadow: 0 0 0 0 rgba(0,191,165,.35); } 50% { box-shadow: 0 0 0 12px rgba(0,191,165,0); } }
+`;
+
+export function PanelRecorrido({ recorrido, indice, contexto, onIr, onHacer, onSalir }: {
+  recorrido: Recorrido; indice: number; contexto: ContextoRecorrido;
+  onIr: (i: number) => void; onHacer: (a: Accion) => void; onSalir: () => void;
+}) {
+  const paso = recorrido.pasos[indice];
+  const objetivo = paso.objetivo?.(contexto);
+  useResaltar(objetivo);
+  const listo = paso.listo ? paso.listo(contexto) : true;
+  const ultimo = indice === recorrido.pasos.length - 1;
+  const total = recorrido.pasos.length;
+
+  return (
+    <div role="dialog" aria-label={`Recorrido: ${recorrido.titulo}`} className="no-print fixed bottom-3 left-3 right-3 lg:right-auto lg:left-[264px] lg:w-[420px]" style={{
+      zIndex: 80, background: C.paper, borderRadius: 14, border: `2px solid ${C.teal}`, boxShadow: '0 16px 44px rgba(10,35,66,.32)', padding: 16,
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+        <span style={{ fontSize: 12, fontWeight: 800, color: C.tealDark, letterSpacing: 0.3 }}>RECORRIDO · PASO {indice + 1} DE {total}</span>
+        <button type="button" onClick={onSalir} aria-label="Salir del recorrido" style={{ background: 'none', border: 'none', color: C.muted, cursor: 'pointer', minHeight: 32, minWidth: 32 }}><X size={18} /></button>
+      </div>
+      <div aria-hidden="true" style={{ display: 'flex', gap: 4, marginBottom: 10 }}>
+        {recorrido.pasos.map((_, i) => <span key={i} style={{ flex: 1, height: 4, borderRadius: 4, background: i <= indice ? C.teal : C.surfaceStrong }} />)}
+      </div>
+      <p style={{ margin: 0, fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 16, color: C.ink }}>{paso.titulo}</p>
+      <p style={{ margin: '6px 0 0', fontSize: 14, color: C.ink, lineHeight: 1.5 }}>{paso.texto(contexto)}</p>
+      {paso.listo && listo && paso.hecho && (
+        <p style={{ margin: '10px 0 0', fontSize: 13, color: C.green, fontWeight: 700, display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+          <CheckCircle2 size={16} style={{ flexShrink: 0, marginTop: 1 }} /> {paso.hecho(contexto)}
+        </p>
+      )}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, marginTop: 14, flexWrap: 'wrap' }}>
+        <Boton variante="secundario" onClick={() => onIr(indice - 1)} disabled={indice === 0}><ChevronLeft size={16} /> Atrás</Boton>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {paso.hacer && !listo && <Boton variante="secundario" onClick={() => onHacer(paso.hacer!(contexto))}><Wand2 size={16} /> Hacerlo por mí</Boton>}
+          {ultimo
+            ? <Boton onClick={onSalir}>Terminar</Boton>
+            : <Boton onClick={() => onIr(indice + 1)} disabled={!listo} titulo={!listo ? 'Haga la acción del paso o toque "Hacerlo por mí"' : undefined}>Siguiente <ChevronRight size={16} /></Boton>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function TarjetaRecorridos({ onEmpezar }: { onEmpezar: (id: string) => void }) {
+  return (
+    <div data-tour="recorridos" style={{ background: 'linear-gradient(135deg, #eefbf8, #eef5fb)', border: '1px solid #b9e7df', borderRadius: 12, padding: 16 }}>
+      <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 800, color: C.tealDark, letterSpacing: 0.3 }}>RECORRIDOS GUIADOS</p>
+      <p style={{ margin: '0 0 12px', fontSize: 14, color: C.ink }}>La demo le muestra paso a paso cómo funciona cada proceso. Usted hace los clics o deja que la demo los haga por usted.</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {RECORRIDOS.map(r => (
+          <div key={r.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap', background: C.paper, border: `1px solid ${C.line}`, borderRadius: 10, padding: 12 }}>
+            <div style={{ flex: 1, minWidth: 220 }}>
+              <p style={{ margin: 0, fontWeight: 700, fontSize: 15 }}>{r.titulo}</p>
+              <p style={{ margin: '2px 0 0', fontSize: 13, color: C.muted }}>{r.descripcion} {r.duracion}.</p>
+            </div>
+            <Boton onClick={() => onEmpezar(r.id)}><PlayCircle size={16} /> Empezar</Boton>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function ModalRecorridos({ onEmpezar, onCerrar }: { onEmpezar: (id: string) => void; onCerrar: () => void }) {
+  return (
+    <Modal titulo="Recorridos guiados" subtitulo="Elija un proceso y la demo lo lleva paso a paso." onCerrar={onCerrar} ancho={620}>
+      <TarjetaRecorridos onEmpezar={id => { onCerrar(); onEmpezar(id); }} />
+    </Modal>
+  );
+}

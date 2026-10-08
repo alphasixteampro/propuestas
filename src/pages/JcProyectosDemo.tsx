@@ -2,11 +2,12 @@
 // pedidos de material, recepción, presupuesto de Opus, nómina semanal, programa de Project y la IA.
 // Datos ficticios, todo en memoria: nada se guarda.
 import React, { useCallback, useMemo, useReducer, useState } from 'react';
+import { PlayCircle } from 'lucide-react';
 import {
   LayoutDashboard, Smartphone, ShoppingCart, PackageCheck, Calculator, Users, CalendarRange, Sparkles,
   TrendingUp, CalendarClock, Wallet, ClipboardCheck, AlertTriangle, ChevronRight,
 } from 'lucide-react';
-import { C, Tarjeta, TarjetaKpi, Titulo, Toast, estiloInput, NotaIA, Chip } from './jc-proyectos/ui';
+import { C, Tarjeta, TarjetaKpi, Titulo, Toast, estiloInput, Chip } from './jc-proyectos/ui';
 import { HOY_TEXTO, OBRA, estadoPresupuesto, resumenPrograma, money, pct, fechaCorta, excesoItem, insumo, nombreFrente, num } from './jc-proyectos/datos';
 import { ESTADO_INICIAL, PERSONAS, QUE_HACE, SECCIONES_POR_ROL, Accion, Persona, Rol, Seccion, reducer } from './jc-proyectos/estado';
 import { SeccionMateriales, SeccionRecepcion } from './jc-proyectos/materiales';
@@ -15,6 +16,8 @@ import { SeccionNomina, totalesNomina, observacionesNomina } from './jc-proyecto
 import { SeccionPrograma, LogoJC } from './jc-proyectos/programa';
 import { SeccionCampo } from './jc-proyectos/celular';
 import { SeccionAsistente } from './jc-proyectos/asistente';
+import { RECORRIDOS, ESTILOS_RECORRIDO, PanelRecorrido, TarjetaRecorridos, ModalRecorridos, ContextoRecorrido, Paso } from './jc-proyectos/recorridos';
+import { FrenteId } from './jc-proyectos/datos';
 
 const NAV: { id: Seccion; label: string; icono: React.ComponentType<any>; grupo: string }[] = [
   { id: 'inicio', label: 'Inicio', icono: LayoutDashboard, grupo: '' },
@@ -38,11 +41,13 @@ const LO_QUE_PIDIO: { texto: string; seccion: Seccion; rol: Rol }[] = [
   { texto: 'En la obra casi no hay internet: el biométrico no funcionó.', seccion: 'campo', rol: 'residente' },
 ];
 
-function FranjaAviso() {
+function FranjaAviso({ onRecorridos }: { onRecorridos: () => void }) {
   return (
     <div className="no-print" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60, height: 44, background: '#061629', color: '#cfe0f2', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', fontSize: 13, gap: 12 }}>
       <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Demo para JC Proyectos · datos de ejemplo · nada de lo que haga aquí se guarda</span>
-      <span style={{ flexShrink: 0, color: '#8fb3d6' }}>Sixteam.pro</span>
+      <button type="button" onClick={onRecorridos} style={{ flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6, background: '#00bfa5', color: '#04211c', border: 'none', borderRadius: 8, padding: '0 12px', minHeight: 32, fontSize: 13, fontWeight: 800, cursor: 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+        <PlayCircle size={15} /> Recorridos guiados
+      </button>
     </div>
   );
 }
@@ -121,6 +126,9 @@ export default function JcProyectosDemo() {
   const [enLinea, setEnLinea] = useState(true);
   const [cola, setCola] = useState<Accion[]>([]);
   const [recepcionSel, setRecepcionSel] = useState<string | null>(null);
+  const [frentePres, setFrentePres] = useState<FrenteId | 'todos'>('todos');
+  const [tour, setTour] = useState<{ id: string; paso: number; reqId: string } | null>(null);
+  const [menuTours, setMenuTours] = useState(false);
 
   const persona = PERSONAS.find(p => p.id === rol)!;
   const permitidas = SECCIONES_POR_ROL[rol];
@@ -147,6 +155,28 @@ export default function JcProyectosDemo() {
     }
   };
 
+  // Recorridos guiados: cada paso deja la demo en la persona y la pantalla que corresponden.
+  const recorrido = tour ? RECORRIDOS.find(x => x.id === tour.id)! : null;
+  const contextoTour: ContextoRecorrido | null = tour ? { estado, presupuesto, reqId: tour.reqId, enLinea, cola } : null;
+  const prepararPaso = (paso: Paso, ctx: ContextoRecorrido) => {
+    const p = paso.preparar(ctx);
+    setRol(p.rol); setSeccion(p.seccion);
+    if (p.recepcion !== undefined) setRecepcionSel(p.recepcion);
+    setFrentePres(p.frentePresupuesto ?? 'todos');
+  };
+  const empezarTour = (id: string) => {
+    const t = { id, paso: 0, reqId: `REQ-${String(estado.consecutivoReq).padStart(3, '0')}` };
+    setTour(t);
+    prepararPaso(RECORRIDOS.find(x => x.id === id)!.pasos[0], { estado, presupuesto, reqId: t.reqId, enLinea, cola });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const irPasoTour = (i: number) => {
+    if (!tour || !recorrido || !contextoTour || i < 0 || i >= recorrido.pasos.length) return;
+    setTour({ ...tour, paso: i });
+    prepararPaso(recorrido.pasos[i], contextoTour);
+  };
+  const salirTour = () => { setTour(null); setFrentePres('todos'); };
+
   const porAprobar = estado.reqs.filter(r => r.estado === 'por-aprobar');
   const incompletas = estado.reqs.filter(r => r.estado === 'incompleta');
   const montoP = presupuesto.reduce((s, l) => s + l.montoPresupuesto, 0);
@@ -165,18 +195,19 @@ export default function JcProyectosDemo() {
 
   return (
     <div className="jc-demo" style={{ minHeight: '100vh', background: C.surface, color: C.ink, fontFamily: "'Lato', Arial, sans-serif" }}>
-      <style>{"button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid #00796b; outline-offset: 2px; } .nav-movil { scrollbar-width: none; } .nav-movil::-webkit-scrollbar { display: none; } .jc-demo ul { list-style: disc; }"}</style>
-      <FranjaAviso />
+      <style>{ESTILOS_RECORRIDO + "button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible { outline: 2px solid #00796b; outline-offset: 2px; } .nav-movil { scrollbar-width: none; } .nav-movil::-webkit-scrollbar { display: none; } .jc-demo ul { list-style: disc; }"}</style>
+      <FranjaAviso onRecorridos={() => setMenuTours(true)} />
       <Sidebar seccion={seccion} onCambiar={ir} permitidas={permitidas} persona={persona} />
       <NavMovil seccion={seccion} onCambiar={ir} permitidas={permitidas} />
       <main className="pt-[116px] lg:pt-[64px] lg:ml-[240px]" style={{ maxWidth: 1180 }}>
-        <div className="pb-10 px-4 sm:px-6">
+        <div className="pb-10 px-4 sm:px-6" style={tour ? { paddingBottom: 300 } : undefined}>
           <SelectorPersona persona={persona} onCambiar={cambiarRol} />
 
           {seccion === 'inicio' && (
             <div>
               <div className="lg:hidden" style={{ marginBottom: 12 }}><div style={{ background: '#fff', borderRadius: 10, padding: '6px 10px', display: 'inline-flex', border: `1px solid ${C.line}` }}><LogoJC alto={26} /></div></div>
               <Titulo titulo={`Buen día${rol === 'director' ? ', Jorge' : ''}`} sub={`${OBRA} · ${HOY_TEXTO}. Todo lo de la obra en un solo lugar: materiales, gente, avance y dinero.`} />
+              {!tour && <div style={{ marginBottom: 16 }}><TarjetaRecorridos onEmpezar={empezarTour} /></div>}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 12, marginBottom: 16 }}>
                 <TarjetaKpi icono={TrendingUp} titulo="Avance de obra" valor={pct(programa.real)} sub={`Programado a hoy: ${pct(programa.programado)}`} tono={programa.atraso > 0 ? 'amber' : 'green'} onClick={() => irComo('programa', 'director')} />
                 <TarjetaKpi icono={CalendarClock} titulo="Entrega estimada" valor={fechaCorta(programa.finEstimado)} sub={programa.atraso > 0 ? `${programa.atraso} días después de lo programado` : 'A tiempo'} tono={programa.atraso > 0 ? 'red' : 'green'} onClick={() => irComo('programa', 'director')} />
@@ -187,7 +218,7 @@ export default function JcProyectosDemo() {
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 14, alignItems: 'start' }}>
-                <Tarjeta titulo="Para hoy">
+                <Tarjeta titulo="Para hoy" tour="para-hoy">
                   {alertas.length === 0 && <p style={{ margin: 0, color: C.muted }}>Todo en orden.</p>}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {alertas.map((a, i) => (
@@ -211,28 +242,31 @@ export default function JcProyectosDemo() {
                 </Tarjeta>
               </div>
 
-              <div style={{ marginTop: 14 }}>
-                <NotaIA titulo="Cómo recorrer la demo">
-                  1) En "Celular del residente" pida 10 bultos de cemento para la Villa 1 (puede apagar la señal). 2) Como Jorge, apruébelo en "Pedidos y compras". 3) Como Compras, cómprelo. 4) Como residente, recíbalo con la foto de la remisión. 5) Vea cómo bajó en "Presupuesto e insumos". Después pruebe el reporte ejecutivo y el asistente.
-                </NotaIA>
-              </div>
+
             </div>
           )}
 
+          <div key={`${seccion}-${rol}-${frentePres}`}>
           {seccion === 'campo' && <SeccionCampo reqs={estado.reqs} cuadrilla={estado.cuadrilla} actividades={estado.actividades} presupuesto={presupuesto} enLinea={enLinea} onSenal={cambiarSenal} cola={cola} enviar={enviarCampo} />}
           {seccion === 'materiales' && <SeccionMateriales reqs={estado.reqs} presupuesto={presupuesto} programa={programa} persona={persona} dispatch={dispatch} avisar={avisar} onRecibir={id => { setRecepcionSel(id); ir('recepcion'); }} />}
           {seccion === 'recepcion' && <SeccionRecepcion reqs={estado.reqs} persona={persona} dispatch={dispatch} avisar={avisar} seleccion={recepcionSel} onSeleccion={setRecepcionSel} />}
-          {seccion === 'presupuesto' && <SeccionPresupuesto presupuesto={presupuesto} programa={programa} avisar={avisar} />}
+          {seccion === 'presupuesto' && <SeccionPresupuesto presupuesto={presupuesto} programa={programa} avisar={avisar} frenteInicial={frentePres} />}
           {seccion === 'nomina' && <SeccionNomina cuadrilla={estado.cuadrilla} dispersada={estado.dispersada} persona={persona} dispatch={dispatch} avisar={avisar} />}
           {seccion === 'programa' && <SeccionPrograma actividades={estado.actividades} reportes={estado.reportes} programa={programa} presupuesto={presupuesto} nominaSemana={nomina.neto} pedidosPorAprobar={porAprobar.length} persona={persona} avisar={avisar} />}
           {seccion === 'asistente' && <SeccionAsistente reqs={estado.reqs} presupuesto={presupuesto} programa={programa} cuadrilla={estado.cuadrilla} actividades={estado.actividades} />}
+          </div>
 
           <p style={{ fontSize: 12, color: C.muted, marginTop: 28 }}>
             Demo preparada por Sixteam.pro para JC Proyectos.
           </p>
         </div>
       </main>
-      {toast && <Toast mensaje={toast} />}
+      {toast && <Toast mensaje={toast} arriba={!!tour} />}
+      {menuTours && <ModalRecorridos onEmpezar={empezarTour} onCerrar={() => setMenuTours(false)} />}
+      {recorrido && contextoTour && tour && (
+        <PanelRecorrido recorrido={recorrido} indice={tour.paso} contexto={contextoTour} onIr={irPasoTour} onSalir={salirTour}
+          onHacer={a => { dispatch(a); if (!enLinea) { setEnLinea(true); cola.forEach(dispatch); setCola([]); } }} />
+      )}
     </div>
   );
 }

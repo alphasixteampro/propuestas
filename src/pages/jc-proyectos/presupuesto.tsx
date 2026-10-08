@@ -20,8 +20,8 @@ export function alertasConsumo(presupuesto: EstadoLinea[], programa: ResumenProg
   return out;
 }
 
-export function SeccionPresupuesto({ presupuesto, programa, avisar }: { presupuesto: EstadoLinea[]; programa: ResumenPrograma; avisar: (m: string) => void }) {
-  const [frente, setFrente] = useState<FrenteId | 'todos'>('todos');
+export function SeccionPresupuesto({ presupuesto, programa, avisar, frenteInicial = 'todos' }: { presupuesto: EstadoLinea[]; programa: ResumenPrograma; avisar: (m: string) => void; frenteInicial?: FrenteId | 'todos' }) {
+  const [frente, setFrente] = useState<FrenteId | 'todos'>(frenteInicial);
   const [opus, setOpus] = useState(false);
   const lineas = frente === 'todos'
     ? INSUMOS.map(ins => {
@@ -68,7 +68,7 @@ export function SeccionPresupuesto({ presupuesto, programa, avisar }: { presupue
             const ins = insumo(l.insumoId);
             const tono = tonoUso(l.usoPct);
             return (
-              <tr key={l.insumoId}>
+              <tr key={l.insumoId} data-tour={`insumo-${l.insumoId}`}>
                 <td style={celda}><strong>{ins.nombre}</strong><br /><span style={{ fontSize: 12, color: C.muted }}>{ins.clave} · {ins.unidad}</span></td>
                 <td style={celdaDer}>{num(l.presupuestado)}</td>
                 <td style={celdaDer}>{num(l.recibido)}</td>

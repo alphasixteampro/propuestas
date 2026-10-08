@@ -43,9 +43,9 @@ export function Titulo({ titulo, sub, children }: { titulo: string; sub?: string
   );
 }
 
-export function Tarjeta({ children, style, titulo }: { children: React.ReactNode; style?: React.CSSProperties; titulo?: string }) {
+export function Tarjeta({ children, style, titulo, tour }: { children: React.ReactNode; style?: React.CSSProperties; titulo?: string; tour?: string }) {
   return (
-    <div style={{ background: C.paper, border: `1px solid ${C.line}`, borderRadius: 12, padding: 18, boxShadow: '0 1px 2px rgba(20,30,50,.04)', ...style }}>
+    <div data-tour={tour} style={{ background: C.paper, border: `1px solid ${C.line}`, borderRadius: 12, padding: 18, boxShadow: '0 1px 2px rgba(20,30,50,.04)', ...style }}>
       {titulo && <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: 16, fontWeight: 700, color: C.ink, margin: '0 0 12px' }}>{titulo}</h2>}
       {children}
     </div>
@@ -122,10 +122,10 @@ export function Modal({ titulo, subtitulo, onCerrar, children, ancho = 560 }: { 
   );
 }
 
-export function Toast({ mensaje }: { mensaje: string }) {
+export function Toast({ mensaje, arriba }: { mensaje: string; arriba?: boolean }) {
   return (
     <div role="status" style={{
-      position: 'fixed', bottom: 20, right: 20, left: 20, marginLeft: 'auto', zIndex: 100, background: C.navy, color: '#fff',
+      position: 'fixed', ...(arriba ? { top: 124 } : { bottom: 20 }), right: 20, left: 20, marginLeft: 'auto', zIndex: 100, background: C.navy, color: '#fff',
       padding: '14px 18px', borderRadius: 10, boxShadow: '0 8px 24px rgba(10,35,66,.3)', fontSize: 14, fontWeight: 600, maxWidth: 380,
     }}>
       {mensaje}

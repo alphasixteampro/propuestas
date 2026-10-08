@@ -19,7 +19,7 @@ export function SeccionCampo({ reqs, cuadrilla, actividades, presupuesto, enLine
       <Titulo titulo="Celular del residente" sub="Así se usa en obra. Apague la señal para ver cómo sigue funcionando: lo capturado se guarda en el teléfono y se envía solo al volver la conexión." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 20, alignItems: 'start' }}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Telefono enLinea={enLinea} cola={cola.length}>
+          <div data-tour="celular" style={{ width: '100%', maxWidth: 360, borderRadius: 36 }}><Telefono enLinea={enLinea} cola={cola.length}>
             {pantalla === 'pedir' && <PantallaPedir presupuesto={presupuesto} enviar={enviar} />}
             {pantalla === 'recibir' && <PantallaRecibir reqs={reqs} enviar={enviar} />}
             {pantalla === 'lista' && <PantallaLista cuadrilla={cuadrilla} enviar={enviar} />}
@@ -32,10 +32,10 @@ export function SeccionCampo({ reqs, cuadrilla, actividades, presupuesto, enLine
                 }}><Icono size={18} />{texto}</button>
               ))}
             </nav>
-          </Telefono>
+          </Telefono></div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <Tarjeta titulo="Señal en la obra">
+          <Tarjeta titulo="Señal en la obra" tour="senal">
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <Boton variante={enLinea ? 'primario' : 'secundario'} onClick={() => onSenal(true)}><Wifi size={16} /> Con señal</Boton>
               <Boton variante={!enLinea ? 'primario' : 'secundario'} onClick={() => onSenal(false)}><WifiOff size={16} /> Sin señal</Boton>
