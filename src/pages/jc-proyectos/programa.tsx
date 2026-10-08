@@ -213,5 +213,5 @@ export function LogoJC({ alto = 32, claro = false }: { alto?: number; claro?: bo
   if (error) {
     return <span style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 800, fontSize: alto * 0.5, color: claro ? '#fff' : C.navy, letterSpacing: 0.3 }}>JC Proyectos</span>;
   }
-  return <img src="/jc-proyectos-logo.png" alt="JC Proyectos" onError={() => setError(true)} style={{ height: alto, width: 'auto', objectFit: 'contain', borderRadius: 6, display: 'block' }} />;
+  return <img src="/jc-proyectos-logo.png" alt="JC Proyectos" onError={() => setError(true)} style={{ height: alto, width: 'auto', maxWidth: '100%', objectFit: 'contain', display: 'block' }} />;
 }

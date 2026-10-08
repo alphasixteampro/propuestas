@@ -56,7 +56,7 @@ function Sidebar({ seccion, onCambiar, permitidas, persona }: { seccion: Seccion
   return (
     <aside className="hidden lg:flex lg:flex-col" style={{ position: 'fixed', top: 44, left: 0, bottom: 0, width: 240, background: C.navy, padding: '18px 12px', zIndex: 40 }}>
       <div style={{ padding: '0 8px 18px' }}>
-        <LogoJC alto={44} />
+        <div style={{ background: '#fff', borderRadius: 10, padding: '10px 12px' }}><LogoJC alto={30} /></div>
         <p style={{ color: '#9db3cc', fontSize: 12, margin: '8px 0 0' }}>Gestión de obra · {OBRA.replace(' (obra de ejemplo)', '')}</p>
       </div>
       <nav style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1, overflowY: 'auto', minHeight: 0 }}>
@@ -205,7 +205,7 @@ export default function JcProyectosDemo() {
 
           {seccion === 'inicio' && (
             <div>
-              <div className="lg:hidden" style={{ marginBottom: 12 }}><LogoJC alto={36} /></div>
+              <div className="lg:hidden" style={{ marginBottom: 12 }}><div style={{ background: '#fff', borderRadius: 10, padding: '8px 12px', display: 'inline-flex', border: `1px solid ${C.line}` }}><LogoJC alto={30} /></div></div>
               <Titulo titulo={`Buen día${rol === 'director' ? ', Jorge' : ''}`} sub={`${OBRA} · ${HOY_TEXTO}. Todo lo de la obra en un solo lugar: materiales, gente, avance y dinero.`} />
               {!tour && <div style={{ marginBottom: 16 }}><TarjetaRecorridos onEmpezar={empezarTour} /></div>}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: 12, marginBottom: 16 }}>
