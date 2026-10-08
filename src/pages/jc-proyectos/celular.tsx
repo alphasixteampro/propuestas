@@ -7,13 +7,13 @@ import { FormPedido, FormRecepcion } from './materiales';
 import { DIA_HOY, HOY, insumo, nombreFrente, num, fechaCorta, EstadoLinea, Requisicion, Trabajador, Actividad } from './datos';
 import { Accion, describirAccion } from './estado';
 
-type Pantalla = 'pedir' | 'recibir' | 'lista' | 'avance';
+export type Pantalla = 'pedir' | 'recibir' | 'lista' | 'avance';
 
-export function SeccionCampo({ reqs, cuadrilla, actividades, presupuesto, enLinea, onSenal, cola, enviar }: {
+export function SeccionCampo({ reqs, cuadrilla, actividades, presupuesto, enLinea, onSenal, cola, enviar, pantallaInicial = 'pedir' }: {
   reqs: Requisicion[]; cuadrilla: Trabajador[]; actividades: Actividad[]; presupuesto: EstadoLinea[];
-  enLinea: boolean; onSenal: (v: boolean) => void; cola: Accion[]; enviar: (a: Accion, ok: string) => void;
+  enLinea: boolean; onSenal: (v: boolean) => void; cola: Accion[]; enviar: (a: Accion, ok: string) => void; pantallaInicial?: Pantalla;
 }) {
-  const [pantalla, setPantalla] = useState<Pantalla>('pedir');
+  const [pantalla, setPantalla] = useState<Pantalla>(pantallaInicial);
   return (
     <div>
       <Titulo titulo="Celular del residente" sub="Así se usa en obra. Apague la señal para ver cómo sigue funcionando: lo capturado se guarda en el teléfono y se envía solo al volver la conexión." />

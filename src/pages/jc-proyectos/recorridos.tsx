@@ -4,14 +4,16 @@
 import React, { useEffect } from 'react';
 import { PlayCircle, X, ChevronLeft, ChevronRight, Wand2, CheckCircle2 } from 'lucide-react';
 import { C, Modal, Boton } from './ui';
-import { HOY, lineaDe, num, EstadoLinea, FrenteId, Requisicion } from './datos';
+import { HOY, DIA_HOY, lineaDe, num, money, calcularNomina, EstadoLinea, FrenteId, Requisicion, Trabajador } from './datos';
+import { totalesNomina } from './nomina';
+import { Pantalla } from './celular';
 import { Accion, Estado, Rol, Seccion } from './estado';
 
 export interface ContextoRecorrido {
   estado: Estado; presupuesto: EstadoLinea[]; reqId: string; enLinea: boolean; cola: Accion[];
 }
 export interface Preparar {
-  rol: Rol; seccion: Seccion; recepcion?: string; frentePresupuesto?: FrenteId | 'todos';
+  rol: Rol; seccion: Seccion; recepcion?: string; frentePresupuesto?: FrenteId | 'todos'; pantallaCelular?: Pantalla;
 }
 export interface Paso {
   titulo: string;
@@ -121,7 +123,103 @@ const MATERIALES: Recorrido = {
   ],
 };
 
-export const RECORRIDOS: Recorrido[] = [MATERIALES];
+// ─────────────────────────────────────────────────────────────────────────
+// RECORRIDO 2: la nómina de la semana
+
+const enObra = (c: ContextoRecorrido): Trabajador[] => c.estado.cuadrilla.filter(t => t.estado === 'activo' || t.estado === 'nuevo');
+const trabajador = (c: ContextoRecorrido, id: string): Trabajador | undefined => c.estado.cuadrilla.find(t => t.id === id);
+// Quien faltó hoy viernes: con esa persona se explica la falta que pasa a la semana siguiente.
+const faltoHoy = (c: ContextoRecorrido): Trabajador | undefined => enObra(c).find(t => t.asistencia[DIA_HOY] === 'F');
+const listaGuardada = (c: ContextoRecorrido) => enObra(c).every(t => t.asistencia[DIA_HOY] !== null);
+const listaEnTelefono = (c: ContextoRecorrido) => c.cola.some(a => a.tipo === 'pasar-lista');
+const ESTADO_TEXTO = { activo: 'Activo', nuevo: 'Nuevo', standby: 'En espera', baja: 'Baja' } as const;
+
+const NOMINA: Recorrido = {
+  id: 'nomina',
+  titulo: 'La nómina de la semana',
+  descripcion: 'Del pase de lista en la obra al archivo del banco, con las faltas descontadas solas.',
+  duracion: '9 pasos · unos 3 minutos',
+  pasos: [
+    {
+      titulo: 'Una semana de nómina sin hojas a mano',
+      texto: () => 'Hoy es viernes 9. El lunes se dieron altas y bajas, cada día se pasó lista en la obra y el miércoles salió la prenómina. Vamos a cerrar la semana: pasar la lista de hoy, revisar los descuentos y armar el archivo del banco. En cada paso la demo cambia sola a la persona que corresponde.',
+      preparar: () => ({ rol: 'director', seccion: 'inicio' }),
+    },
+    {
+      titulo: 'El residente pasa lista desde el celular',
+      texto: c => listaEnTelefono(c)
+        ? 'La lista quedó guardada en el teléfono porque no hay señal. Toque "Con señal" a la derecha y se envía sola a recursos humanos.'
+        : 'Todos empiezan como presentes. Toque a Juan Carlos López para marcar que hoy faltó y después "Guardar pase de lista". Funciona igual sin señal: no hace falta el reloj checador.',
+      preparar: () => ({ rol: 'residente', seccion: 'campo', pantallaCelular: 'lista' }),
+      objetivo: c => (listaEnTelefono(c) ? 'senal' : 'celular'),
+      listo: listaGuardada,
+      hecho: c => {
+        const faltas = enObra(c).filter(t => t.asistencia[DIA_HOY] === 'F').length;
+        return `Lista de hoy guardada: ${enObra(c).length - faltas} presentes y ${faltas} ${faltas === 1 ? 'falta' : 'faltas'}. Recursos humanos ya la ve.`;
+      },
+      hacer: c => ({ tipo: 'pasar-lista', dia: DIA_HOY, marcas: Object.fromEntries(enObra(c).map(t => [t.id, t.id === 't4' ? 'F' : 'A'])) as Record<string, 'A' | 'F'> }),
+    },
+    {
+      titulo: 'Recursos humanos ve la semana completa',
+      texto: c => {
+        const t = faltoHoy(c);
+        if (!t) return 'Cada día llega del celular del residente: ✓ asistió, F faltó. Si hubo un error, recursos humanos toca el día y lo corrige.';
+        return `${t.nombre} faltó hoy viernes. Como la nómina se paga hoy, esa falta ya no alcanza a descontarse: los ${money(calcularNomina(t).pasaProxima)} pasan solos a la semana siguiente. Hoy eso se lleva a mano; aquí nadie tiene que acordarse.`;
+      },
+      preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
+      objetivo: c => `trab-${faltoHoy(c)?.id ?? 't3'}`,
+    },
+    {
+      titulo: 'Altas, bajas y gente en espera',
+      texto: () => 'Luis González está "En espera" desde el lunes: no se le paga hasta que regrese. Si ya no va a volver, cámbielo a "Baja" en la columna Estado. Los nuevos se dan de alta con el botón "Dar de alta" y aparecen solos en la lista del residente.',
+      preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
+      objetivo: () => 'trab-t12',
+      listo: c => trabajador(c, 't12')?.estado !== 'standby',
+      hecho: c => `Luis González quedó como "${ESTADO_TEXTO[trabajador(c, 't12')!.estado]}".`,
+      hacer: () => ({ tipo: 'estado-trabajador', id: 't12', estado: 'baja' }),
+    },
+    {
+      titulo: 'La prenómina del miércoles y el ajuste',
+      texto: c => {
+        const t = totalesNomina(c.estado.cuadrilla);
+        return `El miércoles salió la prenómina por ${money(t.prenomina)}: ya descontaba las faltas de lunes a miércoles y las de la semana pasada (Felipe Martínez faltó el sábado y Rubén Flores el viernes). Con las faltas del jueves, lo que se paga hoy es ${money(t.neto)}.`;
+      },
+      preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
+      objetivo: () => 'kpis-nomina',
+    },
+    {
+      titulo: 'La IA revisa la semana antes de pagar',
+      texto: () => 'Antes de pagar, la IA avisa lo que conviene revisar: quién acumula faltas, a quién se le descuenta algo de la semana pasada y quién sigue en espera. Es lo que hoy alguien tiene que ir buscando en la hoja.',
+      preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
+      objetivo: () => 'ia-nomina',
+    },
+    {
+      titulo: 'El archivo para el banco, en un clic',
+      texto: () => 'Toque "Generar archivo del banco". Sale el pago de cada persona con su cuenta, listo para subirlo al banco. Revise el total y toque "Descargar archivo".',
+      preparar: () => ({ rol: 'rrhh', seccion: 'nomina' }),
+      objetivo: () => 'btn-banco',
+      listo: c => c.estado.dispersada,
+      hecho: c => `Archivo generado por ${money(totalesNomina(c.estado.cuadrilla).neto)}. Ya no hay que capturar los pagos uno por uno en el banco.`,
+      hacer: () => ({ tipo: 'dispersar' }),
+    },
+    {
+      titulo: 'Usted ve el resultado sin pedirlo',
+      texto: c => {
+        const t = totalesNomina(c.estado.cuadrilla);
+        return `Como director ve la misma nómina: ${t.personas} personas, ${money(t.neto)} a pagar y ${money(t.pasaProxima)} que se descuentan la próxima semana. También le puede preguntar al Asistente IA "¿Quién faltó esta semana?".`;
+      },
+      preparar: () => ({ rol: 'director', seccion: 'nomina' }),
+      objetivo: () => 'kpis-nomina',
+    },
+    {
+      titulo: 'Lo que cambia para su equipo',
+      texto: () => 'La asistencia llega sola de la obra, aunque no haya internet. Los descuentos de las faltas, incluidas las de viernes y sábado, se calculan solos. Y el archivo del banco sale en un clic. Fin del recorrido.',
+      preparar: () => ({ rol: 'director', seccion: 'nomina' }),
+    },
+  ],
+};
+
+export const RECORRIDOS: Recorrido[] = [MATERIALES, NOMINA];
 
 // ─────────────────────────────────────────────────────────────────────────
 // PANEL DEL RECORRIDO Y RESALTADO

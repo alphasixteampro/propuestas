@@ -65,17 +65,17 @@ export function SeccionNomina({ cuadrilla, dispersada, persona, dispatch, avisar
     <div>
       <Titulo titulo="Nómina de la semana" sub="Semana del lunes 5 al sábado 10 de octubre. La asistencia llega del pase de lista en obra; la prenómina sale sola el miércoles.">
         {editable && <Boton variante="secundario" onClick={() => setAlta(true)}><UserPlus size={16} /> Dar de alta</Boton>}
-        {editable && <Boton onClick={() => setBanco(true)} disabled={dispersada}><Landmark size={16} /> {dispersada ? 'Archivo del banco generado' : 'Generar archivo del banco'}</Boton>}
+        {editable && <span data-tour="btn-banco" style={{ display: 'inline-flex', borderRadius: 8 }}><Boton onClick={() => setBanco(true)} disabled={dispersada}><Landmark size={16} /> {dispersada ? 'Archivo del banco generado' : 'Generar archivo del banco'}</Boton></span>}
       </Titulo>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12, marginBottom: 14 }}>
+      <div data-tour="kpis-nomina" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: 12, marginBottom: 14 }}>
         <Tarjeta><p style={{ margin: 0, fontSize: 13, color: C.muted, fontWeight: 700 }}>Prenómina del miércoles</p><p style={{ margin: '4px 0 0', fontSize: 22, fontWeight: 800 }}>{money(tot.prenomina)}</p></Tarjeta>
         <Tarjeta><p style={{ margin: 0, fontSize: 13, color: C.muted, fontWeight: 700 }}>A pagar esta semana</p><p style={{ margin: '4px 0 0', fontSize: 22, fontWeight: 800 }}>{money(tot.neto)}</p><p style={{ margin: '2px 0 0', fontSize: 13, color: C.muted }}>{tot.personas} personas · ajuste del jueves {money(tot.neto - tot.prenomina)}</p></Tarjeta>
         <Tarjeta><p style={{ margin: 0, fontSize: 13, color: C.muted, fontWeight: 700 }}>Descuentos aplicados</p><p style={{ margin: '4px 0 0', fontSize: 22, fontWeight: 800 }}>{money(tot.descuentos)}</p><p style={{ margin: '2px 0 0', fontSize: 13, color: C.muted }}>Faltas de lunes a jueves y de la semana pasada</p></Tarjeta>
         <Tarjeta><p style={{ margin: 0, fontSize: 13, color: C.muted, fontWeight: 700 }}>Pasa a la próxima semana</p><p style={{ margin: '4px 0 0', fontSize: 22, fontWeight: 800 }}>{money(tot.pasaProxima)}</p><p style={{ margin: '2px 0 0', fontSize: 13, color: C.muted }}>Faltas de viernes y sábado</p></Tarjeta>
       </div>
 
-      {obs.length > 0 && <div style={{ marginBottom: 14 }}><NotaIA titulo="Lo que la IA encontró en la semana"><ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>{obs.map((o, i) => <li key={i}>{o}</li>)}</ul></NotaIA></div>}
+      {obs.length > 0 && <div data-tour="ia-nomina" style={{ marginBottom: 14 }}><NotaIA titulo="Lo que la IA encontró en la semana"><ul style={{ margin: 0, paddingLeft: 18, display: 'flex', flexDirection: 'column', gap: 6 }}>{obs.map((o, i) => <li key={i}>{o}</li>)}</ul></NotaIA></div>}
 
       <Tarjeta>
         <Tabla minWidth={980} columnas={[
@@ -84,7 +84,7 @@ export function SeccionNomina({ cuadrilla, dispersada, persona, dispatch, avisar
           {cuadrilla.map(t => {
             const c = calcularNomina(t);
             return (
-              <tr key={t.id} style={{ opacity: t.estado === 'baja' ? 0.55 : 1 }}>
+              <tr key={t.id} data-tour={`trab-${t.id}`} style={{ opacity: t.estado === 'baja' ? 0.55 : 1 }}>
                 <td style={celda}><strong>{t.nombre}</strong><br /><span style={{ fontSize: 12, color: C.muted }}>{t.puesto} · {nombreFrente(t.frente)} · {money(t.salarioDiario)}/día</span></td>
                 <td style={celda}>
                   {editable ? (

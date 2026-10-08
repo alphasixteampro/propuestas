@@ -18,6 +18,7 @@ import { SeccionCampo } from './jc-proyectos/celular';
 import { SeccionAsistente } from './jc-proyectos/asistente';
 import { RECORRIDOS, ESTILOS_RECORRIDO, PanelRecorrido, TarjetaRecorridos, ModalRecorridos, ContextoRecorrido, Paso } from './jc-proyectos/recorridos';
 import { FrenteId } from './jc-proyectos/datos';
+import { Pantalla } from './jc-proyectos/celular';
 
 const NAV: { id: Seccion; label: string; icono: React.ComponentType<any>; grupo: string }[] = [
   { id: 'inicio', label: 'Inicio', icono: LayoutDashboard, grupo: '' },
@@ -127,6 +128,7 @@ export default function JcProyectosDemo() {
   const [cola, setCola] = useState<Accion[]>([]);
   const [recepcionSel, setRecepcionSel] = useState<string | null>(null);
   const [frentePres, setFrentePres] = useState<FrenteId | 'todos'>('todos');
+  const [pantallaCel, setPantallaCel] = useState<Pantalla>('pedir');
   const [tour, setTour] = useState<{ id: string; paso: number; reqId: string } | null>(null);
   const [menuTours, setMenuTours] = useState(false);
 
@@ -163,6 +165,7 @@ export default function JcProyectosDemo() {
     setRol(p.rol); setSeccion(p.seccion);
     if (p.recepcion !== undefined) setRecepcionSel(p.recepcion);
     setFrentePres(p.frentePresupuesto ?? 'todos');
+    setPantallaCel(p.pantallaCelular ?? 'pedir');
   };
   const empezarTour = (id: string) => {
     const t = { id, paso: 0, reqId: `REQ-${String(estado.consecutivoReq).padStart(3, '0')}` };
@@ -246,8 +249,8 @@ export default function JcProyectosDemo() {
             </div>
           )}
 
-          <div key={`${seccion}-${rol}-${frentePres}`}>
-          {seccion === 'campo' && <SeccionCampo reqs={estado.reqs} cuadrilla={estado.cuadrilla} actividades={estado.actividades} presupuesto={presupuesto} enLinea={enLinea} onSenal={cambiarSenal} cola={cola} enviar={enviarCampo} />}
+          <div key={`${seccion}-${rol}-${frentePres}-${pantallaCel}`}>
+          {seccion === 'campo' && <SeccionCampo reqs={estado.reqs} cuadrilla={estado.cuadrilla} actividades={estado.actividades} presupuesto={presupuesto} enLinea={enLinea} onSenal={cambiarSenal} cola={cola} enviar={enviarCampo} pantallaInicial={pantallaCel} />}
           {seccion === 'materiales' && <SeccionMateriales reqs={estado.reqs} presupuesto={presupuesto} programa={programa} persona={persona} dispatch={dispatch} avisar={avisar} onRecibir={id => { setRecepcionSel(id); ir('recepcion'); }} />}
           {seccion === 'recepcion' && <SeccionRecepcion reqs={estado.reqs} persona={persona} dispatch={dispatch} avisar={avisar} seleccion={recepcionSel} onSeleccion={setRecepcionSel} />}
           {seccion === 'presupuesto' && <SeccionPresupuesto presupuesto={presupuesto} programa={programa} avisar={avisar} frenteInicial={frentePres} />}
