@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LogoCarousel, { defaultLogos } from '../components/LogoCarousel';
 import PDFButton from '../components/PDFButton';
 import {
-  CheckCircle, ChevronRight, ChevronDown, Clock, FileText, Target, Zap,
+  Check, X, ChevronRight, Clock, FileText, Zap,
   AlertCircle, Calendar, MapPin, Users, Rocket, Shield, Coins, Database,
-  Receipt, LayoutDashboard, Truck, Search, Smartphone, XCircle, KeyRound,
-  Github, Server, PlayCircle, TrendingDown, HelpCircle, Wrench, ArrowRight,
+  Receipt, LayoutDashboard, Truck, Search, Smartphone, KeyRound,
+  Github, Server, PlayCircle, TrendingDown, Wrench, ArrowRight,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -28,7 +28,6 @@ const META = {
 };
 
 const AMBER = '#FFAA00';
-const AMBER_LIGHT = '#FFC54D';
 const LIGHT = '#EDEDED';
 const DEMO_URL = '/nibec-despachos/demo';
 
@@ -130,31 +129,147 @@ const SECCIONES = [
   { id: 'vigencia',   label: 'Vigencia' },
 ];
 
-// ─── HELPERS ─────────────────────────────────────────────────────────────────
+// ─── ESTILOS (look nibec.cl, alcance .nb) ────────────────────────────────────
 
-function useVisible(threshold = 0.12) {
-  const ref = useRef<HTMLElement>(null);
-  const [v, setV] = useState(false);
-  useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setV(true); }, { threshold });
-    if (ref.current) o.observe(ref.current);
-    return () => o.disconnect();
-  }, [threshold]);
-  return { ref, v };
+const NB_CSS = `
+.nb{
+  --nb-bg:#FFFFFF;--nb-surface:#F5F5F5;--nb-surface-2:#EDEDED;--nb-border:#E5E5E5;
+  --nb-ink:#121212;--nb-text:rgba(18,18,18,.75);--nb-muted:#5C5C5C;
+  --nb-amber:#FFAA00;--nb-amber-hover:#E89B00;--nb-amber-soft:#FFC16F;--nb-amber-tint:rgba(255,170,0,.3);
+  --nb-charcoal:#3C382F;--nb-charcoal-2:#363229;
+  background:var(--nb-bg);color:var(--nb-text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:1rem;line-height:1.7;-webkit-font-smoothing:antialiased;
+}
+.nb *{box-sizing:border-box}
+.nb h1,.nb h2,.nb h3,.nb p,.nb ul,.nb ol,.nb dl,.nb dd,.nb figure{margin:0}
+.nb ul,.nb ol{padding:0;list-style:none}
+.nb strong{font-weight:700;color:var(--nb-ink)}
+.nb a{color:inherit}
+
+.nb-container{max-width:1300px;margin-inline:auto;padding-inline:16px}
+@media(min-width:768px){.nb-container{padding-inline:32px}}
+.nb-section{padding-top:64px;scroll-margin-top:88px}
+@media(min-width:768px){.nb-section{padding-top:80px}}
+
+.nb-h1{font-size:clamp(1.75rem,1.2rem + 2vw,2.4rem);font-weight:600;letter-spacing:.6px;line-height:1.1;color:#fff}
+.nb-h2{font-size:clamp(1.5rem,1.2rem + 1.2vw,2rem);font-weight:700;letter-spacing:.6px;line-height:1.15;color:var(--nb-ink);margin-bottom:24px}
+.nb-h3{font-size:1.125rem;font-weight:700;line-height:1.25;color:var(--nb-ink)}
+@media(min-width:768px){.nb-h3{font-size:1.25rem}}
+.nb-prose{max-width:65ch}
+.nb-small{font-size:.875rem;line-height:1.5}
+.nb-muted{color:var(--nb-muted)}
+.nb-ink{color:var(--nb-ink)}
+.nb-icon{color:var(--nb-amber);flex:none}
+.nb-big{font-size:clamp(1.75rem,1.2rem + 2vw,2.4rem);font-weight:700;line-height:1.1;color:var(--nb-ink)}
+
+/* Botones */
+.nb-btn-primary,.nb-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 24px;
+  font-weight:700;font-size:1rem;line-height:1.2;text-decoration:none;cursor:pointer;border:0;
+  transition:background-color 150ms ease-out,transform 150ms ease-out;
+}
+.nb-btn-primary{background:var(--nb-amber);color:var(--nb-ink)!important;border-radius:25px}
+.nb-btn-primary:hover{background:var(--nb-amber-hover)}
+.nb-btn-primary:active{transform:translateY(1px)}
+.nb-btn-primary:focus-visible{outline:2px solid var(--nb-ink);outline-offset:2px}
+.nb-btn-primary.on-dark:focus-visible{outline-color:#fff}
+.nb-btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.nb-pdf button{
+  background:var(--nb-ink)!important;color:#fff!important;border:0!important;box-shadow:none!important;
+  border-radius:8px!important;font-family:inherit!important;font-weight:700!important;font-size:1rem!important;
+  min-height:44px;padding:12px 24px!important;transition:background-color 150ms ease-out,transform 150ms ease-out;
+}
+.nb-pdf button:hover:not(:disabled){background:#2A2A2A!important}
+.nb-pdf button:active:not(:disabled){transform:translateY(1px)}
+.nb-pdf button:focus-visible{outline:2px solid var(--nb-amber);outline-offset:2px}
+.nb-pdf button:disabled{opacity:.5;cursor:not-allowed!important}
+.nb-link{font-weight:700;color:var(--nb-ink);text-decoration:underline;text-underline-offset:4px;transition:color 150ms ease-out}
+.nb-link:hover{color:#000;text-decoration-thickness:2px}
+.nb-link:focus-visible{outline:2px solid var(--nb-ink);outline-offset:2px;border-radius:4px}
+
+/* Anuncio, header, barra de categorías */
+.nb-announce{background:var(--nb-ink);color:#fff;font-size:.875rem;line-height:1.5;text-align:center;padding:8px 16px}
+.nb-header{position:sticky;top:0;z-index:50;background:var(--nb-bg)}
+.nb-catbar{border-bottom:1px solid var(--nb-border)}
+.nb-catbar ul{display:flex;gap:24px;overflow-x:auto;scrollbar-width:thin}
+.nb-catbar a{
+  display:block;white-space:nowrap;padding:12px 0 10px;font-size:1rem;font-weight:600;line-height:1.5;color:var(--nb-ink);
+  text-decoration:none;border-bottom:2px solid transparent;transition:border-color 150ms ease-out,color 150ms ease-out;
+}
+.nb-catbar a:hover{border-bottom-color:var(--nb-border)}
+.nb-catbar a[aria-current="true"]{border-bottom-color:var(--nb-amber)}
+.nb-catbar a:focus-visible{outline:2px solid var(--nb-ink);outline-offset:-2px;border-radius:4px}
+
+/* Tarjetas y losetas */
+.nb-card{background:#fff;border:1px solid var(--nb-border);border-radius:12px;padding:24px}
+.nb-card-grey{background:var(--nb-surface);border-radius:12px;padding:24px}
+.nb-tile{background:var(--nb-charcoal);color:rgba(255,255,255,.8);border-radius:12px;padding:24px}
+.nb-tile .nb-h3,.nb-tile strong{color:#fff}
+.nb-hero{background:var(--nb-charcoal-2);border-radius:12px;padding:32px;color:rgba(255,255,255,.8)}
+@media(min-width:1024px){.nb-hero{padding:48px}}
+.nb-promo{background:var(--nb-amber-soft);color:var(--nb-ink);border-radius:12px;padding:16px 24px}
+.nb-band{background:var(--nb-amber-tint);color:var(--nb-ink);padding-block:32px;margin-block:40px}
+.nb-band p{color:rgba(18,18,18,.85)}
+.nb-cta-panel{background:var(--nb-charcoal);color:rgba(255,255,255,.8);border-radius:16px;padding:32px}
+@media(min-width:768px){.nb-cta-panel{padding:48px}}
+.nb-cta-panel strong{color:#fff}
+
+.nb-chip{display:inline-block;font-size:.875rem;font-weight:600;line-height:1.5;padding:4px 12px;border-radius:25px;background:rgba(255,255,255,.12);color:#fff}
+.nb-chip-active{background:var(--nb-amber);color:var(--nb-ink)}
+
+/* Mini tablero (estático) */
+.nb-board-col{background:var(--nb-surface);border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:8px;min-height:176px}
+.nb-board-title{font-size:.75rem;font-weight:700;line-height:1.3;color:var(--nb-ink)}
+.nb-mini-card{background:#fff;border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--nb-border)}
+.nb-line{display:block;height:6px;border-radius:25px;background:var(--nb-surface-2)}
+.nb-line-amber{background:var(--nb-amber)}
+
+/* Pasos */
+.nb-steps{display:grid;grid-template-columns:1fr;gap:24px}
+.nb-step{position:relative}
+.nb-step-num{
+  width:40px;height:40px;border-radius:50%;background:var(--nb-amber);color:var(--nb-ink);font-weight:700;font-size:1.125rem;
+  display:flex;align-items:center;justify-content:center;line-height:1;
+}
+@media(min-width:1024px){
+  .nb-steps{grid-template-columns:repeat(4,1fr)}
+  .nb-step:not(:last-child)::after{content:"";position:absolute;top:20px;left:52px;width:calc(100% - 40px);height:1px;background:#C9C9C9}
 }
 
-const TagLabel = ({ children }: { children: React.ReactNode }) => (
-  <span className="text-[#FFAA00] text-[13px] uppercase tracking-[0.22em] font-medium">{children}</span>
-);
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="font-bold text-white mt-2 mb-2 leading-tight"
-    style={{ fontSize: 'clamp(1.8125rem, 4.375vw, 2.625rem)', letterSpacing: '0.5px' }}>
-    {children}
-  </h2>
-);
-const Rule = () => (
-  <div className="w-10 h-0.5 mb-7 mt-1" style={{ background: 'linear-gradient(90deg,#FFAA00,#FFC54D)' }} />
-);
+/* Listas numeradas */
+.nb-ol{counter-reset:n;display:grid;gap:16px}
+.nb-ol>li{counter-increment:n;display:flex;gap:12px}
+.nb-ol>li::before{
+  content:counter(n);flex:none;width:28px;height:28px;border-radius:50%;background:var(--nb-amber);color:var(--nb-ink);
+  font-weight:700;font-size:.875rem;line-height:1;display:flex;align-items:center;justify-content:center;
+}
+
+/* Lista simple con bordes */
+.nb-list{border:1px solid var(--nb-border);border-radius:12px;overflow:hidden}
+.nb-list>li{display:flex;gap:16px;padding:16px 24px;border-top:1px solid var(--nb-border)}
+.nb-list>li:first-child{border-top:0}
+
+/* Barras de ahorro */
+.nb-track{height:16px;border-radius:25px;background:var(--nb-surface-2);overflow:hidden}
+.nb-fill{height:100%;border-radius:25px}
+
+/* Carrusel de logos sobre banda gris */
+.nb-logos-band{background:var(--nb-surface);margin-top:64px}
+@media(min-width:768px){.nb-logos-band{margin-top:80px}}
+.nb-logos-band section{border-color:var(--nb-border)!important}
+.nb-logos-band section p{color:var(--nb-muted)!important}
+
+/* Pie */
+.nb-footer{border-top:1px solid var(--nb-border);margin-top:64px;padding-block:48px}
+@media(min-width:768px){.nb-footer{margin-top:80px}}
+.nb-foot-h{font-size:1.125rem;font-weight:700;line-height:1.25;color:var(--nb-charcoal);margin-bottom:12px}
+
+@media (prefers-reduced-motion: reduce){
+  .nb *,.nb *::before,.nb *::after{transition:none!important;animation:none!important}
+  .nb .logo-slider-track{animation:none!important}
+}
+`;
 
 // ─── COMPONENTE ──────────────────────────────────────────────────────────────
 
@@ -162,7 +277,7 @@ const NibecDespachosProposal = () => {
   const [activeSection, setActiveSection] = useState('pedido');
 
   useEffect(() => {
-    const href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap';
+    const href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
     if (document.querySelector(`link[href="${href}"]`)) return;
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -184,562 +299,440 @@ const NibecDespachosProposal = () => {
   }, []);
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
-  const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
-  const s7 = useVisible(); const s8 = useVisible(); const s9 = useVisible();
-
-  const reveal = (v: boolean) => `transition-all duration-700 ${v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
+  const goTo = (e: React.MouseEvent, id: string) => { e.preventDefault(); scrollTo(id); };
 
   // Barras de ahorro: proporcional al costo del primer año
   const barTablero = Math.max(((PRECIO_USD + SERVIDOR_ANIO_USD) / WMS_ANIO_USD) * 100, 8);
 
   return (
-    <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#1A1814', fontFamily: 'Inter, sans-serif' }}>
+    <div id="proposal-root" className="nb min-h-screen overflow-x-hidden">
+      <style>{NB_CSS}</style>
 
-      {/* ── NAV LATERAL ── */}
-      <nav className="hidden xl:flex fixed right-5 top-1/2 -translate-y-1/2 z-50 flex-col gap-3 no-print">
-        {SECCIONES.map(s => (
-          <button key={s.id} onClick={() => scrollTo(s.id)}
-            className={`group flex items-center gap-2.5 transition-all duration-300 ${activeSection === s.id ? 'opacity-100' : 'opacity-25 hover:opacity-60'}`}>
-            <span className={`text-[14px] text-white whitespace-nowrap transition-all duration-300 ${activeSection === s.id ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0'}`}>
-              {s.label}
-            </span>
-            <div className={`rounded-full flex-shrink-0 transition-all duration-300 ${activeSection === s.id ? 'w-2 h-2 bg-[#FFAA00] shadow-[0_0_6px_rgba(255,170,0,.7)]' : 'w-1.5 h-1.5 bg-white/50'}`} />
-          </button>
-        ))}
-      </nav>
+      {/* ── ANUNCIO ── */}
+      <div className="nb-announce">
+        Propuesta para {META.cliente} · {META.fecha} · Vigente 30 días
+      </div>
 
-      {/* ══════════ PORTADA */}
-      <header className="relative min-h-screen flex flex-col overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #100e0b 0%, #151310 55%, #1A1814 100%)' }}>
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(255,170,0,.06) 0%, transparent 65%)' }} />
-          <div className="absolute bottom-0 left-0 w-80 h-80 rounded-full"
-            style={{ background: 'radial-gradient(circle, rgba(237,237,237,.05) 0%, transparent 70%)', transform: 'translate(-20%,20%)' }} />
-          <div className="absolute inset-0 opacity-[0.025]"
-            style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.3) 1px,transparent 1px)', backgroundSize: '56px 56px' }} />
-        </div>
-
-        {/* Topbar */}
-        <div className="relative z-10 flex items-center justify-between gap-3 px-6 py-6 md:px-12 border-b" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center bg-white">
-                <img src="/sixteam-logo.png" alt="Sixteam.pro" className="w-full h-full object-contain"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              </div>
-              <div className="hidden sm:block">
-                <span className="font-bold text-white text-xl tracking-tight">Sixteam<span className="text-[#FFAA00]">.</span>pro</span>
-                <p className="text-white/60 text-[13px] leading-none mt-0.5">Innovación y Estrategia Digital</p>
-              </div>
-            </div>
-            <div className="w-px h-8 bg-white/10 hidden sm:block" />
-            <div className="h-11 w-24 flex items-center justify-center rounded-lg px-2" style={{ background: 'rgba(255,255,255,.95)' }}>
-              <img src="/Logo nibec.png" alt="Nibec" className="max-h-full w-auto object-contain"
+      {/* ── HEADER + BARRA DE SECCIONES ── */}
+      <div className="nb-header no-print">
+        <header>
+          <div className="nb-container flex flex-wrap items-center justify-between gap-3 py-3">
+            <div className="flex items-center gap-4">
+              <img src="/Logo nibec.png" alt="Nibec" style={{ height: 44, width: 'auto' }} className="object-contain"
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <span className="nb-small nb-muted hidden sm:inline">Propuesta de Sixteam.pro</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="nb-pdf hidden sm:block">
+                <PDFButton elementId="proposal-root" filename="propuesta-nibec-tablero-despachos.pdf" />
+              </div>
+              <Link to={DEMO_URL} className="nb-btn-primary">
+                <PlayCircle className="w-5 h-5" aria-hidden="true" /> Ver la demo interactiva
+              </Link>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <PDFButton elementId="proposal-root" filename="propuesta-nibec-tablero-despachos.pdf" className="hidden sm:inline-flex" />
-            <span className="text-[#FFAA00]/80 text-[13px] uppercase tracking-[0.2em] border border-[#FFAA00]/20 rounded-full px-3 py-1.5">Confidencial</span>
+        </header>
+        <nav aria-label="Secciones de la propuesta" className="nb-catbar">
+          <div className="nb-container">
+            <ul>
+              {SECCIONES.map(s => (
+                <li key={s.id}>
+                  <a href={`#${s.id}`} onClick={(e) => goTo(e, s.id)}
+                    aria-current={activeSection === s.id ? 'true' : undefined}>
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </nav>
+      </div>
 
-        <style>{`
-          @keyframes dsp-spin-slow { from{transform:rotate(0deg)}to{transform:rotate(360deg)} }
-          @keyframes dsp-spin-rev  { from{transform:rotate(0deg)}to{transform:rotate(-360deg)} }
-          @keyframes dsp-pulse-glow { 0%,100%{opacity:.07;transform:scale(1)} 50%{opacity:.15;transform:scale(1.12)} }
-          @keyframes dsp-float { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
-          .dsp-ring-1{animation:dsp-spin-slow 22s linear infinite}
-          .dsp-ring-2{animation:dsp-spin-rev 16s linear infinite}
-          .dsp-glow{animation:dsp-pulse-glow 4s ease-in-out infinite}
-          .dsp-float{animation:dsp-float 5s ease-in-out infinite}
-        `}</style>
+      <main>
 
-        {/* Hero */}
-        <div className="relative z-10 flex-1 flex items-center justify-center py-12" style={{ paddingLeft: '10%', paddingRight: '10%' }}>
-          <div className="w-full grid grid-cols-1 lg:grid-cols-[55%_45%] gap-10 lg:gap-12 items-center">
-
-            <div className="flex flex-col justify-center">
-              <TagLabel>Propuesta de trabajo y cotización · {META.fecha}</TagLabel>
-              <div className="mt-4 mb-3 flex flex-wrap items-center gap-2">
-                <div className="w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0"
-                  style={{ background: `linear-gradient(135deg, ${AMBER}, ${AMBER_LIGHT})` }}>
-                  <Shield className="w-3 h-3 text-white" />
-                </div>
-                <span className="text-white/60 text-[15px]">Para:</span>
-                <span className="font-bold text-white/85 text-[18px]">{META.contacto} · Nibec</span>
-              </div>
-              <h1 className="font-bold text-white leading-[1.0] mb-4"
-                style={{ fontSize: 'clamp(2.6rem, 4.8vw, 4.6rem)', letterSpacing: '0.5px' }}>
-                Tablero de<br />
-                <span style={{ background: `linear-gradient(90deg,${AMBER},${AMBER_LIGHT})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  Despachos Nibec
-                </span>
-              </h1>
-              <p className="text-white/75 text-xl leading-relaxed mb-6">
-                {META.tagline}.
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {[
-                  { icon: Calendar, text: META.fecha },
-                  { icon: MapPin,   text: META.sede },
-                  { icon: Coins,    text: `USD ${PRECIO_USD.toLocaleString('es-CL')} pago único` },
-                  { icon: Clock,    text: '4 semanas' },
-                ].map((chip, i) => {
-                  const Icon = chip.icon;
-                  return (
-                    <div key={i} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[15px] text-white/75"
-                      style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-                      <Icon className="w-3.5 h-3.5 text-[#FFAA00]" /> {chip.text}
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mb-8 no-print">
-                <Link to={DEMO_URL}
-                  className="inline-flex items-center gap-2 px-5 py-3 text-[15px] transition-all hover:brightness-110"
-                  style={{ background: AMBER, color: '#000', fontWeight: 700, borderRadius: '25px', boxShadow: '0 4px 20px rgba(255,170,0,.25)' }}>
-                  <PlayCircle className="w-4 h-4" /> Ver la demo interactiva
-                </Link>
-              </div>
-              <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
-                <p className="text-white/60 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-1.5">
-                  {SECCIONES.map((s, i) => (
-                    <button key={s.id} onClick={() => scrollTo(s.id)}
-                      className="text-white/60 text-[15px] hover:text-[#FFAA00] transition-colors duration-200 text-left flex items-center gap-1.5">
-                      <ChevronRight className="w-3 h-3 text-[#FFAA00]/40 flex-shrink-0" />
-                      {i + 1}. {s.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Derecha animada */}
-            <div className="flex items-center justify-center relative min-h-[380px]">
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="dsp-glow absolute w-80 h-80 rounded-full"
-                  style={{ background: 'radial-gradient(circle, rgba(255,170,0,.10) 0%, rgba(255,170,0,.05) 50%, transparent 70%)' }} />
-                <div className="dsp-ring-1 absolute w-96 h-96 rounded-full" style={{ border: '1px solid rgba(255,170,0,.14)' }} />
-                <div className="dsp-ring-2 absolute w-64 h-64 rounded-full" style={{ border: '1px dashed rgba(255,170,0,.18)' }} />
-              </div>
-              <div className="dsp-float relative z-10 flex flex-col items-center gap-4 w-full px-6">
-                <img src="/sixteam-logo.png" alt="Sixteam.pro" className="h-12 w-auto object-contain"
-                  style={{ filter: 'drop-shadow(0 4px 20px rgba(255,170,0,.45))' }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                <div className="w-full max-w-[260px] space-y-2">
+        {/* ══════════ PORTADA */}
+        <div className="nb-container" style={{ paddingTop: 32 }}>
+          <div className="nb-hero">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              <div>
+                <p className="nb-small" style={{ color: 'rgba(255,255,255,.8)' }}>
+                  Propuesta de trabajo y cotización · {META.fecha}
+                </p>
+                <p className="flex flex-wrap items-center gap-2 mt-4 mb-4">
+                  <Shield className="w-5 h-5 nb-icon" aria-hidden="true" />
+                  <span style={{ color: 'rgba(255,255,255,.8)' }}>Para:</span>
+                  <span className="font-bold text-white">{META.contacto} · Nibec</span>
+                </p>
+                <h1 className="nb-h1 mb-4">
+                  Tablero de<br />Despachos Nibec
+                </h1>
+                <p className="mb-6" style={{ fontSize: '1.125rem', maxWidth: '65ch' }}>
+                  {META.tagline}.
+                </p>
+                <ul className="flex flex-wrap gap-x-6 gap-y-2 mb-8">
                   {[
-                    { n: 'Bsale', d: 'emite la boleta', c: LIGHT },
-                    { n: 'Tablero', d: 'ordena el pedido', c: AMBER },
-                    { n: 'Beetrack', d: 'despacha y avisa', c: AMBER },
-                  ].map((b, i) => (
-                    <React.Fragment key={b.n}>
-                      <div className="rounded-2xl px-4 py-3 flex items-center justify-between"
-                        style={{ background: '#363229', border: `1px solid ${b.c}55` }}>
-                        <span className="font-bold text-white text-[16px]">{b.n}</span>
-                        <span className="text-white/60 text-[13px]">{b.d}</span>
-                      </div>
-                      {i < 2 && <div className="flex justify-center"><ChevronDown className="w-4 h-4 text-white/60" /></div>}
-                    </React.Fragment>
-                  ))}
-                </div>
-                <div className="text-center">
-                  <p className="font-bold text-white text-[20px] tracking-tight">Nibec</p>
-                  <p className="text-[13px] uppercase tracking-[0.18em] mt-1" style={{ color: AMBER }}>Equipamiento industrial</p>
+                    { icon: Calendar, text: META.fecha },
+                    { icon: MapPin,   text: META.sede },
+                    { icon: Coins,    text: `USD ${PRECIO_USD.toLocaleString('es-CL')} pago único` },
+                    { icon: Clock,    text: '4 semanas' },
+                  ].map((chip, i) => {
+                    const Icon = chip.icon;
+                    return (
+                      <li key={i} className="inline-flex items-center gap-2" style={{ color: 'rgba(255,255,255,.8)' }}>
+                        <Icon className="w-4 h-4 nb-icon" aria-hidden="true" /> {chip.text}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="no-print">
+                  <Link to={DEMO_URL} className="nb-btn-primary on-dark">
+                    <PlayCircle className="w-5 h-5" aria-hidden="true" /> Ver la demo interactiva
+                  </Link>
                 </div>
               </div>
-            </div>
 
+              {/* Mini tablero estático */}
+              <div aria-hidden="true">
+                <div className="grid grid-cols-3 gap-2">
+                  {COLUMNAS_TABLERO.map((c, ci) => (
+                    <div key={c} className="nb-board-col">
+                      <p className="nb-board-title">{c}</p>
+                      {Array.from({ length: ci === 2 ? 1 : 2 }).map((_, k) => (
+                        <div key={k} className="nb-mini-card">
+                          <span className="nb-line" style={{ width: '75%' }} />
+                          <span className="nb-line" style={{ width: '50%' }} />
+                          {ci === 2 && <span className="nb-line nb-line-amber" style={{ width: '33%' }} />}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <p className="font-bold mt-3 text-right" style={{ color: 'var(--nb-amber)' }}>→ Beetrack</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center gap-2 pb-10 opacity-30 no-print">
-          <p className="text-white text-[13px] uppercase tracking-widest">Desplazar</p>
-          <div className="w-px h-10 bg-gradient-to-b from-white/60 to-transparent" />
+        {/* ══════════ PROMO */}
+        <div className="nb-container" style={{ marginTop: 24 }}>
+          <div className="nb-promo flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+            <p>
+              <strong>≈ 1 mes</strong> de WMS basta para pagar el Tablero · <strong>≈ USD 12.500</strong> de ahorro el primer año
+            </p>
+            <a href="#ahorro" onClick={(e) => goTo(e, 'ahorro')} className="nb-link">Ver ahorro →</a>
+          </div>
         </div>
-      </header>
 
-      {/* ══════════ CONTENIDO */}
-      <main className="max-w-4xl mx-auto px-5 sm:px-8 md:px-10 py-20 space-y-24">
-
-        {/* ─ 01 LO QUE NOS PIDIERON ─ */}
-        <section id="pedido" ref={s1.ref as React.RefObject<HTMLElement>} className={reveal(s1.v)}>
-          <TagLabel>01 — Lo que nos pidieron</TagLabel>
-          <SectionTitle>Simple, barato y de Nibec</SectionTitle>
-          <Rule />
-          <p className="text-white/75 text-[18px] leading-relaxed mb-8">
-            Nibec vende por su tienda online y por atención directa, con cerca de 400 ventas cerradas al mes. Hoy paga un sistema de bodega de <strong className="text-white/75">$1,1 millones CLP al mes</strong> y quiere dejarlo. Esto es lo que pidió {META.contacto}:
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {PEDIDOS.map((p, i) => {
-              const Icon = p.icon;
-              return (
-                <div key={i} className="rounded-2xl p-5"
-                  style={{ background: '#363229', border: `1px solid ${p.color}33` }}>
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
-                    style={{ background: `${p.color}1f`, border: `1px solid ${p.color}44` }}>
-                    <Icon className="w-4 h-4" style={{ color: p.color }} />
+        {/* ─ LO QUE NOS PIDIERON ─ */}
+        <section id="pedido" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Simple, barato y de Nibec</h2>
+            <p className="nb-prose mb-6">
+              Nibec vende por su tienda online y por atención directa, con cerca de 400 ventas cerradas al mes. Hoy paga un sistema de bodega de <strong>$1,1 millones CLP al mes</strong> y quiere dejarlo. Esto es lo que pidió {META.contacto}:
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
+              {PEDIDOS.map((p, i) => {
+                const Icon = p.icon;
+                return (
+                  <div key={i} className="nb-card">
+                    <Icon className="w-6 h-6 nb-icon mb-4" aria-hidden="true" />
+                    <h3 className="nb-h3 mb-2">{p.titulo}</h3>
+                    <p className="mb-4">{p.desc}</p>
+                    <p className="nb-ink italic nb-small">{p.cita}</p>
                   </div>
-                  <p className="font-semibold text-white/90 text-[17px] mb-1.5">{p.titulo}</p>
-                  <p className="text-white/75 text-[15px] leading-relaxed mb-3">{p.desc}</p>
-                  <p className="text-[14px] italic" style={{ color: p.color }}>{p.cita}</p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </section>
 
-        {/* ─ 02 CÓMO FUNCIONA ─ */}
-        <section id="funciona" ref={s2.ref as React.RefObject<HTMLElement>} className={reveal(s2.v)}>
-          <TagLabel>02 — Cómo funciona</TagLabel>
-          <SectionTitle>Un puente, no otro sistema grande</SectionTitle>
-          <Rule />
-          <p className="text-white/75 text-[18px] leading-relaxed mb-8">
-            Todo el pedido nace en Bsale, así que nada se escribe a mano. El tablero solo recibe lo que Bsale emite, lo ordena por etapas y, al final, le pasa el pedido a Beetrack.
-          </p>
+        {/* ─ CÓMO FUNCIONA ─ */}
+        <section id="funciona" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Un puente, no otro sistema grande</h2>
+            <p className="nb-prose mb-6">
+              Todo el pedido nace en Bsale, así que nada se escribe a mano. El tablero solo recibe lo que Bsale emite, lo ordena por etapas y, al final, le pasa el pedido a Beetrack.
+            </p>
 
-          {/* Flujo */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1.6fr_auto_1fr] gap-3 items-stretch">
-            {/* Bsale */}
-            <div className="rounded-2xl p-5"
-              style={{ background: 'rgba(237,237,237,.08)', border: '1px solid rgba(237,237,237,.3)' }}>
-              <Receipt className="w-5 h-5 mb-3" style={{ color: LIGHT }} />
-              <p className="font-bold text-white text-[18px] mb-1">Bsale</p>
-              <p className="text-white/75 text-[15px] leading-relaxed">Emite la boleta o factura. De ahí sale toda la información del pedido.</p>
-            </div>
-            <div className="flex items-center justify-center">
-              <ArrowRight className="w-5 h-5 text-white/60 rotate-90 lg:rotate-0" />
-            </div>
-            {/* Tablero */}
-            <div className="rounded-2xl p-5"
-              style={{ background: 'rgba(255,170,0,.07)', border: '1px solid rgba(255,170,0,.3)' }}>
-              <LayoutDashboard className="w-5 h-5 mb-3" style={{ color: AMBER }} />
-              <p className="font-bold text-white text-[18px] mb-3">Tablero de Despachos</p>
-              <div className="flex flex-wrap items-center gap-1.5">
-                {COLUMNAS_TABLERO.map((c, i) => (
-                  <React.Fragment key={c}>
-                    <span className="font-semibold text-[13px] px-2.5 py-1.5 rounded-lg"
-                      style={c === 'Despacho'
-                        ? { background: 'rgba(255,170,0,.18)', border: '1px solid rgba(255,170,0,.5)', color: AMBER }
-                        : { background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.12)', color: 'rgba(255,255,255,.8)' }}>
-                      {c}
-                    </span>
-                    {i < COLUMNAS_TABLERO.length - 1 && <ChevronRight className="w-3.5 h-3.5 text-white/60" />}
-                  </React.Fragment>
-                ))}
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1.4fr_auto_1fr] gap-4 items-stretch">
+              <div className="nb-tile">
+                <Receipt className="w-6 h-6 nb-icon mb-4" aria-hidden="true" />
+                <h3 className="nb-h3 mb-2">Bsale</h3>
+                <p>Emite la boleta o factura. De ahí sale toda la información del pedido.</p>
               </div>
-              <p className="text-white/75 text-[14px] leading-relaxed mt-3">Arrastras la tarjeta de una columna a la siguiente.</p>
-            </div>
-            <div className="flex items-center justify-center">
-              <ArrowRight className="w-5 h-5 text-white/60 rotate-90 lg:rotate-0" />
-            </div>
-            {/* Beetrack */}
-            <div className="rounded-2xl p-5"
-              style={{ background: 'rgba(255,170,0,.07)', border: '1px solid rgba(255,170,0,.3)' }}>
-              <Truck className="w-5 h-5 mb-3" style={{ color: AMBER }} />
-              <p className="font-bold text-white text-[18px] mb-1">Beetrack</p>
-              <p className="text-white/75 text-[15px] leading-relaxed">Crea el despacho y la guía. Devuelve <strong className="text-white/75">En ruta</strong> y <strong className="text-white/75">Entregado</strong>.</p>
+              <div className="hidden lg:flex items-center justify-center">
+                <ArrowRight className="w-6 h-6 nb-icon" aria-hidden="true" />
+              </div>
+              <div className="nb-tile">
+                <LayoutDashboard className="w-6 h-6 nb-icon mb-4" aria-hidden="true" />
+                <h3 className="nb-h3 mb-3">Tablero de Despachos</h3>
+                <div className="flex flex-wrap items-center gap-2">
+                  {COLUMNAS_TABLERO.map((c, i) => (
+                    <React.Fragment key={c}>
+                      <span className={c === 'Despacho' ? 'nb-chip nb-chip-active' : 'nb-chip'}>{c}</span>
+                      {i < COLUMNAS_TABLERO.length - 1 && <ChevronRight className="w-4 h-4" style={{ color: 'rgba(255,255,255,.8)' }} aria-hidden="true" />}
+                    </React.Fragment>
+                  ))}
+                </div>
+                <p className="nb-small mt-3">Arrastras la tarjeta de una columna a la siguiente.</p>
+              </div>
+              <div className="hidden lg:flex items-center justify-center">
+                <ArrowRight className="w-6 h-6 nb-icon" aria-hidden="true" />
+              </div>
+              <div className="nb-tile">
+                <Truck className="w-6 h-6 nb-icon mb-4" aria-hidden="true" />
+                <h3 className="nb-h3 mb-2">Beetrack</h3>
+                <p>Crea el despacho y la guía. Devuelve <strong>En ruta</strong> y <strong>Entregado</strong>.</p>
+              </div>
             </div>
           </div>
 
           {/* Punto clave */}
-          <div className="rounded-2xl p-4 sm:p-5 mt-5 flex gap-3"
-            style={{ background: 'rgba(255,170,0,.07)', border: '1px solid rgba(255,170,0,.28)' }}>
-            <Zap className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#FFAA00]" />
-            <div>
-              <p className="font-semibold text-white/85 text-[17px] mb-1">El punto clave</p>
-              <p className="text-white/75 text-[16px] leading-relaxed">
-                Hoy la guía de Beetrack se genera sola desde Bsale. Con el tablero, <strong className="text-white/85">la guía se crea solo cuando la tarjeta llega a “Despacho”</strong>. Así Nibec decide cuándo sale cada pedido, y Beetrack lo recibe sin que nadie lo vuelva a escribir. La conexión entre los sistemas es automática (por la API de cada uno).
-              </p>
+          <div className="nb-band">
+            <div className="nb-container flex gap-4">
+              <Zap className="w-6 h-6 flex-none mt-1" style={{ color: 'var(--nb-ink)' }} aria-hidden="true" />
+              <div className="nb-prose">
+                <h3 className="nb-h3 mb-2">El punto clave</h3>
+                <p>
+                  Hoy la guía de Beetrack se genera sola desde Bsale. Con el tablero, <strong>la guía se crea solo cuando la tarjeta llega a “Despacho”</strong>. Así Nibec decide cuándo sale cada pedido, y Beetrack lo recibe sin que nadie lo vuelva a escribir. La conexión entre los sistemas es automática (por la API de cada uno).
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl p-4 mt-3 flex gap-3"
-            style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-            <Users className="w-4 h-4 flex-shrink-0 mt-0.5 text-white/60" />
-            <p className="text-white/75 text-[15px] leading-relaxed">
-              Los pedidos marcados <strong className="text-white/75">“Retiro en bodega”</strong> no van a Beetrack: pasan de “En preparación” a “Entregado” a mano. Después de “Despacho”, las columnas <strong className="text-white/75">En ruta</strong> y <strong className="text-white/75">Entregado</strong> las mueve Beetrack solo.
+          <div className="nb-container">
+            <p className="nb-prose">
+              Los pedidos marcados <strong>“Retiro en bodega”</strong> no van a Beetrack: pasan de “En preparación” a “Entregado” a mano. Después de “Despacho”, las columnas <strong>En ruta</strong> y <strong>Entregado</strong> las mueve Beetrack solo.
             </p>
-          </div>
 
-          {/* Demo */}
-          <div className="mt-6 rounded-2xl p-6 sm:p-7 text-center no-print relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, rgba(237,237,237,.12), rgba(255,170,0,.10))', border: '1px solid rgba(255,170,0,.3)' }}>
-            <PlayCircle className="w-8 h-8 mx-auto mb-3 text-[#FFAA00]" />
-            <p className="font-bold text-white text-[20px] mb-1">Pruébalo con pedidos de ejemplo</p>
-            <p className="text-white/75 text-[16px] mb-5">Arrastra las tarjetas y mira qué pasa al llegar a “Despacho”. Los datos son ficticios.</p>
-            <Link to={DEMO_URL}
-              className="inline-flex items-center gap-2 px-6 py-3.5 text-[16px] transition-all hover:brightness-110"
-              style={{ background: AMBER, color: '#000', fontWeight: 700, borderRadius: '25px', boxShadow: '0 4px 24px rgba(255,170,0,.3)' }}>
-              <PlayCircle className="w-5 h-5" /> Ver la demo interactiva
-            </Link>
+            {/* Demo */}
+            <div className="nb-card mt-8 flex flex-wrap items-center justify-between gap-4 no-print">
+              <div>
+                <h3 className="nb-h3 mb-1">Pruébalo con pedidos de ejemplo</h3>
+                <p>Arrastra las tarjetas y mira qué pasa al llegar a “Despacho”. Los datos son ficticios.</p>
+              </div>
+              <Link to={DEMO_URL} className="nb-btn-primary">
+                <PlayCircle className="w-5 h-5" aria-hidden="true" /> Ver la demo interactiva
+              </Link>
+            </div>
           </div>
         </section>
 
-        {/* ─ 03 QUÉ INCLUYE / QUÉ NO HACE ─ */}
-        <section id="alcance" ref={s3.ref as React.RefObject<HTMLElement>} className={reveal(s3.v)}>
-          <TagLabel>03 — Alcance</TagLabel>
-          <SectionTitle>Qué incluye y qué no hace</SectionTitle>
-          <Rule />
-          <p className="text-white/75 text-[18px] leading-relaxed mb-8">
-            Es básico a propósito. Hace pocas cosas y las hace bien; lo demás sigue donde está hoy.
-          </p>
+        {/* ─ QUÉ INCLUYE / QUÉ NO HACE ─ */}
+        <section id="alcance" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Qué incluye y qué no hace</h2>
+            <p className="nb-prose mb-6">
+              Es básico a propósito. Hace pocas cosas y las hace bien; lo demás sigue donde está hoy.
+            </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-5 items-start">
-            {/* Incluye */}
-            <div className="rounded-2xl p-5 sm:p-6"
-              style={{ background: 'rgba(255,170,0,.05)', border: '1px solid rgba(255,170,0,.22)' }}>
-              <p className="font-semibold text-[#FFAA00] text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" /> Qué incluye
-              </p>
-              <ul className="space-y-4">
-                {INCLUYE.map((it, i) => {
-                  const Icon = it.icon;
-                  return (
-                    <li key={i} className="flex gap-3">
-                      <Icon className="w-4 h-4 text-[#FFAA00] flex-shrink-0 mt-0.5" />
+            <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-6 items-start">
+              <div>
+                <h3 className="nb-h3 mb-4">Qué incluye</h3>
+                <ul className="grid gap-4">
+                  {INCLUYE.map((it, i) => (
+                    <li key={i} className="nb-card flex gap-3" style={{ padding: 16 }}>
+                      <Check className="w-5 h-5 nb-icon mt-0.5" strokeWidth={3} aria-hidden="true" />
                       <div>
-                        <p className="font-semibold text-white/85 text-[16px] mb-0.5">{it.titulo}</p>
-                        <p className="text-white/75 text-[14px] leading-relaxed">{it.desc}</p>
+                        <p className="font-bold nb-ink">{it.titulo}</p>
+                        <p className="nb-small">{it.desc}</p>
                       </div>
                     </li>
-                  );
-                })}
-              </ul>
-            </div>
-
-            {/* No hace */}
-            <div className="rounded-2xl p-5 sm:p-6"
-              style={{ background: 'rgba(248,113,113,.04)', border: '1px solid rgba(248,113,113,.2)' }}>
-              <p className="font-semibold text-[#f87171] text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
-                <XCircle className="w-4 h-4" /> Qué no hace
-              </p>
-              <ul className="space-y-3">
-                {NO_HACE.map((t, i) => (
-                  <li key={i} className="flex gap-2.5">
-                    <XCircle className="w-4 h-4 text-[#f87171]/70 flex-shrink-0 mt-0.5" />
-                    <span className="text-white/75 text-[15px] leading-snug">{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* ─ 04 ES TUYO ─ */}
-        <section id="tuyo" ref={s4.ref as React.RefObject<HTMLElement>} className={reveal(s4.v)}>
-          <TagLabel>04 — Propiedad</TagLabel>
-          <SectionTitle>Es tuyo</SectionTitle>
-          <Rule />
-          <div className="rounded-2xl p-6 sm:p-8 relative overflow-hidden mb-4"
-            style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-            <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(255,170,0,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
-            <Target className="w-7 h-7 text-[#FFAA00] mb-4" />
-            <p className="font-semibold text-white/85 text-xl sm:text-[22px] leading-relaxed">
-              Pagas una vez y <em className="not-italic" style={{ color: AMBER }}>todo queda a nombre de Nibec</em>. Sin licencias y sin mensualidad de Sixteam.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            {[
-              { icon: Github, titulo: 'El código', desc: 'Queda en la cuenta de GitHub de Nibec.', color: LIGHT },
-              { icon: Server, titulo: 'El servidor', desc: 'Corre en un servidor a nombre de Nibec.', color: AMBER },
-              { icon: Database, titulo: 'La base de datos', desc: 'Es de Nibec, con sus pedidos e historial.', color: AMBER },
-            ].map((c, i) => {
-              const Icon = c.icon;
-              return (
-                <div key={i} className="rounded-2xl p-4"
-                  style={{ background: `${c.color}0f`, border: `1px solid ${c.color}33` }}>
-                  <Icon className="w-5 h-5 mb-2" style={{ color: c.color }} />
-                  <p className="font-semibold text-white/90 text-[16px] mb-1">{c.titulo}</p>
-                  <p className="text-white/75 text-[14px] leading-relaxed">{c.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-          <div className="rounded-2xl p-4 sm:p-5 flex gap-3"
-            style={{ background: 'rgba(255,170,0,.05)', border: '1px solid rgba(255,170,0,.2)' }}>
-            <Coins className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: AMBER }} />
-            <p className="text-white/75 text-[16px] leading-relaxed">
-              El <strong className="text-white/80">único costo que sigue</strong> es el servidor: <strong className="text-white/80">≈ USD {SERVIDOR_MES_USD} al mes</strong>, que Nibec paga directo al proveedor. Cualquier desarrollador puede modificar el sistema después, no hace falta depender de Sixteam.
-            </p>
-          </div>
-        </section>
-
-        {/* ─ 05 AHORRO ─ */}
-        <section id="ahorro" ref={s5.ref as React.RefObject<HTMLElement>} className={reveal(s5.v)}>
-          <TagLabel>05 — Ahorro</TagLabel>
-          <SectionTitle>Se paga con un mes de WMS</SectionTitle>
-          <Rule />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-            <div className="rounded-2xl p-6"
-              style={{ background: 'rgba(248,113,113,.05)', border: '1px solid rgba(248,113,113,.22)' }}>
-              <p className="text-white/60 text-[13px] uppercase tracking-widest mb-2">Hoy · WMS</p>
-              <p className="font-bold text-white leading-none mb-1" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)' }}>$1,1 millones</p>
-              <p className="text-white/75 text-[15px] mb-3">CLP al mes</p>
-              <p className="font-bold text-[#f87171] text-[18px]">$13,2 millones al año</p>
-              <p className="text-white/60 text-[14px]">≈ USD 13.800 al año</p>
-            </div>
-            <div className="rounded-2xl p-6"
-              style={{ background: 'rgba(255,170,0,.07)', border: '1px solid rgba(255,170,0,.3)' }}>
-              <p className="text-white/60 text-[13px] uppercase tracking-widest mb-2">Con el Tablero</p>
-              <p className="font-bold text-white leading-none mb-1" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)' }}>USD 1.200</p>
-              <p className="text-white/75 text-[15px] mb-3">pago único</p>
-              <p className="font-bold text-[#FFAA00] text-[18px]">+ ≈ USD {SERVIDOR_ANIO_USD} al año</p>
-              <p className="text-white/60 text-[14px]">de servidor, pagado directo por Nibec</p>
-            </div>
-          </div>
-
-          {/* Barras */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-5"
-            style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-            <p className="font-semibold text-white/70 text-[14px] uppercase tracking-wider mb-4">Costo del primer año (USD)</p>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-[14px] mb-1.5">
-                  <span className="text-white/75">WMS actual</span>
-                  <span className="text-white/80 font-semibold">13.800</span>
-                </div>
-                <div className="h-4 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.06)' }}>
-                  <div className="h-full rounded-full" style={{ width: '100%', background: 'linear-gradient(90deg, #f87171, #ef4444)' }} />
-                </div>
+                  ))}
+                </ul>
               </div>
-              <div>
-                <div className="flex justify-between text-[14px] mb-1.5">
-                  <span className="text-white/75">Tablero de Despachos (1.200 + 120 de servidor)</span>
-                  <span className="text-white/80 font-semibold">≈ 1.320</span>
-                </div>
-                <div className="h-4 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.06)' }}>
-                  <div className="h-full rounded-full" style={{ width: `${barTablero}%`, background: `linear-gradient(90deg, ${AMBER}, ${AMBER_LIGHT})` }} />
-                </div>
+
+              <div className="nb-card-grey">
+                <h3 className="nb-h3 mb-4">Qué no hace</h3>
+                <ul className="grid gap-3">
+                  {NO_HACE.map((t, i) => (
+                    <li key={i} className="flex gap-3">
+                      <X className="w-5 h-5 flex-none mt-0.5 nb-muted" aria-hidden="true" />
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="rounded-2xl p-5 text-center"
-              style={{ background: 'rgba(237,237,237,.08)', border: '1px solid rgba(237,237,237,.25)' }}>
-              <p className="font-bold text-white text-[34px] leading-none mb-1">≈ 1 mes</p>
-              <p className="text-white/75 text-[15px]">de WMS basta para pagar el Tablero</p>
-            </div>
-            <div className="rounded-2xl p-5 text-center"
-              style={{ background: 'rgba(255,170,0,.08)', border: '1px solid rgba(255,170,0,.28)' }}>
-              <p className="font-bold text-[#FFAA00] text-[34px] leading-none mb-1">≈ USD 12.500</p>
-              <p className="text-white/75 text-[15px]">de ahorro el primer año</p>
-              <p className="text-white/60 text-[12px] mt-1">13.800 − 1.200 − 120 de servidor</p>
-            </div>
-          </div>
         </section>
 
-        {/* ─ 06 PLAN DE 4 SEMANAS ─ */}
-        <section id="plan" ref={s6.ref as React.RefObject<HTMLElement>} className={reveal(s6.v)}>
-          <TagLabel>06 — Plan de trabajo</TagLabel>
-          <SectionTitle>Funcionando en 4 semanas</SectionTitle>
-          <Rule />
-          <p className="text-white/75 text-[18px] leading-relaxed mb-8">
-            El plazo corre desde el primer pago y la entrega de los accesos.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-            {SEMANAS.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="rounded-2xl p-5 relative overflow-hidden"
-                  style={{ background: `${s.color}0d`, border: `1px solid ${s.color}33` }}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center"
-                      style={{ background: `${s.color}22`, border: `1px solid ${s.color}55` }}>
-                      <Icon className="w-4 h-4" style={{ color: s.color }} />
+        {/* ─ ES TUYO ─ */}
+        <section id="tuyo" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Es tuyo</h2>
+            <p className="nb-prose nb-ink mb-8" style={{ fontSize: '1.25rem', fontWeight: 500, lineHeight: 1.5 }}>
+              Pagas una vez y <strong>todo queda a nombre de Nibec</strong>. Sin licencias y sin mensualidad de Sixteam.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+              {[
+                { icon: Github, titulo: 'El código', desc: 'Queda en la cuenta de GitHub de Nibec.' },
+                { icon: Server, titulo: 'El servidor', desc: 'Corre en un servidor a nombre de Nibec.' },
+                { icon: Database, titulo: 'La base de datos', desc: 'Es de Nibec, con sus pedidos e historial.' },
+              ].map((c, i) => {
+                const Icon = c.icon;
+                return (
+                  <li key={i} className="flex gap-3 items-start">
+                    <Icon className="w-6 h-6 nb-icon" aria-hidden="true" />
+                    <div>
+                      <p className="font-bold nb-ink">{c.titulo}</p>
+                      <p className="nb-small nb-muted">{c.desc}</p>
                     </div>
-                    <span className="text-[12px] uppercase tracking-widest" style={{ color: s.color }}>Semana {s.num}</span>
-                  </div>
-                  <p className="font-semibold text-white/90 text-[17px] mb-1.5">{s.titulo}</p>
-                  <p className="text-white/75 text-[15px] leading-relaxed">{s.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-          <div className="rounded-2xl p-4 sm:p-5 flex gap-3"
-            style={{ background: 'rgba(255,170,0,.06)', border: '1px solid rgba(255,170,0,.25)' }}>
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: AMBER }} />
-            <div>
-              <p className="font-semibold text-white/85 text-[16px] mb-1">Recomendación</p>
-              <p className="text-white/75 text-[15px] leading-relaxed">
-                Usar el Tablero en paralelo al WMS y <strong className="text-white/80">no cortar el WMS hasta tener 2 semanas funcionando sin problemas</strong>.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* ─ 07 QUÉ NECESITAMOS / PUNTOS A VALIDAR ─ */}
-        <section id="necesitamos" ref={s7.ref as React.RefObject<HTMLElement>} className={reveal(s7.v)}>
-          <TagLabel>07 — Qué necesitamos de Nibec</TagLabel>
-          <SectionTitle>Lo que hace falta para empezar</SectionTitle>
-          <Rule />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
-            {NECESITAMOS.map((n, i) => {
-              const Icon = n.icon;
-              return (
-                <div key={i} className="rounded-2xl p-4 flex gap-3"
-                  style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-                  <Icon className="w-4 h-4 text-[#FFAA00] flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-white/85 text-[16px] mb-1">{n.titulo}</p>
-                    <p className="text-white/75 text-[14px] leading-relaxed">{n.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="rounded-2xl p-5 sm:p-6"
-            style={{ background: 'rgba(255,170,0,.04)', border: '1px solid rgba(255,170,0,.2)' }}>
-            <p className="font-semibold text-white/80 text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
-              <HelpCircle className="w-4 h-4" style={{ color: AMBER }} /> Puntos a validar con Nibec
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="nb-prose flex gap-3">
+              <Coins className="w-5 h-5 nb-icon mt-1" aria-hidden="true" />
+              <span>
+                El <strong>único costo que sigue</strong> es el servidor: <strong>≈ USD {SERVIDOR_MES_USD} al mes</strong>, que Nibec paga directo al proveedor. Cualquier desarrollador puede modificar el sistema después, no hace falta depender de Sixteam.
+              </span>
             </p>
-            <div className="space-y-3">
-              {VALIDAR.map((v, i) => (
-                <div key={i} className="flex gap-3">
-                  <span className="font-bold text-[18px] leading-none mt-0.5 flex-shrink-0" style={{ color: AMBER }}>{i + 1}</span>
-                  <div>
-                    <p className="font-semibold text-white/85 text-[16px] mb-0.5">{v.titulo}</p>
-                    <p className="text-white/75 text-[14px] leading-relaxed">{v.desc}</p>
+          </div>
+        </section>
+
+        {/* ─ AHORRO ─ */}
+        <section id="ahorro" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Se paga con un mes de WMS</h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6">
+              <div className="nb-card">
+                <p className="nb-small nb-muted font-semibold mb-2">Hoy · WMS</p>
+                <p className="nb-big mb-1">$1,1 millones</p>
+                <p className="mb-4">CLP al mes</p>
+                <p className="nb-ink font-bold" style={{ fontSize: '1.125rem' }}>$13,2 millones al año</p>
+                <p className="nb-small nb-muted">≈ USD 13.800 al año</p>
+              </div>
+              <div className="nb-card">
+                <p className="nb-small nb-muted font-semibold mb-2">Con el Tablero</p>
+                <p className="nb-big mb-1">USD 1.200</p>
+                <p className="mb-4">pago único</p>
+                <p className="nb-ink font-bold" style={{ fontSize: '1.125rem' }}>+ ≈ USD {SERVIDOR_ANIO_USD} al año</p>
+                <p className="nb-small nb-muted">de servidor, pagado directo por Nibec</p>
+              </div>
+            </div>
+
+            {/* Barras */}
+            <div className="nb-card mb-6">
+              <h3 className="nb-h3 mb-4">Costo del primer año (USD)</h3>
+              <div className="grid gap-4">
+                <div>
+                  <div className="flex justify-between nb-small mb-2">
+                    <span>WMS actual</span>
+                    <span className="font-bold nb-ink">13.800</span>
+                  </div>
+                  <div className="nb-track">
+                    <div className="nb-fill" style={{ width: '100%', background: 'var(--nb-ink)' }} />
                   </div>
                 </div>
-              ))}
+                <div>
+                  <div className="flex justify-between nb-small mb-2">
+                    <span>Tablero de Despachos (1.200 + 120 de servidor)</span>
+                    <span className="font-bold nb-ink">≈ 1.320</span>
+                  </div>
+                  <div className="nb-track">
+                    <div className="nb-fill" style={{ width: `${barTablero}%`, background: 'var(--nb-amber)' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <div className="nb-card">
+                <p className="nb-big mb-1">≈ 1 mes</p>
+                <p>de WMS basta para pagar el Tablero</p>
+              </div>
+              <div style={{ background: 'var(--nb-amber-tint)', borderRadius: 12, padding: 24 }}>
+                <p className="nb-big mb-1">≈ USD 12.500</p>
+                <p className="nb-ink">de ahorro el primer año</p>
+                <p className="nb-small" style={{ color: 'rgba(18,18,18,.85)' }}>13.800 − 1.200 − 120 de servidor</p>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ─ 08 INVERSIÓN ─ */}
-        <section id="inversion" ref={s8.ref as React.RefObject<HTMLElement>} className={reveal(s8.v)}>
-          <TagLabel>08 — Propuesta de inversión</TagLabel>
-          <SectionTitle>Un solo pago</SectionTitle>
-          <Rule />
-          <div className="rounded-2xl p-6 sm:p-8 mb-4 relative overflow-hidden"
-            style={{ background: 'linear-gradient(135deg, rgba(255,170,0,.10) 0%, rgba(26,24,20,.9) 100%)', border: '1px solid rgba(255,170,0,.3)' }}>
-            <div className="absolute top-0 right-0 w-52 h-52 pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(255,170,0,.08), transparent 70%)', transform: 'translate(20%,-20%)' }} />
-            <div className="relative z-10">
+        {/* ─ PLAN DE 4 SEMANAS ─ */}
+        <section id="plan" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Funcionando en 4 semanas</h2>
+            <p className="nb-prose mb-6">
+              El plazo corre desde el primer pago y la entrega de los accesos.
+            </p>
+            <ol className="nb-steps mb-8">
+              {SEMANAS.map((s, i) => (
+                <li key={i} className="nb-step">
+                  <div className="nb-step-num" aria-hidden="true">{s.num}</div>
+                  <p className="nb-small nb-muted font-semibold mt-4 mb-1">Semana {s.num}</p>
+                  <h3 className="nb-h3 mb-2">{s.titulo}</h3>
+                  <p>{s.desc}</p>
+                </li>
+              ))}
+            </ol>
+            <div className="nb-promo flex gap-3">
+              <AlertCircle className="w-6 h-6 flex-none mt-0.5" style={{ color: 'var(--nb-ink)' }} aria-hidden="true" />
+              <div>
+                <p className="font-bold nb-ink">Recomendación</p>
+                <p style={{ color: 'var(--nb-ink)' }}>
+                  Usar el Tablero en paralelo al WMS y <strong>no cortar el WMS hasta tener 2 semanas funcionando sin problemas</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─ QUÉ NECESITAMOS / PUNTOS A VALIDAR ─ */}
+        <section id="necesitamos" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Lo que hace falta para empezar</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="nb-card">
+                <h3 className="nb-h3 mb-4">Qué necesitamos de Nibec</h3>
+                <ol className="nb-ol">
+                  {NECESITAMOS.map((n, i) => (
+                    <li key={i}>
+                      <div>
+                        <p className="font-bold nb-ink">{n.titulo}</p>
+                        <p className="nb-small">{n.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <div className="nb-card">
+                <h3 className="nb-h3 mb-4">Puntos a validar con Nibec</h3>
+                <ol className="nb-ol">
+                  {VALIDAR.map((v, i) => (
+                    <li key={i}>
+                      <div>
+                        <p className="font-bold nb-ink">{v.titulo}</p>
+                        <p className="nb-small">{v.desc}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─ INVERSIÓN ─ */}
+        <section id="inversion" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Un solo pago</h2>
+            <div className="nb-cta-panel">
               <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                <p className="text-white/60 text-[13px] uppercase tracking-widest">{META.producto}</p>
-                <span className="text-[11px] px-2.5 py-1 rounded-full uppercase tracking-wider"
-                  style={{ background: 'rgba(255,170,0,.15)', border: '1px solid rgba(255,170,0,.35)', color: AMBER }}>
-                  Pago único
-                </span>
+                <p className="font-semibold">{META.producto}</p>
+                <span className="nb-chip">Pago único</span>
               </div>
               <div className="flex flex-wrap items-end gap-3 mb-1">
-                <p className="font-bold text-white leading-none" style={{ fontSize: 'clamp(2.2rem, 5vw, 3.2rem)' }}>
+                <p className="text-white font-bold leading-none" style={{ fontSize: 'clamp(2.5rem, 2rem + 3vw, 4rem)' }}>
                   USD 1.200
                 </p>
-                <span className="text-white/60 text-[18px] mb-1">sin IVA</span>
+                <span className="mb-1" style={{ fontSize: '1.125rem' }}>sin IVA</span>
               </div>
-              <p className="text-white/60 text-[15px] mb-5">Valores en dólares estadounidenses (servicio exportado desde Colombia).</p>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2">
+              <p className="nb-small mb-8">Valores en dólares estadounidenses (servicio exportado desde Colombia).</p>
+              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-3 mb-8">
                 {[
                   { label: 'Forma de pago', value: '50% al aprobar · 50% al entregar' },
                   { label: 'Garantía', value: '30 días' },
@@ -748,92 +741,89 @@ const NibecDespachosProposal = () => {
                   { label: 'Licencias o mensualidad', value: 'Ninguna' },
                   { label: 'Servidor (pagado por Nibec)', value: `≈ USD ${SERVIDOR_MES_USD}/mes` },
                 ].map((r, i) => (
-                  <li key={i} className="flex items-center justify-between gap-3 py-0.5">
-                    <span className="text-white/75 text-[15px]">{r.label}</span>
-                    <span className="font-bold text-white/85 text-[15px] text-right">{r.value}</span>
-                  </li>
+                  <div key={i} className="flex items-center justify-between gap-3 py-2" style={{ borderBottom: '1px solid rgba(255,255,255,.2)' }}>
+                    <dt>{r.label}</dt>
+                    <dd className="font-bold text-white text-right">{r.value}</dd>
+                  </div>
                 ))}
-              </ul>
+              </dl>
+              <p className="flex gap-3 mb-8">
+                <Wrench className="w-5 h-5 nb-icon mt-1" aria-hidden="true" />
+                <span>
+                  <strong>Garantía:</strong> durante 30 días corregimos cualquier falla sin costo. <strong>Cambios después:</strong> son opcionales; pueden hacerse con los créditos del plan Sixteam Ops que Nibec ya conoce, o con cualquier desarrollador. No es obligatorio.
+                </span>
+              </p>
+              <div className="no-print">
+                <Link to={DEMO_URL} className="nb-btn-primary on-dark">
+                  <PlayCircle className="w-5 h-5" aria-hidden="true" /> Ver la demo interactiva
+                </Link>
+              </div>
             </div>
-          </div>
-
-          <div className="rounded-2xl p-4 flex gap-3 mb-3"
-            style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-            <Wrench className="w-4 h-4 text-[#FFAA00] flex-shrink-0 mt-0.5" />
-            <p className="text-white/75 text-[15px] leading-relaxed">
-              <strong className="text-white/80">Garantía:</strong> durante 30 días corregimos cualquier falla sin costo. <strong className="text-white/80">Cambios después:</strong> son opcionales; pueden hacerse con los créditos del plan Sixteam Ops que Nibec ya conoce, o con cualquier desarrollador. No es obligatorio.
-            </p>
           </div>
         </section>
 
         {/* ── LOGOS ── */}
-        <div className="mt-16">
+        <div className="nb-logos-band">
           <LogoCarousel logos={LOGOS_SIN_CLIENTE} />
         </div>
 
-        {/* ─ 09 VIGENCIA ─ */}
-        <section id="vigencia" ref={s9.ref as React.RefObject<HTMLElement>} className={reveal(s9.v)}>
-          <TagLabel>09 — Vigencia y términos</TagLabel>
-          <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
-          <Rule />
-
-          <div className="space-y-3">
-            {[
-              { titulo: 'Aprobación', desc: 'Para aceptar esta propuesta basta la confirmación por WhatsApp, correo o verbal. Con eso se envía el acuerdo a firmar y se pide el primer 50%.', icon: CheckCircle },
-              { titulo: 'Términos de pago', desc: 'Pago único de USD 1.200: 50% al aprobar y 50% al entregar funcionando. Los pagos se hacen por transferencia bancaria en dólares estadounidenses. Valores sin IVA.', icon: FileText },
-              { titulo: 'Inicio del plazo', desc: 'Las 4 semanas cuentan desde el primer pago y la entrega de los accesos a Bsale y Beetrack por parte de Nibec.', icon: Rocket },
-              { titulo: 'Garantía y capacitación', desc: '30 días de garantía (corrección de fallas sin costo) y una capacitación de 1 hora al equipo.', icon: Shield },
-              { titulo: 'Costos de terceros', desc: 'El servidor (≈ USD 10 al mes) y las suscripciones de Bsale y Beetrack los paga Nibec directamente a cada proveedor. No forman parte del valor de esta propuesta.', icon: Coins },
-              { titulo: 'Vigencia de la propuesta', desc: `Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión (${META.fecha}). Pasado este plazo, los valores podrán ser revisados.`, icon: Calendar },
-            ].map((item, i) => {
-              const Icon = item.icon;
-              return (
-                <div key={i} className="rounded-2xl p-4 sm:p-5 flex gap-4"
-                  style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-                  <Icon className="w-4 h-4 text-[#FFAA00] flex-shrink-0 mt-0.5" />
-                  <div>
-                    <p className="font-semibold text-white/80 text-[16px] mb-1">{item.titulo}</p>
-                    <p className="text-white/75 text-[16px] leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Footer */}
-          <div className="mt-12 rounded-2xl p-6 sm:p-8 text-center relative overflow-hidden"
-            style={{ background: '#363229', border: '1px solid rgba(255,255,255,.08)' }}>
-            <div className="absolute inset-0 pointer-events-none"
-              style={{ background: 'radial-gradient(circle at 50% 100%, rgba(255,170,0,.05), transparent 70%)' }} />
-            <div className="relative z-10">
-              <img src="/sixteam-logo.png" alt="Sixteam.pro" className="h-10 w-auto object-contain mx-auto mb-3"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              <p className="font-bold text-white text-[20px] tracking-tight mb-1">Sixteam<span className="text-[#FFAA00]">.</span>pro</p>
-              <p className="text-white/60 text-[14px] mb-4">{META.proponente}</p>
-              <div className="flex flex-wrap justify-center gap-4 text-[14px] text-white/60 ">
-                <span>NIT {META.nit}</span>
-                <span>·</span>
-                <span>{META.correo}</span>
-                <span>·</span>
-                <span>RL: {META.rl}</span>
-              </div>
-              <div className="mt-4 inline-flex flex-wrap items-center justify-center gap-2 px-4 py-2 rounded-2xl"
-                style={{ background: 'rgba(255,170,0,.07)', border: '1px solid rgba(255,170,0,.2)' }}>
-                <Users className="w-3.5 h-3.5 flex-shrink-0 text-[#FFAA00]" />
-                <span className="text-white/60 text-[14px]">Propuesta realizada por:</span>
-                <span className="font-bold text-white/80 text-[14px]">{META.autor}</span>
-                <span className="text-[#FFAA00] text-[14px]">{META.autorCargo}</span>
-              </div>
-              <div className="mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
-                <p className="text-white/60 text-[13px]">
-                  Process + Technology + People = Growth · Propuesta elaborada en {META.fecha} · Uso confidencial
-                </p>
-              </div>
-            </div>
+        {/* ─ VIGENCIA ─ */}
+        <section id="vigencia" className="nb-section">
+          <div className="nb-container">
+            <h2 className="nb-h2">Vigencia y Términos de la Propuesta</h2>
+            <ul className="nb-list">
+              {[
+                { titulo: 'Aprobación', desc: 'Para aceptar esta propuesta basta la confirmación por WhatsApp, correo o verbal. Con eso se envía el acuerdo a firmar y se pide el primer 50%.', icon: Check },
+                { titulo: 'Términos de pago', desc: 'Pago único de USD 1.200: 50% al aprobar y 50% al entregar funcionando. Los pagos se hacen por transferencia bancaria en dólares estadounidenses. Valores sin IVA.', icon: FileText },
+                { titulo: 'Inicio del plazo', desc: 'Las 4 semanas cuentan desde el primer pago y la entrega de los accesos a Bsale y Beetrack por parte de Nibec.', icon: Rocket },
+                { titulo: 'Garantía y capacitación', desc: '30 días de garantía (corrección de fallas sin costo) y una capacitación de 1 hora al equipo.', icon: Shield },
+                { titulo: 'Costos de terceros', desc: 'El servidor (≈ USD 10 al mes) y las suscripciones de Bsale y Beetrack los paga Nibec directamente a cada proveedor. No forman parte del valor de esta propuesta.', icon: Coins },
+                { titulo: 'Vigencia de la propuesta', desc: `Esta propuesta tiene una vigencia de 30 días calendario desde su fecha de emisión (${META.fecha}). Pasado este plazo, los valores podrán ser revisados.`, icon: Calendar },
+              ].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <li key={i}>
+                    <Icon className="w-5 h-5 nb-icon mt-1" aria-hidden="true" />
+                    <div>
+                      <p className="font-bold nb-ink">{item.titulo}</p>
+                      <p>{item.desc}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </section>
 
       </main>
+
+      {/* ── FOOTER ── */}
+      <footer className="nb-footer">
+        <div className="nb-container">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h2 className="nb-foot-h">Sixteam.pro</h2>
+              <p className="nb-small">{META.proponente}</p>
+              <p className="nb-small">NIT {META.nit}</p>
+              <p className="nb-small">RL: {META.rl}</p>
+            </div>
+            <div>
+              <h2 className="nb-foot-h">Propuesta realizada por</h2>
+              <p className="nb-small"><strong>{META.autor}</strong></p>
+              <p className="nb-small">{META.autorCargo}</p>
+            </div>
+            <div>
+              <h2 className="nb-foot-h">Contacto</h2>
+              <p className="nb-small">
+                <a href={`mailto:${META.correo}`} className="nb-link">{META.correo}</a>
+              </p>
+            </div>
+          </div>
+          <p className="nb-small nb-muted mt-8 pt-6" style={{ borderTop: '1px solid var(--nb-border)' }}>
+            Process + Technology + People = Growth · Propuesta elaborada en {META.fecha} · Uso confidencial
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

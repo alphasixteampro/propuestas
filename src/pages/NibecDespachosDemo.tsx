@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Info, RotateCcw, Search,
+  AlertCircle, ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Info, RotateCcw, Search,
   Plus, Truck, Package, MapPin, Store, FileText, Loader2, Check, Undo2,
 } from 'lucide-react';
 
@@ -35,10 +35,6 @@ const INK = '#121212';
 const WARM = '#3C382F';
 const BLUE = '#1D70A2';
 const GREEN = '#1E9E5A';
-const MUTED = '#6B6B6B';
-const ALERT_BG = '#FDECEA';
-const ALERT_FG = '#C4301C';
-const FOCO = 'focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FFAA00]';
 
 const COLUMNAS: { id: ColId; titulo: string; color: string; nota: string }[] = [
   { id: 'nuevos',      titulo: 'Nuevos',         color: INK,       nota: 'Llegó de Bsale' },
@@ -130,6 +126,189 @@ const EVENTOS_INICIALES: Evento[] = [
   { id: 2, hora: '08:41', texto: 'Lismari movió Factura 10577 a En preparación' },
   { id: 1, hora: '08:30', texto: 'Bsale: llegó Factura 10580 de Ferretería El Roble SpA' },
 ];
+
+// ─── ESTILOS (tokens y clases con alcance .nb, según nibec.cl) ───────────────
+
+const ESTILOS = `
+.nb {
+  --nb-bg: #FFFFFF;
+  --nb-surface: #F5F5F5;
+  --nb-surface-2: #EDEDED;
+  --nb-border: #E5E5E5;
+  --nb-ink: #121212;
+  --nb-text: rgba(18,18,18,.75);
+  --nb-muted: #5C5C5C;
+  --nb-amber: #FFAA00;
+  --nb-amber-hover: #E89B00;
+  --nb-amber-soft: #FFC16F;
+  --nb-amber-tint: rgba(255,170,0,.3);
+  --nb-charcoal: #3C382F;
+  --nb-charcoal-2: #363229;
+  --nb-red: #C4301C;
+  --nb-red-bg: #FDECEA;
+  --nb-green: #1E7F4F;
+  --nb-ease: 150ms ease-out;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: var(--nb-bg);
+  color: var(--nb-ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.5;
+}
+.nb button, .nb input { font-family: inherit; }
+.nb-container { max-width: 1300px; margin-inline: auto; padding-inline: 16px; }
+.nb-muted { color: var(--nb-muted); }
+.nb-small { font-size: .875rem; line-height: 1.5; }
+
+/* Barra de anuncio */
+.nb-announce { background: #121212; color: #FFFFFF; font-size: 14px; line-height: 1.5; text-align: center; padding: 8px 16px; }
+
+/* Encabezado */
+.nb-header { background: var(--nb-bg); border-bottom: 1px solid var(--nb-border); }
+.nb-header-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding-block: 12px; }
+.nb-logo { height: 36px; width: auto; }
+.nb-h1 { font-size: 1.25rem; line-height: 1.25; font-weight: 700; letter-spacing: .6px; color: var(--nb-ink); }
+.nb-back { order: 2; margin-left: auto; }
+.nb-search { order: 3; flex: 1 1 100%; position: relative; }
+.nb-search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--nb-muted); pointer-events: none; }
+.nb-search-input {
+  width: 100%; min-height: 44px; padding: 10px 16px 10px 44px; border: 0; border-radius: 25px;
+  background: var(--nb-surface-2); color: var(--nb-ink); font-size: .875rem;
+  transition: background-color var(--nb-ease);
+}
+.nb-search-input::placeholder { color: var(--nb-muted); opacity: 1; }
+.nb-search-input:hover { background: var(--nb-border); }
+.nb-search-input:focus { outline: none; }
+.nb-search-input:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: 2px; }
+
+/* Botones */
+.nb-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; padding: 12px 16px; border: 1px solid transparent;
+  font-size: .875rem; font-weight: 700; line-height: 1.25; text-align: center; text-decoration: none; cursor: pointer;
+  transition: background-color var(--nb-ease), color var(--nb-ease), transform var(--nb-ease);
+}
+.nb-btn:active:not(:disabled) { transform: translateY(1px); }
+.nb-btn:disabled { opacity: .5; cursor: not-allowed; }
+.nb-btn-block { width: 100%; }
+.nb-btn-primary { background: var(--nb-amber); color: var(--nb-ink); border-radius: 25px; padding: 12px 24px; }
+.nb-btn-primary:hover:not(:disabled) { background: var(--nb-amber-hover); }
+.nb-btn-primary:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: 2px; }
+.nb-btn-dark { background: var(--nb-ink); color: #FFFFFF; border-radius: 8px; }
+.nb-btn-dark:hover:not(:disabled) { background: var(--nb-charcoal-2); }
+.nb-btn-dark:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: 2px; }
+.nb-btn-ghost { background: #FFFFFF; color: var(--nb-ink); border-color: rgba(18,18,18,.2); border-radius: 8px; }
+.nb-btn-ghost:hover:not(:disabled) { background: var(--nb-surface); }
+.nb-btn-ghost:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: 2px; }
+.nb-link {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: 44px; padding: 0 8px; border: 0; border-radius: 8px; background: none;
+  color: var(--nb-muted); font-size: .875rem; font-weight: 600; cursor: pointer;
+  transition: color var(--nb-ease);
+}
+.nb-link:hover { color: var(--nb-ink); text-decoration: underline; text-underline-offset: 3px; }
+.nb-link:active { color: var(--nb-ink); }
+.nb-link:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: 2px; }
+
+/* Layout principal */
+.nb-main { display: flex; flex-direction: column; gap: 24px; padding-block: 24px 64px; }
+.nb-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: start; }
+
+/* Promo bar */
+.nb-promo { background: var(--nb-amber-soft); color: var(--nb-ink); border-radius: 12px; }
+.nb-promo-btn {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 48px; padding: 12px 24px;
+  border: 0; border-radius: 12px; background: none; color: var(--nb-ink); text-align: left; cursor: pointer;
+  transition: background-color var(--nb-ease);
+}
+.nb-promo-btn:hover { background: rgba(18,18,18,.06); }
+.nb-promo-btn:active { background: rgba(18,18,18,.1); }
+.nb-promo-btn:focus-visible { outline: 2px solid var(--nb-ink); outline-offset: -4px; }
+.nb-promo-title { flex: 1; font-weight: 700; }
+.nb-promo-list { list-style: disc; padding: 0 24px 16px 48px; margin: 0; max-width: 65ch; line-height: 1.7; font-size: 1rem; }
+.nb-promo-list li + li { margin-top: 4px; }
+
+/* Conexiones y acciones */
+.nb-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+.nb-trust { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.nb-trust-item { display: inline-flex; align-items: center; gap: 8px; font-size: .875rem; }
+.nb-trust-item strong { font-weight: 700; color: var(--nb-ink); }
+.nb-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.nb-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.nb-dot-ok { width: 10px; height: 10px; background: var(--nb-green); }
+
+/* Tablero */
+.nb-board-scroll { overflow-x: auto; padding-bottom: 12px; }
+.nb-board { display: flex; gap: 12px; width: max-content; }
+.nb-col {
+  width: 280px; flex-shrink: 0; min-height: 320px; padding: 12px; border-radius: 12px;
+  background: var(--nb-surface); display: flex; flex-direction: column; gap: 12px;
+  transition: background-color var(--nb-ease);
+}
+.nb-col.is-over { background: var(--nb-amber-tint); }
+.nb-col-head { display: flex; align-items: center; gap: 8px; }
+.nb-col-title { flex: 1; font-size: 1rem; line-height: 1.25; font-weight: 700; color: var(--nb-ink); }
+.nb-col-note { margin-top: 4px; }
+.nb-count { min-width: 28px; padding: 2px 8px; border-radius: 25px; background: var(--nb-surface-2); color: var(--nb-ink); font-size: .875rem; font-weight: 700; text-align: center; }
+.nb-empty { padding: 16px; border: 1px dashed #A8A8A8; border-radius: 8px; color: var(--nb-muted); font-size: .875rem; text-align: center; }
+
+/* Tarjetas */
+.nb-card {
+  display: flex; flex-direction: column; gap: 8px; padding: 16px;
+  background: #FFFFFF; border: 1px solid var(--nb-border); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.06); cursor: grab;
+  transition: border-color var(--nb-ease);
+}
+.nb-card:active { cursor: grabbing; }
+.nb-card.is-new { border-color: var(--nb-amber); }
+.nb-card.is-drag { outline: 2px solid var(--nb-amber); outline-offset: 0; }
+.nb-card-top { display: flex; align-items: flex-start; gap: 8px; }
+.nb-card-icon { margin-top: 2px; flex-shrink: 0; }
+.nb-card-doc { font-weight: 700; line-height: 1.25; color: var(--nb-ink); }
+.nb-card-client { font-size: .875rem; color: var(--nb-text); overflow-wrap: anywhere; }
+.nb-card-loc { display: flex; align-items: center; gap: 6px; }
+.nb-lines { list-style: none; margin: 0; padding: 0; color: var(--nb-text); display: flex; flex-direction: column; gap: 2px; }
+.nb-lines li { display: flex; gap: 6px; }
+.nb-qty { flex-shrink: 0; font-weight: 700; color: var(--nb-ink); }
+.nb-card-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.nb-price { font-weight: 600; color: var(--nb-ink); }
+.nb-chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 25px; background: var(--nb-surface-2); color: var(--nb-ink); font-size: .75rem; font-weight: 600; }
+.nb-chip-amber { background: #FFF4D6; color: #7A4E00; }
+.nb-new { padding: 2px 8px; border-radius: 8px; background: var(--nb-amber); color: var(--nb-ink); font-size: .75rem; font-weight: 700; }
+.nb-sending { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--nb-ink); }
+.nb-guia { display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; background: #FFF4D6; color: #7A4E00; font-size: .875rem; font-weight: 700; }
+.nb-card-actions { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.nb-hint { margin-top: 4px; }
+
+/* Aviso de movimiento bloqueado */
+.nb-alert { display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-radius: 8px; background: var(--nb-red-bg); color: var(--nb-red); font-size: .875rem; font-weight: 600; line-height: 1.4; }
+.nb-alert svg { flex-shrink: 0; margin-top: 2px; }
+.nb-alert-col { margin-top: 8px; }
+
+/* Registro */
+.nb-log { padding: 24px; background: #FFFFFF; border: 1px solid var(--nb-border); border-radius: 12px; }
+.nb-log-title { margin-bottom: 8px; font-size: 1.125rem; line-height: 1.25; font-weight: 700; color: var(--nb-charcoal); }
+.nb-log-list { margin: 0; padding: 0 4px 0 0; list-style: none; max-height: 480px; overflow-y: auto; }
+.nb-log-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--nb-surface-2); font-size: .875rem; color: var(--nb-text); }
+.nb-log-item:last-child { border-bottom: 0; }
+.nb-log-time { flex-shrink: 0; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--nb-muted); }
+
+@media (min-width: 768px) {
+  .nb-container { padding-inline: 32px; }
+  .nb-logo { height: 44px; }
+  .nb-h1 { font-size: 1.5rem; }
+  .nb-search { order: 2; flex: 0 1 320px; margin-left: auto; }
+  .nb-back { order: 3; margin-left: 0; }
+}
+@media (min-width: 1280px) {
+  .nb-layout { grid-template-columns: minmax(0, 1fr) 320px; }
+  .nb-log { position: sticky; top: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nb *, .nb *::before, .nb *::after { transition: none !important; animation: none !important; }
+  .nb-btn:active:not(:disabled) { transform: none; }
+}
+`;
 
 // ─── COMPONENTE ──────────────────────────────────────────────────────────────
 
@@ -304,12 +483,6 @@ const NibecDespachosDemo: React.FC = () => {
 
   // ─── Render ───────────────────────────────────────────────────────────────
 
-  const botonBase =
-    'inline-flex items-center justify-center gap-2 min-h-[44px] px-4 text-sm font-bold transition-colors ' + FOCO;
-  const btnPrimario = botonBase + ' rounded-[25px] text-black hover:brightness-95';
-  const btnNegro = botonBase + ' rounded-lg bg-black text-white hover:bg-[#363229]';
-  const btnFantasma = botonBase + ' rounded-lg bg-white text-[#121212] border border-[#121212]/20 hover:bg-[#F5F5F5]';
-
   useEffect(() => {
     const href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
     const ya = Array.from(document.querySelectorAll('link[rel="stylesheet"]')).some(l => l.getAttribute('href') === href);
@@ -321,54 +494,51 @@ const NibecDespachosDemo: React.FC = () => {
   }, []);
 
   return (
-    <div
-      className="min-h-screen overflow-x-hidden"
-      style={{ background: '#FFFFFF', color: INK, fontFamily: 'Inter, sans-serif' }}
-    >
-      {/* Barra superior */}
-      <div className="max-w-[1500px] mx-auto px-4 pt-4">
-        <header className="rounded-2xl" style={{ background: WARM }}>
-          <div className="px-4 py-3 flex flex-wrap items-center gap-x-4 gap-y-3">
-            <span className="inline-flex items-center bg-white rounded-xl px-3 py-1.5">
-              <img src="/Logo nibec.png" alt="Nibec" className="h-8 w-auto" />
-            </span>
-            <h1 className="text-xl sm:text-2xl font-bold text-white" style={{ letterSpacing: '.4px' }}>
-              Tablero de Despachos
-            </h1>
-            <span
-              className="text-xs font-bold px-3 py-1.5 rounded-full tracking-wide text-black"
-              style={{ background: ACCENT }}
-            >
-              DEMO · datos ficticios
-            </span>
-            <Link
-              to="/nibec-despachos"
-              aria-label="Volver a la propuesta"
-              className={'sm:ml-auto inline-flex items-center gap-2 min-h-[44px] text-sm font-semibold text-white underline underline-offset-4 rounded ' + FOCO}
-            >
-              <ArrowLeft size={16} aria-hidden="true" /> Volver a la propuesta
-            </Link>
-          </div>
-        </header>
-      </div>
+    <div className="nb">
+      <style>{ESTILOS}</style>
 
-      <main className="max-w-[1500px] mx-auto px-4 py-5 space-y-5">
+      {/* Barra de anuncio */}
+      <div className="nb-announce">Demo con datos ficticios · así se vería el tablero de Nibec</div>
+
+      {/* Encabezado */}
+      <header className="nb-header">
+        <div className="nb-container nb-header-row">
+          <img src="/Logo nibec.png" alt="Nibec" className="nb-logo" />
+          <h1 className="nb-h1">Tablero de Despachos</h1>
+          <Link to="/nibec-despachos" aria-label="Volver a la propuesta" className="nb-btn nb-btn-ghost nb-back">
+            <ArrowLeft size={16} aria-hidden="true" /> Volver a la propuesta
+          </Link>
+          <div className="nb-search">
+            <Search size={16} className="nb-search-icon" aria-hidden="true" />
+            <input
+              type="search"
+              value={busqueda}
+              onChange={e => setBusqueda(e.target.value)}
+              placeholder="Buscar N° de documento o cliente"
+              aria-label="Buscar por número de documento o cliente"
+              className="nb-search-input"
+            />
+          </div>
+        </div>
+      </header>
+
+      <main className="nb-container nb-main">
         {/* Panel explicativo */}
-        <section className="rounded-2xl" style={{ background: WARM }}>
+        <section className="nb-promo">
           <button
             type="button"
             onClick={() => setPanelAbierto(o => !o)}
             aria-expanded={panelAbierto}
             aria-controls="panel-que-ves"
             aria-label="Mostrar u ocultar: ¿Qué estás viendo?"
-            className={'w-full min-h-[48px] px-4 flex items-center gap-3 text-left font-semibold text-white rounded-2xl ' + FOCO}
+            className="nb-promo-btn"
           >
-            <Info size={18} style={{ color: ACCENT }} aria-hidden="true" />
-            <span className="flex-1">¿Qué estás viendo?</span>
-            {panelAbierto ? <ChevronUp size={18} aria-hidden="true" /> : <ChevronDown size={18} aria-hidden="true" />}
+            <Info size={20} aria-hidden="true" />
+            <span className="nb-promo-title">¿Qué estás viendo?</span>
+            {panelAbierto ? <ChevronUp size={20} aria-hidden="true" /> : <ChevronDown size={20} aria-hidden="true" />}
           </button>
           {panelAbierto && (
-            <ul id="panel-que-ves" className="px-4 pb-4 pt-1 space-y-2 text-[15px] text-white list-disc list-inside">
+            <ul id="panel-que-ves" className="nb-promo-list">
               <li>Los pedidos llegan solos desde Bsale, apenas se emite la boleta o factura.</li>
               <li>Cuando una tarjeta llega a Despacho, se crea sola en Beetrack y recibe su N° de guía.</li>
               <li>Beetrack mueve la tarjeta a En ruta y a Entregado por sí mismo.</li>
@@ -376,28 +546,24 @@ const NibecDespachosDemo: React.FC = () => {
           )}
         </section>
 
-        {/* Conexiones, acciones y búsqueda */}
-        <section className="flex flex-col lg:flex-row lg:items-center gap-3">
-          <div className="flex flex-wrap gap-2" aria-label="Estado de las conexiones">
+        {/* Conexiones y acciones */}
+        <section className="nb-toolbar">
+          <div className="nb-trust" role="group" aria-label="Estado de las conexiones">
             {['Bsale', 'Beetrack'].map(nombre => (
-              <span
-                key={nombre}
-                className="inline-flex items-center gap-2 min-h-[40px] px-3 rounded-full text-sm font-semibold border border-[#E5E5E5]"
-                style={{ background: '#F5F5F5', color: INK }}
-              >
-                <span className="w-2.5 h-2.5 rounded-full" style={{ background: GREEN }} aria-hidden="true" />
-                {nombre} · conectado
+              <span key={nombre} className="nb-trust-item">
+                <span className="nb-dot nb-dot-ok" aria-hidden="true" />
+                <strong>{nombre}</strong>
+                <span className="nb-muted">conectado</span>
               </span>
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-2 lg:ml-auto">
+          <div className="nb-actions">
             <button
               type="button"
               onClick={simularVenta}
               aria-label="Simular una venta nueva en Bsale"
-              className={btnPrimario}
-              style={{ background: ACCENT }}
+              className="nb-btn nb-btn-primary"
             >
               <Plus size={16} aria-hidden="true" /> Simular venta nueva en Bsale
             </button>
@@ -405,32 +571,19 @@ const NibecDespachosDemo: React.FC = () => {
               type="button"
               onClick={reiniciar}
               aria-label="Reiniciar la demo"
-              className={btnFantasma}
+              className="nb-btn nb-btn-ghost"
             >
               <RotateCcw size={16} aria-hidden="true" /> Reiniciar demo
             </button>
           </div>
-
-          <div className="relative lg:w-72">
-            <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6B6B6B]" aria-hidden="true" />
-            <input
-              type="search"
-              value={busqueda}
-              onChange={e => setBusqueda(e.target.value)}
-              placeholder="Buscar N° de documento o cliente"
-              aria-label="Buscar por número de documento o cliente"
-              className={'w-full min-h-[44px] pl-10 pr-4 rounded-[25px] text-sm placeholder-[#6B6B6B] border-0 ' + FOCO}
-              style={{ background: '#EDEDED', color: INK }}
-            />
-          </div>
         </section>
 
         {/* Tablero + Registro */}
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-5 items-start">
+        <div className="nb-layout">
           {/* Tablero */}
           <section aria-label="Tablero de pedidos" className="min-w-0">
-            <div className="overflow-x-auto pb-3">
-              <div className="flex gap-3 w-max">
+            <div className="nb-board-scroll">
+              <div className="nb-board">
                 {COLUMNAS.map(col => {
                   const tarjetas = visibles.filter(p => p.col === col.id);
                   const sobre = colSobre === col.id;
@@ -448,41 +601,25 @@ const NibecDespachosDemo: React.FC = () => {
                         setArrastrando(null);
                         if (id) moverManual(id, col.id);
                       }}
-                      className="w-[272px] shrink-0 rounded-xl border p-3 flex flex-col gap-3 min-h-[320px]"
-                      style={{
-                        background: sobre ? '#EDEDED' : '#F5F5F5',
-                        borderColor: sobre ? col.color : 'transparent',
-                      }}
+                      className={'nb-col' + (sobre ? ' is-over' : '')}
                     >
                       <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-3 h-3 rounded-full" style={{ background: col.color }} aria-hidden="true" />
-                          <h2 className="font-bold text-[15px] flex-1" style={{ color: INK, letterSpacing: '.2px' }}>
-                            {col.titulo}
-                          </h2>
-                          <span
-                            className="text-xs font-bold min-w-[28px] text-center px-2 py-1 rounded-full"
-                            style={{ background: '#EDEDED', color: INK }}
-                          >
-                            {tarjetas.length}
-                          </span>
+                        <div className="nb-col-head">
+                          <span className="nb-dot" style={{ background: col.color }} aria-hidden="true" />
+                          <h2 className="nb-col-title">{col.titulo}</h2>
+                          <span className="nb-count">{tarjetas.length}</span>
                         </div>
-                        <p className="text-xs mt-1" style={{ color: MUTED }}>{col.nota}</p>
+                        <p className="nb-small nb-muted nb-col-note">{col.nota}</p>
                         {aviso?.col === col.id && (
-                          <p
-                            role="status"
-                            className="mt-2 text-xs font-semibold rounded-md px-2 py-1.5"
-                            style={{ background: ALERT_BG, color: ALERT_FG, border: '1px solid rgba(196,48,28,.35)' }}
-                          >
-                            {aviso.texto}
-                          </p>
+                          <div role="status" className="nb-alert nb-alert-col">
+                            <AlertCircle size={16} aria-hidden="true" />
+                            <span>{aviso.texto}</span>
+                          </div>
                         )}
                       </div>
 
                       {tarjetas.length === 0 && (
-                        <p className="text-xs text-[#6B6B6B] border border-dashed border-[#C9C9C9] rounded-lg p-4 text-center">
-                          Sin pedidos
-                        </p>
+                        <p className="nb-empty">Sin pedidos</p>
                       )}
 
                       {tarjetas.map(p => {
@@ -501,96 +638,70 @@ const NibecDespachosDemo: React.FC = () => {
                             }}
                             onDragEnd={() => { setArrastrando(null); setColSobre(null); }}
                             aria-label={`${p.documento}, ${p.cliente}, en ${col.titulo}`}
-                            className="rounded-xl p-3 border space-y-2 cursor-grab active:cursor-grabbing"
-                            style={{
-                              background: '#FFFFFF',
-                              borderColor: resaltada ? ACCENT : '#E5E5E5',
-                              boxShadow: resaltada ? `0 0 0 2px ${ACCENT}` : '0 1px 2px rgba(0,0,0,.06)',
-                              opacity: arrastrando === p.id ? 0.5 : 1,
-                              transition: 'box-shadow .4s, border-color .4s',
-                            }}
+                            className={'nb-card' + (arrastrando === p.id ? ' is-drag' : '') + (resaltada ? ' is-new' : '')}
                           >
-                            <div className="flex items-start gap-2">
-                              <FileText size={16} className="mt-0.5 shrink-0" style={{ color: col.color }} aria-hidden="true" />
+                            <div className="nb-card-top">
+                              <FileText size={16} className="nb-card-icon" style={{ color: col.color }} aria-hidden="true" />
                               <div className="min-w-0 flex-1">
-                                <p className="font-bold text-sm leading-tight" style={{ color: INK }}>
-                                  {p.documento}
-                                </p>
-                                <p className="text-sm break-words" style={{ color: 'rgba(18,18,18,.65)' }}>{p.cliente}</p>
+                                <p className="nb-card-doc">{p.documento}</p>
+                                <p className="nb-card-client">{p.cliente}</p>
                               </div>
-                              {resaltada && (
-                                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-black" style={{ background: ACCENT }}>
-                                  NUEVO
-                                </span>
-                              )}
+                              {resaltada && <span className="nb-new">NUEVO</span>}
                             </div>
 
-                            <p className="flex items-center gap-1.5 text-xs" style={{ color: MUTED }}>
-                              <MapPin size={12} aria-hidden="true" /> {p.comuna}
+                            <p className="nb-small nb-muted nb-card-loc">
+                              <MapPin size={14} aria-hidden="true" /> {p.comuna}
                             </p>
 
-                            <ul className="text-xs space-y-0.5" style={{ color: 'rgba(18,18,18,.65)' }}>
+                            <ul className="nb-small nb-lines">
                               {p.lineas.map(l => (
-                                <li key={l.producto} className="flex gap-1.5">
-                                  <span className="font-bold shrink-0" style={{ color: INK }}>{l.cantidad}×</span>
+                                <li key={l.producto}>
+                                  <span className="nb-qty">{l.cantidad}×</span>
                                   <span className="break-words">{l.producto}</span>
                                 </li>
                               ))}
                             </ul>
 
-                            <div className="flex items-center justify-between gap-2 flex-wrap">
-                              <span className="font-bold text-sm" style={{ color: INK }}>{formatoCLP(p.total)}</span>
+                            <div className="nb-card-foot">
+                              <span className="nb-price">{formatoCLP(p.total)}</span>
                               {p.tipo === 'despacho' ? (
-                                <span
-                                  className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full"
-                                  style={{ background: '#EDEDED', color: INK, border: '1px solid #E5E5E5' }}
-                                >
+                                <span className="nb-chip">
                                   <Truck size={12} aria-hidden="true" /> Despacho
                                 </span>
                               ) : (
-                                <span
-                                  className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full"
-                                  style={{ background: '#FFF4D6', color: '#8A5A00', border: '1px solid rgba(255,170,0,.5)' }}
-                                >
+                                <span className="nb-chip nb-chip-amber">
                                   <Store size={12} aria-hidden="true" /> Retiro en bodega
                                 </span>
                               )}
                             </div>
 
                             {estaEnviando && (
-                              <p className="flex items-center gap-2 text-xs font-semibold" style={{ color: INK }} role="status">
+                              <p className="nb-small nb-sending" role="status">
                                 <Loader2 size={14} className="animate-spin" aria-hidden="true" /> Enviando a Beetrack…
                               </p>
                             )}
 
                             {p.guia && !estaEnviando && (
-                              <p
-                                className="flex items-center gap-1.5 text-xs font-bold px-2 py-1.5 rounded-md"
-                                style={{ background: '#FFF4D6', color: '#8A5A00', border: '1px solid rgba(255,170,0,.5)' }}
-                              >
-                                <Package size={12} aria-hidden="true" /> Guía Beetrack {p.guia}
+                              <p className="nb-guia">
+                                <Package size={14} aria-hidden="true" /> Guía Beetrack {p.guia}
                               </p>
                             )}
 
                             {(avisoTarjeta || avisoRetiro) && (
-                              <p
-                                role="status"
-                                className="text-xs font-semibold rounded-md px-2 py-1.5"
-                                style={{ background: ALERT_BG, color: ALERT_FG, border: '1px solid rgba(196,48,28,.35)' }}
-                              >
-                                {(avisoTarjeta || avisoRetiro)!.texto}
-                              </p>
+                              <div role="status" className="nb-alert">
+                                <AlertCircle size={16} aria-hidden="true" />
+                                <span>{(avisoTarjeta || avisoRetiro)!.texto}</span>
+                              </div>
                             )}
 
                             {/* Acciones por columna */}
-                            <div className="flex flex-col gap-2 pt-1">
+                            <div className="nb-card-actions">
                               {p.col === 'nuevos' && (
                                 <button
                                   type="button"
                                   onClick={() => moverManual(p.id, 'preparacion')}
                                   aria-label={`Mover ${p.documento} a En preparación`}
-                                  className={btnPrimario + ' w-full'}
-                                  style={{ background: ACCENT }}
+                                  className="nb-btn nb-btn-primary nb-btn-block"
                                 >
                                   Mover <ArrowRight size={16} aria-hidden="true" />
                                 </button>
@@ -603,8 +714,7 @@ const NibecDespachosDemo: React.FC = () => {
                                       type="button"
                                       onClick={() => moverManual(p.id, 'despacho')}
                                       aria-label={`Mover ${p.documento} a Despacho`}
-                                      className={btnPrimario + ' w-full'}
-                                      style={{ background: ACCENT }}
+                                      className="nb-btn nb-btn-primary nb-btn-block"
                                     >
                                       Mover <ArrowRight size={16} aria-hidden="true" />
                                     </button>
@@ -614,7 +724,7 @@ const NibecDespachosDemo: React.FC = () => {
                                         type="button"
                                         onClick={() => marcarRetiroEntregado(p.id)}
                                         aria-label={`Marcar ${p.documento} como entregado`}
-                                        className={btnNegro + ' w-full'}
+                                        className="nb-btn nb-btn-dark nb-btn-block"
                                       >
                                         <Check size={16} aria-hidden="true" /> Marcar como entregado
                                       </button>
@@ -622,7 +732,7 @@ const NibecDespachosDemo: React.FC = () => {
                                         type="button"
                                         onClick={() => moverManual(p.id, 'despacho')}
                                         aria-label={`Probar mover ${p.documento} a Despacho`}
-                                        className={'text-xs text-[#6B6B6B] underline underline-offset-2 min-h-[44px] px-2 rounded hover:text-black ' + FOCO}
+                                        className="nb-link"
                                       >
                                         Probar enviar a Despacho
                                       </button>
@@ -632,9 +742,9 @@ const NibecDespachosDemo: React.FC = () => {
                                     type="button"
                                     onClick={() => moverManual(p.id, 'nuevos')}
                                     aria-label={`Devolver ${p.documento} a Nuevos`}
-                                    className={'inline-flex items-center justify-center gap-1.5 min-h-[44px] px-2 rounded text-xs font-semibold text-[#121212] hover:text-black underline underline-offset-2 ' + FOCO}
+                                    className="nb-link"
                                   >
-                                    <Undo2 size={13} aria-hidden="true" /> Volver a Nuevos
+                                    <Undo2 size={14} aria-hidden="true" /> Volver a Nuevos
                                   </button>
                                 </>
                               )}
@@ -645,7 +755,7 @@ const NibecDespachosDemo: React.FC = () => {
                                   disabled={estaEnviando}
                                   onClick={() => beetrackSaleARuta(p.id)}
                                   aria-label={`Simular: Beetrack saca a ruta ${p.documento}`}
-                                  className={btnNegro + ' w-full disabled:opacity-40 disabled:cursor-not-allowed'}
+                                  className="nb-btn nb-btn-dark nb-btn-block"
                                 >
                                   Simular: Beetrack sale a ruta
                                 </button>
@@ -656,7 +766,7 @@ const NibecDespachosDemo: React.FC = () => {
                                   type="button"
                                   onClick={() => beetrackEntrega(p.id)}
                                   aria-label={`Simular: Beetrack entrega ${p.documento}`}
-                                  className={btnNegro + ' w-full'}
+                                  className="nb-btn nb-btn-dark nb-btn-block"
                                 >
                                   Simular: Beetrack entrega
                                 </button>
@@ -670,25 +780,19 @@ const NibecDespachosDemo: React.FC = () => {
                 })}
               </div>
             </div>
-            <p className="text-xs mt-1" style={{ color: MUTED }}>
+            <p className="nb-small nb-muted nb-hint">
               Arrastra las tarjetas entre columnas, o usa el botón &laquo;Mover&raquo; (sirve en celular).
             </p>
           </section>
 
           {/* Registro */}
-          <aside
-            aria-label="Registro de eventos"
-            className="rounded-xl border border-[#E5E5E5] p-4 xl:sticky xl:top-4"
-            style={{ background: '#FFFFFF', boxShadow: '0 1px 2px rgba(0,0,0,.06)' }}
-          >
-            <h2 className="font-bold text-lg mb-3" style={{ color: INK, letterSpacing: '.2px' }}>
-              Registro
-            </h2>
-            <ol aria-live="polite" className="space-y-2 max-h-[480px] overflow-y-auto pr-1">
+          <aside aria-label="Registro de eventos" className="nb-log">
+            <h2 className="nb-log-title">Registro</h2>
+            <ol aria-live="polite" className="nb-log-list">
               {eventos.map(ev => (
-                <li key={ev.id} className="flex gap-3 text-sm border-b border-[#EDEDED] pb-2 last:border-0">
-                  <time className="font-semibold shrink-0 tabular-nums" style={{ color: MUTED }}>{ev.hora}</time>
-                  <span className="break-words min-w-0" style={{ color: INK }}>{ev.texto}</span>
+                <li key={ev.id} className="nb-log-item">
+                  <time className="nb-log-time">{ev.hora}</time>
+                  <span className="break-words min-w-0">{ev.texto}</span>
                 </li>
               ))}
             </ol>
