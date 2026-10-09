@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import LogoCarousel, { defaultLogos } from '../components/LogoCarousel';
-import PDFButton from '../components/PDFButton';
 import {
   Check, X, ChevronRight, Clock, FileText, Zap,
   AlertCircle, Calendar, MapPin, Users, Rocket, Shield, Coins, Database,
@@ -186,15 +185,6 @@ const NB_CSS = `
 .nb-btn-primary:focus-visible{outline:2px solid var(--nb-ink);outline-offset:2px}
 .nb-btn-primary.on-dark:focus-visible{outline-color:#fff}
 .nb-btn-primary:disabled{opacity:.5;cursor:not-allowed}
-.nb-pdf button{
-  background:var(--nb-ink)!important;color:#fff!important;border:0!important;box-shadow:none!important;
-  border-radius:8px!important;font-family:inherit!important;font-weight:700!important;font-size:1rem!important;
-  min-height:44px;padding:12px 24px!important;transition:background-color 150ms ease-out,transform 150ms ease-out;
-}
-.nb-pdf button:hover:not(:disabled){background:#2A2A2A!important}
-.nb-pdf button:active:not(:disabled){transform:translateY(1px)}
-.nb-pdf button:focus-visible{outline:2px solid var(--nb-amber);outline-offset:2px}
-.nb-pdf button:disabled{opacity:.5;cursor:not-allowed!important}
 @media(max-width:767px){.nb-link{display:inline-flex;align-items:center;min-height:44px}}
 .nb-link{font-weight:700;color:var(--nb-ink);text-decoration:underline;text-underline-offset:4px;transition:color 150ms ease-out}
 .nb-link:hover{color:#000;text-decoration-thickness:2px}
@@ -207,8 +197,8 @@ const NB_CSS = `
 .nb-head-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-block:12px}
 .nb-logo{height:44px;width:auto}
 .nb-lbl-full{display:none}
-.nb-pdf{display:none}
-@media(min-width:768px){.nb-lbl-full{display:inline}.nb-lbl-short{display:none}.nb-pdf{display:block}}
+
+@media(min-width:768px){.nb-lbl-full{display:inline}.nb-lbl-short{display:none}}
 @media(max-width:767px){
   .nb-head-row{flex-wrap:nowrap;padding-block:8px}
   .nb-head-row>div:first-child{min-width:0}
@@ -422,9 +412,6 @@ const NibecDespachosProposal = () => {
               <span className="nb-small nb-muted hidden sm:inline">Propuesta de Sixteam.pro</span>
             </div>
             <div className="flex items-center gap-3">
-              <div className="nb-pdf">
-                <PDFButton elementId="proposal-root" filename="propuesta-nibec-tablero-despachos.pdf" />
-              </div>
               <Link to={DEMO_URL} className="nb-btn-primary">
                 <PlayCircle className="w-5 h-5" aria-hidden="true" />
                 <span className="nb-lbl-full">Ver la demo interactiva</span><span className="nb-lbl-short">Ver demo</span>
