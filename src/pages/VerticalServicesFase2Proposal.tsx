@@ -1,5 +1,4 @@
 import React from 'react';
-import PDFButton from '../components/PDFButton';
 import {
   CheckCircle, Mail, Megaphone, Info, Calendar, MapPin, Compass, Wrench,
 } from 'lucide-react';
@@ -140,10 +139,6 @@ const Rule = () => (
 
 const VerticalServicesFase2Proposal = () => (
   <div id="proposal-root" className="min-h-screen overflow-x-hidden" style={{ background: '#030d1a', fontFamily: 'Lato, sans-serif' }}>
-
-    <div className="fixed top-4 right-4 z-50 no-print">
-      <PDFButton filename="vertical-services-email-y-pauta-sixteam.pdf" elementId="proposal-root" />
-    </div>
 
     {/* ══════════ PORTADA */}
     <header className="relative overflow-hidden"
