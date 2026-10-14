@@ -6,7 +6,7 @@ import {
   Layers, ClipboardList, MessagesSquare, Search,
   Compass, HardHat, ShieldCheck, Wrench, Calculator,
   Map as MapIcon, Sparkles, ArrowRight, Bot, BookOpen,
-  Hourglass, FolderOpen, Smartphone, Handshake, CreditCard, Flag,
+  Hourglass, FolderOpen, Smartphone, Handshake, CreditCard,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -75,7 +75,7 @@ const MANUAL = [
 
 // Recorrido: hoy → mañana → camino
 const RECORRIDO = [
-  { paso: 'Hoy', titulo: 'Cómo se trabaja en cada puesto', tag: 'AS-IS', desc: 'Lo vemos **sentados con cada persona**, tarea por tarea.', icon: Search, color: LN_YELLOW },
+  { paso: 'Hoy', titulo: 'Cómo se trabaja en cada puesto', tag: 'AS-IS', desc: 'Lo levantamos con **encuestas, mesas de trabajo y entrevistas 1 a 1**.', icon: Search, color: LN_YELLOW },
   { paso: 'Mañana', titulo: 'Cómo debería funcionar', tag: 'TO-BE', desc: 'Lo define **la gerencia** a partir de su visión de la empresa.', icon: Eye, color: VISION },
   { paso: 'El camino', titulo: 'Dónde integrar IA primero', tag: 'Hoja de ruta', desc: 'Los **procesos críticos** y los **cuellos de botella**, en orden de prioridad.', icon: MapIcon, color: '#f59e0b' },
 ];
@@ -156,15 +156,17 @@ const ETAPAS = [
   },
   {
     num: '02',
-    nombre: 'Acompañamiento en el puesto',
+    nombre: 'Acompañamiento 1 a 1',
     duracion: 'Semanas 1 a 3',
     icon: MessagesSquare,
     color: '#60a5fa',
     colorAlpha: 'rgba(96,165,250,.10)',
     colorBorder: 'rgba(96,165,250,.3)',
-    descripcion: 'Nos sentamos con **cada persona** para ver qué hace, **con qué** y **cuánto tiempo** le toma.',
+    descripcion: 'Escuchamos a **cada puesto** para saber qué hace, **con qué** y **cuánto tiempo** le toma.',
     actividades: [
-      { text: '**Media jornada en cada puesto**, viendo el trabajo real', tag: 'Con ustedes' },
+      { text: '**Encuestas** a las personas de cada puesto', tag: 'Con ustedes' },
+      { text: '**Mesas de trabajo** para armar juntos el paso a paso', tag: 'Con ustedes' },
+      { text: '**Entrevistas 1 a 1 con las jefaturas** para validar que todo esté bien', tag: 'Con ustedes' },
       { text: 'Revisión de los **archivos que usan a diario**: informes, recibos, fichas y cotizaciones' },
       { text: 'Lista de las **tareas que más tiempo consumen**' },
     ] as Actividad[],
@@ -183,7 +185,7 @@ const ETAPAS = [
       { text: '**Mapa de procesos** con el paso a paso de cada puesto' },
       { text: '**Procesos críticos** y **cuellos de botella** identificados' },
       { text: '**Manual de funciones actualizado** de los 5 puestos' },
-      { text: 'Revisión con **cada persona**', tag: 'Con ustedes' },
+      { text: '**Espacio de validación** de lo documentado con cada jefatura', tag: 'Con ustedes' },
     ] as Actividad[],
   },
   {
@@ -215,6 +217,7 @@ const ETAPAS = [
       { text: 'Procesos en **orden de prioridad**: más beneficio con menos esfuerzo' },
       { text: '**Opciones de solución** para cada proceso crítico, con su inversión estimada' },
       { text: '**Presentación de resultados** a la gerencia', tag: 'Con ustedes' },
+      { text: '**Espacio de revisión** de las actualizaciones y la documentación entregada', tag: 'Con ustedes' },
       { text: 'Entrega de los **5 entregables** en archivos editables' },
     ] as Actividad[],
   },
@@ -654,7 +657,7 @@ const LnEquiposProposal = () => {
               style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
             <Target className="w-7 h-7 text-[#00bfa5] mb-4" />
             <p className="font-poppins font-semibold text-white/80 text-xl sm:text-[23px] leading-relaxed">
-              Sentarnos con <Hl color="#fff">cada puesto</Hl>, dejar por escrito <Hl color={LN_YELLOW}>cómo se trabaja</Hl> e identificar los <Hl color="#f87171">procesos críticos y cuellos de botella</Hl> donde la <Hl>inteligencia artificial</Hl> les ahorrará más tiempo.
+              Escuchar a <Hl color="#fff">cada puesto</Hl>, dejar por escrito <Hl color={LN_YELLOW}>cómo se trabaja</Hl> e identificar los <Hl color="#f87171">procesos críticos y cuellos de botella</Hl> donde la <Hl>inteligencia artificial</Hl> les ahorrará más tiempo.
             </p>
           </div>
 
@@ -799,12 +802,12 @@ const LnEquiposProposal = () => {
           <SectionTitle>{ETAPAS.length} etapas · {META.duracion}</SectionTitle>
           <Rule />
 
-          <p className="font-lato text-white/55 text-[18px] mb-4">Así trabajamos con su equipo:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+          <p className="font-lato text-white/55 text-[18px] mb-4">Así hacemos el acompañamiento 1 a 1:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
             {[
-              { icon: Search, titulo: 'Vemos', desc: 'Nos sentamos **en cada puesto** para entender el trabajo real.' },
-              { icon: Flag, titulo: 'Señalamos', desc: 'Los **procesos críticos** y los **cuellos de botella** de la empresa.' },
-              { icon: MapIcon, titulo: 'Recomendamos', desc: 'Dónde integrar IA y **con qué opciones**, para que ustedes decidan.' },
+              { icon: ClipboardList, titulo: 'Encuestas', desc: 'A las personas de **cada puesto**: qué hacen, con qué y cuánto tiempo les toma.' },
+              { icon: Users, titulo: 'Mesas de trabajo', desc: 'Reuniones donde el equipo **arma junto** el paso a paso de sus procesos.' },
+              { icon: MessagesSquare, titulo: 'Entrevistas 1 a 1', desc: 'Con las **jefaturas**, para **validar** que todo esté bien.' },
             ].map((t, i) => {
               const Icon = t.icon;
               return (
@@ -815,6 +818,13 @@ const LnEquiposProposal = () => {
                 </div>
               );
             })}
+          </div>
+
+          <div className="rounded-xl p-4 flex gap-3 mb-10" style={{ background: 'rgba(246,174,19,.06)', border: '1px solid rgba(246,174,19,.22)' }}>
+            <CheckCircle className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: LN_YELLOW }} />
+            <p className="font-lato text-white/55 text-[16px] leading-relaxed">
+              Además hay <Hl color={LN_YELLOW}>espacios de validación</Hl> para revisar con ustedes las <Hl color="#fff">actualizaciones y la documentación</Hl> antes de darlas por entregadas.
+            </p>
           </div>
 
           {/* Timeline */}
@@ -979,7 +989,7 @@ const LnEquiposProposal = () => {
               <p className="font-lato text-white/45 text-[15px] mb-6">+ IVA · {META.duracion} · 3 formas de pago</p>
               <div className="flex flex-wrap gap-2">
                 {[
-                  '✓ Acompañamiento en cada puesto',
+                  '✓ Encuestas, mesas de trabajo y entrevistas 1 a 1',
                   '✓ Mapa de procesos',
                   '✓ Manual de funciones actualizado',
                   '✓ Procesos críticos y cuellos de botella',
@@ -1048,7 +1058,7 @@ const LnEquiposProposal = () => {
             {[
               { titulo: 'Aprobación', desc: 'Basta su confirmación por **WhatsApp, correo o verbal** para firmar el contrato y agendar el arranque.', icon: CheckCircle },
               { titulo: 'Pagos', desc: 'Ustedes eligen entre **pago anticipado**, **dos pagos** de 50% o **tres pagos** de 40%, 30% y 30%. Más IVA, por transferencia.', icon: FileText },
-              { titulo: 'Modalidad', desc: 'El acompañamiento en cada puesto es **presencial en su sede de Barranquilla**. Las demás sesiones son **virtuales**.', icon: MapPin },
+              { titulo: 'Modalidad', desc: 'Las sesiones pueden ser **presenciales en su sede de Barranquilla** o **virtuales**, según lo acordemos con ustedes.', icon: MapPin },
               { titulo: 'Alcance', desc: `Mapeo de **${TOTAL_PUESTOS} puestos** y las reuniones de junta. Es un trabajo **de consultoría**: no incluye construir herramientas. Puestos adicionales se cotizan aparte.`, icon: Users },
               { titulo: 'Segunda fase', desc: 'La **implementación** se cotiza aparte, según la **solución que ustedes escojan** de la hoja de ruta.', icon: Bot },
               { titulo: 'Confidencialidad', desc: 'Toda la información que nos compartan es **confidencial** y solo se usa para esta consultoría.', icon: ShieldCheck },

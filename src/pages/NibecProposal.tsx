@@ -110,16 +110,16 @@ const FUERA_DE_ALCANCE = [
 
 const BANDAS = [
   {
-    rango: '4 a 10', tipo: 'Solicitud simple',
-    ej: 'Un ajuste de un flujo ya activo, un campo o segmento nuevo, una plantilla de correo o el soporte de una incidencia',
+    rango: '5 a 20', tipo: 'Solicitud simple',
+    ej: 'El ajuste de un flujo ya activo, un campo o segmento nuevo, una plantilla de correo, un flujo de bienvenida, un informe estándar o el soporte de una incidencia',
   },
   {
-    rango: '11 a 20', tipo: 'Solicitud media',
-    ej: 'Un flujo de bienvenida o de recompra nuevo, una segmentación de la base por tipo de cliente o un panel de informes',
+    rango: '21 a 50', tipo: 'Solicitud media',
+    ej: 'La segmentación de la base por tipo de cliente, una secuencia de recompra con varios disparadores, un panel de informes nuevo o la exclusión de compradores en las audiencias de Meta',
   },
   {
-    rango: '21 o más', tipo: 'Solicitud compleja',
-    ej: 'Una integración vía API con Meta o el e-commerce, o la migración de una automatización completa entre plataformas',
+    rango: '51 o más', tipo: 'Solicitud compleja',
+    ej: 'La integración del e-commerce con la base de contactos, un asistente de IA en producción o la migración de un módulo completo entre plataformas',
   },
 ];
 
@@ -139,21 +139,24 @@ const AREA_STYLE: Record<string, { bg: string; border: string; color: string }> 
 // ─── EJEMPLO DE REPORTE MENSUAL DE CRÉDITOS ──────────────────────────────────
 
 const REPORTE = [
-  { solicitud: 'Automatización de exclusión de compradores en audiencias de Meta vía API de conversiones', area: 'Plataforma', banda: 'Compleja', creditos: 22 },
-  { solicitud: 'Montaje y automatización del flujo de bienvenida post-compra en la plataforma',             area: 'Marketing',  banda: 'Media',    creditos: 14 },
-  { solicitud: 'Configuración de la segmentación por tipo de cliente, monto acumulado y frecuencia',        area: 'Marketing',  banda: 'Media',    creditos: 12 },
-  { solicitud: 'Ajuste de reglas de frecuencia y criterios de entrada al flujo',                            area: 'Marketing',  banda: 'Simple',   creditos: 6 },
-  { solicitud: 'Soporte y resolución de incidencias sobre la plataforma',                                   area: 'Plataforma', banda: 'Simple',   creditos: 6 },
+  { solicitud: 'Configuración de la segmentación por tipo de cliente, monto acumulado y frecuencia',        area: 'Marketing',  banda: 'Media',  creditos: 21 },
+  { solicitud: 'Automatización de exclusión de compradores en audiencias de Meta vía API de conversiones', area: 'Plataforma', banda: 'Media',  creditos: 21 },
+  { solicitud: 'Montaje y automatización del flujo de bienvenida post-compra en la plataforma',             area: 'Marketing',  banda: 'Simple', creditos: 8 },
+  { solicitud: 'Ajuste de reglas de frecuencia y criterios de entrada al flujo',                            area: 'Marketing',  banda: 'Simple', creditos: 5 },
+  { solicitud: 'Soporte y resolución de incidencias sobre la plataforma',                                   area: 'Plataforma', banda: 'Simple', creditos: 5 },
 ];
 
 const TOTAL_REPORTE = REPORTE.reduce((a, r) => a + r.creditos, 0);
 
-// Distribución del mes de ejemplo, para mostrarla como resumen sobre la tabla
-const DISTRIBUCION = ['Compleja', 'Media', 'Simple'].map(b => ({
-  banda: b,
-  cantidad: REPORTE.filter(r => r.banda === b).length,
-  creditos: REPORTE.filter(r => r.banda === b).reduce((a, r) => a + r.creditos, 0),
-}));
+// Distribución del mes de ejemplo, para mostrarla como resumen sobre la tabla.
+// Solo se muestran las bandas presentes en el mes, así el Plan Esencial no exhibe una banda en cero.
+const DISTRIBUCION = ['Compleja', 'Media', 'Simple']
+  .map(b => ({
+    banda: b,
+    cantidad: REPORTE.filter(r => r.banda === b).length,
+    creditos: REPORTE.filter(r => r.banda === b).reduce((a, r) => a + r.creditos, 0),
+  }))
+  .filter(d => d.cantidad > 0);
 
 // ─── CATÁLOGO DE ACTIVIDADES ─────────────────────────────────────────────────
 
@@ -823,7 +826,7 @@ const NibecProposal = () => {
                             <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
                               style={{ background: 'rgba(245,160,42,.20)', color: NIBEC_COLOR }}>Sixteam</span>
                             <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                              "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en Brevo, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Queda como <strong className="text-white/75 not-italic">solicitud media, 14 créditos</strong>, lista en 4 días hábiles. Te quedarían 46 créditos disponibles este mes. ¿Aprobamos?"
+                              "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en Brevo, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Queda como <strong className="text-white/75 not-italic">solicitud simple, 14 créditos</strong>, lista en 4 días hábiles. Te quedarían 46 créditos disponibles este mes. ¿Aprobamos?"
                             </p>
                           </div>
                           <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
@@ -864,8 +867,8 @@ const NibecProposal = () => {
               <div className="border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
 
                 {/* Resumen de la distribución del mes por complejidad */}
-                <div className="px-4 sm:px-5 py-4 grid grid-cols-3 gap-2"
-                  style={{ background: 'rgba(2,8,20,.5)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+                <div className="px-4 sm:px-5 py-4 grid gap-2"
+                  style={{ gridTemplateColumns: `repeat(${DISTRIBUCION.length}, minmax(0, 1fr))`, background: 'rgba(2,8,20,.5)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
                   {DISTRIBUCION.map((d) => {
                     const bs = BANDA_STYLE[d.banda];
                     return (
@@ -918,7 +921,7 @@ const NibecProposal = () => {
                 </div>
                 <div className="px-4 sm:px-5 py-3 space-y-2" style={{ background: 'rgba(255,255,255,.02)', borderTop: '1px solid rgba(255,255,255,.05)' }}>
                   <p className="font-lato text-white/30 text-[13px] leading-relaxed">
-                    Este es un ejemplo puntual de cómo podrían comportarse {REPORTE.length} solicitudes en un mes: una compleja, dos medias y dos simples que juntas agotan los {CREDITOS_MES} créditos del {PLAN_NOMBRE}. No es la única forma en que puede repartirse el plan, ya que habrá meses en los que una sola solicitud compleja se lleve gran parte de los créditos y el número de requerimientos atendidos sea menor.
+                    Este es un ejemplo puntual de cómo podrían comportarse {REPORTE.length} solicitudes en un mes: dos medias y tres simples que juntas agotan los {CREDITOS_MES} créditos del {PLAN_NOMBRE}. No es la única forma en que puede repartirse el plan, ya que habrá meses con solicitudes más livianas que permitan atender un mayor número de requerimientos. Una solicitud compleja, de 51 créditos en adelante, consume por sí sola casi todo el período del {PLAN_NOMBRE}, así que se programa con antelación, se reparte entre dos períodos o se cotiza aparte como proyecto de implementación.
                   </p>
                   <p className="font-lato text-white/30 text-[13px] leading-relaxed">
                     También es un caso de referencia en cuanto a los valores: una solicitud parecida puede cotizarse distinto en otro momento, porque el consumo depende del estado de la configuración, del volumen de datos y de las integraciones que toque. Cada solicitud se cotiza con su número exacto antes de ejecutarse.

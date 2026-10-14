@@ -46,6 +46,23 @@ Librería de componentes React/Tailwind CSS premium.
 
 ---
 
+## Escalas de consumo de créditos — Sixteam Ops
+
+Toda propuesta con plan de créditos (Sixteam Ops) usa **estas bandas y ninguna otra**:
+
+| Banda | Créditos | Ejemplos |
+|-------|----------|----------|
+| **Solicitud simple** | 5 a 20 | Campo o propiedad nueva, ajuste de un flujo ya activo, plantilla de correo, informe estándar, capacitación puntual, soporte de una incidencia |
+| **Solicitud media** | 21 a 50 | Automatización de seguimiento comercial, segmentación de la base, formulario conectado al CRM, panel de informes nuevo |
+| **Solicitud compleja** | 51 en adelante | Integración bidireccional entre sistemas, agente de IA en producción, migración de un módulo completo |
+
+Reglas al construir el ejemplo de reporte mensual (`REPORTE`):
+- Ninguna solicitud puede quedar por debajo de 5 créditos.
+- Cada ítem lleva su campo `banda` y el valor de `creditos` debe caer dentro del rango de esa banda.
+- El total debe cuadrar exactamente con `CREDITOS_MES` y el número de ítems con `SOLICITUDES_MES`.
+- En planes pequeños (por ejemplo 60 créditos) una solicitud compleja consume casi todo el período: el ejemplo del mes se arma sin banda compleja y se aclara en la nota al pie que ese tipo de solicitud se programa, se reparte entre períodos o se cotiza aparte.
+- Referencia canónica ya implementada: `src/pages/GabricaProposal.tsx`, `src/pages/NibecProposal.tsx` y `src/pages/CalasNibecProposal.tsx` (constantes `BANDAS`, `BANDA_STYLE`, `DISTRIBUCION`).
+
 ## Estructura del proyecto
 
 ```

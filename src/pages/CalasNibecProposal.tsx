@@ -105,26 +105,57 @@ const FUERA_DE_ALCANCE = [
   'Administración de la inversión publicitaria y de su presupuesto',
 ];
 
+// ─── BANDAS DE COMPLEJIDAD DEL CRÉDITO ───────────────────────────────────────
+
+const BANDAS = [
+  {
+    rango: '5 a 20', tipo: 'Solicitud simple',
+    ej: 'Un campo nuevo, el ajuste de un flujo ya activo, una plantilla de correo, un informe estándar, una capacitación puntual o el soporte de una incidencia',
+  },
+  {
+    rango: '21 a 50', tipo: 'Solicitud media',
+    ej: 'La segmentación de la base por tipo de cliente, una secuencia de recompra con varios disparadores, un panel de informes nuevo o la exclusión de compradores en las audiencias de Meta',
+  },
+  {
+    rango: '51 o más', tipo: 'Solicitud compleja',
+    ej: 'La integración del e-commerce con la base de contactos, un asistente de IA en producción o la migración de un módulo completo',
+  },
+];
+
+const BANDA_STYLE: Record<string, { bg: string; border: string; color: string }> = {
+  Simple:   { bg: 'rgba(0,191,165,.12)',  border: 'rgba(0,191,165,.3)',  color: '#00bfa5' },
+  Media:    { bg: 'rgba(245,160,42,.12)', border: 'rgba(245,160,42,.3)', color: NIBEC_COLOR },
+  Compleja: { bg: 'rgba(214,59,87,.12)',  border: 'rgba(214,59,87,.3)',  color: CALAS_COLOR },
+};
+
 // ─── EJEMPLO DE REPORTE MENSUAL DE CRÉDITOS ──────────────────────────────────
 
 const REPORTE = [
-  { solicitud: 'Integración del e-commerce con la base de contactos para sincronizar compras y categorías', linea: 'Ambas', creditos: 20 },
-  { solicitud: 'Automatización de exclusión de compradores en audiencias de Meta vía API de conversiones',  linea: 'Ambas', creditos: 22 },
-  { solicitud: 'Configuración de la segmentación por tipo de cliente, monto acumulado y frecuencia',        linea: 'Ambas', creditos: 16 },
-  { solicitud: 'Montaje y automatización del flujo de bienvenida post-compra en la plataforma',             linea: 'Calas', creditos: 14 },
-  { solicitud: 'Réplica del flujo de bienvenida sobre la línea Nibec',                                      linea: 'Nibec', creditos: 6 },
-  { solicitud: 'Secuencia automatizada de recompra con disparadores a 30, 60 y 90 días',                    linea: 'Calas', creditos: 12 },
-  { solicitud: 'Flujo de venta cruzada según la categoría de producto comprada',                            linea: 'Nibec', creditos: 12 },
-  { solicitud: 'Panel de informes de desempeño de flujos, cotizaciones y recompra',                         linea: 'Ambas', creditos: 14 },
-  { solicitud: 'Auditoría y depuración de las automatizaciones de correo ya activas',                       linea: 'Ambas', creditos: 10 },
-  { solicitud: 'Campos personalizados de cliente con reglas de actualización automática',                   linea: 'Ambas', creditos: 10 },
-  { solicitud: 'Enlace de cotización a WhatsApp dentro de las plantillas de correo',                        linea: 'Ambas', creditos: 8 },
-  { solicitud: 'Ajuste de reglas de frecuencia y criterios de entrada a cada flujo',                        linea: 'Ambas', creditos: 6 },
-  { solicitud: 'Soporte y resolución de incidencias sobre la plataforma',                                   linea: 'Ambas', creditos: 6 },
-  { solicitud: 'Capacitación al equipo sobre el uso de los flujos activos',                                 linea: 'Ambas', creditos: 4 },
+  { solicitud: 'Integración del e-commerce con la base de contactos para sincronizar compras y categorías', linea: 'Ambas', banda: 'Compleja', creditos: 51 },
+  { solicitud: 'Configuración de la segmentación por tipo de cliente, monto acumulado y frecuencia',        linea: 'Ambas', banda: 'Media',    creditos: 21 },
+  { solicitud: 'Automatización de exclusión de compradores en audiencias de Meta vía API de conversiones',  linea: 'Ambas', banda: 'Media',    creditos: 21 },
+  { solicitud: 'Montaje y automatización del flujo de bienvenida post-compra en la plataforma',             linea: 'Calas', banda: 'Simple',   creditos: 8 },
+  { solicitud: 'Secuencia automatizada de recompra con disparadores a 30, 60 y 90 días',                    linea: 'Calas', banda: 'Simple',   creditos: 7 },
+  { solicitud: 'Flujo de venta cruzada según la categoría de producto comprada',                            linea: 'Nibec', banda: 'Simple',   creditos: 6 },
+  { solicitud: 'Panel de informes de desempeño de flujos, cotizaciones y recompra',                         linea: 'Ambas', banda: 'Simple',   creditos: 6 },
+  { solicitud: 'Réplica del flujo de bienvenida sobre la línea Nibec',                                      linea: 'Nibec', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Auditoría y depuración de las automatizaciones de correo ya activas',                       linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Campos personalizados de cliente con reglas de actualización automática',                   linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Plantillas de correo diferenciadas por tipo de cliente',                                    linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Enlace de cotización a WhatsApp dentro de las plantillas de correo',                        linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Ajuste de reglas de frecuencia y criterios de entrada a cada flujo',                        linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Soporte y resolución de incidencias sobre la plataforma',                                   linea: 'Ambas', banda: 'Simple',   creditos: 5 },
+  { solicitud: 'Capacitación al equipo sobre el uso de los flujos activos',                                 linea: 'Ambas', banda: 'Simple',   creditos: 5 },
 ];
 
 const TOTAL_REPORTE = REPORTE.reduce((a, r) => a + r.creditos, 0);
+
+// Distribución del mes de ejemplo, para mostrarla como resumen sobre la tabla
+const DISTRIBUCION = ['Compleja', 'Media', 'Simple'].map(b => ({
+  banda: b,
+  cantidad: REPORTE.filter(r => r.banda === b).length,
+  creditos: REPORTE.filter(r => r.banda === b).reduce((a, r) => a + r.creditos, 0),
+}));
 
 const LINEA_STYLE: Record<string, { bg: string; border: string; color: string }> = {
   Calas: { bg: 'rgba(214,59,87,.12)',  border: 'rgba(214,59,87,.28)',  color: CALAS_COLOR },
@@ -784,8 +815,22 @@ const CalasNibecProposal = () => {
               <div className="px-4 sm:px-5 pb-5 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
                 <div className="pt-4 space-y-4">
                   <p className="font-lato text-white/50 text-[16px] leading-relaxed">
-                    Por cada solicitud que entra, Sixteam cotiza cuántos créditos consumirá y en cuánto tiempo estará lista. El equipo decide si aprueba antes de que se ejecute cualquier trabajo, así nunca hay sorpresas al cierre del mes. Toda la atención es personalizada, apoyada con inteligencia artificial y con el criterio humano de los expertos de Sixteam.
+                    Por cada solicitud que entra, Sixteam cotiza cuántos créditos consumirá y en cuánto tiempo estará lista. El equipo decide si aprueba antes de que se ejecute cualquier trabajo, así nunca hay sorpresas al cierre del mes. El crédito es la unidad con la que se mide el esfuerzo técnico, de modo que una solicitud simple consume pocos créditos y una integración compleja consume bastantes más. Toda la atención es personalizada, apoyada con inteligencia artificial y con el criterio humano de los expertos de Sixteam.
                   </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    {BANDAS.map((c, i) => {
+                      const bs = [BANDA_STYLE.Simple, BANDA_STYLE.Media, BANDA_STYLE.Compleja][i];
+                      return (
+                        <div key={i} className="rounded-xl p-4" style={{ background: 'rgba(2,8,20,.6)', border: `1px solid ${bs.border}` }}>
+                          <p className="font-poppins font-black text-[22px] leading-none mb-1" style={{ color: bs.color }}>{c.rango}</p>
+                          <p className="font-lato text-white/30 text-[11px] uppercase tracking-wider mb-2">créditos</p>
+                          <p className="font-poppins font-semibold text-white/80 text-[14px] mb-1">{c.tipo}</p>
+                          <p className="font-lato text-white/45 text-[13px] leading-snug">{c.ej}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
 
                   <div className="rounded-xl p-4 flex flex-col gap-2.5" style={{ background: 'rgba(2,8,20,.6)', border: '1px solid rgba(255,255,255,.06)' }}>
                     <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Flujo de cada solicitud</p>
@@ -837,7 +882,7 @@ const CalasNibecProposal = () => {
                             <span className="font-poppins font-black text-[11px] px-2 py-0.5 rounded flex-shrink-0 h-fit mt-0.5"
                               style={{ background: 'rgba(245,160,42,.20)', color: NIBEC_COLOR }}>Sixteam</span>
                             <p className="font-lato text-white/55 text-[15px] leading-relaxed italic">
-                              "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en Brevo, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Son <strong className="text-white/75 not-italic">12 créditos</strong> y queda lista en 4 días hábiles. Te quedarían 148 créditos disponibles este mes. ¿Aprobamos?"
+                              "Recibido. La solicitud incluye la segmentación por categoría comprada, el montaje de la plantilla en Brevo, la automatización con el retraso de quince días y el enlace de cotización a WhatsApp. Queda como <strong className="text-white/75 not-italic">solicitud simple, 12 créditos</strong>, y estará lista en 4 días hábiles. Te quedarían 148 créditos disponibles este mes. ¿Aprobamos?"
                             </p>
                           </div>
                           <div className="rounded-lg p-3 flex gap-3" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.06)' }}>
@@ -876,6 +921,23 @@ const CalasNibecProposal = () => {
 
             {showReporte && (
               <div className="border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
+
+                {/* Resumen de la distribución del mes por complejidad */}
+                <div className="px-4 sm:px-5 py-4 grid grid-cols-3 gap-2"
+                  style={{ background: 'rgba(2,8,20,.5)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
+                  {DISTRIBUCION.map((d) => {
+                    const bs = BANDA_STYLE[d.banda];
+                    return (
+                      <div key={d.banda} className="rounded-lg px-2 py-2.5 text-center"
+                        style={{ background: bs.bg, border: `1px solid ${bs.border}` }}>
+                        <p className="font-poppins font-black text-[20px] leading-none" style={{ color: bs.color }}>{d.cantidad}</p>
+                        <p className="font-poppins font-semibold text-white/70 text-[12px] mt-1 leading-tight">{d.banda}</p>
+                        <p className="font-lato text-white/35 text-[11px] mt-0.5">{d.creditos} créditos</p>
+                      </div>
+                    );
+                  })}
+                </div>
+
                 <div className="hidden sm:grid px-5 py-2 font-lato text-white/20 text-[11px] uppercase tracking-wider"
                   style={{ gridTemplateColumns: '1fr 90px 90px', background: 'rgba(255,255,255,.015)', borderBottom: '1px solid rgba(255,255,255,.05)' }}>
                   <span>Solicitud atendida</span>
@@ -885,15 +947,22 @@ const CalasNibecProposal = () => {
                 <div className="divide-y" style={{ borderColor: 'rgba(255,255,255,.04)' }}>
                   {REPORTE.map((r, i) => {
                     const l = LINEA_STYLE[r.linea];
+                    const bs = BANDA_STYLE[r.banda];
                     return (
                       <div key={i} className="px-4 sm:px-5 py-3 grid items-center gap-2"
                         style={{ gridTemplateColumns: '1fr 90px 90px', background: i % 2 === 0 ? 'rgba(255,255,255,.012)' : 'transparent' }}>
-                        <span className="font-lato text-white/60 text-[14px] leading-snug">{r.solicitud}</span>
+                        <span className="font-lato text-white/60 text-[14px] leading-snug">
+                          {r.solicitud}
+                          <span className="ml-2 font-lato text-[11px] px-1.5 py-0.5 rounded whitespace-nowrap align-middle"
+                            style={{ background: bs.bg, color: bs.color }}>
+                            {r.banda}
+                          </span>
+                        </span>
                         <span className="justify-self-center font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider whitespace-nowrap"
                           style={{ background: l.bg, border: `1px solid ${l.border}`, color: l.color }}>
                           {r.linea}
                         </span>
-                        <span className="font-poppins font-bold text-white/75 text-[14px] text-right">{r.creditos}</span>
+                        <span className="font-poppins font-bold text-[14px] text-right" style={{ color: bs.color }}>{r.creditos}</span>
                       </div>
                     );
                   })}
@@ -901,14 +970,14 @@ const CalasNibecProposal = () => {
                 <div className="px-4 sm:px-5 py-4 grid items-center gap-2"
                   style={{ gridTemplateColumns: '1fr 90px 90px', background: 'rgba(0,191,165,.07)', borderTop: '1px solid rgba(0,191,165,.2)' }}>
                   <span className="font-poppins font-bold text-white text-[16px]">Total del mes</span>
-                  <span />
+                  <span className="justify-self-center font-lato text-white/35 text-[12px] whitespace-nowrap">{REPORTE.length} solicitudes</span>
                   <span className="font-poppins font-black text-[16px] text-right" style={{ color: '#00bfa5' }}>
                     {TOTAL_REPORTE} / {CREDITOS_MES}
                   </span>
                 </div>
                 <div className="px-4 sm:px-5 py-3" style={{ background: 'rgba(255,255,255,.02)', borderTop: '1px solid rgba(255,255,255,.05)' }}>
                   <p className="font-lato text-white/30 text-[13px] leading-relaxed">
-                    Ejemplo referencial de un mes con solicitudes de alta complejidad que agota los {CREDITOS_MES} créditos. Los meses con solicitudes más livianas permiten atender un mayor número de requerimientos. Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
+                    Este es un ejemplo puntual de cómo podrían comportarse {REPORTE.length} solicitudes en un mes entre las dos líneas: una compleja, dos medias y doce simples que juntas agotan los {CREDITOS_MES} créditos del período. No es la única forma en que puede repartirse el plan, ya que habrá meses en los que una sola solicitud compleja se lleve gran parte de los créditos y el número de requerimientos atendidos sea bastante menor. Los créditos no utilizados no son acumulables al período siguiente, y si una solicitud excede el saldo disponible se cotiza el excedente aparte o se programa para el siguiente período, siempre con aprobación previa.
                   </p>
                 </div>
               </div>
