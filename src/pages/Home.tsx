@@ -430,6 +430,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'borrador',
     path: '/jc-proyectos/demo',
   },
+  {
+    slug: 'vertical-services-pauta',
+    cliente: 'Vertical Services · Email y Meta Ads',
+    sector: 'Drones · Propiedad Horizontal · Último envío de correo y pauta digital',
+    fecha: 'Octubre 2026',
+    monto: 'COP 1.500.000/mes + IVA · 5 % dto. pago único',
+    estado: 'activa',
+    path: '/vertical-services-pauta',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

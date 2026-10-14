@@ -22,6 +22,7 @@ const TuViviProposal           = lazy(() => import('./pages/TuViviProposal'));
 const MetropolitanTouringProposal = lazy(() => import('./pages/MetropolitanTouringProposal'));
 const NutsportProposal            = lazy(() => import('./pages/NutsportProposal'));
 const VerticalServicesProposal    = lazy(() => import('./pages/VerticalServicesProposal'));
+const VerticalServicesFase2Proposal = lazy(() => import('./pages/VerticalServicesFase2Proposal'));
 const ClinicaMagneticaProposal    = lazy(() => import('./pages/ClinicaMagneticaProposal'));
 const MotionMindsProposal         = lazy(() => import('./pages/MotionMindsProposal'));
 const VentureSportProposal        = lazy(() => import('./pages/VentureSportProposal'));
@@ -94,6 +95,7 @@ export default function App() {
           <Route path="/metropolitan-touring" element={<MetropolitanTouringProposal />} />
           <Route path="/nutsport"             element={<NutsportProposal />} />
           <Route path="/vertical-services"    element={<VerticalServicesProposal />} />
+          <Route path="/vertical-services-pauta" element={<VerticalServicesFase2Proposal />} />
           <Route path="/clinica-magnetica"    element={<ClinicaMagneticaProposal />} />
           <Route path="/motion-minds"         element={<MotionMindsProposal />} />
           <Route path="/venture-sport"        element={<VentureSportProposal />} />
