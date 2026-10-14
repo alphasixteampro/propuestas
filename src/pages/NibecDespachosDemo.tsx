@@ -514,9 +514,11 @@ const ESTILOS = `
   .nb-back { order: 3; margin-left: 0; }
   .nb-stat { padding: 16px; }
 }
-@media (min-width: 1280px) {
-  .nb-layout { grid-template-columns: minmax(0, 1fr) 320px; }
-  .nb-log { position: sticky; top: 16px; }
+@media (min-width: 1024px) {
+  /* El registro va debajo: el tablero usa todo el ancho y las 5 columnas caben sin deslizar */
+  .nb-board { width: 100%; }
+  .nb-col { width: auto; flex: 1 1 0; min-width: 220px; }
+  .nb-log-list { max-height: 280px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .nb *, .nb *::before, .nb *::after { transition: none !important; animation: none !important; }
