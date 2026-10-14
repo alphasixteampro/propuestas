@@ -13,6 +13,8 @@ const META = {
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
+  elaboradaPor: 'Ernesto Hernández',
+  cargo: 'Gerente Comercial Sixteam.pro',
 };
 
 const VS_BLUE = '#3b82f6';
@@ -346,6 +348,9 @@ const VerticalServicesFase2Proposal = () => (
             <span>·</span>
             <span>RL: {META.rl}</span>
           </div>
+          <p className="font-lato text-white/50 text-[14px] mt-3">
+            Propuesta elaborada por: <strong className="text-white/80 font-semibold">{META.elaboradaPor}</strong> · {META.cargo}
+          </p>
           <p className="font-lato text-white/20 text-[13px] mt-4 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
             Process + Technology + People = Growth · {META.fecha} · Uso confidencial
           </p>
