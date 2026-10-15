@@ -431,6 +431,15 @@ const PROPOSALS: Proposal[] = [
     path: '/jc-proyectos/demo',
   },
   {
+    slug: 'jc-proyectos-ia',
+    cliente: 'JC Proyectos · Acompañamiento en IA',
+    sector: 'Construcción · Aprender a construir con IA la gestión de materiales y personal · México',
+    fecha: 'Octubre 2026',
+    monto: 'USD 599 (10 h · 1 mes) · USD 999 (20 h · 6 semanas) · 5 % dto. pago anticipado',
+    estado: 'activa',
+    path: '/jc-proyectos',
+  },
+  {
     slug: 'vertical-services-pauta',
     cliente: 'Vertical Services · Email y Meta Ads',
     sector: 'Drones · Propiedad Horizontal · Último envío de correo y pauta digital',
@@ -620,7 +629,7 @@ export default function Home() {
               >
                 <div style={{
                   width: 64, height: 64, borderRadius: 12,
-                  background: p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' || p.slug === 'jc-proyectos' || p.slug === 'nibec-despachos' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
+                  background: p.slug === 'conecty' || p.slug === 'conecty-transformacion' || p.slug === 'conecty-mapeo-procesos' ? 'transparent' : p.slug === 'grupo-mimi' || p.slug === 'procurement-pro' || p.slug === 'vuela-a-la-vida' || p.slug === 'clinica-magnetica' || p.slug === 'dv-clinic-lab' || p.slug === 'nibec' || p.slug.startsWith('jc-proyectos') || p.slug === 'nibec-despachos' ? '#fff' : p.slug === 'metropolitan-touring' ? 'rgba(245,158,11,.12)' : 'rgba(29,112,162,.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   overflow: 'hidden'
                 }}>
@@ -667,7 +676,7 @@ export default function Home() {
                   ) : (p.slug === 'nibec' || p.slug === 'nibec-despachos') ? (
                     <img src="/Logo nibec.png" alt="Nibec" style={{ width: '90%', height: '90%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
-                  ) : p.slug === 'jc-proyectos' ? (
+                  ) : p.slug.startsWith('jc-proyectos') ? (
                     <img src="/jc-proyectos-logo.png" alt="JC Proyectos" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'global-realty' ? (

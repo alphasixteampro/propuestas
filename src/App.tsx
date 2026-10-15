@@ -50,6 +50,7 @@ const MizarCarteraProposal       = lazy(() => import('./pages/MizarCarteraPropos
 const MizarCarteraDemo           = lazy(() => import('./pages/MizarCarteraDemo'));
 const MizarCarteraMvpProposal    = lazy(() => import('./pages/MizarCarteraMvpProposal'));
 const JcProyectosDemo            = lazy(() => import('./pages/JcProyectosDemo'));
+const JcProyectosProposal        = lazy(() => import('./pages/JcProyectosProposal'));
 const CalculadoraIA              = lazy(() => import('./pages/CalculadoraIA'));
 const RosaniaHeldProposal         = lazy(() => import('./pages/RosaniaHeldProposal'));
 const LnEquiposProposal           = lazy(() => import('./pages/LnEquiposProposal'));
@@ -125,6 +126,7 @@ export default function App() {
           <Route path="/calculadora-ia"       element={<CalculadoraIA />} />
           <Route path="/rosania-held"         element={<RosaniaHeldProposal />} />
           <Route path="/ln-equipos"           element={<LnEquiposProposal />} />
+          <Route path="/jc-proyectos"         element={<JcProyectosProposal />} />
           <Route path="/jc-proyectos/demo"    element={<JcProyectosDemo />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
