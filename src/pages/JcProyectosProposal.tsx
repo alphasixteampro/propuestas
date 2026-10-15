@@ -64,7 +64,7 @@ const PLANES = [
     recomendado: false,
     items: [
       'Un frente a la vez: **materiales o personal**',
-      'Sesiones en vivo de 1 a 2 veces por semana',
+      'Sesiones en vivo de 2 a 3 veces por semana',
       'Ideal para arrancar a su propio ritmo',
     ],
   },
@@ -78,7 +78,7 @@ const PLANES = [
     recomendado: true,
     items: [
       '**Materiales y personal** en el mismo ciclo',
-      'Sesiones en vivo de 2 veces por semana',
+      'Sesiones en vivo de 3 a 4 veces por semana',
       'El tiempo que estimamos para construir **todo el proceso**',
     ],
   },
@@ -155,28 +155,79 @@ const JcProyectosProposal = () => (
         </div>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-5 sm:px-8 md:px-10 pt-16 pb-20">
-        <TagLabel>Propuesta comercial · Acompañamiento en IA</TagLabel>
-        <h1 className="font-poppins font-black text-white leading-[1.05] mt-4 mb-5"
-          style={{ fontSize: 'clamp(2.4rem, 5.5vw, 4.25rem)' }}>
-          Construya su propio sistema<br />
-          <span style={{ background: `linear-gradient(90deg,#1d70a2,${JC_BLUE},#00bfa5)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            con inteligencia artificial
-          </span>
-        </h1>
-        <p className="font-lato text-white/60 text-[19px] leading-relaxed max-w-2xl mb-8">
-          Un profesional de Sixteam.pro guía a JC Proyectos para que <strong className="text-white/90">ustedes mismos construyan</strong> la gestión de <strong className="text-white/90">materiales</strong> y de <strong className="text-white/90">personal</strong> de sus obras.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {[{ icon: Calendar, text: META.fecha }, { icon: MapPin, text: META.lugar }].map((chip, i) => {
-            const Icon = chip.icon;
-            return (
-              <div key={i} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[15px] text-white/60"
-                style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
-                <Icon className="w-3.5 h-3.5 text-[#00bfa5]" /> {chip.text}
+      <style>{`
+        @keyframes cover-spin-slow { from{transform:rotate(0deg)}to{transform:rotate(360deg)} }
+        @keyframes cover-spin-rev  { from{transform:rotate(0deg)}to{transform:rotate(-360deg)} }
+        @keyframes cover-pulse-glow { 0%,100%{opacity:.07;transform:scale(1)} 50%{opacity:.15;transform:scale(1.12)} }
+        @keyframes cover-float { 0%,100%{transform:translateY(0px)} 50%{transform:translateY(-10px)} }
+        .cover-ring-1{animation:cover-spin-slow 22s linear infinite}
+        .cover-ring-2{animation:cover-spin-rev 16s linear infinite}
+        .cover-glow{animation:cover-pulse-glow 4s ease-in-out infinite}
+        .cover-float{animation:cover-float 5s ease-in-out infinite}
+      `}</style>
+
+      <div className="relative z-10 max-w-6xl mx-auto px-5 sm:px-8 md:px-10 pt-16 pb-20 grid grid-cols-1 lg:grid-cols-[11fr_9fr] gap-10 lg:gap-12 items-center">
+        <div>
+          <TagLabel>Propuesta comercial · Acompañamiento en IA</TagLabel>
+          <h1 className="font-poppins font-black text-white leading-[1.05] mt-4 mb-5"
+            style={{ fontSize: 'clamp(2.4rem, 5vw, 3.75rem)' }}>
+            Construya su propio sistema<br />
+            <span style={{ background: `linear-gradient(90deg,#1d70a2,${JC_BLUE},#00bfa5)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              con inteligencia artificial
+            </span>
+          </h1>
+          <p className="font-lato text-white/60 text-[19px] leading-relaxed max-w-2xl mb-8">
+            Un profesional de Sixteam.pro guía a JC Proyectos para que <strong className="text-white/90">ustedes mismos construyan</strong> la gestión de <strong className="text-white/90">materiales</strong> y de <strong className="text-white/90">personal</strong> de sus obras.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {[{ icon: Calendar, text: META.fecha }, { icon: MapPin, text: META.lugar }].map((chip, i) => {
+              const Icon = chip.icon;
+              return (
+                <div key={i} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-[15px] text-white/60"
+                  style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <Icon className="w-3.5 h-3.5 text-[#00bfa5]" /> {chip.text}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Derecha animada */}
+        <div className="flex items-center justify-center relative min-h-[380px]">
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="cover-glow absolute w-80 h-80 rounded-full"
+              style={{ background: 'radial-gradient(circle, rgba(59,111,224,.10) 0%, rgba(0,191,165,.05) 50%, transparent 70%)' }} />
+            <div className="cover-ring-1 absolute w-96 h-96 rounded-full" style={{ border: '1px solid rgba(0,191,165,.12)' }} />
+            <div className="cover-ring-2 absolute w-64 h-64 rounded-full" style={{ border: '1px dashed rgba(59,111,224,.2)' }} />
+            <div className="cover-ring-1 absolute w-96 h-96 rounded-full flex items-start justify-center">
+              <div className="w-2 h-2 rounded-full -mt-1" style={{ background: '#00bfa5', boxShadow: '0 0 8px rgba(0,191,165,.8)' }} />
+            </div>
+            <div className="cover-ring-2 absolute w-64 h-64 rounded-full flex items-end justify-center">
+              <div className="w-1.5 h-1.5 rounded-full mb-[-3px]" style={{ background: JC_BLUE, boxShadow: '0 0 6px rgba(59,111,224,.8)' }} />
+            </div>
+          </div>
+          <div className="cover-float relative z-10 flex flex-col items-center gap-5 w-full px-6">
+            <div className="flex flex-col items-center gap-1">
+              <img src="/sixteam-logo.png" alt="Sixteam.pro" className="h-14 w-auto object-contain"
+                style={{ filter: 'drop-shadow(0 4px 20px rgba(0,191,165,.45))' }} />
+              <span className="font-poppins font-black text-white/30 text-[11px] uppercase tracking-[0.2em]">Sixteam.pro</span>
+            </div>
+            <div className="flex items-center gap-3 w-full max-w-[340px]">
+              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,.08))' }} />
+              <div className="flex items-center justify-center w-9 h-9 rounded-full flex-shrink-0"
+                style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.12)' }}>
+                <span className="font-poppins font-black text-white/40 text-[20px] leading-none">×</span>
               </div>
-            );
-          })}
+              <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, rgba(255,255,255,.08), transparent)' }} />
+            </div>
+            <div className="flex flex-col items-center gap-2 w-full max-w-[300px]">
+              <div className="w-full h-20 flex items-center justify-center px-5 rounded-xl"
+                style={{ background: 'rgba(255,255,255,.94)', border: '1px solid rgba(255,255,255,.08)', boxShadow: '0 8px 30px rgba(59,111,224,.25)' }}>
+                <img src="/jc-proyectos-logo.png" alt="JC Proyectos" className="max-w-full max-h-full object-contain" />
+              </div>
+              <span className="font-lato text-[11px] uppercase tracking-[0.18em] text-white/40">Construcción y mantenimiento</span>
+            </div>
+          </div>
         </div>
       </div>
     </header>
