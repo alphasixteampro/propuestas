@@ -440,6 +440,15 @@ const PROPOSALS: Proposal[] = [
     path: '/jc-proyectos',
   },
   {
+    slug: 'meetrico',
+    cliente: 'Constructora Meetrico',
+    sector: 'Construcción · Vivienda de interés social · Sistema comercial · Caicedonia, Valle',
+    fecha: 'Octubre 2026',
+    monto: 'COP 5.990.000 + IVA · 6 semanas · 5 % dto. anticipado · luego licencia COP 400.000/mes o Plan Integral 1 SMMLV',
+    estado: 'activa',
+    path: '/meetrico',
+  },
+  {
     slug: 'vertical-services-pauta',
     cliente: 'Vertical Services · Email y Meta Ads',
     sector: 'Drones · Propiedad Horizontal · Último envío de correo y pauta digital',
@@ -678,6 +687,9 @@ export default function Home() {
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug.startsWith('jc-proyectos') ? (
                     <img src="/jc-proyectos-logo.png" alt="JC Proyectos" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'meetrico' ? (
+                    <img src="/meetrico-logo.svg" alt="Constructora Meetrico" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'global-realty' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(224,151,60,.12)', borderRadius: 12 }}>
