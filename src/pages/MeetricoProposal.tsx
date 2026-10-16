@@ -5,7 +5,7 @@ import {
   ArrowRight, ArrowDown, ClipboardList, Database, MessagesSquare, BellRing, KeyRound,
   BarChart3, Building2, Inbox, UserCheck, Lock, Hammer, Boxes, Users, Ruler,
   CreditCard, ShieldCheck, FileText, Zap, AlertCircle, Target, Hand, Sparkles,
-  Phone, Coins, Bot, Video, Wrench, Star, Gift,
+  Phone, Coins, Bot, Video, Wrench, Star, Gift, Layers, ListChecks,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -16,7 +16,7 @@ const META = {
   contacto: 'Julián Valencia',
   sede: 'Caicedonia, Valle del Cauca',
   fecha: 'Octubre 2026',
-  duracion: '6 semanas',
+  duracion: 'Plan mensual Sixteam Ops',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
@@ -96,97 +96,228 @@ const MODULOS = [
   { nombre: 'Diseño y presupuesto en Revit', icon: Ruler, activo: false },
 ];
 
-type Actividad = { text: string; tag?: string };
-type Etapa = {
-  semana: string;
+// ─── FUNCIONES DE LA PLATAFORMA, AGRUPADAS POR RESULTADO ─────────────────────
+// Cada función arranca con un básico (sus ítems sin "mejora") y suma mejoras
+// opcionales para llegar al ideal. Todo se paga con créditos Sixteam Ops.
+// Las funciones fijas son la base y van siempre en el primer mes.
+
+type Item = {
+  id: string;           // único: `${cod}.${clave}`
+  text: string;
+  creditos: number;
+  mejora?: boolean;     // si no es mejora, forma parte del básico
+  requiere?: string[];  // códigos de función o ids de ítem que necesita
+};
+type Funcion = {
+  cod: string;
+  nombre: string;
+  items: Item[];
+  fija?: boolean;       // va siempre, no se puede quitar
+  opcional?: boolean;   // fuera del alcance conversado, se ofrece como adicional
+  requiere?: string[];  // códigos de las funciones que necesita
+};
+type Grupo = {
+  etiqueta: string;
   nombre: string;
   icon: React.ElementType;
   color: string;
   para: string;
-  actividades: Actividad[];
+  funciones: Funcion[];
   resultado: string;
 };
 
-const ETAPAS: Etapa[] = [
+// Arma los ítems de una función: [clave, texto, créditos, mejora?, requiere?]
+const it = (cod: string, lista: [string, string, number, boolean?, string[]?][]): Item[] =>
+  lista.map(([clave, text, creditos, mejora, requiere]) => ({ id: `${cod}.${clave}`, text, creditos, mejora, requiere }));
+
+const GRUPOS: Grupo[] = [
   {
-    semana: 'Semana 1',
-    nombre: 'Su proceso, paso a paso',
-    icon: ClipboardList,
-    color: '#a78bfa',
-    para: 'Antes de configurar nada, entendemos **cómo vende y entrega** su constructora hoy.',
-    actividades: [
-      { text: 'Sesión de trabajo con **usted y Jennifer**', tag: 'Con ustedes' },
-      { text: 'Recorrido por los **49 pasos**, de la separación a la entrega' },
-      { text: 'Los **datos clave** de cada cliente: precio, forma de pago, crédito y subsidio' },
-    ],
-    resultado: '**Mapa del proceso comercial** aprobado por usted.',
-  },
-  {
-    semana: 'Semana 2',
-    nombre: 'La base del sistema',
+    etiqueta: 'La base',
+    nombre: 'Su constructora, en un solo lugar',
     icon: Database,
     color: '#60a5fa',
-    para: 'Construimos el lugar donde vivirá **toda la información** de clientes y apartamentos.',
-    actividades: [
-      { text: '**Inventario de apartamentos** por torre, con su estado: disponible, separado o vendido' },
-      { text: '**Ficha del cliente** con los datos que usted necesita' },
-      { text: 'Carga de los **clientes actuales** y accesos para usted y Jennifer' },
+    para: 'Entendemos **cómo vende y entrega** Meetrico y dejamos **clientes y apartamentos** en el sistema.',
+    funciones: [
+      { cod: '01', nombre: 'Mapa del proceso comercial', fija: true, items: it('01', [
+        ['sesion', 'Sesión de trabajo con **usted y Jennifer**', 10],
+        ['etapas', 'Mapa de las **etapas principales**: interés, separación, promesa, crédito, escritura y entrega', 15],
+        ['datos', 'Los **datos clave** de cada cliente: precio, forma de pago, crédito y subsidio', 5],
+        ['pasos', 'Los **49 pasos** en detalle, con el responsable y el tiempo de cada uno', 20, true],
+        ['docs', '**Documentos y requisitos** de cada paso', 10, true, ['01.pasos']],
+      ]) },
+      { cod: '02', nombre: 'Inventario de apartamentos', fija: true, items: it('02', [
+        ['torres', 'Cada **torre con sus apartamentos**', 15],
+        ['estado', 'Estado de cada uno: **disponible, separado o vendido**', 10],
+        ['precio', '**Precio** de cada apartamento', 5],
+        ['plano', '**Plano visual** de cada torre con el estado por colores', 15, true],
+        ['cotizador', '**Cotizador** con cuota inicial, crédito y subsidio', 20, true],
+      ]) },
+      { cod: '03', nombre: 'Ficha del cliente y accesos', fija: true, items: it('03', [
+        ['ficha', '**Ficha del cliente** con los datos que usted necesita', 10],
+        ['carga', 'Carga de los **clientes actuales**', 15],
+        ['accesos', 'Accesos para **usted y Jennifer**', 5],
+        ['historial', '**Historial** de cada cliente: mensajes, visitas y pagos en una línea de tiempo', 10, true],
+        ['roles', '**Roles y permisos** para sumar más asesoras', 5, true],
+      ]) },
+      { cod: '04', nombre: 'Capacitación y arranque', fija: true, items: it('04', [
+        ['capacitacion', '**Capacitación** a Jennifer y a usted', 5],
+        ['arranque', 'Acompañamiento en el **arranque de la sala de ventas**', 5],
+        ['videos', '**Manual en video** para consultar cuando lo necesiten', 8, true],
+        ['extendido', '**Acompañamiento extendido** durante todo el primer mes', 6, true],
+      ]) },
     ],
     resultado: 'Sus **clientes y apartamentos en un solo lugar**, sin hojas sueltas.',
   },
   {
-    semana: 'Semana 3',
+    etiqueta: 'Captar',
     nombre: 'Todos los canales en una bandeja',
     icon: Inbox,
     color: '#38bdf8',
     para: 'Que cada interesado llegue al sistema, **venga de donde venga**.',
-    actividades: [
-      { text: 'Conexión de **WhatsApp, Instagram y Facebook**, y TikTok si lo usan' },
-      { text: '**Formulario de registro** para la pauta digital y para la sala de ventas' },
-      { text: 'Registro de **referidos**, sabiendo quién refirió a quién' },
+    funciones: [
+      { cod: '05', nombre: 'Bandeja única de mensajes', items: it('05', [
+        ['whatsapp', 'Conexión de **WhatsApp**', 30],
+        ['meta', 'Conexión de **Instagram y Facebook**', 20],
+        ['rapidas', '**Respuestas rápidas** para las preguntas de siempre', 10],
+        ['tiktok', 'Conexión de **TikTok**', 10, true],
+        ['etiquetas', '**Etiquetas por interés**: torre, presupuesto, crédito o subsidio', 7, true],
+        ['asignacion', '**Reparto automático** de conversaciones entre asesoras', 8, true, ['03.roles']],
+      ]) },
+      { cod: '06', nombre: 'Formularios de registro', items: it('06', [
+        ['pauta', '**Formulario** para la pauta digital', 15],
+        ['sala', '**Registro** en la sala de ventas', 10],
+        ['canal', 'Cada interesado queda con **el canal por el que llegó**', 5],
+        ['qr', '**Código QR** en la sala para registrarse desde el celular', 5, true],
+        ['calificacion', '**Calificación automática** del interesado según ingresos, crédito y subsidio', 15, true],
+      ]) },
+      { cod: '07', nombre: 'Registro de referidos', items: it('07', [
+        ['registro', 'Registro de **referidos**', 15],
+        ['quien', 'Se sabe **quién refirió a quién**', 5],
+        ['gracias', '**Mensaje de agradecimiento** automático a quien refiere', 8, true],
+        ['reporte', '**Reporte de referidos** y de los beneficios entregados', 10, true],
+      ]) },
     ],
-    resultado: 'Jennifer responde **desde una sola pantalla** y usted sabe **de dónde llega cada interesado**.',
+    resultado: 'Usted sabe **cuántos interesados llegan** y **por qué canal**.',
   },
   {
-    semana: 'Semana 4',
+    etiqueta: 'Convertir',
     nombre: 'Seguimiento que no se olvida',
     icon: BellRing,
     color: '#00bfa5',
     para: 'Convertir interesados en **visitas** y visitas en **separaciones**.',
-    actividades: [
-      { text: '**Citas en el apartamento modelo** con recordatorios automáticos' },
-      { text: 'Seguimiento a quien visitó y no se decidió, con **fotos y videos del avance de obra**' },
-      { text: '**Tareas y alertas** diarias para la asesora' },
+    funciones: [
+      { cod: '08', nombre: 'Citas en el apartamento modelo', items: it('08', [
+        ['agenda', '**Agenda de citas** en el apartamento modelo', 20],
+        ['recordatorios', '**Recordatorios automáticos** al interesado', 15],
+        ['asistencia', 'Registro de **quién asistió**', 5],
+        ['link', '**Agendamiento por enlace**: el interesado elige la hora', 12, true],
+        ['encuesta', '**Encuesta** después de la visita', 8, true],
+      ]) },
+      { cod: '09', nombre: 'Seguimiento automático', requiere: ['05'], items: it('09', [
+        ['secuencia', '**Secuencia de seguimiento** a quien visitó y no se decidió', 25],
+        ['parar', 'Se **detiene sola** cuando el cliente separa', 5],
+        ['obra', 'Mensajes con **fotos y videos del avance de obra**', 15, true],
+        ['perfiles', '**Secuencias por perfil**: contado, crédito o subsidio', 20, true],
+        ['reactivar', '**Reactivación** de interesados antiguos', 15, true],
+      ]) },
+      { cod: '10', nombre: 'Tareas y alertas para la asesora', items: it('10', [
+        ['tareas', '**Tareas diarias** para Jennifer', 12],
+        ['alertas', '**Alertas** de interesados sin respuesta', 10],
+        ['resumen', '**Resumen diario** por WhatsApp para usted', 10, true],
+      ]) },
+      { cod: '11', nombre: 'Asistente de IA en WhatsApp', opcional: true, requiere: ['05'], items: it('11', [
+        ['dudas', 'Resuelve las **dudas frecuentes** del proyecto a cualquier hora', 25],
+        ['traspaso', '**Pasa la conversación** a Jennifer cuando hace falta', 10],
+        ['citas', '**Agenda citas** al apartamento modelo', 15, true, ['08']],
+        ['califica', '**Califica al interesado**: ingresos, crédito y subsidio', 15, true],
+        ['material', 'Envía **fotos, planos y avance de obra**', 10, true],
+        ['voz', 'Entiende **notas de voz**', 10, true],
+        ['insiste', '**Vuelve a escribir** a quien no respondió', 10, true],
+      ]) },
     ],
     resultado: '**Ningún interesado se pierde** por falta de seguimiento.',
   },
   {
-    semana: 'Semana 5',
+    etiqueta: 'Acompañar',
     nombre: 'La ruta del comprador',
     icon: KeyRound,
     color: MEE,
     para: 'Llevar a cada cliente **de la separación a la entrega de llaves** con todo en orden.',
-    actividades: [
-      { text: 'Los **49 pasos** como etapas visibles para cada comprador' },
-      { text: '**Documentos de cada cliente** archivados en su ficha: separación, promesa, crédito, subsidio y escritura' },
-      { text: '**Fechas de vencimiento y alertas** de pagos y trámites' },
+    funciones: [
+      { cod: '12', nombre: 'Ruta del comprador', items: it('12', [
+        ['etapas', 'Las **etapas principales** visibles para cada comprador', 30],
+        ['avance', 'El **avance de cada cliente** a la vista', 10],
+        ['pasos', 'Los **49 pasos completos** como etapas del sistema', 25, true, ['01.pasos']],
+        ['checklist', '**Lista de documentos** por paso', 15, true, ['01.docs']],
+        ['aviso', '**Aviso al cliente** cada vez que avanza de etapa', 15, true],
+      ]) },
+      { cod: '13', nombre: 'Expediente digital', requiere: ['12'], items: it('13', [
+        ['archivo', '**Documentos de cada cliente** en su ficha: separación, promesa, crédito, subsidio y escritura', 20],
+        ['faltantes', 'Alerta de **documentos que faltan**', 10],
+        ['subida', 'El cliente **sube sus documentos** desde un enlace', 15, true],
+        ['plantillas', '**Separación y promesa** llenadas con los datos del cliente', 20, true],
+      ]) },
+      { cod: '14', nombre: 'Vencimientos y alertas', requiere: ['12'], items: it('14', [
+        ['fechas', '**Fechas de vencimiento** de pagos y trámites', 20],
+        ['alertas', '**Alertas** para Jennifer antes de que algo se venza', 15],
+        ['cliente', '**Recordatorio de pago** al cliente por WhatsApp', 15, true],
+        ['cartera', '**Seguimiento de la cuota inicial**: pagado y pendiente', 20, true],
+      ]) },
     ],
     resultado: 'El **expediente digital** de cada comprador, con su **avance a la vista**.',
   },
   {
-    semana: 'Semana 6',
-    nombre: 'Tablero y puesta en marcha',
+    etiqueta: 'Decidir',
+    nombre: 'Su negocio en una pantalla',
     icon: BarChart3,
     color: '#fbbf24',
-    para: 'Que usted **vea su negocio en una pantalla** y la sala de ventas arranque con todo listo.',
-    actividades: [
-      { text: '**Tablero de ventas**: vendidos por torre, valor vendido, créditos y subsidios' },
-      { text: '**Informe descargable** con precio, forma de pago, crédito y subsidio de cada venta' },
-      { text: '**Capacitación** a Jennifer y a usted, con acompañamiento en el arranque', tag: 'Con ustedes' },
+    para: 'Que usted **vea cómo van las ventas** sin pedir informes a mano.',
+    funciones: [
+      { cod: '15', nombre: 'Tablero de ventas', items: it('15', [
+        ['vendidos', 'Vendidos **por torre** y valor vendido', 20],
+        ['creditos', '**Créditos y subsidios** en trámite', 10],
+        ['embudo', '**Embudo**: interesados, visitas y separaciones', 15, true, ['06', '08']],
+        ['pauta', '**Resultados de la pauta** por canal', 15, true, ['06']],
+        ['meta', '**Meta del mes** frente a lo vendido', 10, true],
+      ]) },
+      { cod: '16', nombre: 'Informe descargable', items: it('16', [
+        ['ventas', 'Precio, forma de pago, crédito y subsidio **de cada venta**', 10],
+        ['excel', 'Descarga en **Excel**', 5],
+        ['correo', '**Informe mensual** automático a su correo', 10, true],
+      ]) },
     ],
-    resultado: 'La **sala de ventas funcionando** sobre el sistema desde el primer día.',
+    resultado: 'Decisiones **con datos**, no de memoria.',
   },
 ];
+
+const FUNCIONES = GRUPOS.flatMap(g => g.funciones);
+const ITEMS = FUNCIONES.flatMap(f => f.items);
+const MEJORAS = ITEMS.filter(i => i.mejora);
+const funcionDe = (cod: string) => FUNCIONES.find(f => f.cod === cod)!;
+const itemDe = (id: string) => ITEMS.find(i => i.id === id)!;
+const esFuncion = (id: string) => !id.includes('.');
+const padreDe = (id: string) => id.split('.')[0];
+const basicoDe = (f: Funcion) => f.items.filter(i => !i.mejora).reduce((s, i) => s + i.creditos, 0);
+// Lo que necesita cada pieza: una función, sus funciones previas; una mejora, su función y lo que pida
+const reqDe = (id: string) => esFuncion(id) ? funcionDe(id).requiere ?? [] : [padreDe(id), ...(itemDe(id).requiere ?? [])];
+const esFija = (id: string) => esFuncion(id) && !!funcionDe(id).fija;
+const nombreDe = (id: string) => esFuncion(id) ? `${id} · ${funcionDe(id).nombre}` : `«${itemDe(id).text.replace(/\*\*/g, '')}» (${padreDe(id)})`;
+
+// La selección guarda códigos de función ('05') e ids de mejora ('05.tiktok')
+const creditosDe = (sel: Iterable<string>) => {
+  const s = new Set(sel);
+  return FUNCIONES.filter(f => s.has(f.cod))
+    .reduce((t, f) => t + basicoDe(f) + f.items.filter(i => i.mejora && s.has(i.id)).reduce((a, i) => a + i.creditos, 0), 0);
+};
+
+const CODIGOS_FIJOS = FUNCIONES.filter(f => f.fija).map(f => f.cod);
+const CODIGOS_BASICO = FUNCIONES.filter(f => !f.opcional).map(f => f.cod);
+const CODIGOS_IDEAL = [...FUNCIONES.map(f => f.cod), ...MEJORAS.map(i => i.id)];
+// Arranca con lo que cabe en el primer mes del plan: la base y la bandeja única
+const SELECCION_INICIAL = [...CODIGOS_FIJOS, '05'];
+const CREDITOS_BASE = creditosDe(CODIGOS_FIJOS);
+const CREDITOS_BASICO = creditosDe(CODIGOS_BASICO);
+const CREDITOS_IDEAL = creditosDe(CODIGOS_IDEAL);
 
 const RESULTADOS = [
   { v: '1', l: 'bandeja', sub: 'para todos los canales', icon: MessagesSquare },
@@ -198,25 +329,18 @@ const RESULTADOS = [
 const SECCIONES = [
   { id: 'resumen',    label: 'Resumen' },
   { id: 'solucion',   label: 'Solución' },
-  { id: 'plan',       label: 'Plan' },
   { id: 'inversion',  label: 'Inversión' },
   { id: 'vigencia',   label: 'Vigencia' },
 ];
 
 // ─── INVERSIÓN ───────────────────────────────────────────────────────────────
 
-const fmt = (n: number) => 'COP ' + n.toLocaleString('es-CO').replace(/,/g, '.');
+const fmt = (n: number) => 'COP ' + Math.round(n).toLocaleString('es-CO').replace(/,/g, '.');
 
-const TOTAL_NUM = 5990000;
-const DESCUENTO_ANTICIPADO = 5;
-const AHORRO_NUM = TOTAL_NUM * DESCUENTO_ANTICIPADO / 100;
-const ANTICIPADO_NUM = TOTAL_NUM - AHORRO_NUM;
-
-// ─── DESPUÉS DE LA IMPLEMENTACIÓN ────────────────────────────────────────────
-
-const LICENCIA_NUM = 400000;
 const SMMLV_2026_NUM = 1750905;
 const CREDITOS_MES = 160;
+// Los créditos adicionales valen lo mismo que los del plan, sin recargo
+const VALOR_CREDITO = Math.round(SMMLV_2026_NUM / CREDITOS_MES);
 const SOLICITUDES_MES = 10;
 const EXPERTOS = 3;
 
@@ -264,64 +388,14 @@ const DISTRIBUCION = ['Compleja', 'Media', 'Simple'].map(b => ({
   creditos: REPORTE.filter(r => r.banda === b).reduce((a, r) => a + r.creditos, 0),
 }));
 
-const OPCIONES_POST = [
-  {
-    nombre: 'Licencia Plataforma CRM Sixteam',
-    sub: 'Solo la plataforma',
-    precio: fmt(LICENCIA_NUM),
-    periodo: 'al mes + IVA',
-    recomendado: false,
-    items: [
-      { text: '**Usuarios ilimitados**', icon: Users },
-      { text: '**1 número de teléfono** conectado', icon: Phone },
-      { text: 'Todo lo implementado sigue **funcionando**', icon: CheckCircle },
-      { text: 'Soporte y nuevas funciones **se cotizan aparte**', icon: Info },
-    ],
-  },
-  {
-    nombre: 'Plan Integral Sixteam Ops',
-    sub: 'Su propio equipo de tecnología, en la palma de su mano',
-    precio: fmt(SMMLV_2026_NUM),
-    periodo: 'al mes + IVA · 1 SMMLV 2026',
-    recomendado: true,
-    items: [
-      { text: `**${CREDITOS_MES} créditos al mes**, alrededor de **${SOLICITUDES_MES} solicitudes**`, icon: Coins },
-      { text: '**Licencia de la Plataforma CRM Sixteam incluida**', icon: CheckCircle },
-      { text: '**Agente de IA 24/7** para preguntar lo que necesite sobre la implementación o el soporte de la plataforma', icon: Bot },
-      { text: '**Sesión virtual 1 a 1 cada semana** para revisar avances, métricas de valor y seguir mejorando', icon: Video },
-      { text: 'Nuevas funciones, **solución de inconvenientes** y mejoras para seguir creciendo', icon: Wrench },
-    ],
-  },
+const PLAN_ITEMS = [
+  { text: `**${CREDITOS_MES} créditos al mes** para activar funciones, ajustes y solicitudes`, icon: Coins },
+  { text: '**Plataforma CRM Sixteam incluida**, con **usuarios ilimitados** y **1 número** conectado', icon: CheckCircle },
+  { text: '**Agente de IA 24/7** para preguntar lo que necesite sobre la plataforma', icon: Bot },
+  { text: '**Sesión virtual 1 a 1 cada semana** para revisar avances, métricas de valor y seguir mejorando', icon: Video },
+  { text: 'Nuevas funciones, **solución de inconvenientes** y mejoras para seguir creciendo', icon: Wrench },
 ];
 
-const FORMAS_PAGO = [
-  {
-    opcion: 'Opción 1',
-    nombre: 'Dos pagos',
-    etiqueta: '50% y 50%',
-    valor: `2 × ${fmt(TOTAL_NUM / 2)}`,
-    detalle: '50% al iniciar y 50% al finalizar la implementación',
-    destacado: false,
-  },
-  {
-    opcion: 'Opción 2',
-    nombre: 'Pago anticipado',
-    etiqueta: `${DESCUENTO_ANTICIPADO}% de descuento`,
-    valor: fmt(ANTICIPADO_NUM),
-    detalle: 'Un solo pago al iniciar la implementación',
-    destacado: true,
-  },
-];
-
-const INCLUYE = [
-  'Mapa del proceso comercial',
-  'Inventario de apartamentos',
-  'Canales en una bandeja',
-  'Citas y seguimiento automático',
-  'Ruta del comprador',
-  'Tablero e informes',
-  'Capacitación',
-];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 
@@ -379,9 +453,68 @@ const ClientLogo = ({ className = '' }: { className?: string }) => (
 
 const MeetricoProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
-  const [etapaActiva, setEtapaActiva] = useState<number | null>(0);
-  const [pagosAbierto, setPagosAbierto] = useState(false);
   const [creditosAbierto, setCreditosAbierto] = useState(false);
+  const [seleccion, setSeleccion] = useState<Set<string>>(() => new Set(SELECCION_INICIAL));
+  const [detalles, setDetalles] = useState<Set<string>>(() => new Set());
+  const [aviso, setAviso] = useState<string | null>(null);
+
+  const alternarDetalle = (c: string) => setDetalles(prev => {
+    const n = new Set(prev); if (n.has(c)) n.delete(c); else n.add(c); return n;
+  });
+
+  // Marca o desmarca una función o una mejora respetando lo que necesita cada una
+  const NODOS = [...FUNCIONES.map(f => f.cod), ...MEJORAS.map(i => i.id)];
+  const alternar = (id: string) => {
+    if (esFija(id)) return;
+    const sel = new Set(seleccion);
+    const nombres = (ids: string[]) => {
+      const n = ids.map(nombreDe);
+      return n.length > 1 ? `${n.slice(0, -1).join(', ')} y ${n[n.length - 1]}` : n[0];
+    };
+    if (!sel.has(id)) {
+      const agregados: string[] = [];
+      const agregar = (x: string) => {
+        sel.add(x);
+        for (const r of reqDe(x)) if (!sel.has(r)) { agregados.push(r); agregar(r); }
+      };
+      agregar(id);
+      const plural = agregados.length > 1;
+      setAviso(agregados.length ? `Se ${plural ? 'agregaron' : 'agregó'} ${nombres(agregados)}, porque ${nombreDe(id)} ${plural ? 'los' : 'lo'} necesita.` : null);
+    } else {
+      const quitados: string[] = [];
+      const quitar = (x: string) => {
+        sel.delete(x);
+        for (const n of NODOS) {
+          if (sel.has(n) && !esFija(n) && reqDe(n).includes(x)) {
+            // Las mejoras de la misma función se quitan con ella sin avisar
+            if (!(esFuncion(x) && padreDe(n) === x)) quitados.push(n);
+            quitar(n);
+          }
+        }
+      };
+      quitar(id);
+      const plural = quitados.length > 1;
+      setAviso(quitados.length ? `Se ${plural ? 'quitaron' : 'quitó'} ${nombres(quitados)}, porque ${plural ? 'necesitan' : 'necesita'} ${nombreDe(id)}.` : null);
+    }
+    setSeleccion(sel);
+  };
+  const armar = (codigos: string[], texto: string) => { setSeleccion(new Set(codigos)); setAviso(texto); };
+
+  // Lo elegido para el mes 1: lo que cabe en los créditos del plan va incluido,
+  // lo que pasa de ahí son créditos adicionales al mismo valor
+  const creditosElegidos = creditosDe(seleccion);
+  const creditosIncluidos = Math.min(creditosElegidos, CREDITOS_MES);
+  const creditosLibres = CREDITOS_MES - creditosIncluidos;
+  const creditosAdicionales = Math.max(0, creditosElegidos - CREDITOS_MES);
+  const valorAdicional = creditosAdicionales * VALOR_CREDITO;
+  const totalMes1 = SMMLV_2026_NUM + valorAdicional;
+  const mesesSinAdicional = Math.ceil(creditosElegidos / CREDITOS_MES);
+  const nElegidas = FUNCIONES.filter(f => seleccion.has(f.cod)).length;
+  const nMejoras = MEJORAS.filter(i => seleccion.has(i.id) && seleccion.has(padreDe(i.id))).length;
+  const creditosFuncion = (f: Funcion) => creditosDe([...seleccion].filter(x => padreDe(x) === f.cod));
+  const creditosGrupo = (g: Grupo) => g.funciones.reduce((t, f) => t + creditosFuncion(f), 0);
+  const creditosParaIdeal = CREDITOS_IDEAL - creditosElegidos;
+  const pctIncluido = Math.min(100, creditosElegidos / CREDITOS_MES * 100);
 
   useEffect(() => {
     const handler = () => {
@@ -398,7 +531,7 @@ const MeetricoProposal = () => {
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
+  const s1 = useVisible(); const s2 = useVisible();
   const s4 = useVisible(); const s5 = useVisible();
 
   const reveal = (v: boolean) => `transition-all duration-700 ${v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`;
@@ -513,7 +646,7 @@ const MeetricoProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen', '2. La solución', '3. Plan de trabajo', '4. Inversión', '5. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen', '2. La solución', '3. Inversión y funciones', '4. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -693,261 +826,289 @@ const MeetricoProposal = () => {
           <p className="font-lato text-white/45 text-[16px] leading-relaxed max-w-2xl">
             Empezamos por <Hl color="#fff">las ventas</Hl>, porque sin ventas no hay obra. Sobre esta misma base se podrán conectar después <Hl color="#fff">la obra, los materiales, el personal y Revit</Hl>.
           </p>
+
+          {/* Resultados con el sistema completo */}
+          <div className="mt-16">
+            <SubLabel icon={Zap}>Con el sistema completo</SubLabel>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              {RESULTADOS.map((r, i) => {
+                const Icon = r.icon;
+                return (
+                  <div key={i} className="rounded-2xl px-4 py-7 text-center"
+                    style={{ background: 'linear-gradient(160deg, rgba(0,191,165,.09), rgba(29,112,162,.05))', border: '1px solid rgba(0,191,165,.22)' }}>
+                    <Icon className="w-5 h-5 text-[#00bfa5] mx-auto mb-3" />
+                    <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}>{r.v}</p>
+                    <p className="font-poppins font-semibold text-white/80 text-[15px] leading-snug">{r.l}</p>
+                    <p className="font-lato text-white/40 text-[13px] mt-0.5">{r.sub}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </section>
 
-        {/* ─ 03 PLAN ─ */}
-        <section id="plan" ref={s3.ref as React.RefObject<HTMLElement>} className={reveal(s3.v)}>
-          <TagLabel>03 — Plan de trabajo</TagLabel>
-          <SectionTitle>6 semanas,<br /><span style={{ color: '#00bfa5' }}>un resultado por semana</span></SectionTitle>
+        {/* ─ 03 INVERSIÓN ─ */}
+        <section id="inversion" ref={s4.ref as React.RefObject<HTMLElement>} className={reveal(s4.v)}>
+          <TagLabel>03 — Inversión</TagLabel>
+          <SectionTitle>Un solo plan mensual,<br /><span style={{ color: '#00bfa5' }}>usted elige qué activar</span></SectionTitle>
           <Rule />
           <Lead>
-            Cada semana deja <Hl color="#fff">algo funcionando</Hl> que usted puede ver y probar. Al final, Jennifer abre la sala de ventas <Hl>con el sistema listo</Hl>.
+            Desde el primer mes, Meetrico cuenta con el <Hl color="#fff">Plan Integral Sixteam Ops</Hl>: {CREDITOS_MES} créditos cada mes para activar las funciones de su sistema, <Hl>en el orden que usted decida</Hl>.
           </Lead>
 
-          {/* Línea de tiempo resumida */}
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-12">
-            {ETAPAS.map((et, i) => {
-              const Icon = et.icon;
-              const activa = etapaActiva === i;
+          {/* El plan */}
+          <div className="rounded-3xl p-6 sm:p-9 relative overflow-hidden mb-12 grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8"
+            style={{ background: 'linear-gradient(150deg, rgba(0,191,165,.13) 0%, rgba(29,112,162,.08) 55%, rgba(3,13,26,.9) 100%)', border: '1.5px solid rgba(0,191,165,.5)', boxShadow: '0 0 40px rgba(0,191,165,.12)' }}>
+            <div className="flex flex-col">
+              <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Su plan mensual</p>
+              <p className="font-poppins font-bold text-white text-[22px] leading-snug">Plan Integral Sixteam Ops</p>
+              <p className="font-lato text-[#00bfa5] text-[15px] mt-1 mb-6">Su propio equipo de tecnología, en la palma de su mano</p>
+              <p className="font-poppins font-black text-white leading-none whitespace-nowrap" style={{ fontSize: 'clamp(1.9rem, 3.4vw, 2.4rem)' }}>{fmt(SMMLV_2026_NUM)}</p>
+              <p className="font-lato text-white/45 text-[14px] mt-2">al mes + IVA · 1 SMMLV 2026</p>
+              <div className="mt-auto pt-6">
+                <div className="rounded-xl px-4 py-3.5 flex items-center gap-3"
+                  style={{ background: 'rgba(0,191,165,.10)', border: '1px solid rgba(0,191,165,.3)' }}>
+                  <p className="font-poppins font-black text-[#00bfa5] text-[32px] leading-none">{EXPERTOS}</p>
+                  <p className="font-lato text-white/70 text-[15px] leading-snug">
+                    Es como tener <Hl color="#fff">{EXPERTOS} expertos en tecnología y en su negocio</Hl> a su servicio 24/7.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <ul className="space-y-3.5 self-center">
+              {PLAN_ITEMS.map((it, j) => {
+                const ItIcon = it.icon;
+                return (
+                  <li key={j} className="flex items-start gap-3">
+                    <ItIcon className="w-4 h-4 flex-shrink-0 mt-1 text-[#00bfa5]" />
+                    <span className="font-lato text-white/65 text-[16px] leading-snug">{rich(it.text, 'rgba(255,255,255,.92)')}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Cómo rinden los créditos */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-14">
+            {[
+              { v: `${CREDITOS_MES}`, l: 'créditos incluidos cada mes', sub: `${fmt(VALOR_CREDITO)} por crédito`, icon: Coins, color: '#00bfa5' },
+              { v: `${CREDITOS_BASICO}`, l: 'créditos el sistema básico', sub: `Todas las funciones en su versión básica · unos ${Math.ceil(CREDITOS_BASICO / CREDITOS_MES)} meses del plan`, icon: Layers, color: '#60a5fa' },
+              { v: `${CREDITOS_IDEAL}`, l: 'créditos el sistema ideal', sub: `Todo, con cada mejora y el asistente de IA · unos ${Math.ceil(CREDITOS_IDEAL / CREDITOS_MES)} meses del plan`, icon: Sparkles, color: MEE },
+            ].map((t, i) => {
+              const Icon = t.icon;
               return (
-                <button key={i} onClick={() => setEtapaActiva(i)}
-                  className="rounded-xl p-3 text-left transition-all duration-300"
-                  style={{
-                    background: activa ? `${et.color}1a` : 'rgba(255,255,255,.025)',
-                    border: `1px solid ${activa ? `${et.color}66` : 'rgba(255,255,255,.06)'}`,
-                  }}>
-                  <div className="h-1 rounded-full mb-3" style={{ background: et.color, opacity: activa ? 1 : 0.45 }} />
-                  <Icon className="w-4 h-4 mb-2" style={{ color: activa ? et.color : 'rgba(255,255,255,.35)' }} />
-                  <p className="font-poppins font-bold text-[12px] uppercase tracking-wider" style={{ color: et.color }}>S{i + 1}</p>
-                  <p className={`font-lato text-[13px] leading-snug mt-0.5 ${activa ? 'text-white/85' : 'text-white/45'}`}>{et.nombre}</p>
+                <div key={i} className="rounded-2xl p-5" style={{ background: `${t.color}0d`, border: `1px solid ${t.color}38` }}>
+                  <Icon className="w-5 h-5 mb-3" style={{ color: t.color }} />
+                  <p className="font-poppins font-black text-white text-[26px] leading-none">{t.v}</p>
+                  <p className="font-poppins font-semibold text-white/80 text-[15px] mt-1.5">{t.l}</p>
+                  <p className="font-lato text-white/40 text-[13px] mt-0.5 leading-snug">{t.sub}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Elegir el primer mes */}
+          <p className="font-lato text-[#00bfa5] text-[13px] uppercase tracking-[0.22em] font-medium mb-2">Su primer mes</p>
+          <h3 className="font-poppins font-extrabold text-white leading-tight mb-3" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 2.2rem)' }}>
+            Elija con qué arrancar
+          </h3>
+          <p className="font-lato text-white/55 text-[18px] leading-relaxed max-w-2xl mb-4">
+            Cada función arranca en su <Hl color="#fff">versión básica</Hl> y se le pueden sumar <Hl color="#fff">mejoras</Hl> hasta llegar a la ideal. Lo que quepa en los {CREDITOS_MES} créditos del mes va incluido en su plan; si quiere más de una vez, lo que pase se cobra como <Hl color={MEE}>créditos adicionales</Hl>.
+          </p>
+          <p className="font-lato text-white/45 text-[15px] leading-snug mb-6 flex items-start gap-2">
+            <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
+            <span>Toque <span className="text-white/75 font-semibold">Alcance</span> en cada función para ver qué incluye el básico y qué mejoras puede sumar.</span>
+          </p>
+
+          {/* Atajos */}
+          <div className="no-print flex flex-wrap items-center gap-2 mb-4">
+            {[
+              { t: 'Lo que cabe en el plan', codigos: SELECCION_INICIAL, icon: CheckCircle, color: '#00bfa5' },
+              { t: 'Sistema básico', codigos: CODIGOS_BASICO, icon: ListChecks, color: '#60a5fa' },
+              { t: 'Sistema ideal', codigos: CODIGOS_IDEAL, icon: Sparkles, color: MEE },
+              { t: 'Solo la base', codigos: CODIGOS_FIJOS, icon: Lock, color: '#a78bfa' },
+            ].map(a => {
+              const Icon = a.icon;
+              return (
+                <button key={a.t} type="button" onClick={() => armar(a.codigos, `Selección: ${a.t.toLowerCase()}.`)}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg font-lato text-[14px] text-white/70 transition-colors hover:text-white hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]"
+                  style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.12)' }}>
+                  <Icon className="w-4 h-4" style={{ color: a.color }} /> {a.t}
                 </button>
               );
             })}
           </div>
 
-          {/* Etapas desplegables */}
-          <div className="space-y-3 mb-20">
-            {ETAPAS.map((et, i) => {
-              const Icon = et.icon;
-              const open = etapaActiva === i;
+          {/* Selector de funciones */}
+          <div className="rounded-2xl overflow-hidden mb-3"
+            style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(0,191,165,.28)', boxShadow: '0 4px 32px rgba(0,191,165,.08)' }}>
+
+            {/* Medidor de créditos del mes 1 */}
+            <div className="px-4 sm:px-5 py-4" style={{ background: 'rgba(2,8,20,.6)', borderBottom: '1px solid rgba(255,255,255,.07)' }}>
+              <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2.5">
+                <p className="font-lato text-white/60 text-[14px]">Créditos del primer mes</p>
+                <p className="font-poppins font-bold text-[15px]">
+                  <span className="text-white">{creditosElegidos}</span>
+                  <span className="text-white/40"> / {CREDITOS_MES} incluidos</span>
+                  {creditosAdicionales > 0 && <span style={{ color: MEE }}> · +{creditosAdicionales} adicionales</span>}
+                </p>
+              </div>
+              <div className="h-2.5 rounded-full overflow-hidden flex" style={{ background: 'rgba(255,255,255,.07)' }}
+                role="meter" aria-valuemin={0} aria-valuemax={CREDITOS_MES} aria-valuenow={creditosElegidos} aria-label="Créditos del primer mes">
+                {creditosAdicionales > 0 ? (
+                  <>
+                    <div style={{ width: `${CREDITOS_MES / creditosElegidos * 100}%`, background: '#00bfa5' }} />
+                    <div style={{ width: `${creditosAdicionales / creditosElegidos * 100}%`, background: MEE }} />
+                  </>
+                ) : (
+                  <div className="transition-all duration-300" style={{ width: `${pctIncluido}%`, background: '#00bfa5' }} />
+                )}
+              </div>
+            </div>
+
+            {GRUPOS.map((g, i) => {
+              const Icon = g.icon;
+              const incluido = g.funciones.some(f => seleccion.has(f.cod));
               return (
-                <div key={i} className="rounded-2xl overflow-hidden transition-all duration-300"
-                  style={{ background: open ? 'rgba(255,255,255,.035)' : 'rgba(255,255,255,.02)', border: `1px solid ${open ? `${et.color}55` : 'rgba(255,255,255,.07)'}` }}>
-                  <button onClick={() => setEtapaActiva(open ? null : i)}
-                    className="w-full flex items-center gap-4 p-5 sm:p-6 text-left">
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
-                      style={{ background: open ? `${et.color}22` : 'rgba(255,255,255,.05)' }}>
-                      <Icon className="w-5 h-5" style={{ color: open ? et.color : 'rgba(255,255,255,.4)' }} />
+                <div key={g.etiqueta} style={{ borderTop: i ? '1px solid rgba(255,255,255,.07)' : undefined }}>
+                  <div className="px-4 sm:px-5 pt-4 pb-3" style={{ background: `${g.color}0f` }}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${g.color}22` }}>
+                        <Icon className="w-4 h-4" style={{ color: g.color }} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-poppins font-bold text-[12px] uppercase tracking-wider" style={{ color: g.color }}>{g.etiqueta}</p>
+                        <p className="font-poppins font-bold text-white text-[18px] leading-tight">{g.nombre}</p>
+                      </div>
+                      {incluido
+                        ? <p className="font-poppins font-bold text-white/80 text-[14px] whitespace-nowrap">{creditosGrupo(g)} créditos</p>
+                        : <p className="font-lato text-white/40 text-[14px] whitespace-nowrap">Para después</p>}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-poppins font-bold text-[13px] uppercase tracking-wider mb-0.5" style={{ color: et.color }}>{et.semana}</p>
-                      <p className={`font-poppins font-bold text-[19px] sm:text-[21px] leading-tight ${open ? 'text-white' : 'text-white/75'}`}>{et.nombre}</p>
-                    </div>
-                    <ChevronRight className={`w-5 h-5 transition-transform duration-300 flex-shrink-0 ${open ? 'rotate-90' : ''}`}
-                      style={{ color: open ? et.color : 'rgba(255,255,255,.3)' }} />
-                  </button>
-                  {open && (
-                    <div className="px-5 sm:px-6 pb-6 pt-1">
-                      <p className="font-lato text-white/65 text-[18px] leading-relaxed mb-5 sm:pl-[60px]">{rich(et.para)}</p>
-                      <ul className="space-y-2.5 mb-6 sm:pl-[60px]">
-                        {et.actividades.map((a, j) => (
-                          <li key={j} className="flex items-start gap-2.5">
-                            <CheckCircle className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: et.color }} />
-                            <span className="font-lato text-white/60 text-[16px] leading-relaxed flex-1">{rich(a.text, 'rgba(255,255,255,.9)')}
-                              {a.tag && (
-                                <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded-full text-[11px] font-medium uppercase tracking-wide align-middle"
-                                  style={{ background: 'rgba(0,191,165,.12)', border: '1px solid rgba(0,191,165,.3)', color: '#00bfa5' }}>
-                                  {a.tag}
+                    <p className="font-lato text-white/55 text-[15px] leading-snug mt-2.5">{rich(g.para, 'rgba(255,255,255,.85)')}</p>
+                    <p className="font-lato text-white/50 text-[14px] leading-snug mt-1.5">
+                      <span className="font-semibold" style={{ color: g.color }}>Resultado:</span> {rich(g.resultado, 'rgba(255,255,255,.8)')}
+                    </p>
+                  </div>
+                  {g.funciones.map(f => {
+                    const activo = seleccion.has(f.cod);
+                    const abierto = detalles.has(f.cod);
+                    const basico = basicoDe(f);
+                    const mejoras = f.items.filter(i => i.mejora);
+                    const mejorasActivas = activo ? mejoras.filter(i => seleccion.has(i.id)).length : 0;
+                    return (
+                      <React.Fragment key={f.cod}>
+                        <label className={`flex items-start gap-3 px-4 sm:px-5 py-3 transition-colors focus-within:bg-white/[0.04] ${f.fija ? 'cursor-default' : 'cursor-pointer hover:bg-white/[0.02]'}`}
+                          style={{ borderTop: '1px solid rgba(255,255,255,.05)' }}>
+                          <input type="checkbox" checked={activo} disabled={f.fija} onChange={() => alternar(f.cod)}
+                            aria-label={`${f.cod} · ${f.nombre}, básico ${basico} créditos`}
+                            className="w-5 h-5 flex-shrink-0 mt-0.5 rounded cursor-[inherit] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                            style={{ accentColor: g.color, outlineColor: g.color }} />
+                          <span className="font-poppins font-black text-[14px] w-7 flex-shrink-0 pt-0.5" style={{ color: g.color, opacity: activo ? 1 : 0.4 }}>{f.cod}</span>
+                          <div className="flex-1 min-w-0" style={{ opacity: activo ? 1 : 0.45 }}>
+                            <p className="font-poppins font-semibold text-white/90 text-[16px] leading-snug">{f.nombre}</p>
+                            <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                              {f.fija && (
+                                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                  style={{ background: 'rgba(96,165,250,.1)', border: '1px solid rgba(96,165,250,.3)', color: '#60a5fa' }}>Base · va siempre</span>
+                              )}
+                              {f.opcional && (
+                                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                  style={{ background: `${MEE}1a`, border: `1px solid ${MEE}55`, color: MEE }}>Adicional</span>
+                              )}
+                              {mejorasActivas > 0 && (
+                                <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wider"
+                                  style={{ background: `${g.color}1a`, border: `1px solid ${g.color}55`, color: g.color }}>
+                                  + {mejorasActivas} {mejorasActivas === 1 ? 'mejora' : 'mejoras'}
                                 </span>
                               )}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className="rounded-xl px-4 py-3.5 flex items-start gap-3 sm:ml-[60px]"
-                        style={{ background: `${et.color}12`, border: `1px solid ${et.color}40` }}>
-                        <Target className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: et.color }} />
-                        <p className="font-lato text-white/70 text-[16px] leading-relaxed">
-                          <span className="font-poppins font-semibold text-[13px] uppercase tracking-wider mr-2" style={{ color: et.color }}>Resultado</span>
-                          {rich(et.resultado)}
-                        </p>
-                      </div>
-                    </div>
-                  )}
+                              {f.requiere && (
+                                <span className="font-lato text-white/40 text-[12px]">Requiere {f.requiere.join(' y ')}</span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="text-right flex-shrink-0">
+                            <p className="font-poppins font-bold text-[16px] whitespace-nowrap" style={{ color: activo ? '#00bfa5' : 'rgba(255,255,255,.45)' }}>
+                              {activo ? creditosFuncion(f) : basico} cr.
+                            </p>
+                            <p className="font-lato text-white/35 text-[12px] whitespace-nowrap">
+                              {mejorasActivas > 0 ? `básico ${basico}` : 'básico'}
+                            </p>
+                          </div>
+                          <button type="button" onClick={(ev) => { ev.preventDefault(); alternarDetalle(f.cod); }}
+                            aria-expanded={abierto} aria-label={`${abierto ? 'Ocultar' : 'Ver'} alcance de ${f.nombre}`}
+                            className="no-print flex-shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md font-lato text-[13px] text-white/55 hover:text-white hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00bfa5]">
+                            <span className="hidden sm:inline">Alcance</span>
+                            <ChevronDown className={`w-4 h-4 transition-transform ${abierto ? 'rotate-180' : ''}`} />
+                          </button>
+                        </label>
+                        {abierto && (
+                          <div className="pl-4 sm:pl-[4.5rem] pr-4 sm:pr-5 pb-4 pt-1">
+                            <p className="font-poppins font-semibold text-white/50 text-[12px] uppercase tracking-wider mb-1.5">Básico · {basico} créditos</p>
+                            <ul className="space-y-1.5 mb-4" style={{ opacity: activo ? 1 : 0.6 }}>
+                              {f.items.filter(i => !i.mejora).map(i => (
+                                <li key={i.id} className="flex gap-2 font-lato text-white/60 text-[15px] leading-snug">
+                                  <CheckCircle className="w-3.5 h-3.5 flex-shrink-0 mt-1" style={{ color: g.color }} />
+                                  <span className="flex-1">{rich(i.text, 'rgba(255,255,255,.9)')}</span>
+                                  <span className="font-poppins font-semibold text-white/35 text-[13px] whitespace-nowrap">{i.creditos} cr.</span>
+                                </li>
+                              ))}
+                            </ul>
+                            {mejoras.length > 0 && (
+                              <>
+                                <p className="font-poppins font-semibold text-[12px] uppercase tracking-wider mb-1" style={{ color: g.color }}>Mejoras para llegar al ideal</p>
+                                <div className="space-y-0.5">
+                                  {mejoras.map(i => {
+                                    const on = activo && seleccion.has(i.id);
+                                    return (
+                                      <label key={i.id} className="flex items-start gap-2.5 py-1.5 px-2 -mx-2 rounded-lg cursor-pointer transition-colors hover:bg-white/[0.03] focus-within:bg-white/[0.04]">
+                                        <input type="checkbox" checked={on} onChange={() => alternar(i.id)}
+                                          aria-label={`Mejora: ${i.text.replace(/\*\*/g, '')}, ${i.creditos} créditos`}
+                                          className="w-4 h-4 flex-shrink-0 mt-0.5 rounded cursor-pointer"
+                                          style={{ accentColor: g.color }} />
+                                        <span className="flex-1 min-w-0" style={{ opacity: on ? 1 : 0.6 }}>
+                                          <span className="font-lato text-white/70 text-[15px] leading-snug">{rich(i.text, 'rgba(255,255,255,.92)')}</span>
+                                          {i.requiere && (
+                                            <span className="block font-lato text-white/35 text-[12px] mt-0.5">
+                                              Requiere {i.requiere.map(r => esFuncion(r) ? r : `«${itemDe(r).text.replace(/\*\*/g, '')}»`).join(' y ')}
+                                            </span>
+                                          )}
+                                        </span>
+                                        <span className="font-poppins font-bold text-[14px] whitespace-nowrap" style={{ color: on ? g.color : 'rgba(255,255,255,.4)' }}>+{i.creditos} cr.</span>
+                                      </label>
+                                    );
+                                  })}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
               );
             })}
-          </div>
 
-          {/* Resultados al cierre */}
-          <SubLabel icon={Zap}>Al terminar la semana 6</SubLabel>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            {RESULTADOS.map((r, i) => {
-              const Icon = r.icon;
-              return (
-                <div key={i} className="rounded-2xl px-4 py-7 text-center"
-                  style={{ background: 'linear-gradient(160deg, rgba(0,191,165,.09), rgba(29,112,162,.05))', border: '1px solid rgba(0,191,165,.22)' }}>
-                  <Icon className="w-5 h-5 text-[#00bfa5] mx-auto mb-3" />
-                  <p className="font-poppins font-black text-white leading-none mb-2" style={{ fontSize: 'clamp(2.25rem, 5vw, 3rem)' }}>{r.v}</p>
-                  <p className="font-poppins font-semibold text-white/80 text-[15px] leading-snug">{r.l}</p>
-                  <p className="font-lato text-white/40 text-[13px] mt-0.5">{r.sub}</p>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ─ 04 INVERSIÓN ─ */}
-        <section id="inversion" ref={s4.ref as React.RefObject<HTMLElement>} className={reveal(s4.v)}>
-          <TagLabel>04 — Inversión</TagLabel>
-          <SectionTitle>Una sola inversión para arrancar</SectionTitle>
-          <Rule />
-          <Lead>
-            Un valor único por la implementación completa de <Hl color="#fff">{META.duracion}</Hl>. Valores en pesos colombianos más IVA.
-          </Lead>
-
-          {/* Card total */}
-          <div className="rounded-3xl p-8 sm:p-11 relative overflow-hidden mb-4"
-            style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.08) 0%, rgba(29,112,162,.08) 100%)', border: '1px solid rgba(0,191,165,.3)' }}>
-            <div className="absolute top-0 right-0 w-72 h-72 pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(0,191,165,.07), transparent 70%)', transform: 'translate(20%,-20%)' }} />
-            <div className="relative z-10">
-              <p className="font-lato text-white/40 text-[14px] uppercase tracking-[0.2em] mb-3">Implementación · Fase 1</p>
-              <p className="font-poppins font-black text-white leading-none mb-3" style={{ fontSize: 'clamp(2.6rem, 7vw, 4.4rem)' }}>
-                {fmt(TOTAL_NUM)}
+            {/* Subtotal del selector */}
+            <div className="px-4 sm:px-5 py-4 flex flex-wrap items-center gap-x-6 gap-y-2"
+              style={{ background: 'rgba(0,191,165,.08)', borderTop: '1px solid rgba(0,191,165,.3)' }}>
+              <p className="font-lato text-white/65 text-[15px] flex-1 min-w-[200px]">
+                <span className="font-semibold text-white/90">{nElegidas} de {FUNCIONES.length}</span> funciones
+                {nMejoras > 0 && <> · <span className="font-semibold text-white/90">{nMejoras}</span> {nMejoras === 1 ? 'mejora' : 'mejoras'}</>} para el primer mes
               </p>
-              <p className="font-lato text-white/45 text-[16px] mb-6">+ IVA · {META.duracion} · valor único</p>
-
-              {/* Gancho del pago anticipado */}
-              <button onClick={() => setPagosAbierto(true)}
-                className="w-full sm:w-auto inline-flex items-center gap-3 rounded-xl px-4 py-3 mb-8 text-left transition-transform duration-200 hover:scale-[1.01]"
-                style={{ background: 'linear-gradient(90deg, rgba(242,140,56,.18), rgba(242,140,56,.06))', border: `1px solid ${MEE}66` }}>
-                <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: `${MEE}2e` }}>
-                  <Gift className="w-5 h-5" style={{ color: MEE }} />
-                </div>
-                <p className="font-lato text-white/75 text-[16px] leading-snug">
-                  Pague por adelantado y <Hl color={MEE}>ahorre {fmt(AHORRO_NUM)}</Hl>
-                  <span className="block font-lato text-white/45 text-[14px]">{DESCUENTO_ANTICIPADO}% de descuento: queda en {fmt(ANTICIPADO_NUM)}</span>
-                </p>
-              </button>
-
-              <div className="flex flex-wrap gap-2">
-                {INCLUYE.map((item, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 font-lato text-[14px] px-3 py-1.5 rounded-full text-white/75"
-                    style={{ background: 'rgba(255,255,255,.05)', border: '1px solid rgba(255,255,255,.09)' }}>
-                    <CheckCircle className="w-3.5 h-3.5 text-[#00bfa5]" /> {item}
-                  </span>
-                ))}
-              </div>
+              <p className="font-poppins font-black text-[#00bfa5] text-[22px] leading-none whitespace-nowrap">{creditosElegidos} créditos</p>
             </div>
           </div>
 
-          {/* Formas de pago (desplegable) */}
-          <div className="rounded-2xl overflow-hidden mb-24"
-            style={{ background: 'rgba(255,255,255,.025)', border: `1px solid ${pagosAbierto ? 'rgba(0,191,165,.3)' : 'rgba(255,255,255,.08)'}` }}>
-            <button onClick={() => setPagosAbierto(!pagosAbierto)}
-              className="w-full flex items-center gap-4 p-5 sm:p-6 text-left">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(0,191,165,.12)' }}>
-                <CreditCard className="w-5 h-5 text-[#00bfa5]" />
-              </div>
-              <div className="flex-1">
-                <p className="font-poppins font-bold text-white text-[19px]">Formas de pago</p>
-                <p className="font-lato text-white/40 text-[15px]">Dos opciones, usted elige</p>
-              </div>
-              <ChevronDown className={`w-5 h-5 text-[#00bfa5] transition-transform duration-300 ${pagosAbierto ? 'rotate-180' : ''}`} />
-            </button>
-            {pagosAbierto && (
-              <div className="px-5 sm:px-6 pb-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 items-stretch">
-                {FORMAS_PAGO.map((f, i) => (
-                  <div key={i} className="rounded-xl p-5 sm:p-6 flex flex-col relative overflow-hidden"
-                    style={f.destacado
-                      ? { background: 'linear-gradient(150deg, rgba(242,140,56,.16), rgba(0,191,165,.06))', border: `1.5px solid ${MEE}`, boxShadow: '0 0 34px rgba(242,140,56,.18)' }
-                      : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.08)' }}>
-                    {f.destacado && (
-                      <span className="absolute top-0 right-0 inline-flex items-center gap-1 font-poppins font-bold text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-bl-xl text-[#030d1a]"
-                        style={{ background: MEE }}>
-                        <Star className="w-3 h-3" /> Mejor opción
-                      </span>
-                    )}
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="font-lato text-white/40 text-[13px] uppercase tracking-wider">{f.opcion}</span>
-                      {!f.destacado && (
-                        <span className="font-lato text-[12px] px-2.5 py-0.5 rounded-full"
-                          style={{ background: 'rgba(255,255,255,.06)', color: 'rgba(255,255,255,.55)' }}>
-                          {f.etiqueta}
-                        </span>
-                      )}
-                    </div>
-                    <p className="font-poppins font-bold text-white/85 text-[18px] mb-4">{f.nombre}</p>
-                    {f.destacado && (
-                      <p className="font-lato text-white/35 text-[16px] line-through leading-none mb-1.5">{fmt(TOTAL_NUM)}</p>
-                    )}
-                    <p className="font-poppins font-black text-white text-[26px] leading-tight mb-3">{f.valor}</p>
-                    {f.destacado && (
-                      <span className="self-start inline-flex items-center gap-1.5 font-poppins font-bold text-[14px] px-3 py-1 rounded-full mb-3"
-                        style={{ background: `${MEE}26`, border: `1px solid ${MEE}66`, color: MEE }}>
-                        <Gift className="w-3.5 h-3.5" /> Ahorra {fmt(AHORRO_NUM)} · {f.etiqueta}
-                      </span>
-                    )}
-                    <p className="font-lato text-white/50 text-[15px] mt-auto">{f.detalle}</p>
-                  </div>
-                ))}
-              </div>
+          <div role="status" aria-live="polite" className="mb-10 min-h-[1rem]">
+            {aviso && (
+              <p className="font-lato text-white/65 text-[15px] leading-snug flex items-start gap-2 rounded-xl px-4 py-3"
+                style={{ background: 'rgba(0,191,165,.06)', border: '1px solid rgba(0,191,165,.20)' }}>
+                <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
+                <span>{aviso}</span>
+              </p>
             )}
           </div>
-
-          {/* Después de la implementación */}
-          <p className="font-lato text-[#00bfa5] text-[13px] uppercase tracking-[0.22em] font-medium mb-2">Después de la implementación</p>
-          <h3 className="font-poppins font-extrabold text-white leading-tight mb-3" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 2.2rem)' }}>
-            Elija cómo seguir
-          </h3>
-          <p className="font-lato text-white/55 text-[18px] leading-relaxed max-w-2xl mb-10">
-            Al terminar las 6 semanas, su sistema sigue funcionando con <Hl color="#fff">una de estas dos opciones</Hl> mensuales.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-4 mb-4 items-stretch">
-            {OPCIONES_POST.map((o, i) => (
-              <div key={i} className="rounded-3xl p-6 sm:p-8 flex flex-col relative overflow-hidden"
-                style={o.recomendado
-                  ? { background: 'linear-gradient(150deg, rgba(0,191,165,.13) 0%, rgba(29,112,162,.08) 55%, rgba(3,13,26,.9) 100%)', border: '1.5px solid rgba(0,191,165,.5)', boxShadow: '0 0 40px rgba(0,191,165,.12)' }
-                  : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.09)' }}>
-                {o.recomendado && (
-                  <span className="absolute top-0 right-0 inline-flex items-center gap-1 font-poppins font-bold text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-bl-xl text-[#030d1a]"
-                    style={{ background: '#00bfa5' }}>
-                    <Star className="w-3 h-3" /> Recomendado
-                  </span>
-                )}
-                <p className="font-lato text-white/40 text-[13px] uppercase tracking-wider mb-1">Opción {String.fromCharCode(65 + i)}</p>
-                <p className={`font-poppins font-bold text-white text-[20px] leading-snug ${o.recomendado ? 'pr-28' : ''}`}>{o.nombre}</p>
-                <p className="font-lato text-[15px] mt-1 mb-6" style={{ color: o.recomendado ? '#00bfa5' : 'rgba(255,255,255,.45)' }}>{o.sub}</p>
-                <p className="font-poppins font-black text-white leading-none" style={{ fontSize: o.recomendado ? 'clamp(2.1rem, 5vw, 2.75rem)' : 'clamp(1.8rem, 4.4vw, 2.25rem)' }}>{o.precio}</p>
-                <p className="font-lato text-white/45 text-[14px] mt-2 mb-6">{o.periodo}</p>
-                <ul className="space-y-3 mb-2">
-                  {o.items.map((it, j) => {
-                    const Icon = it.icon;
-                    return (
-                      <li key={j} className="flex items-start gap-3">
-                        <Icon className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: o.recomendado ? '#00bfa5' : 'rgba(255,255,255,.4)' }} />
-                        <span className="font-lato text-white/65 text-[16px] leading-snug">{rich(it.text, 'rgba(255,255,255,.92)')}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                {o.recomendado && (
-                  <div className="mt-auto pt-5">
-                    <div className="rounded-xl px-4 py-3.5 flex items-center gap-3"
-                      style={{ background: 'rgba(0,191,165,.10)', border: '1px solid rgba(0,191,165,.3)' }}>
-                      <p className="font-poppins font-black text-[#00bfa5] text-[32px] leading-none">{EXPERTOS}</p>
-                      <p className="font-lato text-white/70 text-[15px] leading-snug">
-                        Es como tener <Hl color="#fff">{EXPERTOS} expertos en tecnología y en su negocio</Hl> a su servicio 24/7.
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
           {/* Cómo funcionan los créditos (desplegable) */}
           <div className="rounded-2xl overflow-hidden mb-6"
             style={{ background: 'rgba(255,255,255,.025)', border: `1px solid ${creditosAbierto ? 'rgba(0,191,165,.3)' : 'rgba(255,255,255,.08)'}` }}>
@@ -1020,6 +1181,84 @@ const MeetricoProposal = () => {
             )}
           </div>
 
+          {/* Totalizado del primer mes */}
+          <div className="rounded-3xl p-6 sm:p-10 relative overflow-hidden mt-14 mb-6"
+            style={{ background: 'linear-gradient(135deg, rgba(0,191,165,.09) 0%, rgba(29,112,162,.08) 100%)', border: '1px solid rgba(0,191,165,.35)' }}>
+            <div className="absolute top-0 right-0 w-72 h-72 pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(0,191,165,.08), transparent 70%)', transform: 'translate(20%,-20%)' }} />
+            <div className="relative z-10">
+              <p className="font-lato text-[#00bfa5] text-[13px] uppercase tracking-[0.22em] font-medium mb-2">Su inversión</p>
+              <h3 className="font-poppins font-extrabold text-white leading-tight mb-8" style={{ fontSize: 'clamp(1.6rem, 3.6vw, 2.2rem)' }}>
+                Lo que eligió, en pesos
+              </h3>
+
+              <div className="space-y-3 mb-6">
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[16px]">Plan Integral Sixteam Ops</p>
+                  <p className="font-poppins font-bold text-white/90 text-[17px] text-right whitespace-nowrap">{fmt(SMMLV_2026_NUM)}</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[16px]">Funciones elegidas · {nElegidas}</p>
+                  <p className="font-poppins font-bold text-white/90 text-[17px] text-right whitespace-nowrap">{creditosElegidos} créditos</p>
+                </div>
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-lato text-white/60 text-[16px]">Incluidos en el plan</p>
+                  <p className="font-poppins font-bold text-[#00bfa5] text-[17px] text-right whitespace-nowrap">{creditosIncluidos} de {CREDITOS_MES}</p>
+                </div>
+                {creditosAdicionales > 0 && (
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="font-lato text-[16px]" style={{ color: MEE }}>Créditos adicionales · {creditosAdicionales} × {fmt(VALOR_CREDITO)}</p>
+                    <p className="font-poppins font-bold text-[17px] text-right whitespace-nowrap" style={{ color: MEE }}>+ {fmt(valorAdicional)}</p>
+                  </div>
+                )}
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-3 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.1)' }}>
+                  <p className="font-poppins font-bold text-white text-[18px]">Total primer mes</p>
+                  <div className="sm:text-right whitespace-nowrap">
+                    <p className="font-poppins font-black text-white leading-none" style={{ fontSize: 'clamp(2rem, 6vw, 3.2rem)' }}>{fmt(totalMes1)}</p>
+                    <p className="font-lato text-white/45 text-[14px] mt-1.5">+ IVA</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Desde el mes 2 */}
+              <div className="rounded-xl p-4 sm:p-5 flex flex-wrap items-center gap-x-4 gap-y-2 mb-5"
+                style={{ background: 'rgba(2,8,20,.55)', border: '1px solid rgba(0,191,165,.25)' }}>
+                <Calendar className="w-5 h-5 text-[#00bfa5] flex-shrink-0" />
+                <div className="flex-1 min-w-[180px]">
+                  <p className="font-lato text-white/45 text-[13px] uppercase tracking-wider">Desde el segundo mes</p>
+                  <p className="font-poppins font-bold text-white text-[17px]">Plan Integral · {CREDITOS_MES} créditos nuevos cada mes</p>
+                </div>
+                <p className="font-poppins font-black text-white text-[22px] whitespace-nowrap">
+                  {fmt(SMMLV_2026_NUM)} <span className="font-lato font-normal text-white/45 text-[14px]">al mes + IVA</span>
+                </p>
+              </div>
+
+              <div className="space-y-2.5">
+                {creditosAdicionales > 0 && (
+                  <p className="font-lato text-white/60 text-[15px] leading-relaxed flex items-start gap-2">
+                    <Info className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: MEE }} />
+                    <span>
+                      ¿Prefiere no pagar adicional? Las mismas funciones se activan <Hl>sin sobrecosto</Hl> repartidas en {mesesSinAdicional} meses del plan.
+                    </span>
+                  </p>
+                )}
+                {creditosLibres > 0 && (
+                  <p className="font-lato text-white/60 text-[15px] leading-relaxed flex items-start gap-2">
+                    <Info className="w-4 h-4 flex-shrink-0 mt-1 text-[#00bfa5]" />
+                    <span>Le {creditosLibres === 1 ? 'queda' : 'quedan'} <Hl color="#fff">{creditosLibres} {creditosLibres === 1 ? 'crédito' : 'créditos'}</Hl> del primer mes para ajustes y solicitudes.</span>
+                  </p>
+                )}
+                {creditosParaIdeal > 0 && (
+                  <p className="font-lato text-white/60 text-[15px] leading-relaxed flex items-start gap-2">
+                    <Info className="w-4 h-4 flex-shrink-0 mt-1 text-[#00bfa5]" />
+                    <span>
+                      Para llegar al <Hl color="#fff">sistema ideal</Hl> faltan <Hl color="#fff">{creditosParaIdeal} créditos</Hl> en funciones y mejoras, que se activan con los créditos de los meses siguientes, <Hl>sin pagar más</Hl>.
+                    </span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
           <p className="font-lato text-white/45 text-[16px] leading-relaxed max-w-2xl">
             Las <Hl color="#fff">próximas fases</Hl> (obra, materiales, personal) se pueden construir con los créditos del Plan Integral o <Hl>cotizarse aparte</Hl>.
           </p>
@@ -1030,17 +1269,18 @@ const MeetricoProposal = () => {
           <LogoCarousel />
         </div>
 
-        {/* ─ 05 VIGENCIA ─ */}
+        {/* ─ 04 VIGENCIA ─ */}
         <section id="vigencia" ref={s5.ref as React.RefObject<HTMLElement>} className={reveal(s5.v)}>
-          <TagLabel>05 — Vigencia y términos</TagLabel>
+          <TagLabel>04 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y términos</SectionTitle>
           <Rule />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { titulo: 'Aprobación', desc: 'Basta su confirmación por **WhatsApp, correo o verbal** para agendar el arranque.', icon: CheckCircle },
-              { titulo: 'Pagos', desc: `**50% al iniciar y 50% al finalizar**, o pago anticipado con **${DESCUENTO_ANTICIPADO}% de descuento**. Más IVA, por transferencia.`, icon: FileText },
+              { titulo: 'Plan mensual', desc: `El **Plan Integral Sixteam Ops** vale **${fmt(SMMLV_2026_NUM)} al mes** más IVA, por mes anticipado y por transferencia. Incluye **${CREDITOS_MES} créditos** cada mes y **no hay pago de implementación**.`, icon: FileText },
+              { titulo: 'Créditos adicionales', desc: `Si en un mes se pide más de lo que cabe en el plan, el excedente se cobra a **${fmt(VALOR_CREDITO)} por crédito**, sin recargo y siempre con su aprobación. Si prefiere, se programa para el mes siguiente sin costo extra.`, icon: Coins },
               { titulo: 'Modalidad', desc: 'Sesiones **virtuales** con usted y Jennifer, en los horarios que acordemos.', icon: MapPin },
-              { titulo: 'Después de las 6 semanas', desc: `El sistema sigue activo con la **licencia mensual** de ${fmt(LICENCIA_NUM)} o con el **Plan Integral**, que ya la incluye. Ambos más IVA, por mes anticipado.`, icon: Coins },
+              { titulo: 'Funciones y mejoras para después', desc: 'Cada función arranca en su **versión básica**. Las funciones y mejoras que no se activen en el primer mes **quedan disponibles** y se activan con los créditos de los meses siguientes.', icon: Calendar },
               { titulo: 'No incluye', desc: 'El costo de los **mensajes de WhatsApp** que cobra Meta y el **presupuesto de pauta digital**, que se pagan aparte.', icon: AlertCircle },
               { titulo: 'Su información', desc: 'Los datos de clientes y ventas **son de Meetrico** y se manejan de forma **confidencial**.', icon: ShieldCheck },
               { titulo: 'Vigencia', desc: '**30 días calendario** desde la fecha de esta propuesta. Arrancamos con el **primer pago**.', icon: Clock },
