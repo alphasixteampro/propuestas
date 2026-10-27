@@ -94,7 +94,6 @@ src/
 1. **Investigar al cliente** — Busca la empresa, su web, redes sociales, sector
 2. **Mockup visual** — Usa NanoBanana para generar imagen de cabecera con contexto del cliente
 3. **Contenido** — Adapta StunetProposal con los datos reales del nuevo cliente
-4. **PDF** — El botón "Exportar PDF" captura la página completa con html2canvas + jsPDF
 
 ## Reglas de diseño
 
@@ -103,9 +102,10 @@ src/
 - Mobile-first responsive
 - Usar colores del cliente como acento, no como dominante
 - Incluir `class="no-print"` en elementos que no deben aparecer en el PDF
-- PDFButton con `elementId="proposal-root"` en cada propuesta
+- Contenedor raíz con `id="proposal-root"`
 
 **Nunca:**
+- Botón de exportar/descargar PDF (`PDFButton`) en propuestas nuevas — decisión de Ernesto, oct 2026
 - Fondos blancos en propuestas (solo RadarKit usa fondo claro por diseño propio)
 - Información confidencial del cliente en el código sin necesidad
 - Subir propuestas antiguas sin archivar

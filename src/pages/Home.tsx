@@ -457,6 +457,15 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/vertical-services-pauta',
   },
+  {
+    slug: 'daniel-alfonso',
+    cliente: 'Daniel Alfonso',
+    sector: 'Construcción · Financiación de proyectos inmobiliarios · Viabilidad con IA y control de obras',
+    fecha: 'Octubre 2026',
+    monto: 'Viabilidad: COP 2.900.000 (asistente) o 9.000.000 (plataforma + agente) · Control de obras por módulos · Plan Integral 1 SMMLV + IVA',
+    estado: 'activa',
+    path: '/daniel-alfonso',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {

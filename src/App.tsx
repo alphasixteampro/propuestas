@@ -55,6 +55,7 @@ const CalculadoraIA              = lazy(() => import('./pages/CalculadoraIA'));
 const RosaniaHeldProposal         = lazy(() => import('./pages/RosaniaHeldProposal'));
 const LnEquiposProposal           = lazy(() => import('./pages/LnEquiposProposal'));
 const MeetricoProposal            = lazy(() => import('./pages/MeetricoProposal'));
+const DanielAlfonsoProposal       = lazy(() => import('./pages/DanielAlfonsoProposal'));
 
 function Loader() {
   return (
@@ -130,6 +131,7 @@ export default function App() {
           <Route path="/jc-proyectos"         element={<JcProyectosProposal />} />
           <Route path="/jc-proyectos/demo"    element={<JcProyectosDemo />} />
           <Route path="/meetrico"             element={<MeetricoProposal />} />
+          <Route path="/daniel-alfonso"       element={<DanielAlfonsoProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>
