@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LogoCarousel from '../components/LogoCarousel';
 import {
-  CheckCircle, ChevronRight, Clock, FileText, Target, Zap,
+  CheckCircle, ChevronRight, Clock, FileText, Target,
   AlertCircle, Calendar, MapPin, Shield, Coins,
-  MessageSquare, LayoutDashboard, Bot, Megaphone, BarChart3,
+  MessageSquare, LayoutDashboard, Bot, BarChart3,
   Link2, Tag, Users, SlidersHorizontal, ShieldCheck, BookOpen,
   Hourglass,
 } from 'lucide-react';
@@ -35,15 +35,6 @@ const HORA_PLAN_COP     = '110.000';
 const TARIFA_SUELTA     = '130.000';
 const VALOR_SUELTO_10H  = '1.300.000';
 const AHORRO_COP        = '200.000';
-
-const TINT: Record<string, { text: string; bg: string; border: string }> = {
-  amber:  { text: '#f59e0b',   bg: 'rgba(251,191,36,.07)',  border: 'rgba(251,191,36,.18)' },
-  teal:   { text: '#00bfa5',   bg: 'rgba(0,191,165,.07)',   border: 'rgba(0,191,165,.18)'  },
-  blue:   { text: '#38bdf8',   bg: 'rgba(56,189,248,.07)',  border: 'rgba(56,189,248,.18)' },
-  red:    { text: '#f87171',   bg: 'rgba(221,51,51,.07)',   border: 'rgba(221,51,51,.2)'   },
-  purple: { text: '#a78bfa',   bg: 'rgba(167,139,250,.07)', border: 'rgba(167,139,250,.18)'},
-  pink:   { text: DREAMS_PINK, bg: 'rgba(244,166,198,.06)', border: 'rgba(244,166,198,.22)'},
-};
 
 // ─── EL PLAN ─────────────────────────────────────────────────────────────────
 
@@ -135,31 +126,6 @@ const CONSUMO = [
   { mes: 'Mes 3', items: [
     { t: 'Afinación del asistente con conversaciones reales', h: 1 },
   ] },
-];
-
-// ─── FUERA DE ALCANCE ────────────────────────────────────────────────────────
-
-const FUERA = [
-  {
-    titulo: 'La inversión publicitaria',
-    desc: 'El presupuesto que se entrega a Meta lo paga Máster Viajes directamente a la plataforma. Las horas cubren el trabajo del equipo de Sixteam, no el dinero pautado.',
-    icon: Megaphone, tint: 'amber',
-  },
-  {
-    titulo: 'La gestión de la pauta',
-    desc: 'Crear, optimizar y administrar las campañas sigue en manos del Trafficker de Máster Viajes. Sixteam conecta, mide y muestra los resultados en el dashboard.',
-    icon: Target, tint: 'blue',
-  },
-  {
-    titulo: 'Consumos de terceros',
-    desc: 'Las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan según su uso real y no salen de la bolsa de horas.',
-    icon: Coins, tint: 'red',
-  },
-  {
-    titulo: 'Contenido de cada marca',
-    desc: 'La información de destinos, planes, precios y políticas la entrega el equipo de Dreams 15 y Origen. Sixteam la ordena y la configura, pero no la produce.',
-    icon: FileText, tint: 'purple',
-  },
 ];
 
 // ─── TÉRMINOS ────────────────────────────────────────────────────────────────
@@ -703,7 +669,7 @@ const MasterViajesProposal = () => {
             Las 3 horas del asistente son el valor agregado de tomar el Plan Integral. No se trata solo de encenderlo: se trata de darle una base de información ordenada y unas reglas claras. Esa es la diferencia entre un asistente que improvisa y uno en el que el equipo puede confiar frente a un cliente.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {VALOR_IA.map((v, i) => {
               const Icon = v.icon;
               return (
@@ -717,35 +683,6 @@ const MasterViajesProposal = () => {
                 </div>
               );
             })}
-          </div>
-
-          {/* Ejemplo conversación */}
-          <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(0,191,165,.04)', border: '1px solid rgba(0,191,165,.18)' }}>
-            <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Zap className="w-4 h-4 text-[#00bfa5]" /> La diferencia en una conversación
-            </p>
-            <div className="space-y-3">
-              <div className="rounded-xl p-4 sm:mr-16" style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)' }}>
-                <p className="font-lato text-white/30 text-[12px] uppercase tracking-wider mb-1.5">Cliente</p>
-                <p className="font-lato text-white/70 text-[16px] leading-relaxed italic">
-                  "¿El plan incluye seguro de viaje y me pueden hacer descuento si pago de contado?"
-                </p>
-              </div>
-              <div className="rounded-xl p-4 sm:ml-16" style={{ background: 'rgba(248,113,113,.06)', border: '1px solid rgba(248,113,113,.22)' }}>
-                <p className="font-lato text-[#f87171] text-[12px] uppercase tracking-wider mb-1.5">Asistente sin reglas</p>
-                <p className="font-lato text-white/60 text-[16px] leading-relaxed italic">
-                  "¡Claro! Incluye seguro completo y por pago de contado tienes un 10% de descuento."
-                </p>
-                <p className="font-lato text-white/35 text-[13px] mt-2 not-italic">Inventó una cobertura y un descuento que la agencia nunca autorizó.</p>
-              </div>
-              <div className="rounded-xl p-4 sm:ml-16" style={{ background: 'rgba(0,191,165,.07)', border: '1px solid rgba(0,191,165,.22)' }}>
-                <p className="font-lato text-[#00bfa5] text-[12px] uppercase tracking-wider mb-1.5">Asistente configurado por Sixteam</p>
-                <p className="font-lato text-white/70 text-[16px] leading-relaxed italic">
-                  "El plan incluye la asistencia de viaje que aparece en su ficha. Los descuentos por forma de pago los confirma directamente un asesor: ya le paso tu conversación para que te responda hoy mismo."
-                </p>
-                <p className="font-lato text-white/35 text-[13px] mt-2 not-italic">Responde solo lo que está en su base y escala lo que no le corresponde decidir.</p>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -847,26 +784,6 @@ const MasterViajesProposal = () => {
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
               Las {HORAS_PLAN} horas se pueden usar en cualquier momento dentro de los {MESES_PLAN} meses del plan. Las que no se usen al cierre del tercer mes se pierden y no son reembolsables. La inversión publicitaria en Meta, las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan aparte según su uso real. Todos los valores de esta propuesta se expresan antes de IVA.
             </p>
-          </div>
-
-          {/* Fuera de alcance */}
-          <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mt-10 mb-4 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-[#f59e0b]" /> Qué no cubre la bolsa de horas
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {FUERA.map((f, i) => {
-              const Icon = f.icon; const t = TINT[f.tint];
-              return (
-                <div key={i} className="rounded-xl p-4 flex gap-3"
-                  style={{ background: t.bg, border: `1px solid ${t.border}` }}>
-                  <Icon className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: t.text }} />
-                  <div>
-                    <p className="font-poppins font-semibold text-white/90 text-[17px] mb-1">{f.titulo}</p>
-                    <p className="font-lato text-white/50 text-[15px] leading-relaxed">{f.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </section>
 
