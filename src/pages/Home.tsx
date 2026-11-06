@@ -804,10 +804,10 @@ export default function Home() {
                 key={p.slug}
                 to={p.path}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 16,
+                  display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16,
                   background: 'rgba(29,112,162,.07)',
                   border: '1px solid rgba(29,112,162,.2)',
-                  borderRadius: 12, padding: '18px 20px',
+                  position: 'relative', borderRadius: 12, padding: '18px 44px 18px 20px',
                   textDecoration: 'none', transition: 'all .2s',
                 }}
                 onMouseEnter={e => {
@@ -883,25 +883,25 @@ export default function Home() {
                   )}
                 </div>
 
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 15, color: '#fff', marginBottom: 4 }}>
+                <div style={{ flex: '1 1 180px', minWidth: 0 }}>
+                  <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 15, lineHeight: 1.35, color: '#fff', marginBottom: 6 }}>
                     {p.cliente}
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
-                      <Tag size={11} /> {p.sector}
-                    </span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, fontSize: 13, lineHeight: 1.5, color: 'rgba(255,255,255,.62)', marginBottom: 6 }}>
+                    <Tag size={12} style={{ flexShrink: 0, marginTop: 4 }} /> {p.sector}
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 14px', alignItems: 'center' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.4)' }}>
                       <Calendar size={11} /> {p.fecha}
                     </span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.4)' }}>
                       <RefreshCw size={11} /> Actualizada {formatFecha(p.actualizada)}
                     </span>
                   </div>
                 </div>
 
-                <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 14, color: '#00bfa5', marginBottom: 6 }}>
+                <div style={{ textAlign: 'right', flex: '0 1 260px', minWidth: 0, marginLeft: 'auto' }}>
+                  <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 14, lineHeight: 1.4, color: '#00bfa5', marginBottom: 8 }}>
                     {p.monto}
                   </div>
                   <span style={{
@@ -912,7 +912,7 @@ export default function Home() {
                   </span>
                 </div>
 
-                <ExternalLink size={15} color="rgba(255,255,255,.25)" style={{ flexShrink: 0 }} />
+                <ExternalLink size={15} color="rgba(255,255,255,.25)" style={{ position: 'absolute', top: '50%', right: 18, transform: 'translateY(-50%)' }} />
               </Link>
             );
           })}
