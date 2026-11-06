@@ -31,6 +31,8 @@ const INVERSION_COP     = '1.100.000';
 const HORAS_PLAN        = 10;
 const MESES_PLAN        = 3;
 const HORA_ADICIONAL    = '120.000';
+const HORAS_AMPLIADO    = 20;
+const VALOR_AMPLIACION  = '1.100.000'; // 10 horas más a la misma tarifa del plan
 const HORA_PLAN_COP     = '110.000';
 const TARIFA_SUELTA     = '130.000';
 const VALOR_SUELTO_10H  = '1.300.000';
@@ -47,7 +49,7 @@ const CAMBIOS = [
   {
     icon: Coins, color: DREAMS_PINK, colorAlpha: 'rgba(244,166,198,.07)', colorBorder: 'rgba(244,166,198,.22)',
     titulo: 'Cada hora sale más barata que una cotización suelta',
-    desc: `Dentro del plan, la hora queda en $${HORA_PLAN_COP} COP frente a los $${TARIFA_SUELTA} COP de una cotización puntual. Y si se necesita más, la hora adicional se mantiene en $${HORA_ADICIONAL} COP más IVA.`,
+    desc: `Dentro del plan, la hora queda en $${HORA_PLAN_COP} COP frente a los $${TARIFA_SUELTA} COP de una cotización puntual. Si se necesita más, la bolsa se puede ampliar a ${HORAS_AMPLIADO} horas con el mismo valor por hora.`,
   },
   {
     icon: LayoutDashboard, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
@@ -148,8 +150,13 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Horas adicionales',
-    desc: `Si se agotan las ${HORAS_PLAN} horas antes de terminar el plan, cada hora adicional se factura a $${HORA_ADICIONAL} COP más IVA, siempre con estimación y aprobación previas. Si Máster Viajes prefiere, el trabajo se deja para una siguiente bolsa.`,
+    desc: `Si se agotan las ${HORAS_PLAN} horas antes de terminar el plan, cada hora adicional tiene un valor de $${HORA_ADICIONAL} COP más IVA, siempre con estimación y aprobación previas. Las horas adicionales se cobran al finalizar el periodo del plan, según las horas realmente usadas.`,
     icon: Clock,
+  },
+  {
+    titulo: `Ampliación a ${HORAS_AMPLIADO} horas`,
+    desc: `Si aparecen requerimientos adicionales, Máster Viajes puede ampliar la bolsa a ${HORAS_AMPLIADO} horas al mismo valor de $${HORA_PLAN_COP} COP más IVA por hora. Las ${HORAS_AMPLIADO - HORAS_PLAN} horas de la ampliación también se pagan por anticipado y el plazo para consumir la bolsa se ajusta al nuevo alcance.`,
+    icon: Hourglass,
   },
   {
     titulo: 'Accesos y apoyo del Trafficker',
@@ -158,7 +165,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Pago',
-    desc: `Pago único y anticipado de $${INVERSION_COP} COP más IVA al inicio del plan. La facturación se realiza en pesos colombianos y todos los valores de esta propuesta se expresan antes de IVA. Las horas adicionales, si las hubo, se facturan aparte junto con el reporte del mes en que se usaron.`,
+    desc: `Las ${HORAS_PLAN} horas del plan se pagan por anticipado: $${INVERSION_COP} COP más IVA al inicio. Si se amplía a ${HORAS_AMPLIADO} horas, la ampliación también se paga por anticipado. Las horas adicionales, si las hubo, se cobran al finalizar el periodo. La facturación se realiza en pesos colombianos y todos los valores de esta propuesta se expresan antes de IVA.`,
     icon: FileText,
   },
   {
@@ -560,7 +567,7 @@ const MasterViajesProposal = () => {
               { label: 'Horas incluidas',   value: `${HORAS_PLAN}`,       sub: 'Del equipo de Sixteam' },
               { label: 'Plazo para usarlas', value: `${MESES_PLAN} meses`, sub: 'Sin mínimo por mes' },
               { label: 'Estimación previa', value: 'Siempre',             sub: 'Nada se ejecuta sin aprobar' },
-              { label: 'Hora adicional',    value: `$${HORA_ADICIONAL}`,  sub: 'COP + IVA, si se necesita' },
+              { label: 'Hora adicional',    value: `$${HORA_ADICIONAL}`,  sub: 'COP + IVA, se cobra al cierre' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
                 style={{ background: i < 2 ? 'rgba(244,166,198,.06)' : 'rgba(0,191,165,.06)', border: i < 2 ? '1px solid rgba(244,166,198,.20)' : '1px solid rgba(0,191,165,.18)' }}>
@@ -718,7 +725,7 @@ const MasterViajesProposal = () => {
                 <p className="font-poppins font-bold text-white/45 text-[20px]">COP + IVA</p>
               </div>
               <p className="font-lato text-white/35 text-[15px] mb-6">
-                Pago único · {HORAS_PLAN} horas redimibles en {MESES_PLAN} meses · equivale a ${HORA_PLAN_COP} COP por hora
+                Pago anticipado · {HORAS_PLAN} horas redimibles en {MESES_PLAN} meses · equivale a ${HORA_PLAN_COP} COP por hora
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-6">
@@ -755,6 +762,23 @@ const MasterViajesProposal = () => {
             </div>
           </div>
 
+          {/* Ampliación */}
+          <div className="rounded-xl p-5 mb-6 flex flex-col sm:flex-row gap-4 sm:items-center"
+            style={{ background: 'rgba(244,166,198,.05)', border: '1px dashed rgba(244,166,198,.30)' }}>
+            <div className="flex-1">
+              <p className="font-poppins font-semibold text-white/85 text-[18px] mb-1.5 flex items-center gap-2">
+                <Hourglass className="w-5 h-5" style={{ color: DREAMS_PINK }} /> Opción de ampliar a {HORAS_AMPLIADO} horas
+              </p>
+              <p className="font-lato text-white/55 text-[16px] leading-relaxed">
+                Si surgen requerimientos adicionales, la bolsa se puede extender a <strong className="text-white/80">{HORAS_AMPLIADO} horas al mismo valor de ${HORA_PLAN_COP} COP por hora</strong>. Las {HORAS_AMPLIADO - HORAS_PLAN} horas de la ampliación también se pagan por anticipado y el plazo para consumir la bolsa se ajusta al nuevo alcance.
+              </p>
+            </div>
+            <div className="flex-shrink-0 text-left sm:text-right">
+              <p className="font-poppins font-black text-[22px] leading-tight" style={{ color: DREAMS_PINK }}>+${VALOR_AMPLIACION}</p>
+              <p className="font-lato text-white/40 text-[13px]">COP + IVA · {HORAS_AMPLIADO - HORAS_PLAN} horas más</p>
+            </div>
+          </div>
+
           {/* Comparativo */}
           <div className="rounded-xl p-5 mb-6" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.20)' }}>
             <div className="flex items-center gap-2 mb-4">
@@ -774,7 +798,7 @@ const MasterViajesProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Si en algún momento se agotan las {HORAS_PLAN} horas, cada <strong className="text-white/80">hora adicional cuesta ${HORA_ADICIONAL} COP más IVA</strong>, también por debajo de la tarifa suelta. Toda hora adicional se estima y se aprueba antes de ejecutarse.
+              Si en algún momento se agotan las {HORAS_PLAN} horas, cada <strong className="text-white/80">hora adicional cuesta ${HORA_ADICIONAL} COP más IVA</strong>, también por debajo de la tarifa suelta. Toda hora adicional se estima y se aprueba antes de ejecutarse, y se <strong className="text-white/80">cobra al finalizar el periodo</strong> según las horas realmente usadas.
             </p>
           </div>
 
