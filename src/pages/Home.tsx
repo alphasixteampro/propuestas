@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Lock, GraduationCap } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Building2, Tag, Plane, Lock, GraduationCap, RefreshCw, ChevronLeft, ChevronRight, List, LayoutList } from 'lucide-react';
 
 const PASSWORD = 'sixteam2026';
 const SESSION_KEY = 'st_proposals_auth';
@@ -10,6 +10,8 @@ interface Proposal {
   cliente: string;
   sector: string;
   fecha: string;
+  creada: string;      // YYYY-MM-DD, define el orden (más reciente primero)
+  actualizada: string; // YYYY-MM-DD, último cambio de la propuesta
   monto: string;
   estado: 'activa' | 'enviada' | 'cerrada' | 'borrador';
   path: string;
@@ -21,6 +23,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Stunet Education Agency',
     sector: 'Agencia de educación internacional',
     fecha: 'Marzo 2026',
+    creada: '2026-03-24',
+    actualizada: '2026-04-06',
     monto: 'COP 11.200.000',
     estado: 'activa',
     path: '/stunet',
@@ -30,6 +34,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Conecty',
     sector: 'Telecomunicaciones · SIM & eSIM para viajeros',
     fecha: 'Abril 2026',
+    creada: '2026-04-06',
+    actualizada: '2026-04-08',
     monto: 'COP 17.988.000',
     estado: 'borrador',
     path: '/conecty',
@@ -39,6 +45,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Conecty V2',
     sector: 'Telecomunicaciones · SIM & eSIM para viajeros',
     fecha: 'Mayo 2026',
+    creada: '2026-05-13',
+    actualizada: '2026-05-13',
     monto: 'COP 15.488.000',
     estado: 'activa',
     path: '/conecty-v2',
@@ -48,6 +56,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'De Paseo por Colombia SAS',
     sector: 'Turismo receptivo · Agencia de viajes · Alojamiento',
     fecha: 'Abril 2026',
+    creada: '2026-04-15',
+    actualizada: '2026-04-15',
     monto: 'COP 1.821.465 + COP 728.586/mes',
     estado: 'borrador',
     path: '/depaseo',
@@ -57,6 +67,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Hotel Casa Rueda',
     sector: 'Hotelería · Alojamiento',
     fecha: 'Abril 2026',
+    creada: '2026-04-15',
+    actualizada: '2026-04-16',
     monto: 'COP 1.700.000 / semestre',
     estado: 'borrador',
     path: '/hotel-casa-rueda',
@@ -66,6 +78,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcciones',
     sector: 'Inmobiliaria · Lotes urbanos y rurales',
     fecha: 'Abril 2026',
+    creada: '2026-04-17',
+    actualizada: '2026-04-17',
     monto: 'COP 800.000 + 10% / mes',
     estado: 'borrador',
     path: '/mizar',
@@ -75,6 +89,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'ANATO Seccional Central',
     sector: 'Turismo · Asociación gremial de agencias de viaje',
     fecha: 'Abril 2026',
+    creada: '2026-04-29',
+    actualizada: '2026-05-08',
     monto: 'Alianza · 25% dcto. afiliados',
     estado: 'borrador',
     path: '/anato',
@@ -84,6 +100,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Visit Antioquia',
     sector: 'Turismo receptivo · Agencia de viajes · B2C',
     fecha: 'Abril 2026',
+    creada: '2026-04-21',
+    actualizada: '2026-04-21',
     monto: 'COP 7.734.000 + COP 728.586/mes',
     estado: 'borrador',
     path: '/visitantioquia',
@@ -93,6 +111,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Grupo Mimi',
     sector: 'Restaurantes · Gastronomía · Barranquilla',
     fecha: 'Abril 2026',
+    creada: '2026-04-29',
+    actualizada: '2026-04-29',
     monto: 'COP 1.000.000 + COP 500.000/mes',
     estado: 'borrador',
     path: '/grupo-mimi',
@@ -102,6 +122,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Procurement Pro',
     sector: 'Consultoría · Formación corporativa · B2B',
     fecha: 'Mayo 2026',
+    creada: '2026-05-05',
+    actualizada: '2026-05-06',
     monto: 'COP 2.000.000 + COP 1.800.000/mes',
     estado: 'borrador',
     path: '/procurement-pro',
@@ -111,6 +133,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Viajes Capital',
     sector: 'Agencia de Viajes · Hotelería · Turismo · Cali',
     fecha: 'Mayo 2026',
+    creada: '2026-05-05',
+    actualizada: '2026-05-12',
     monto: 'COP 2.800.000 + COP 2.890.000/mes',
     estado: 'borrador',
     path: '/viajes-capital',
@@ -120,6 +144,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Travel Sol y Playa SAS',
     sector: 'Agencia de Viajes · Turismo · Barranquilla',
     fecha: 'Mayo 2026',
+    creada: '2026-05-08',
+    actualizada: '2026-05-08',
     monto: 'COP 2.500.000 + COP 850.000/mes',
     estado: 'borrador',
     path: '/travel-sol-playa',
@@ -129,6 +155,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Stunet Education Agency — Mi Primer Millón',
     sector: 'EdTech · Educación Financiera · Niños y Adolescentes',
     fecha: 'Mayo 2026',
+    creada: '2026-05-08',
+    actualizada: '2026-05-27',
     monto: 'COP 5.800.000 – COP 9.000.000',
     estado: 'borrador',
     path: '/mpm',
@@ -138,6 +166,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Travel Sol y Playa SAS — V2',
     sector: 'Agencia de Viajes · Turismo · Barranquilla',
     fecha: 'Mayo 2026',
+    creada: '2026-05-11',
+    actualizada: '2026-05-11',
     monto: 'COP 2.500.000 + COP 850.000/mes',
     estado: 'borrador',
     path: '/travel-sol-playa-v2',
@@ -147,6 +177,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'TuVivi',
     sector: 'Asesorías Financieras · Créditos · HubSpot',
     fecha: 'Mayo 2026',
+    creada: '2026-05-15',
+    actualizada: '2026-05-15',
     monto: 'COP 600.000 – 2.000.000 + IVA',
     estado: 'borrador',
     path: '/tuvivi',
@@ -156,6 +188,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Vuela a la Vida',
     sector: 'Agencia de Viajes · CRM + IA · WhatsApp-first',
     fecha: 'Mayo 2026',
+    creada: '2026-05-15',
+    actualizada: '2026-05-15',
     monto: 'COP 2.800.000 + COP 1.296.000/mes',
     estado: 'borrador',
     path: '/vuela-a-la-vida',
@@ -165,6 +199,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Metropolitan Touring Colombia',
     sector: 'Agencia de Viajes · Turismo de Lujo · HubSpot CRM',
     fecha: 'Mayo 2026',
+    creada: '2026-05-25',
+    actualizada: '2026-05-25',
     monto: 'COP 3.500.000 + USD $2.000',
     estado: 'borrador',
     path: '/metropolitan-touring',
@@ -174,6 +210,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Nutsport',
     sector: 'Nutrición Deportiva · Salud · Chile',
     fecha: 'Mayo 2026',
+    creada: '2026-05-28',
+    actualizada: '2026-05-29',
     monto: 'USD 1.100 impl. + USD 240/mes',
     estado: 'borrador',
     path: '/nutsport',
@@ -183,6 +221,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Vertical Services',
     sector: 'Tecnología · Drones · Propiedad Horizontal · Bogotá',
     fecha: 'Mayo 2026',
+    creada: '2026-05-30',
+    actualizada: '2026-05-30',
     monto: 'COP 400.000 único + COP 1.050.000/mes',
     estado: 'borrador',
     path: '/vertical-services',
@@ -192,6 +232,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Clínica Magnética',
     sector: 'Medicina Estética · Clínica · Chile',
     fecha: 'Junio 2026',
+    creada: '2026-06-04',
+    actualizada: '2026-06-04',
     monto: 'USD 1.200 impl. + USD 240/mes',
     estado: 'borrador',
     path: '/clinica-magnetica',
@@ -201,6 +243,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Motion Minds',
     sector: 'Academia de Baile · Entretenimiento · Guatemala',
     fecha: 'Junio 2026',
+    creada: '2026-06-10',
+    actualizada: '2026-06-10',
     monto: 'USD 400 impl. + USD 180/mes + IA',
     estado: 'activa',
     path: '/motion-minds',
@@ -210,6 +254,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Venture Sport USA',
     sector: 'Becas Deportivas · Instagram · IA · Chile',
     fecha: 'Junio 2026',
+    creada: '2026-06-18',
+    actualizada: '2026-06-19',
     monto: 'USD 1.000 impl. + créditos S&O',
     estado: 'borrador',
     path: '/venture-sport',
@@ -219,6 +265,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'SIAR S.A.S.',
     sector: 'Gestión Documental · Custodia · Digitalización · Colombia',
     fecha: 'Junio 2026',
+    creada: '2026-06-19',
+    actualizada: '2026-06-22',
     monto: 'COP 12M impl. + COP 3.990.000/mes (Op. 1)',
     estado: 'activa',
     path: '/siar',
@@ -228,6 +276,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'SIAR S.A.S. · V2 · Ecosistema Zoho',
     sector: 'Gestión Documental · Solución Financiera · Zoho · Colombia',
     fecha: 'Junio 2026',
+    creada: '2026-06-30',
+    actualizada: '2026-06-30',
     monto: 'COP 6.500.000 impl. único',
     estado: 'activa',
     path: '/siar-v2',
@@ -237,6 +287,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Galcomex',
     sector: 'Logística · Agencia Aduanera · Importaciones · Barranquilla',
     fecha: 'Junio 2026',
+    creada: '2026-06-30',
+    actualizada: '2026-06-30',
     monto: 'COP 4.000.000 impl. + COP 450.000/mes',
     estado: 'activa',
     path: '/galcomex',
@@ -246,6 +298,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'D.V. Clinic Lab',
     sector: 'Laboratorio Clínico · IPS · Colombia',
     fecha: 'Julio 2026',
+    creada: '2026-07-09',
+    actualizada: '2026-07-09',
     monto: 'USD 200 impl. + USD 199/mes',
     estado: 'activa',
     path: '/dv-clinic-lab',
@@ -255,6 +309,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Calas · Nibec',
     sector: 'Mobiliario y Equipamiento Industrial · Sixteam Ops · Chile',
     fecha: 'Agosto 2026',
+    creada: '2026-08-12',
+    actualizada: '2026-10-14',
     monto: 'USD 499/mes · 160 créditos',
     estado: 'activa',
     path: '/calas-nibec',
@@ -264,6 +320,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Nibec',
     sector: 'Equipamiento industrial · Sixteam Ops · Chile',
     fecha: 'Septiembre 2026',
+    creada: '2026-09-07',
+    actualizada: '2026-10-14',
     monto: 'USD 299/mes · 60 créditos',
     estado: 'activa',
     path: '/nibec',
@@ -273,6 +331,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Nibec · Tablero de Despachos',
     sector: 'Puente Bsale → Beetrack · Pago único · Chile',
     fecha: 'Octubre 2026',
+    creada: '2026-10-09',
+    actualizada: '2026-10-09',
     monto: 'USD 1.200 · pago único',
     estado: 'activa',
     path: '/nibec-despachos',
@@ -282,6 +342,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Gabrica',
     sector: 'Industria Pet · Dynamics 365 + HubSpot · Sixteam Ops · Colombia',
     fecha: 'Agosto 2026',
+    creada: '2026-08-12',
+    actualizada: '2026-08-12',
     monto: 'COP 1.740.000/mes + IVA · 160 créditos',
     estado: 'activa',
     path: '/gabrica',
@@ -291,6 +353,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcción · Ictinos · Comparativa',
     sector: 'Construcción · Requisiciones y pagos de obra · Básico frente a Completo',
     fecha: 'Agosto 2026',
+    creada: '2026-08-19',
+    actualizada: '2026-08-19',
     monto: 'COP 3.500.000 o 5.000.000 impl. + 250.000 o 350.000/mes',
     estado: 'activa',
     path: '/mizar-plataforma',
@@ -300,6 +364,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcción · Ictinos · V1 Básico',
     sector: 'Construcción · Requisiciones y pagos de obra · 6 módulos · 6 semanas',
     fecha: 'Agosto 2026',
+    creada: '2026-08-19',
+    actualizada: '2026-08-19',
     monto: 'COP 3.500.000 impl. + COP 250.000/mes',
     estado: 'activa',
     path: '/mizar-plataforma-v1',
@@ -309,6 +375,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcción · Ictinos · V2 Completo',
     sector: 'Construcción · Requisiciones, WhatsApp y OC por proveedor · 9 módulos · 8 semanas',
     fecha: 'Agosto 2026',
+    creada: '2026-08-18',
+    actualizada: '2026-08-19',
     monto: 'COP 5.000.000 impl. + COP 350.000/mes',
     estado: 'activa',
     path: '/mizar-plataforma-v2',
@@ -318,6 +386,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar Diseño y Construcción · Mi Lote · Cartera',
     sector: 'Construcción · Sistema financiero de ingresos · 2 empresas · 3 etapas · 9 módulos · 18 semanas · con demo',
     fecha: 'Octubre 2026',
+    creada: '2026-09-23',
+    actualizada: '2026-10-07',
     monto: 'COP 15.000.000 a 18.000.000 por módulos + COP 150.000/mes (por confirmar)',
     estado: 'borrador',
     path: '/mizar-cartera',
@@ -327,6 +397,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Mizar · Cartera esencial (MVP)',
     sector: 'Construcción · Versión 2 de la propuesta de cartera · 6 módulos · 8 semanas · con demo',
     fecha: 'Octubre 2026',
+    creada: '2026-10-08',
+    actualizada: '2026-10-08',
     monto: 'COP 9.000.000 + COP 150.000/mes (por confirmar)',
     estado: 'borrador',
     path: '/mizar-cartera-mvp',
@@ -336,6 +408,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Magaly Rosero',
     sector: 'Formación empresarial · Empleado IA · Propulsor Compensar · Colombia',
     fecha: 'Agosto 2026',
+    creada: '2026-08-19',
+    actualizada: '2026-08-19',
     monto: 'COP 1.750.905 impl. + COP 650.000/mes',
     estado: 'activa',
     path: '/magaly-rosero',
@@ -345,6 +419,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'VR Turbolub',
     sector: 'Comercio · Aceites y lubricantes · Bucaramanga',
     fecha: 'Agosto 2026',
+    creada: '2026-08-24',
+    actualizada: '2026-08-24',
     monto: 'COP 2.000.000 impl. + COP 700.000/mes',
     estado: 'activa',
     path: '/vr-turbolub',
@@ -354,6 +430,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Demiles Group',
     sector: 'Inmobiliaria · Cartagena, Barranquilla y Vía al Mar',
     fecha: 'Agosto 2026',
+    creada: '2026-08-25',
+    actualizada: '2026-08-25',
     monto: 'COP 2.000.000 impl. + desde COP 850.000/mes',
     estado: 'activa',
     path: '/demiles-group',
@@ -363,6 +441,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Global Realty',
     sector: 'Inmobiliaria · Panamá',
     fecha: 'Agosto 2026',
+    creada: '2026-08-27',
+    actualizada: '2026-08-27',
     monto: 'USD 250 o 350/mes · impl. USD 700 (gratis 3 meses)',
     estado: 'activa',
     path: '/global-realty',
@@ -372,6 +452,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Stunet Education Agency · Sixteam Ops',
     sector: 'Educación internacional · Programas digitales · Empalme post-implementación',
     fecha: 'Agosto 2026',
+    creada: '2026-08-31',
+    actualizada: '2026-08-31',
     monto: 'COP 960.000/mes · 60 créditos',
     estado: 'activa',
     path: '/stunet-ops',
@@ -381,6 +463,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Sensorial Park',
     sector: 'Parque sensorial infantil · Purranque, Chile',
     fecha: 'Septiembre 2026',
+    creada: '2026-09-07',
+    actualizada: '2026-09-07',
     monto: 'USD 499 impl. + USD 299/mes (CRM incluido)',
     estado: 'activa',
     path: '/sensorial-park',
@@ -390,6 +474,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Conecty · Transformación',
     sector: 'Consultoría en transformación digital · Mapeo de procesos con IA',
     fecha: 'Septiembre 2026',
+    creada: '2026-09-18',
+    actualizada: '2026-09-18',
     monto: 'COP 14.900.000 · 4 olas',
     estado: 'borrador',
     path: '/conecty-transformacion',
@@ -399,6 +485,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Conecty · Mapeo de Procesos',
     sector: 'Respuesta formal a solicitud de mapeo · 45 procesos, 2 frentes',
     fecha: 'Septiembre 2026',
+    creada: '2026-09-18',
+    actualizada: '2026-09-21',
     monto: 'COP 19.700.000 · Frente A y B por separado',
     estado: 'activa',
     path: '/conecty-mapeo-procesos',
@@ -408,6 +496,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Asesoría Rosanía Held S.A.S.',
     sector: 'Alquiler de equipos para trabajo en altura · Diagnóstico de procesos · Colombia',
     fecha: 'Octubre 2026',
+    creada: '2026-10-02',
+    actualizada: '2026-10-02',
     monto: 'COP 8.500.000 + IVA · 9 procesos · 18 cargos',
     estado: 'activa',
     path: '/rosania-held',
@@ -417,6 +507,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'LN Equipos S.A.S.',
     sector: 'Alquiler y venta de maquinaria pesada · Mapeo de procesos para IA · Colombia',
     fecha: 'Octubre 2026',
+    creada: '2026-10-06',
+    actualizada: '2026-10-14',
     monto: 'COP 4.800.000 + IVA · Mapeo de procesos · 5 puestos',
     estado: 'activa',
     path: '/ln-equipos',
@@ -426,6 +518,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'JC Proyectos',
     sector: 'Construcción · Materiales, nómina y programa de obra con IA · México · demo',
     fecha: 'Octubre 2026',
+    creada: '2026-10-08',
+    actualizada: '2026-10-08',
     monto: 'Por definir · demo para la reunión del 9 de octubre',
     estado: 'borrador',
     path: '/jc-proyectos/demo',
@@ -435,6 +529,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'JC Proyectos · Acompañamiento en IA',
     sector: 'Construcción · Aprender a construir con IA la gestión de materiales y personal · México',
     fecha: 'Octubre 2026',
+    creada: '2026-10-15',
+    actualizada: '2026-10-15',
     monto: 'USD 599 (10 h · 1 mes) · USD 999 (20 h · 6 semanas) · 5 % dto. pago anticipado',
     estado: 'activa',
     path: '/jc-proyectos',
@@ -444,6 +540,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Constructora Meetrico',
     sector: 'Construcción · Vivienda de interés social · Sistema comercial · Caicedonia, Valle',
     fecha: 'Octubre 2026',
+    creada: '2026-10-15',
+    actualizada: '2026-10-15',
     monto: 'COP 5.990.000 + IVA · 6 semanas · 5 % dto. anticipado · luego licencia COP 400.000/mes o Plan Integral 1 SMMLV',
     estado: 'activa',
     path: '/meetrico',
@@ -453,6 +551,8 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Vertical Services · Email y Meta Ads',
     sector: 'Drones · Propiedad Horizontal · Último envío de correo y pauta digital',
     fecha: 'Octubre 2026',
+    creada: '2026-10-14',
+    actualizada: '2026-10-14',
     monto: 'COP 1.500.000/mes + IVA · 5 % dto. pago único',
     estado: 'activa',
     path: '/vertical-services-pauta',
@@ -484,10 +584,45 @@ const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; colo
   borrador:{ label: 'Borrador', bg: 'rgba(251,191,36,.1)',   color: '#fbbf24' },
 };
 
+const PAGE_SIZE = 10;
+
+// Más recientes primero; si se crearon el mismo día, gana la que se agregó después al array
+const SORTED = PROPOSALS
+  .map((p, i) => ({ p, i }))
+  .sort((a, b) => b.p.creada.localeCompare(a.p.creada) || b.i - a.i)
+  .map(({ p }) => p);
+
+const ULTIMA_ACTUALIZACION = PROPOSALS.reduce((max, p) => (p.actualizada > max ? p.actualizada : max), '');
+
+function formatFecha(iso: string) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('es-CO', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+const PAGER_BTN: React.CSSProperties = {
+  minWidth: 36, height: 36, padding: '0 12px', borderRadius: 8,
+  border: '1px solid rgba(29,112,162,.3)', background: 'rgba(29,112,162,.07)',
+  color: 'rgba(255,255,255,.7)', fontFamily: 'Lato, sans-serif', fontSize: 13,
+  display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 4,
+  cursor: 'pointer', transition: 'all .2s',
+};
+
 export default function Home() {
   const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1');
   const [input, setInput] = useState('');
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
+
+  const totalPages = Math.ceil(SORTED.length / PAGE_SIZE);
+  const visible = showAll ? SORTED : SORTED.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const desde = (page - 1) * PAGE_SIZE + 1;
+  const hasta = Math.min(page * PAGE_SIZE, SORTED.length);
+
+  function goTo(n: number) {
+    setPage(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -628,11 +763,37 @@ export default function Home() {
           <p style={{ color: 'rgba(255,255,255,.5)', marginTop: 8, fontSize: 14 }}>
             {PROPOSALS.length} propuesta{PROPOSALS.length !== 1 ? 's' : ''} · uso interno Sixteam.pro
           </p>
+          {ULTIMA_ACTUALIZACION && (
+            <p style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'rgba(255,255,255,.4)', marginTop: 6, fontSize: 12 }}>
+              <RefreshCw size={12} /> Última actualización: {formatFecha(ULTIMA_ACTUALIZACION)}
+            </p>
+          )}
         </div>
+
+        {/* Toolbar */}
+        {SORTED.length > PAGE_SIZE && (
+          <div style={{
+            display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', justifyContent: 'space-between',
+            marginBottom: 16, fontSize: 12, color: 'rgba(255,255,255,.45)',
+          }}>
+            <span>
+              {showAll
+                ? `Mostrando las ${SORTED.length} propuestas`
+                : `Mostrando ${desde}–${hasta} de ${SORTED.length} · más recientes primero`}
+            </span>
+            <button
+              type="button"
+              onClick={() => { setShowAll(v => !v); setPage(1); }}
+              style={{ ...PAGER_BTN, color: '#00bfa5', borderColor: 'rgba(0,191,165,.35)' }}
+            >
+              {showAll ? <><LayoutList size={13} /> Ver de a {PAGE_SIZE}</> : <><List size={13} /> Ver todas</>}
+            </button>
+          </div>
+        )}
 
         {/* Proposals list */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {PROPOSALS.map((p) => {
+          {visible.map((p) => {
             const est = ESTADO_STYLE[p.estado];
             return (
               <Link
@@ -729,6 +890,9 @@ export default function Home() {
                     <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
                       <Calendar size={11} /> {p.fecha}
                     </span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, color: 'rgba(255,255,255,.45)' }}>
+                      <RefreshCw size={11} /> Actualizada {formatFecha(p.actualizada)}
+                    </span>
                   </div>
                 </div>
 
@@ -749,6 +913,41 @@ export default function Home() {
             );
           })}
         </div>
+
+        {/* Pagination */}
+        {!showAll && totalPages > 1 && (
+          <nav style={{ display: 'flex', flexWrap: 'wrap', gap: 6, justifyContent: 'center', alignItems: 'center', marginTop: 28 }}>
+            <button
+              type="button"
+              onClick={() => goTo(page - 1)}
+              disabled={page === 1}
+              style={{ ...PAGER_BTN, opacity: page === 1 ? 0.35 : 1, cursor: page === 1 ? 'default' : 'pointer' }}
+            >
+              <ChevronLeft size={14} /> Anterior
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => goTo(n)}
+                aria-current={n === page ? 'page' : undefined}
+                style={n === page
+                  ? { ...PAGER_BTN, background: 'linear-gradient(135deg, #1d70a2, #00bfa5)', border: 'none', color: '#fff', fontWeight: 700 }
+                  : PAGER_BTN}
+              >
+                {n}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => goTo(page + 1)}
+              disabled={page === totalPages}
+              style={{ ...PAGER_BTN, opacity: page === totalPages ? 0.35 : 1, cursor: page === totalPages ? 'default' : 'pointer' }}
+            >
+              Siguiente <ChevronRight size={14} />
+            </button>
+          </nav>
+        )}
 
         {/* Empty state (hidden when proposals exist) */}
         {PROPOSALS.length === 0 && (

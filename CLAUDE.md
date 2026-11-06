@@ -86,7 +86,9 @@ src/
    const NuevoClienteProposal = lazy(() => import('./pages/NuevoClienteProposal'));
    <Route path="/nuevo-cliente" element={<NuevoClienteProposal />} />
    ```
-5. Agrega el cliente al array `PROPOSALS` en `src/pages/Home.tsx`
+5. Agrega el cliente al array `PROPOSALS` en `src/pages/Home.tsx` con `creada` y `actualizada` en formato `YYYY-MM-DD`
+   (el listado se ordena por `creada`, más reciente primero, y muestra 10 por página).
+   Cada vez que se modifique una propuesta existente, actualiza su campo `actualizada`.
 6. Genera visual con NanoBanana y guárdalo en `public/`
 
 ## Flujo recomendado para nueva propuesta
