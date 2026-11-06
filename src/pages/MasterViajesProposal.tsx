@@ -81,7 +81,7 @@ const CAMBIOS = [
   {
     icon: Coins, color: DREAMS_PINK, colorAlpha: 'rgba(244,166,198,.07)', colorBorder: 'rgba(244,166,198,.22)',
     titulo: 'Cada hora sale más barata que una cotización suelta',
-    desc: `Dentro del plan, la hora queda en $${HORA_PLAN_COP} COP frente a los $${TARIFA_SUELTA} COP de una cotización puntual. Y si se necesita más, la hora adicional se mantiene en $${HORA_ADICIONAL} COP.`,
+    desc: `Dentro del plan, la hora queda en $${HORA_PLAN_COP} COP frente a los $${TARIFA_SUELTA} COP de una cotización puntual. Y si se necesita más, la hora adicional se mantiene en $${HORA_ADICIONAL} COP más IVA.`,
   },
   {
     icon: LayoutDashboard, color: '#38bdf8', colorAlpha: 'rgba(56,189,248,.08)', colorBorder: 'rgba(56,189,248,.22)',
@@ -207,7 +207,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Horas adicionales',
-    desc: `Si se agotan las ${HORAS_PLAN} horas antes de terminar el plan, cada hora adicional se factura a $${HORA_ADICIONAL} COP, siempre con estimación y aprobación previas. Si Máster Viajes prefiere, el trabajo se deja para una siguiente bolsa.`,
+    desc: `Si se agotan las ${HORAS_PLAN} horas antes de terminar el plan, cada hora adicional se factura a $${HORA_ADICIONAL} COP más IVA, siempre con estimación y aprobación previas. Si Máster Viajes prefiere, el trabajo se deja para una siguiente bolsa.`,
     icon: Clock,
   },
   {
@@ -217,7 +217,7 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
   },
   {
     titulo: 'Pago',
-    desc: `Pago único y anticipado de $${INVERSION_COP} COP al inicio del plan. La facturación se realiza en pesos colombianos. Las horas adicionales, si las hubo, se facturan aparte junto con el reporte del mes en que se usaron.`,
+    desc: `Pago único y anticipado de $${INVERSION_COP} COP más IVA al inicio del plan. La facturación se realiza en pesos colombianos y todos los valores de esta propuesta se expresan antes de IVA. Las horas adicionales, si las hubo, se facturan aparte junto con el reporte del mes en que se usaron.`,
     icon: FileText,
   },
   {
@@ -688,7 +688,7 @@ const MasterViajesProposal = () => {
               { label: 'Horas incluidas',   value: `${HORAS_PLAN}`,       sub: 'Del equipo de Sixteam' },
               { label: 'Plazo para usarlas', value: `${MESES_PLAN} meses`, sub: 'Sin mínimo por mes' },
               { label: 'Estimación previa', value: 'Siempre',             sub: 'Nada se ejecuta sin aprobar' },
-              { label: 'Hora adicional',    value: `$${HORA_ADICIONAL}`,  sub: 'COP, si se necesita' },
+              { label: 'Hora adicional',    value: `$${HORA_ADICIONAL}`,  sub: 'COP + IVA, si se necesita' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
                 style={{ background: i < 2 ? 'rgba(244,166,198,.06)' : 'rgba(0,191,165,.06)', border: i < 2 ? '1px solid rgba(244,166,198,.20)' : '1px solid rgba(0,191,165,.18)' }}>
@@ -851,7 +851,7 @@ const MasterViajesProposal = () => {
           <Rule />
 
           <p className="font-lato text-white/50 text-[18px] leading-relaxed mb-8">
-            Los valores se expresan en <strong className="text-white/75">pesos colombianos (COP)</strong>. El Plan Integral reemplaza la cotización suelta del dashboard: ese trabajo queda incluido dentro de la bolsa de horas.
+            Los valores se expresan en <strong className="text-white/75">pesos colombianos (COP), más IVA</strong>. El Plan Integral reemplaza la cotización suelta del dashboard: ese trabajo queda incluido dentro de la bolsa de horas.
           </p>
 
           <div className="rounded-2xl overflow-hidden mb-6"
@@ -872,7 +872,7 @@ const MasterViajesProposal = () => {
                 <p className="font-poppins font-black text-white leading-none" style={{ fontSize: 'clamp(2.3rem, 7vw, 3.2rem)' }}>
                   ${INVERSION_COP}
                 </p>
-                <p className="font-poppins font-bold text-white/45 text-[20px]">COP</p>
+                <p className="font-poppins font-bold text-white/45 text-[20px]">COP + IVA</p>
               </div>
               <p className="font-lato text-white/35 text-[15px] mb-6">
                 Pago único · {HORAS_PLAN} horas redimibles en {MESES_PLAN} meses · equivale a ${HORA_PLAN_COP} COP por hora
@@ -931,7 +931,7 @@ const MasterViajesProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Si en algún momento se agotan las {HORAS_PLAN} horas, cada <strong className="text-white/80">hora adicional cuesta ${HORA_ADICIONAL} COP</strong>, también por debajo de la tarifa suelta. Toda hora adicional se estima y se aprueba antes de ejecutarse.
+              Si en algún momento se agotan las {HORAS_PLAN} horas, cada <strong className="text-white/80">hora adicional cuesta ${HORA_ADICIONAL} COP más IVA</strong>, también por debajo de la tarifa suelta. Toda hora adicional se estima y se aprueba antes de ejecutarse.
             </p>
           </div>
 
@@ -939,7 +939,7 @@ const MasterViajesProposal = () => {
             style={{ background: 'rgba(245,158,11,.05)', border: '1px solid rgba(245,158,11,.20)' }}>
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#f59e0b]" />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Las {HORAS_PLAN} horas se pueden usar en cualquier momento dentro de los {MESES_PLAN} meses del plan. Las que no se usen al cierre del tercer mes se pierden y no son reembolsables. La inversión publicitaria en Meta, las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan aparte según su uso real.
+              Las {HORAS_PLAN} horas se pueden usar en cualquier momento dentro de los {MESES_PLAN} meses del plan. Las que no se usen al cierre del tercer mes se pierden y no son reembolsables. La inversión publicitaria en Meta, las tarifas por conversación de WhatsApp Business y el consumo de los modelos de inteligencia artificial se facturan aparte según su uso real. Todos los valores de esta propuesta se expresan antes de IVA.
             </p>
           </div>
 

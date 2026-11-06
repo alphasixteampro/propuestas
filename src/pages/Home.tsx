@@ -471,7 +471,7 @@ const PROPOSALS: Proposal[] = [
     cliente: 'Máster Viajes · Dreams 15 y Origen',
     sector: 'Turismo · Agencia de viajes · Dashboard de pauta y asistente IA',
     fecha: 'Noviembre 2026',
-    monto: 'Plan Integral Sixteam Ops: COP 1.100.000 · 10 horas en 3 meses · hora adicional COP 120.000',
+    monto: 'Plan Integral Sixteam Ops: COP 1.100.000 + IVA · 10 horas en 3 meses · hora adicional COP 120.000 + IVA',
     estado: 'activa',
     path: '/master-viajes',
   },
