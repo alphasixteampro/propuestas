@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import LogoCarousel from '../components/LogoCarousel';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap,
-  AlertCircle, Info, Calendar, MapPin, Shield, Coins,
+  AlertCircle, Calendar, MapPin, Shield, Coins,
   MessageSquare, LayoutDashboard, Bot, Megaphone, BarChart3,
   Link2, Tag, Users, SlidersHorizontal, ShieldCheck, BookOpen,
-  Plane, Hourglass,
+  Hourglass,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -44,31 +44,6 @@ const TINT: Record<string, { text: string; bg: string; border: string }> = {
   purple: { text: '#a78bfa',   bg: 'rgba(167,139,250,.07)', border: 'rgba(167,139,250,.18)'},
   pink:   { text: DREAMS_PINK, bg: 'rgba(244,166,198,.06)', border: 'rgba(244,166,198,.22)'},
 };
-
-// ─── SITUACIÓN ───────────────────────────────────────────────────────────────
-
-const SITUACION = [
-  {
-    titulo: 'La pauta corre, pero su rendimiento se ve por partes',
-    desc: 'Las métricas de cada anuncio viven en Meta y los contactos viven en el CRM. Para saber qué campaña está funcionando hay que cruzar la información a mano, y eso rara vez se hace a tiempo para mover el presupuesto.',
-    icon: Megaphone, tint: 'amber',
-  },
-  {
-    titulo: 'No se sabe qué anuncio trajo a cada cliente',
-    desc: 'Cuando un contacto llega al CRM desde un anuncio, hoy no queda marcado con la campaña y el anuncio de origen. Sin ese dato es imposible saber cuánto cuesta de verdad cada cliente que termina comprando.',
-    icon: Tag, tint: 'red',
-  },
-  {
-    titulo: 'Dos marcas, dos públicos, un mismo equipo',
-    desc: 'Dreams 15 y Origen tienen productos y clientes distintos. Necesitan medirse por separado y su asistente de inteligencia artificial debe hablar con la voz de cada marca, sin mezclar información entre una y otra.',
-    icon: Plane, tint: 'pink',
-  },
-  {
-    titulo: 'Un asistente de IA sin reglas claras inventa respuestas',
-    desc: 'Si el asistente no tiene una base de información ordenada y límites definidos, rellena los vacíos con suposiciones: un precio que no existe, una fecha equivocada o una promesa que la agencia no puede cumplir.',
-    icon: Bot, tint: 'purple',
-  },
-];
 
 // ─── EL PLAN ─────────────────────────────────────────────────────────────────
 
@@ -235,7 +210,6 @@ const TERMINOS: { titulo: string; desc: string; icon: React.ElementType }[] = [
 // ─── SECCIONES NAV ───────────────────────────────────────────────────────────
 
 const SECCIONES = [
-  { id: 'resumen',   label: 'Resumen'        },
   { id: 'servicio',  label: 'El plan'        },
   { id: 'trabajo',   label: 'Plan de trabajo'},
   { id: 'asistente', label: 'Asistente IA'   },
@@ -311,7 +285,7 @@ const BolsaHoras = () => {
 // ─── COMPONENTE ──────────────────────────────────────────────────────────────
 
 const MasterViajesProposal = () => {
-  const [activeSection, setActiveSection] = useState('resumen');
+  const [activeSection, setActiveSection] = useState('servicio');
   const [terminoActivo, setTerminoActivo] = useState<number | null>(null);
 
   useEffect(() => {
@@ -329,7 +303,7 @@ const MasterViajesProposal = () => {
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible();
+  const s2 = useVisible(); const s3 = useVisible();
   const s4 = useVisible(); const s5 = useVisible(); const s6 = useVisible();
 
   const BloqueTrabajo = ({ titulo, sub, icon: Icon, color, bg, bd, items }: {
@@ -485,7 +459,7 @@ const MasterViajesProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Dónde estamos hoy','2. Cómo funciona el plan','3. Plan de trabajo del mes 1','4. El asistente de IA','5. Propuesta de inversión','6. Vigencia y términos'].map((item, i) => (
+                  {['1. Cómo funciona el plan','2. Plan de trabajo del mes 1','3. El asistente de IA','4. Propuesta de inversión','5. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -552,79 +526,10 @@ const MasterViajesProposal = () => {
       {/* ══════════ CONTENIDO */}
       <main className="max-w-4xl mx-auto px-5 sm:px-8 md:px-10 py-20 space-y-24">
 
-        {/* ─ 01 RESUMEN ─ */}
-        <section id="resumen" ref={s1.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s1.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>01 · Dónde estamos hoy</TagLabel>
-          <SectionTitle>Saber qué anuncio vende, y responder bien a quien pregunta</SectionTitle>
-          <Rule />
-
-          <div className="rounded-2xl p-5 sm:p-6 mb-8 flex flex-col sm:flex-row gap-5 sm:gap-8 items-start sm:items-center"
-            style={{ background: 'rgba(2,8,20,.85)', border: '1px solid rgba(244,166,198,.18)' }}>
-            <div className="flex-shrink-0 flex flex-col items-center gap-3 rounded-xl px-5 py-4"
-              style={{ background: 'linear-gradient(135deg, rgba(244,166,198,.10), rgba(56,189,248,.04))', border: '1px solid rgba(244,166,198,.22)' }}>
-              <img src="/logo-dreams.png" alt="Dreams 15" className="h-6 w-auto object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-              <OrigenBadge />
-            </div>
-            <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Marcas</p>
-                <p className="font-poppins font-semibold text-white/80 text-[18px]">Dreams 15 y Origen</p>
-              </div>
-              <div>
-                <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Plataforma</p>
-                <p className="font-poppins font-semibold text-white/80 text-[18px]">CRM Sixteam</p>
-              </div>
-              <div>
-                <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Pauta digital</p>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#f59e0b' }} />
-                  <p className="font-poppins font-semibold text-[15px] text-[#f59e0b]">Activa en Meta · sin medición unificada</p>
-                </div>
-              </div>
-              <div>
-                <p className="font-lato text-white/25 text-[13px] uppercase tracking-wider mb-1">Lo que sigue</p>
-                <p className="font-lato text-white/60 text-[18px]">Dashboard de pauta y asistente de IA</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4 text-white/65 text-[19px] leading-relaxed mb-10">
-            <p>
-              Dreams 15 y Origen invierten en pauta todos los meses, pero hoy no tienen una forma sencilla de ver <strong className="text-white/90 font-semibold">qué campaña y qué anuncio les trae clientes</strong> y cuánto les cuesta cada uno. Esta propuesta parte de la cotización del dashboard de rendimiento de pauta y la amplía a un <strong className="text-white/90 font-semibold">Plan Integral de Sixteam Ops</strong>.
-            </p>
-            <p>
-              En lugar de pagar ese trabajo por separado, Máster Viajes toma una <strong className="text-white/90 font-semibold">bolsa de {HORAS_PLAN} horas para usar en {MESES_PLAN} meses</strong>. Con ella se construye el dashboard, se configura el asistente de inteligencia artificial de las dos marcas y quedan horas de reserva para ajustar ambos cuando lleguen los primeros datos reales. Todo a un valor por hora más bajo que el de la cotización suelta.
-            </p>
-          </div>
-
-          <div className="rounded-2xl p-5 sm:p-6" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-            <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-5 flex items-center gap-2">
-              <Info className="w-4 h-4 text-[#00bfa5]" /> Lo que resuelve esta propuesta
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {SITUACION.map((h, i) => {
-                const Icon = h.icon; const t = TINT[h.tint];
-                return (
-                  <div key={i} className="rounded-xl p-4 flex gap-3"
-                    style={{ background: t.bg, border: `1px solid ${t.border}` }}>
-                    <Icon className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: t.text }} />
-                    <div>
-                      <p className="font-poppins font-semibold text-white/90 text-[17px] mb-1">{h.titulo}</p>
-                      <p className="font-lato text-white/50 text-[15px] leading-relaxed">{h.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ─ 02 EL PLAN ─ */}
+        {/* ─ 01 EL PLAN ─ */}
         <section id="servicio" ref={s2.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s2.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>02 · Cómo funciona el plan</TagLabel>
+          <TagLabel>01 · Cómo funciona el plan</TagLabel>
           <SectionTitle>Una bolsa de horas, tres meses para usarla</SectionTitle>
           <Rule />
 
@@ -661,7 +566,7 @@ const MasterViajesProposal = () => {
             </p>
             <BolsaHoras />
             <p className="font-lato text-white/35 text-[13px] mt-4 leading-relaxed">
-              Las horas de reserva no tienen destino fijo. La sugerencia es usarlas para ajustar el dashboard y el asistente cuando ya haya datos y conversaciones reales, pero Máster Viajes puede usarlas en cualquier otra necesidad de sus marcas.
+              Las horas de reserva no tienen destino fijo. Además de ajustar el dashboard y el asistente cuando ya haya datos y conversaciones reales, Máster Viajes puede usarlas para abarcar <strong className="text-white/90 font-semibold">oportunidades de mejora o requerimientos adicionales</strong> en otros puntos tecnológicos, como configuraciones en HubSpot o automatizaciones para las actividades de mercadeo, el servicio posventa, el seguimiento a los viajeros o las tareas del equipo administrativo.
             </p>
           </div>
 
@@ -704,7 +609,7 @@ const MasterViajesProposal = () => {
         {/* ─ 03 PLAN DE TRABAJO ─ */}
         <section id="trabajo" ref={s3.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>03 · Plan de trabajo del mes 1</TagLabel>
+          <TagLabel>02 · Plan de trabajo del mes 1</TagLabel>
           <SectionTitle>{fmtH(H_MES1).replace(' h', ' horas')} con destino definido</SectionTitle>
           <Rule />
 
@@ -790,7 +695,7 @@ const MasterViajesProposal = () => {
         {/* ─ 04 ASISTENTE IA ─ */}
         <section id="asistente" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 · El asistente de IA</TagLabel>
+          <TagLabel>03 · El asistente de IA</TagLabel>
           <SectionTitle>Un asistente que responde con la verdad de cada marca</SectionTitle>
           <Rule />
 
@@ -847,7 +752,7 @@ const MasterViajesProposal = () => {
         {/* ─ 05 INVERSIÓN ─ */}
         <section id="inversion" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 · Propuesta de inversión</TagLabel>
+          <TagLabel>04 · Propuesta de inversión</TagLabel>
           <SectionTitle>Un solo pago por los tres meses</SectionTitle>
           <Rule />
 
@@ -973,7 +878,7 @@ const MasterViajesProposal = () => {
         {/* ─ 06 VIGENCIA ─ */}
         <section id="vigencia" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 · Vigencia y términos</TagLabel>
+          <TagLabel>05 · Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y Términos de la Propuesta</SectionTitle>
           <Rule />
 
