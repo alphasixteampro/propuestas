@@ -5,7 +5,7 @@ import {
   AlertCircle, Calendar, MapPin, Shield, Coins,
   MessageSquare, LayoutDashboard, Bot, BarChart3,
   Link2, Tag, Users, SlidersHorizontal, ShieldCheck, BookOpen,
-  Hourglass,
+  Hourglass, TrendingDown,
 } from 'lucide-react';
 
 // ─── DATOS ───────────────────────────────────────────────────────────────────
@@ -112,6 +112,11 @@ const VALOR_IA = [
     icon: Shield, color: '#38bdf8', bg: 'rgba(56,189,248,.07)', bd: 'rgba(56,189,248,.22)',
     titulo: 'Más controlable',
     desc: 'Reglas claras sobre qué puede ofrecer, qué no puede prometer y cuándo debe escalar. Cada marca conserva su propia voz y su propia información, sin cruzar datos entre Dreams 15 y Origen.',
+  },
+  {
+    icon: TrendingDown, color: '#f59e0b', bg: 'rgba(245,158,11,.07)', bd: 'rgba(245,158,11,.22)',
+    titulo: 'Cerca de 25 % menos por mensaje',
+    desc: 'Con la nueva metodología, el asistente usa la información de cada marca de forma más eficiente y el valor por mensaje se reduce alrededor de un 25 %. Así, Dreams 15 y Origen atienden más conversaciones con el mismo presupuesto de IA.',
   },
 ];
 
@@ -676,7 +681,7 @@ const MasterViajesProposal = () => {
             Las 3 horas del asistente son el valor agregado de tomar el Plan Integral. No se trata solo de encenderlo: se trata de darle una base de información ordenada y unas reglas claras. Esa es la diferencia entre un asistente que improvisa y uno en el que el equipo puede confiar frente a un cliente.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {VALOR_IA.map((v, i) => {
               const Icon = v.icon;
               return (
