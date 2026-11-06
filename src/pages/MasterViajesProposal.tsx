@@ -269,10 +269,11 @@ const Rule = () => (
   <div className="w-10 h-0.5 mb-7 mt-1" style={{ background: `linear-gradient(90deg,${DREAMS_PINK},#00bfa5)` }} />
 );
 
+// El logo de Origen es azul marino, por eso va sobre una pastilla blanca para que se lea en fondo oscuro
 const OrigenBadge = ({ big = false }: { big?: boolean }) => (
-  <span className={`font-poppins font-black uppercase tracking-[0.18em] ${big ? 'text-[26px]' : 'text-[15px]'}`}
-    style={{ color: '#38bdf8', textShadow: '0 1px 10px rgba(56,189,248,.35)' }}>
-    Origen
+  <span className={`inline-flex items-center justify-center bg-white ${big ? 'rounded-lg px-3 py-1.5' : 'rounded-md px-2 py-1'}`}>
+    <img src="/logo-origen.png" alt="Origen" className={`${big ? 'h-9' : 'h-5'} w-auto object-contain`}
+      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
   </span>
 );
 
