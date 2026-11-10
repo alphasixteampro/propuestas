@@ -57,6 +57,7 @@ const LnEquiposProposal           = lazy(() => import('./pages/LnEquiposProposal
 const MeetricoProposal            = lazy(() => import('./pages/MeetricoProposal'));
 const DanielAlfonsoProposal       = lazy(() => import('./pages/DanielAlfonsoProposal'));
 const MasterViajesProposal        = lazy(() => import('./pages/MasterViajesProposal'));
+const SylRoofingProposal          = lazy(() => import('./pages/SylRoofingProposal'));
 
 function Loader() {
   return (
@@ -134,6 +135,7 @@ export default function App() {
           <Route path="/meetrico"             element={<MeetricoProposal />} />
           <Route path="/daniel-alfonso"       element={<DanielAlfonsoProposal />} />
           <Route path="/master-viajes"        element={<MasterViajesProposal />} />
+          <Route path="/syl-roofing"          element={<SylRoofingProposal />} />
           {/* Patrón para futuras propuestas: /:slug */}
         </Routes>
       </Suspense>

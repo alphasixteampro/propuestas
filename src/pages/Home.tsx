@@ -579,6 +579,17 @@ const PROPOSALS: Proposal[] = [
     estado: 'activa',
     path: '/master-viajes',
   },
+  {
+    slug: 'syl-roofing',
+    cliente: 'SYL Roofing',
+    sector: 'Roofing · Full stack development y soporte por horas · NetSuite, HubSpot, Make, n8n y WhatsApp',
+    fecha: 'Noviembre 2026',
+    creada: '2026-11-10',
+    actualizada: '2026-11-10',
+    monto: 'USD 49/h por uso (al cierre del mes) · paquete desde 10 h a USD 39/h (anticipado, vence a los 3 meses)',
+    estado: 'activa',
+    path: '/syl-roofing',
+  },
 ];
 
 const ESTADO_STYLE: Record<Proposal['estado'], { label: string; bg: string; color: string }> = {
@@ -873,6 +884,9 @@ export default function Home() {
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'meetrico' ? (
                     <img src="/meetrico-logo.svg" alt="Constructora Meetrico" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '6px' }}
+                      onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
+                  ) : p.slug === 'syl-roofing' ? (
+                    <img src="/Logo roofing.png" alt="SYL Roofing" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '4px' }}
                       onError={(e) => { (e.target as HTMLImageElement).style.display='none'; }} />
                   ) : p.slug === 'global-realty' ? (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(224,151,60,.12)', borderRadius: 12 }}>
