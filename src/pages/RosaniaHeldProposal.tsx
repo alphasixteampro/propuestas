@@ -3,9 +3,8 @@ import LogoCarousel from '../components/LogoCarousel';
 import {
   CheckCircle, ChevronRight, Clock, FileText, Target, Zap, BarChart3,
   AlertCircle, Calendar, Info, MapPin, Users, Database, Quote, Eye,
-  GitBranch, Layers, Rocket, ClipboardList, MessagesSquare, Search,
-  Compass, Gauge, Network, HardHat, ShieldCheck, Wrench,
-  Truck, Calculator, UserCog, Scale, Map as MapIcon, Sparkles, BellRing,
+  Layers, Rocket, ClipboardList, MessagesSquare, Search,
+  Gauge, Network, HardHat, ShieldCheck, Map as MapIcon, Sparkles, BellRing,
   ArrowRight,
 } from 'lucide-react';
 
@@ -21,7 +20,7 @@ const META = {
   equipo: '~30 colaboradores directos',
   herramientas: 'Excel · SIIGO (contable)',
   contacto: 'Yudis Fuentes · Coordinadora Administrativa y Comercial',
-  fecha: 'Octubre 2026',
+  fecha: 'Noviembre 2026',
   nit: '901.967.849-4',
   correo: 'alpha@sixteam.pro',
   rl: 'Samuel Armando Burgos Ferrer',
@@ -77,124 +76,30 @@ const PUNTO_PARTIDA = [
 
 // Recorrido de la consultoría: hoy → mañana → camino
 const RECORRIDO = [
-  { paso: 'Hoy', titulo: 'Cómo funciona hoy', tag: 'AS-IS', desc: 'Lo construimos **escuchando a su equipo**, cargo por cargo.', icon: Search, color: ARH_BLUE },
+  { paso: 'Hoy', titulo: 'Cómo funciona hoy', tag: 'AS-IS', desc: 'Lo construimos **con la gerencia y los líderes** de cada proceso.', icon: Search, color: ARH_BLUE },
   { paso: 'Mañana', titulo: 'A dónde quieren llegar', tag: 'TO-BE', desc: 'Lo define **la gerencia** a partir de su visión de crecimiento.', icon: Eye, color: VISION },
   { paso: 'El camino', titulo: 'Qué hacer y en qué orden', tag: 'Hoja de ruta', desc: 'Es la **diferencia entre ambos**, convertida en un plan.', icon: MapIcon, color: '#f59e0b' },
 ];
 
-// ─── MAPA DE PROCESOS Y CARGOS ───────────────────────────────────────────────
+// ─── ALCANCE DEL LEVANTAMIENTO ───────────────────────────────────────────────
 
-type Nivel = 'Directivo' | 'Coordinación' | 'Ejecución';
-
-const PRECIO_NIVEL: Record<Nivel, number> = {
-  Directivo: 400000,
-  Coordinación: 320000,
-  Ejecución: 220000,
-};
-
-const NIVEL_STYLE: Record<Nivel, { color: string; bg: string; border: string; desc: string }> = {
-  Directivo:    { color: '#a78bfa', bg: 'rgba(167,139,250,.10)', border: 'rgba(167,139,250,.3)', desc: 'Entrevista de **1 hora** sobre decisiones, metas y visión de la empresa' },
-  Coordinación: { color: ARH_BLUE,  bg: 'rgba(47,124,246,.10)',  border: 'rgba(47,124,246,.3)',  desc: 'Entrevista de **1 hora** y revisión de los archivos que usa a diario' },
-  Ejecución:    { color: '#00bfa5', bg: 'rgba(0,191,165,.10)',   border: 'rgba(0,191,165,.3)',   desc: 'Entrevista de **1 hora** a una persona del cargo y encuesta a todas' },
-};
-
-type Cargo = { nombre: string; nivel: Nivel; nota?: string };
-type Tipo = 'Dirección' | 'Operación' | 'Soporte';
-
-const PROCESOS: {
-  id: string; nombre: string; tipo: Tipo;
-  icon: React.ElementType; alcance: string; cargos: Cargo[];
-}[] = [
-  {
-    id: 'P1', nombre: 'Gerencia y dirección', tipo: 'Dirección', icon: Compass,
-    alcance: 'Decisiones, aprobaciones, seguimiento y temas legales',
-    cargos: [
-      { nombre: 'Gerente General', nivel: 'Directivo' },
-      { nombre: 'Gerente Administrativo', nivel: 'Directivo' },
-      { nombre: 'Asistente de Gerencia', nivel: 'Coordinación' },
-      { nombre: 'Asesor Legal', nivel: 'Coordinación' },
-    ],
-  },
-  {
-    id: 'P2', nombre: 'Calidad y documentos', tipo: 'Dirección', icon: ShieldCheck,
-    alcance: 'Procedimientos, formatos y certificaciones de equipos',
-    cargos: [
-      { nombre: 'Coordinador de Gestión de Calidad', nivel: 'Coordinación' },
-    ],
-  },
-  {
-    id: 'P3', nombre: 'Ventas y cotizaciones', tipo: 'Operación', icon: Target,
-    alcance: 'Solicitud del cliente, cotización, negociación y cierre',
-    cargos: [
-      { nombre: 'Coordinación Administrativa y Comercial', nivel: 'Coordinación', nota: 'No aparece en el organigrama' },
-    ],
-  },
-  {
-    id: 'P4', nombre: 'Operaciones en campo', tipo: 'Operación', icon: HardHat,
-    alcance: 'Planeación, armado de andamios, operación de manlift y cierre del servicio',
-    cargos: [
-      { nombre: 'Jefe de Operaciones', nivel: 'Coordinación' },
-      { nombre: 'Líder de Operaciones', nivel: 'Coordinación' },
-      { nombre: 'Coordinador CIO', nivel: 'Coordinación' },
-      { nombre: 'Supervisor Integral', nivel: 'Coordinación' },
-      { nombre: 'Operador de Manlift', nivel: 'Ejecución' },
-      { nombre: 'Andamiero', nivel: 'Ejecución' },
-    ],
-  },
-  {
-    id: 'P5', nombre: 'Inventario, almacén y transporte', tipo: 'Operación', icon: Truck,
-    alcance: 'Disponibilidad, despacho, transporte, devolución y control de equipos',
-    cargos: [
-      { nombre: 'Almacenista', nivel: 'Ejecución' },
-      { nombre: 'Conductor', nivel: 'Ejecución' },
-    ],
-  },
-  {
-    id: 'P6', nombre: 'Mantenimiento de equipos', tipo: 'Operación', icon: Wrench,
-    alcance: 'Mantenimiento preventivo y correctivo de los equipos',
-    cargos: [
-      { nombre: 'Mecánico de Manlift', nivel: 'Ejecución' },
-    ],
-  },
-  {
-    id: 'P7', nombre: 'Contabilidad y facturación', tipo: 'Soporte', icon: Calculator,
-    alcance: 'Conteo de días de alquiler, cobros, facturación y cartera',
-    cargos: [
-      { nombre: 'Contador', nivel: 'Coordinación' },
-      { nombre: 'Auxiliar Contable', nivel: 'Ejecución' },
-    ],
-  },
-  {
-    id: 'P8', nombre: 'Gestión humana y nómina', tipo: 'Soporte', icon: UserCog,
-    alcance: 'Contratos, otrosíes, vencimientos, preavisos y nómina',
-    cargos: [
-      { nombre: 'Líder de Gestión Administrativa y Humana', nivel: 'Coordinación' },
-    ],
-  },
-  {
-    id: 'P9', nombre: 'Seguridad y Salud en el Trabajo', tipo: 'Soporte', icon: Scale,
-    alcance: 'Documentos SST, certificaciones e indicadores',
-    cargos: [],
-  },
+// Áreas cuyos líderes entrevistamos (la lista exacta se confirma en el arranque)
+const LIDERES = [
+  'Gerencia General', 'Gerencia Administrativa', 'Comercial y cotizaciones',
+  'Operaciones e inventario', 'Contabilidad y facturación', 'Gestión humana', 'Calidad y SST',
 ];
+const ENTREVISTAS = LIDERES.length;
 
-const TIPO_STYLE: Record<Tipo, { color: string; bg: string }> = {
-  'Dirección': { color: '#a78bfa', bg: 'rgba(167,139,250,.10)' },
-  'Operación': { color: ARH_BLUE,  bg: 'rgba(47,124,246,.10)' },
-  'Soporte':   { color: '#00bfa5', bg: 'rgba(0,191,165,.10)' },
-};
-
-const CARGOS = PROCESOS.flatMap(p => p.cargos.map(c => ({ ...c, proceso: p.nombre })));
-const TOTAL_CARGOS = CARGOS.length;
-const TOTAL_PROCESOS = PROCESOS.length;
-
-const FLUJO_ACTUAL = [
-  { carril: 'Cliente',                actividades: 6, color: 'rgba(255,255,255,.5)' },
-  { carril: 'Comercial / Ventas',     actividades: 7, color: ARH_BLUE },
-  { carril: 'Operaciones',            actividades: 5, color: '#a78bfa' },
-  { carril: 'Inventario / Logística', actividades: 7, color: '#00bfa5' },
-  { carril: 'Contabilidad',           actividades: 4, color: '#fbbf24' },
+// Horas de reunión con el equipo del cliente (máximo 10)
+const HORAS = [
+  { concepto: 'Reunión de arranque con la gerencia', horas: 1 },
+  { concepto: 'Entrevistas 1 a 1 con la gerencia y los líderes de proceso', horas: ENTREVISTAS },
+  { concepto: 'Aprobación de la situación deseada con la gerencia', horas: 1 },
+  { concepto: 'Presentación de resultados', horas: 1 },
 ];
+const TOTAL_HORAS = HORAS.reduce((a, b) => a + b.horas, 0);
+
+const ENTREGA = 'semana del 14 al 18 de diciembre';
 
 // ─── MADUREZ TECNOLÓGICA ─────────────────────────────────────────────────────
 
@@ -223,25 +128,24 @@ const ETAPAS = [
     colorBorder: 'rgba(47,124,246,.3)',
     descripcion: 'Revisamos los documentos que ya tienen para **no empezar de cero**.',
     actividades: [
-      { text: '**Reunión de arranque** con la gerencia', tag: 'Con ustedes' },
+      { text: '**Reunión de arranque** de 1 hora con la gerencia', tag: 'Con ustedes' },
       { text: 'Revisión de su **organigrama, flujograma y diagnóstico interno**' },
-      { text: 'Preparación de la **encuesta** y de las **preguntas para cada cargo**' },
-      { text: '**Agenda** de entrevistas con cada área' },
+      { text: 'Preparación de las **preguntas para cada líder de proceso**' },
+      { text: '**Agenda** de las entrevistas' },
     ] as Actividad[],
   },
   {
     num: '02',
-    nombre: 'Conversaciones con el equipo',
-    duracion: 'Semanas 2 a 5',
+    nombre: 'Entrevistas con los líderes',
+    duracion: 'Semanas 1 a 3',
     icon: MessagesSquare,
     color: '#00bfa5',
     colorAlpha: 'rgba(0,191,165,.10)',
     colorBorder: 'rgba(0,191,165,.3)',
-    descripcion: 'Escuchamos a **cada cargo** para saber qué hace, **con qué herramienta** y **dónde se le complica**.',
+    descripcion: 'Conversamos **1 a 1** con la gerencia y con **cada líder de proceso** para entender qué se hace, **con qué herramienta** y **dónde se complica**.',
     actividades: [
-      { text: '**Encuesta** a todo el personal (~30 personas)' },
-      { text: `**${TOTAL_CARGOS} entrevistas de 1 hora**, una por cargo`, tag: 'Con ustedes' },
-      { text: '**5 mesas de trabajo de 1 hora** entre áreas', tag: 'Con ustedes' },
+      { text: `**Hasta ${ENTREVISTAS} entrevistas de 1 hora**, virtuales o presenciales`, tag: 'Con ustedes' },
+      { text: 'Con la gerencia: **metas, decisiones y visión** de crecimiento' },
       { text: 'Revisión de los **archivos que usan a diario**: cotizaciones, inventario, remisiones y nómina' },
     ] as Actividad[],
   },
@@ -249,7 +153,7 @@ const ETAPAS = [
     num: '03',
     nombre: 'Situación actual',
     tag: 'AS-IS',
-    duracion: 'Semanas 5 a 7',
+    duracion: 'Semanas 3 y 4',
     icon: Search,
     color: '#a78bfa',
     colorAlpha: 'rgba(167,139,250,.10)',
@@ -257,24 +161,22 @@ const ETAPAS = [
     descripcion: 'Dibujamos **cómo funciona hoy realmente** la empresa y dónde **se frena el trabajo**.',
     actividades: [
       { text: '**Flujograma actualizado** con el paso a paso real' },
-      { text: '**Lista de actividades** de cada área, con quién responde y quién la hace' },
+      { text: '**Lista de actividades** de cada proceso, con quién responde y quién la hace' },
       { text: 'Puntos donde **se frena el trabajo, se repiten tareas o hay riesgos**' },
       { text: '**Nivel tecnológico** de cada área, de 1 a 5' },
-      { text: 'Revisión con **cada líder de área**', tag: 'Con ustedes' },
     ] as Actividad[],
   },
   {
     num: '04',
     nombre: 'Situación deseada',
     tag: 'TO-BE',
-    duracion: 'Semanas 7 y 8',
+    duracion: 'Semana 4',
     icon: Eye,
     color: VISION,
     colorAlpha: 'rgba(244,114,182,.10)',
     colorBorder: 'rgba(244,114,182,.3)',
-    descripcion: 'Con **la gerencia** definimos **a dónde quiere llegar** la empresa y cómo debería funcionar para lograrlo.',
+    descripcion: 'A partir de lo que nos cuente **la gerencia**, definimos **a dónde quiere llegar** la empresa y cómo debería funcionar para lograrlo.',
     actividades: [
-      { text: '**Taller de visión** con la Gerencia General y la Gerencia Administrativa', tag: 'Con ustedes' },
       { text: '**Metas de crecimiento**: nuevos frentes, clientes y servicios' },
       { text: 'Cómo deberían funcionar los **procesos clave** en el futuro' },
       { text: '**Nivel tecnológico** que se quiere alcanzar en cada área' },
@@ -284,7 +186,7 @@ const ETAPAS = [
   {
     num: '05',
     nombre: 'Hoja de ruta',
-    duracion: 'Semanas 8 y 9',
+    duracion: 'Semanas 4 y 5',
     icon: MapIcon,
     color: '#f59e0b',
     colorAlpha: 'rgba(245,158,11,.10)',
@@ -301,15 +203,14 @@ const ETAPAS = [
   {
     num: '06',
     nombre: 'Entrega',
-    duracion: 'Semana 10',
+    duracion: '14 al 18 dic',
     icon: Rocket,
     color: '#34d399',
     colorAlpha: 'rgba(52,211,153,.10)',
     colorBorder: 'rgba(52,211,153,.3)',
     descripcion: 'Presentamos los resultados y les entregamos todo en **archivos editables**.',
     actividades: [
-      { text: '**Presentación de resultados** a la gerencia', tag: 'Con ustedes' },
-      { text: 'Presentación a **cada área** de su flujo y sus actividades' },
+      { text: '**Presentación de resultados** a la gerencia y los líderes de proceso', tag: 'Con ustedes' },
       { text: 'Entrega de los **5 entregables**' },
     ] as Actividad[],
   },
@@ -337,7 +238,7 @@ const ENTREGABLES = [
     titulo: 'Inventario de actividades',
     icon: ClipboardList,
     color: '#00bfa5',
-    desc: 'Cada tarea de cada área, con **quién responde** y **quién la hace**.',
+    desc: 'Las tareas de cada proceso, con **quién responde** y **quién la hace**, según lo levantado con cada líder.',
     items: ['**Responsable** y **ejecutor**', 'Herramienta y frecuencia', 'Dificultades encontradas'],
   },
   {
@@ -366,7 +267,6 @@ const EJEMPLO_INVENTARIO = [
 const SECCIONES = [
   { id: 'resumen',     label: 'Resumen' },
   { id: 'objetivo',    label: 'Objetivo' },
-  { id: 'mapa',        label: 'Procesos y cargos' },
   { id: 'plan',        label: 'Plan' },
   { id: 'entregables', label: 'Entregables' },
   { id: 'cotizacion',  label: 'Inversión' },
@@ -377,19 +277,14 @@ const SECCIONES = [
 
 const fmt = (n: number) => 'COP ' + n.toLocaleString('es-CO').replace(/,/g, '.');
 
-const CARGOS_POR_NIVEL = (['Directivo', 'Coordinación', 'Ejecución'] as Nivel[]).map(nivel => {
-  const cantidad = CARGOS.filter(c => c.nivel === nivel).length;
-  return { nivel, cantidad, unitario: PRECIO_NIVEL[nivel], subtotal: cantidad * PRECIO_NIVEL[nivel] };
-});
-const SUBTOTAL_CARGOS = CARGOS_POR_NIVEL.reduce((a, b) => a + b.subtotal, 0);
-
-const COMPONENTES_FIJOS = [
-  { nombre: 'Arranque', detalle: 'Reunión inicial, revisión de documentos y preparación de la encuesta', valor: 400000 },
-  { nombre: '5 mesas de trabajo de 1 hora', detalle: 'Ventas · Operaciones e inventario · Contabilidad · Gestión humana y SST · Gerencia y calidad', valor: 800000 },
-  { nombre: 'Visión de la gerencia y situación deseada', detalle: 'Taller de visión con la gerencia y diseño de cómo deberían funcionar los procesos clave', valor: 900000 },
-  { nombre: 'Informes finales y presentación', detalle: 'Situación actual, flujograma, inventario de actividades, hoja de ruta y presentación de resultados', valor: 1080000 },
+const COMPONENTES = [
+  { nombre: 'Arranque', detalle: 'Reunión inicial, revisión de sus documentos y preparación de las entrevistas', valor: 400000 },
+  { nombre: `Hasta ${ENTREVISTAS} entrevistas 1 a 1`, detalle: 'Con la gerencia y los líderes de proceso, virtuales o presenciales, de 1 hora cada una', valor: 1400000 },
+  { nombre: 'Situación actual y situación deseada', detalle: 'Análisis, flujograma actualizado, inventario de actividades y aprobación con la gerencia', valor: 1200000 },
+  { nombre: 'Hoja de ruta y presentación', detalle: 'Prioridades, plan a 12 meses, inversión estimada y presentación de resultados', valor: 1000000 },
 ];
-const TOTAL_NUM = SUBTOTAL_CARGOS + COMPONENTES_FIJOS.reduce((a, b) => a + b.valor, 0);
+const TOTAL_NUM = COMPONENTES.reduce((a, b) => a + b.valor, 0);
+const IVA = 0.19;
 
 const PAGOS = [
   { tracto: '1er pago', momento: 'Al iniciar · firma del contrato', porcentaje: 50 },
@@ -448,7 +343,6 @@ const ClientLogo = ({ className = '' }: { className?: string }) => (
 const RosaniaHeldProposal = () => {
   const [activeSection, setActiveSection] = useState('resumen');
   const [etapaActiva, setEtapaActiva] = useState<number | null>(0);
-  const [procesoActivo, setProcesoActivo] = useState<number | null>(null);
 
   useEffect(() => {
     const handler = () => {
@@ -465,7 +359,7 @@ const RosaniaHeldProposal = () => {
 
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  const s1 = useVisible(); const s2 = useVisible(); const s3 = useVisible(); const s4 = useVisible();
+  const s1 = useVisible(); const s2 = useVisible(); const s4 = useVisible();
   const s5 = useVisible(); const s6 = useVisible(); const s7 = useVisible();
 
   return (
@@ -562,7 +456,7 @@ const RosaniaHeldProposal = () => {
                 {[
                   { icon: Calendar, text: META.fecha },
                   { icon: MapPin,   text: META.sede },
-                  { icon: Clock,    text: '10 semanas' },
+                  { icon: Clock,    text: 'Entrega 14 al 18 dic' },
                 ].map((chip, i) => {
                   const Icon = chip.icon;
                   return (
@@ -576,7 +470,7 @@ const RosaniaHeldProposal = () => {
               <div className="border-t pt-5" style={{ borderColor: 'rgba(255,255,255,.06)' }}>
                 <p className="font-lato text-white/25 text-[13px] uppercase tracking-widest mb-3">Contenido</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                  {['1. Resumen', '2. Objetivo', '3. Procesos y cargos', '4. Plan de trabajo', '5. Entregables', '6. Inversión', '7. Vigencia y términos'].map((item, i) => (
+                  {['1. Resumen', '2. Objetivo', '3. Plan de trabajo', '4. Entregables', '5. Inversión', '6. Vigencia y términos'].map((item, i) => (
                     <button key={i} onClick={() => scrollTo(SECCIONES[i]?.id)}
                       className="font-lato text-white/45 text-[15px] hover:text-[#00bfa5] transition-colors duration-200 text-left flex items-center gap-1.5">
                       <ChevronRight className="w-3 h-3 text-[#00bfa5]/40 flex-shrink-0" />
@@ -726,7 +620,7 @@ const RosaniaHeldProposal = () => {
               ))}
             </div>
             <p className="font-lato text-white/50 text-[16px] leading-relaxed mt-5">
-              Partimos de aquí y llegamos al detalle de <Hl color="#fff">cada cargo</Hl> y <Hl color="#fff">cada tarea</Hl>.
+              Partimos de aquí y llegamos al detalle de <Hl color="#fff">cada proceso</Hl> de la mano de <Hl color="#fff">sus líderes</Hl>.
             </p>
           </div>
         </section>
@@ -774,9 +668,9 @@ const RosaniaHeldProposal = () => {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Procesos', value: String(TOTAL_PROCESOS), sub: 'a revisar' },
-              { label: 'Cargos', value: String(TOTAL_CARGOS), sub: '1 hora con cada cargo' },
-              { label: 'Mesas de trabajo', value: '5', sub: '1 hora cada una' },
+              { label: 'Entrevistas 1 a 1', value: String(ENTREVISTAS), sub: 'gerencia y líderes' },
+              { label: 'Horas de reunión', value: String(TOTAL_HORAS), sub: 'máximo con su equipo' },
+              { label: 'Entrega', value: '14–18', sub: 'de diciembre' },
               { label: 'Entregables', value: String(ENTREGABLES.length), sub: 'en archivos editables' },
             ].map((k, i) => (
               <div key={i} className="rounded-xl p-4 text-center"
@@ -789,129 +683,20 @@ const RosaniaHeldProposal = () => {
           </div>
         </section>
 
-        {/* ─ 03 MAPA DE PROCESOS Y CARGOS ─ */}
-        <section id="mapa" ref={s3.ref as React.RefObject<HTMLElement>}
-          className={`transition-all duration-700 ${s3.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>03 — Procesos y cargos</TagLabel>
-          <SectionTitle>{TOTAL_PROCESOS} procesos · {TOTAL_CARGOS} cargos</SectionTitle>
-          <Rule />
-          <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-8">
-            Con su <Hl color="#fff">organigrama</Hl>, su <Hl color="#fff">flujograma</Hl> y la <Hl color="#fff">reunión</Hl> identificamos todo lo que vamos a revisar. Esta lista se <Hl>confirma con ustedes en la primera semana</Hl>.
-          </p>
-
-          {/* Flujo actual */}
-          <div className="rounded-2xl p-5 sm:p-6 mb-6" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-            <p className="font-poppins font-semibold text-white/70 text-[15px] uppercase tracking-wider mb-5 flex items-center gap-2">
-              <GitBranch className="w-4 h-4 text-[#00bfa5]" /> Su flujograma actual
-            </p>
-            <div className="grid grid-cols-3 gap-3 mb-5">
-              {[
-                { v: '5', l: 'áreas' },
-                { v: String(FLUJO_ACTUAL.reduce((a, b) => a + b.actividades, 0)), l: 'actividades' },
-                { v: '4', l: 'decisiones' },
-              ].map((k, i) => (
-                <div key={i} className="rounded-xl p-3 text-center" style={{ background: 'rgba(47,124,246,.07)', border: '1px solid rgba(47,124,246,.2)' }}>
-                  <p className="font-poppins font-black text-white text-[24px] leading-none">{k.v}</p>
-                  <p className="font-lato text-white/45 text-[13px] mt-1">{k.l}</p>
-                </div>
-              ))}
-            </div>
-            <div className="space-y-2">
-              {FLUJO_ACTUAL.map((c, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <span className="font-lato text-white/60 text-[15px] w-36 sm:w-52 flex-shrink-0">{c.carril}</span>
-                  <div className="flex-1 flex gap-1">
-                    {Array.from({ length: c.actividades }).map((_, j) => (
-                      <div key={j} className="h-3 flex-1 max-w-[28px] rounded-sm" style={{ background: c.color, opacity: 0.75 }} />
-                    ))}
-                  </div>
-                  <span className="font-poppins font-bold text-white/60 text-[14px] w-6 text-right">{c.actividades}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-5 rounded-xl p-4 flex gap-3" style={{ background: 'rgba(251,191,36,.06)', border: '1px solid rgba(251,191,36,.2)' }}>
-              <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-amber-400" />
-              <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-                Muestra bien el paso a paso del servicio, pero <Hl color="#fbbf24">no incluye mantenimiento, gestión humana, SST ni calidad</Hl>.
-              </p>
-            </div>
-          </div>
-
-          {/* Procesos acordeón */}
-          <div className="space-y-2.5 mb-6">
-            {PROCESOS.map((p, i) => {
-              const Icon = p.icon;
-              const open = procesoActivo === i;
-              const ts = TIPO_STYLE[p.tipo];
-              return (
-                <div key={p.id} className="rounded-xl overflow-hidden transition-all duration-300"
-                  style={{ background: 'rgba(255,255,255,.03)', border: open ? `1px solid ${ts.color}55` : '1px solid rgba(255,255,255,.07)' }}>
-                  <button onClick={() => setProcesoActivo(open ? null : i)}
-                    className="w-full flex items-center gap-3 p-4 sm:p-5 text-left">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: open ? ts.bg : 'rgba(255,255,255,.05)' }}>
-                      <Icon className="w-4 h-4" style={{ color: open ? ts.color : 'rgba(255,255,255,.4)' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className={`font-poppins font-bold text-[17px] ${open ? 'text-white' : 'text-white/80'}`}>{p.nombre}</span>
-                        <span className="font-lato text-[11px] px-2 py-0.5 rounded-full uppercase tracking-wide" style={{ background: ts.bg, color: ts.color }}>{p.tipo}</span>
-                      </div>
-                      <p className="font-lato text-white/40 text-[14px] mt-0.5 line-clamp-1">{p.alcance}</p>
-                    </div>
-                    <span className="font-poppins font-black text-[15px] flex-shrink-0" style={{ color: ts.color }}>
-                      {p.cargos.length > 0 ? `${p.cargos.length} cargo${p.cargos.length !== 1 ? 's' : ''}` : 'Compartido'}
-                    </span>
-                    <ChevronRight className={`w-4 h-4 transition-transform duration-300 flex-shrink-0 ${open ? 'rotate-90' : ''}`}
-                      style={{ color: open ? ts.color : 'rgba(255,255,255,.3)' }} />
-                  </button>
-                  {open && (
-                    <div className="px-4 sm:px-5 pb-5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,.05)' }}>
-                      {p.cargos.length > 0 ? (
-                        <div className="flex flex-wrap gap-2">
-                          {p.cargos.map((c, j) => {
-                            const ns = NIVEL_STYLE[c.nivel];
-                            return (
-                              <div key={j} className="rounded-lg px-3 py-2" style={{ background: ns.bg, border: `1px solid ${ns.border}` }}>
-                                <p className="font-poppins font-semibold text-white/90 text-[14px]">{c.nombre}</p>
-                                <p className="font-lato text-[12px]" style={{ color: ns.color }}>{c.nivel}{c.nota ? ` · ${c.nota}` : ''}</p>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <p className="font-lato text-white/50 text-[15px] leading-relaxed">
-                          <Hl color="#fff">No tiene un cargo propio</Hl> en el organigrama. Lo revisamos en las entrevistas de Operaciones, Calidad y Gestión Humana, y en su propia mesa de trabajo.
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="rounded-xl p-4 flex gap-3" style={{ background: 'rgba(47,124,246,.06)', border: '1px solid rgba(47,124,246,.2)' }}>
-            <Users className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: ARH_BLUE }} />
-            <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              Son los <Hl color="#fff">17 cargos</Hl> del organigrama más la <Hl color="#fff">Coordinación Administrativa y Comercial</Hl>. Si un cargo lo ocupan varias personas, entrevistamos a <Hl>una de ellas</Hl> y encuestamos a <Hl>todas</Hl>.
-            </p>
-          </div>
-        </section>
-
         {/* ─ 04 PLAN ─ */}
         <section id="plan" ref={s4.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s4.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>04 — Plan de trabajo</TagLabel>
-          <SectionTitle>{ETAPAS.length} etapas · 10 semanas</SectionTitle>
+          <TagLabel>03 — Plan de trabajo</TagLabel>
+          <SectionTitle>{ETAPAS.length} etapas · entrega del 14 al 18 de diciembre</SectionTitle>
           <Rule />
 
-          {/* Cómo escuchamos */}
-          <p className="font-lato text-white/55 text-[18px] mb-4">Así escuchamos a su equipo:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+          {/* Cómo trabajamos */}
+          <p className="font-lato text-white/55 text-[18px] mb-4">Así trabajamos con su equipo:</p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
             {[
-              { icon: ClipboardList, titulo: 'Encuestas', desc: 'A **todo el personal**: qué hace, con qué y cuánto tiempo le toma.' },
-              { icon: MessagesSquare, titulo: 'Entrevistas', desc: '**1 hora con cada cargo**, para entender cada rol a fondo.' },
-              { icon: Users, titulo: 'Mesas de trabajo', desc: '**5 reuniones de 1 hora** donde las áreas arman juntas el paso a paso.' },
+              { icon: MessagesSquare, titulo: 'Entrevistas 1 a 1', desc: '**1 hora con la gerencia y con cada líder de proceso**, en sesión virtual o presencial.' },
+              { icon: FileText, titulo: 'Sus documentos', desc: 'Revisamos el **organigrama, el flujograma y los archivos** que usan a diario.' },
+              { icon: Layers, titulo: 'Trabajo de Sixteam.pro', desc: 'El **análisis y la elaboración de los entregables** los hacemos nosotros, sin quitarle más tiempo a su equipo.' },
             ].map((t, i) => {
               const Icon = t.icon;
               return (
@@ -922,6 +707,35 @@ const RosaniaHeldProposal = () => {
                 </div>
               );
             })}
+          </div>
+
+          {/* Con quién y cuántas horas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+            <div className="rounded-xl p-5" style={{ background: 'rgba(47,124,246,.05)', border: '1px solid rgba(47,124,246,.2)' }}>
+              <p className="font-poppins font-semibold text-white/80 text-[15px] uppercase tracking-wider mb-3 flex items-center gap-2">
+                <Users className="w-4 h-4" style={{ color: ARH_BLUE }} /> Con quién hablamos
+              </p>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {LIDERES.map(l => (
+                  <span key={l} className="font-lato text-[14px] px-3 py-1.5 rounded-full text-white/75"
+                    style={{ background: 'rgba(47,124,246,.08)', border: '1px solid rgba(47,124,246,.25)' }}>{l}</span>
+                ))}
+              </div>
+              <p className="font-lato text-white/40 text-[14px] leading-relaxed">La lista exacta de líderes se <Hl color="#fff">confirma con ustedes en el arranque</Hl>.</p>
+            </div>
+            <div className="rounded-xl p-5" style={{ background: 'rgba(0,191,165,.05)', border: '1px solid rgba(0,191,165,.2)' }}>
+              <p className="font-poppins font-semibold text-white/80 text-[15px] uppercase tracking-wider mb-3 flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#00bfa5]" /> Máximo {TOTAL_HORAS} horas de reunión
+              </p>
+              <ul className="space-y-2">
+                {HORAS.map(h => (
+                  <li key={h.concepto} className="flex items-start justify-between gap-3">
+                    <span className="font-lato text-white/60 text-[15px]">{h.concepto}</span>
+                    <span className="font-poppins font-bold text-[#00bfa5] text-[15px] flex-shrink-0">{h.horas} h</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Timeline */}
@@ -990,7 +804,7 @@ const RosaniaHeldProposal = () => {
           <div className="rounded-xl p-4 flex gap-3 mb-10" style={{ background: 'rgba(244,114,182,.06)', border: '1px solid rgba(244,114,182,.22)' }}>
             <Eye className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: VISION }} />
             <p className="font-lato text-white/55 text-[16px] leading-relaxed">
-              La <Hl color={VISION}>situación deseada</Hl> la define <Hl color="#fff">la gerencia</Hl>, no el consultor. Nuestro papel es ayudarles a convertir su visión en <Hl color="#fff">metas concretas</Hl> y en un modelo de trabajo que se pueda alcanzar.
+              La <Hl color={VISION}>situación deseada</Hl> la define <Hl color="#fff">la gerencia</Hl> en sus entrevistas, no el consultor. Nuestro papel es ayudarles a convertir su visión en <Hl color="#fff">metas concretas</Hl> y en un modelo de trabajo que se pueda alcanzar.
             </p>
           </div>
 
@@ -1032,7 +846,7 @@ const RosaniaHeldProposal = () => {
         {/* ─ 05 ENTREGABLES ─ */}
         <section id="entregables" ref={s5.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s5.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>05 — Entregables</TagLabel>
+          <TagLabel>04 — Entregables</TagLabel>
           <SectionTitle>Lo que ustedes reciben</SectionTitle>
           <Rule />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
@@ -1108,11 +922,11 @@ const RosaniaHeldProposal = () => {
         {/* ─ 06 COTIZACIÓN ─ */}
         <section id="cotizacion" ref={s6.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s6.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>06 — Inversión</TagLabel>
+          <TagLabel>05 — Inversión</TagLabel>
           <SectionTitle>Una inversión para decidir con datos</SectionTitle>
           <Rule />
           <p className="font-lato text-white/55 text-[18px] leading-relaxed mb-8">
-            Una sola inversión que cubre <Hl color="#fff">{TOTAL_PROCESOS} procesos y {TOTAL_CARGOS} cargos</Hl>. Para que vean en qué se invierte, mostramos el <Hl>valor según el nivel de cada cargo</Hl>. Valores en pesos colombianos más IVA.
+            Una sola inversión que cubre el levantamiento con <Hl color="#fff">la gerencia y los líderes de proceso</Hl>, hasta <Hl color="#fff">{TOTAL_HORAS} horas de reunión</Hl> con su equipo y <Hl>todo nuestro trabajo interno</Hl> para elaborar los entregables. Valores en pesos colombianos más IVA.
           </p>
 
           {/* Card total */}
@@ -1125,13 +939,11 @@ const RosaniaHeldProposal = () => {
               <p className="font-poppins font-black text-white leading-none mb-3" style={{ fontSize: 'clamp(2.4rem, 6vw, 4rem)' }}>
                 {fmt(TOTAL_NUM)}
               </p>
-              <p className="font-lato text-white/45 text-[15px] mb-6">+ IVA · 10 semanas · 2 pagos</p>
+              <p className="font-lato text-white/45 text-[15px] mb-6">+ IVA · entrega la {ENTREGA} · 2 pagos</p>
               <div className="flex flex-wrap gap-2">
                 {[
-                  `✓ ${TOTAL_CARGOS} horas de entrevistas`,
-                  '✓ Encuesta a todo el personal',
-                  '✓ 5 horas de mesas de trabajo',
-                  '✓ Taller de visión con la gerencia',
+                  `✓ Hasta ${ENTREVISTAS} entrevistas 1 a 1`,
+                  `✓ Máximo ${TOTAL_HORAS} horas de reunión`,
                   '✓ Situación actual y deseada',
                   '✓ Flujograma actualizado',
                   '✓ Inventario de actividades',
@@ -1153,24 +965,7 @@ const RosaniaHeldProposal = () => {
               <p className="font-poppins font-semibold text-white/60 text-[13px] uppercase tracking-wider">Desglose</p>
             </div>
             <div className="divide-y divide-white/5">
-              {CARGOS_POR_NIVEL.map((n) => {
-                const ns = NIVEL_STYLE[n.nivel];
-                return (
-                  <div key={n.nivel} className="flex flex-col sm:flex-row sm:items-center px-5 py-4 gap-1 sm:gap-4">
-                    <div className="sm:flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <span className="font-poppins font-semibold text-white/90 text-[16px]">Cargos de nivel {n.nivel.toLowerCase()}</span>
-                        <span className="font-lato text-[12px] px-2 py-0.5 rounded-full" style={{ background: ns.bg, color: ns.color }}>
-                          {n.cantidad} × {fmt(n.unitario)}
-                        </span>
-                      </div>
-                      <p className="font-lato text-white/40 text-[14px] mt-0.5 leading-snug">{rich(ns.desc, 'rgba(255,255,255,.75)')}</p>
-                    </div>
-                    <span className="font-poppins font-black text-white text-[18px] sm:text-right">{fmt(n.subtotal)}</span>
-                  </div>
-                );
-              })}
-              {COMPONENTES_FIJOS.map((c, i) => (
+              {COMPONENTES.map((c, i) => (
                 <div key={i} className="flex flex-col sm:flex-row sm:items-center px-5 py-4 gap-1 sm:gap-4">
                   <div className="sm:flex-1">
                     <span className="font-poppins font-semibold text-white/90 text-[16px]">{c.nombre}</span>
@@ -1188,21 +983,27 @@ const RosaniaHeldProposal = () => {
 
           <p className="font-lato text-white/45 text-[15px] leading-relaxed mb-8 flex gap-2">
             <Info className="w-4 h-4 flex-shrink-0 mt-0.5 text-[#00bfa5]" />
-            <span>El valor de cada cargo incluye la <Hl color="#fff">preparación, la encuesta, la entrevista, el análisis y la ficha del cargo</Hl> revisada con ustedes. Si aparece o sobra un cargo, se ajusta según su nivel.</span>
+            <span>No incluye encuestas ni entrevistas a todos los cargos: la información de cada proceso la levantamos <Hl color="#fff">con su líder</Hl>. Las horas de reunión adicionales a las {TOTAL_HORAS} incluidas se cotizan aparte.</span>
           </p>
 
           {/* Pagos */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
-            {PAGOS.map((t, i) => (
-              <div key={i} className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="font-poppins font-bold text-white/70 text-[15px]">{t.tracto}</span>
-                  <span className="font-poppins font-black text-[#00bfa5] text-[22px]">{t.porcentaje}%</span>
+            {PAGOS.map((t, i) => {
+              const base = TOTAL_NUM * t.porcentaje / 100;
+              const iva = Math.round(base * IVA);
+              return (
+                <div key={i} className="rounded-xl p-5" style={{ background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.07)' }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-poppins font-bold text-white/70 text-[15px]">{t.tracto}</span>
+                    <span className="font-poppins font-black text-[#00bfa5] text-[22px]">{t.porcentaje}%</span>
+                  </div>
+                  <p className="font-poppins font-black text-white text-[20px] mb-0.5">{fmt(base + iva)}</p>
+                  <p className="font-lato text-[#00bfa5] text-[13px] uppercase tracking-wider mb-2">IVA incluido</p>
+                  <p className="font-lato text-white/40 text-[14px] mb-1">{fmt(base)} + IVA 19% {fmt(iva)}</p>
+                  <p className="font-lato text-white/45 text-[14px]">{t.momento}</p>
                 </div>
-                <p className="font-poppins font-black text-white text-[20px] mb-1">{fmt(TOTAL_NUM * t.porcentaje / 100)}</p>
-                <p className="font-lato text-white/45 text-[14px]">{t.momento}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Siguiente paso */}
@@ -1225,18 +1026,18 @@ const RosaniaHeldProposal = () => {
         {/* ─ 07 VIGENCIA ─ */}
         <section id="vigencia" ref={s7.ref as React.RefObject<HTMLElement>}
           className={`transition-all duration-700 ${s7.v ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <TagLabel>07 — Vigencia y términos</TagLabel>
+          <TagLabel>06 — Vigencia y términos</TagLabel>
           <SectionTitle>Vigencia y términos</SectionTitle>
           <Rule />
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { titulo: 'Aprobación', desc: 'Basta su confirmación por **WhatsApp, correo o verbal** para firmar el contrato y agendar el arranque.', icon: CheckCircle },
-              { titulo: 'Pagos', desc: '**50%** al iniciar y **50%** al finalizar los entregables. Más IVA, por transferencia.', icon: FileText },
-              { titulo: 'Modalidad', desc: 'Sesiones **virtuales**. Si prefieren sesiones presenciales, los **viáticos se cotizan aparte**.', icon: MapPin },
-              { titulo: 'Sesiones incluidas', desc: '**18 horas** de entrevistas (1 por cargo) y **5 horas** de mesas de trabajo. Las horas adicionales se cotizan aparte, por eso es clave que **cada cargo asista** a su sesión.', icon: Users },
+              { titulo: 'Pagos', desc: '**50%** al iniciar y **50%** al finalizar los entregables. Cada pago va con **IVA incluido**, por transferencia.', icon: FileText },
+              { titulo: 'Modalidad', desc: 'Sesiones **virtuales o presenciales**. Si son presenciales, los **viáticos se cotizan aparte**.', icon: MapPin },
+              { titulo: 'Sesiones incluidas', desc: `Hasta **${TOTAL_HORAS} horas** de reunión con la gerencia y los líderes de proceso. Las horas adicionales se cotizan aparte, por eso es clave que **cada líder asista** a su sesión.`, icon: Users },
               { titulo: 'Confidencialidad', desc: 'Toda la información que nos compartan es **confidencial** y solo se usa para esta consultoría.', icon: ShieldCheck },
               { titulo: 'Cambios', desc: 'Lo que no esté en esta propuesta requiere una **nueva cotización**.', icon: AlertCircle },
-              { titulo: 'Inicio', desc: 'Arrancamos con el **primer pago** y la entrega de sus documentos vigentes.', icon: Zap },
+              { titulo: 'Inicio y entrega', desc: `Arrancamos con el **primer pago** y sus documentos vigentes. Entrega estimada: **${ENTREGA}**, si arrancamos la semana del 16 de noviembre.`, icon: Zap },
               { titulo: 'Vigencia', desc: '**30 días calendario** desde la fecha de esta propuesta.', icon: Clock },
             ].map((item, i) => {
               const Icon = item.icon;
