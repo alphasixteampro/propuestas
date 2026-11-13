@@ -28,7 +28,7 @@ const SYL = '#f7941d';
 
 const TARIFA_USO = 49;       // USD por hora, se paga al final del período
 const TARIFA_PAQUETE = 39;   // USD por hora, pago anticipado
-const MIN_PAQUETE = 10;      // horas mínimas del paquete
+const MIN_PAQUETE = 15;      // horas mínimas del paquete
 const VIGENCIA_HORAS = 3;    // meses desde la compra para usar las horas del paquete
 const AHORRO_HORA = TARIFA_USO - TARIFA_PAQUETE;
 const AHORRO_PCT = Math.round(AHORRO_HORA / TARIFA_USO * 100);
@@ -122,14 +122,16 @@ const MODALIDADES = [
   },
 ];
 
-const ATAJOS = [5, 10, 20, 30, 40];
+const ATAJOS = [5, 10, 15, 20, 30, 40];
 
-// Ejemplo de un mes con el paquete mínimo de 10 horas
+// Ejemplo de un mes con el paquete mínimo de 15 horas
 const EJEMPLO_MES = [
   { tarea: 'Diagnóstico y corrección de los avisos de las 4 etapas de despacho', area: 'Soporte', horas: 5 },
   { tarea: 'Ajuste de un escenario de Make en la sincronización NetSuite → HubSpot', area: 'Integración', horas: 2 },
   { tarea: 'Revisión de un flujo de n8n que se detuvo', area: 'Automatización', horas: 1.5 },
   { tarea: 'Actualización de un campo de pedidos por API de NetSuite', area: 'Integración', horas: 1 },
+  { tarea: 'Flujo nuevo en n8n que avisa por WhatsApp los pedidos listos para despacho', area: 'Automatización', horas: 3 },
+  { tarea: 'Informe en HubSpot de los pedidos sincronizados desde NetSuite', area: 'Integración', horas: 2 },
   { tarea: 'Soporte de una incidencia en el backend de WhatsApp', area: 'WhatsApp', horas: 0.5 },
 ];
 const TOTAL_EJEMPLO = EJEMPLO_MES.reduce((a, r) => a + r.horas, 0);
@@ -206,10 +208,10 @@ const ClientLogo = ({ className = '' }: { className?: string }) => (
 
 const SylRoofingProposal = () => {
   const [activeSection, setActiveSection] = useState('servicio');
-  const [horasMes, setHorasMes] = useState(10);
+  const [horasMes, setHorasMes] = useState(MIN_PAQUETE);
   const [calcAbierto, setCalcAbierto] = useState(false);
 
-  // Calculadora: por uso se paga cada hora; el paquete tiene un mínimo de 10 horas
+  // Calculadora: por uso se paga cada hora; el paquete tiene un mínimo de MIN_PAQUETE horas
   const costoUso = horasMes * TARIFA_USO;
   const horasPaquete = Math.max(horasMes, MIN_PAQUETE);
   const costoPaquete = horasPaquete * TARIFA_PAQUETE;
